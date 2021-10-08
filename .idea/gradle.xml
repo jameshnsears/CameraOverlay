@@ -7,14 +7,17 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="Android Studio default JDK" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/OpenCV-3.4.15" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/module" />
+            <option value="$PROJECT_DIR$/module/common" />
+            <option value="$PROJECT_DIR$/module/opencv" />
+            <option value="$PROJECT_DIR$/module/permissions" />
           </set>
         </option>
-        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

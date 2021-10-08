@@ -1,0 +1,12 @@
+flags:
+  test.fdroid:
+    carryforward: false
+
+  test.googleplay:
+    carryforward: false
+
+  androidTest.fdroid:
+    carryforward: false
+
+  androidTest.googleplay:
+    carryforward: false
