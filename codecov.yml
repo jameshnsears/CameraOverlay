@@ -1,0 +1,12 @@
+flags:
+  app.froid:
+    carryforward: false
+
+  app.googleplay:
+    carryforward: false
+
+ignore:
+  - "**/androidTest/**/*.kt"
+  - "**/androidTest/**/*.java"
+  - "**/test/**/*.kt"
+  - "**/test/**/*.java"

@@ -3,9 +3,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "Picture Postcard"
+rootProject.name = "Camera Overlay"
 include ':app'
-include ':OpenCV-3.4.15'
+include ':module:common'
+include ':module:permissions'
+include ':module:opencv'

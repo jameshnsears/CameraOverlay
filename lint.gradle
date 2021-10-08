@@ -1,0 +1,9 @@
+lint {
+    warningsAsErrors = false
+    abortOnError = false
+    htmlReport = true
+    checkDependencies = true
+
+    lintConfig = file("${rootDir}/config/lint.xml")
+    htmlOutput = file("${buildDir}/reports/lint/lint.html")
+}

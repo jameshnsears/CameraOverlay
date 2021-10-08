@@ -1,0 +1,10 @@
+apply plugin: 'org.sonarqube'
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "Camera Overlay"
+        property "sonar.projectKey", "jameshnsears_CameraOverlay"
+        property "sonar.organization", "jameshnsears-github"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.0.4" type="baseline" client="gradle" name="AGP (7.0.4)" variant="all" version="7.0.4">
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in library; not included in Android: `java.lang.management`. Referenced from `net.bytebuddy.agent.ByteBuddyAgent.ProcessProvider.ForCurrentVm.ForLegacyVm`.">
+        <location
+            file="../../../../.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.11.5/ec760e507143fb9696595150a03573b066f46887/byte-buddy-agent-1.11.5.jar"/>
+    </issue>
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in library; not included in Android: `java.lang.instrument`. Referenced from `io.mockk.proxy.jvm.JvmMockKAgentFactory`.">
+        <location
+            file="../../../../.gradle/caches/modules-2/files-2.1/io.mockk/mockk-agent-jvm/1.12.1/7453f5d4a403c33a96a26282ffbf7a6a75b37d93/mockk-agent-jvm-1.12.1.jar"/>
+    </issue>
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in library; not included in Android: `javax.management`. Referenced from `org.jacoco.agent.rt.internal_1f1cc91.JmxRegistration`.">
+        <location
+            file="../../../../.gradle/caches/modules-2/files-2.1/org.jacoco/org.jacoco.agent/0.8.3/edd294e541c8176d55768ba4b8bcb1bb267d18f4/org.jacoco.agent-0.8.3-runtime.jar"/>
+    </issue>
+
+    <issue
+        id="InflateParams"
+        message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
+        errorLine1="        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayWindowLinearLayout"
+        errorLine2="                                                             ~~~~">
+        <location
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindow.kt"
+            line="20"
+            column="62"/>
+    </issue>
+
+    <issue
+        id="InflateParams"
+        message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
+        errorLine1="        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayWindowLinearLayout"
+        errorLine2="                                                             ~~~~">
+        <location
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindow.kt"
+            line="20"
+            column="62"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.ic_baseline_image_search_24` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/ic_baseline_image_search_24.xml"
+            line="1"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.ic_baseline_tune_24` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/ic_baseline_tune_24.xml"
+            line="1"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher_background` appears to be unused">
+        <location
+            file="src/main/res/mipmap-hdpi/ic_launcher_background.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.ic_launcher_background` appears to be unused"
+        errorLine1="    &lt;color name=&quot;ic_launcher_background&quot;>#FFFFFF&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/ic_launcher_background.xml"
+            line="3"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher_foreground` appears to be unused">
+        <location
+            file="src/main/res/mipmap-hdpi/ic_launcher_foreground.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.select_photo_launch_nav_app` appears to be unused"
+        errorLine1="    &lt;string name=&quot;select_photo_launch_nav_app&quot;>Tap to launch navigation App&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="42"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.Theme_CameraOverlay_AppBarOverlay` appears to be unused"
+        errorLine1="    &lt;style name=&quot;Theme.CameraOverlay.AppBarOverlay&quot; parent=&quot;ThemeOverlay.MaterialComponents.Dark.ActionBar&quot; />"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/themes.xml"
+            line="22"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.Theme_CameraOverlay_PopupOverlay` appears to be unused"
+        errorLine1="    &lt;style name=&quot;Theme.CameraOverlay.PopupOverlay&quot; parent=&quot;ThemeOverlay.MaterialComponents.Light&quot; />"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/themes.xml"
+            line="24"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedIds"
+        message="The resource `R.id.window_content` appears to be unused"
+        errorLine1="        android:id=&quot;@+id/window_content&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/overlay_window_view.xml"
+            line="32"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="ConvertToWebp"
+        message="One or more images in this project can be converted to the WebP format which typically results in smaller file sizes, even for lossless conversion">
+        <location
+            file="src/main/res/mipmap-xxxhdpi/ic_launcher.png"/>
+    </issue>
+
+    <issue
+        id="IconMissingDensityFolder"
+        message="Missing density variation folders in `/home/jsears/GIT_REPOS/PicturePostcard/CameraOverlay/app/src/main/res`: drawable-hdpi, drawable-xhdpi, drawable-xxhdpi">
+        <location
+            file="src/main/res"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view `OverlayWindowLinearLayout` overrides `onTouchEvent` but not `performClick`"
+        errorLine1="    override fun onTouchEvent(event: MotionEvent): Boolean {"
+        errorLine2="                 ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindowLinearLayout.kt"
+            line="23"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view `OverlayWindowLinearLayout` overrides `onTouchEvent` but not `performClick`"
+        errorLine1="    override fun onTouchEvent(event: MotionEvent): Boolean {"
+        errorLine2="                 ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindowLinearLayout.kt"
+            line="23"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageButton"
+        errorLine2="         ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/overlay_window_view.xml"
+            line="18"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageButton"
+        errorLine2="         ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/overlay_window_view.xml"
+            line="38"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`Gravity.START`&quot; instead of &quot;`Gravity.LEFT`&quot; to ensure correct behavior in right-to-left locales"
+        errorLine1="        params.gravity = Gravity.TOP or Gravity.LEFT"
+        errorLine2="                                                ~~~~">
+        <location
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindow.kt"
+            line="64"
+            column="49"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`Gravity.START`&quot; instead of &quot;`Gravity.LEFT`&quot; to ensure correct behavior in right-to-left locales"
+        errorLine1="        params.gravity = Gravity.TOP or Gravity.LEFT"
+        errorLine2="                                                ~~~~">
+        <location
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindow.kt"
+            line="64"
+            column="49"/>
+    </issue>
+
+</issues>
