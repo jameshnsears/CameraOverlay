@@ -1,0 +1,10 @@
+apply plugin: 'org.sonarqube'
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "Picture Postcard"
+        property "sonar.projectKey", "jameshnsears_PicturePostcard"
+        property "sonar.organization", "jameshnsears-github"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}

@@ -1,0 +1,100 @@
+package com.github.jameshnsears.picturepostcard.view.photo.sortby
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Divider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.North
+import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material.icons.outlined.South
+import androidx.compose.material.icons.outlined.Straighten
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.github.jameshnsears.picturepostcard.R
+
+@Preview
+@Composable
+fun SortBy() {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .padding(8.dp)
+    ) {
+        Column {
+            Text(
+                stringResource(R.string.select_photo_filter_sort_by),
+                modifier = Modifier.padding(bottom = 8.dp),
+            )
+            Divider(
+                modifier = Modifier.padding(bottom = 16.dp),
+            )
+            Row {
+                Icon(
+                    imageVector = Icons.Outlined.Schedule,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .padding(bottom = 8.dp),
+                )
+                Text(
+                    stringResource(R.string.select_photo_when_taken),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .padding(bottom = 8.dp)
+                )
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Row {
+                        Icon(
+                            imageVector = Icons.Outlined.North,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(bottom = 8.dp)
+                        )
+                    }
+                }
+            }
+            Row {
+                Icon(
+                    imageVector = Icons.Outlined.Straighten,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .padding(bottom = 8.dp),
+                )
+                Text(
+                    stringResource(R.string.select_photo_distance),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .padding(bottom = 8.dp)
+                )
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Row {
+                        Icon(
+                            imageVector = Icons.Outlined.South,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(bottom = 8.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}

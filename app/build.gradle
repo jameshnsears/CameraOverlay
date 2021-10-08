@@ -1,13 +1,41 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
     id 'kotlin-android'
+    id "io.gitlab.arturbosch.detekt" version "1.18.1"
+    id "org.jlleitschuh.gradle.ktlint" version "10.2.0"
+    id 'com.diffplug.spotless' version '5.15.0'
+    id "org.sonarqube" version "3.3"
 }
+
+apply from: '../detekt.gradle'
+apply from: '../ktlint.gradle'
+apply from: '../spotless.gradle'
+apply from: '../jacoco.gradle'
+apply from: '../sonarqube.gradle'
+
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+
+if (!localPropertiesFile.exists()) {
+    localProperties.setProperty("RELEASE_STORE_PASSWORD", "")
+    localProperties.setProperty("RELEASE_KEY_PASSWORD", "")
+    localProperties.setProperty("RELEASE_KEY_ALIAS", "")
+    localProperties.setProperty("RELEASE_STORE_FILE", "keystore.jks")
+    Writer writer = new FileWriter(localPropertiesFile, false)
+    localProperties.store(writer, "empty, as creating the file is done manually via gpg")
+    writer.close()
+
+    file(project(':app').projectDir.path + "/keystore.jks").text = ""
+}
+
+localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.gitlab.jameshnsears.picturepostcard"
+        applicationId "com.github.jameshnsears.picturepostcard"
         minSdk 29
         targetSdk 31
         versionCode 1
@@ -19,59 +47,160 @@ android {
         }
     }
 
+    testOptions {
+        // will make tests run very slowly on the emulator/device + affects coverage #
+        // execution 'ANDROIDX_TEST_ORCHESTRATOR'
+
+        animationsDisabled true
+
+        unitTests {
+            all {
+                useJUnitPlatform()
+                maxHeapSize = "1024m"
+                jacoco {
+                    includeNoLocationClasses = true
+                    excludes = ['jdk.internal.*']
+                }
+            }
+
+            returnDefaultValues = true
+        }
+    }
+
     buildTypes {
+        def gitHash = { ->
+            def stdout = new ByteArrayOutputStream()
+            exec {
+                commandLine 'git', 'rev-parse', '--short=8', 'HEAD'
+                standardOutput = stdout
+            }
+            return stdout.toString().trim()
+        }
+
         release {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
+        }
+
+        debug {
+            testCoverageEnabled true
+            buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
         useIR = true
     }
+
     buildFeatures {
         compose true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
+
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
 
-    sourceSets {
-        test {
-            resources.srcDirs += ['src/test/resources']
+    lintOptions {
+        abortOnError false
+        warningsAsErrors true
+        checkAllWarnings = true
+        xmlReport true
+        htmlReport true
+        baseline file("${project.rootDir}/config/lint/baseline.xml")
+    }
+
+    signingConfigs {
+        googleplay {
+            keyAlias localProperties['RELEASE_KEY_ALIAS']
+            keyPassword localProperties['RELEASE_KEY_PASSWORD']
+            storeFile file(localProperties['RELEASE_STORE_FILE'])
+            storePassword localProperties['RELEASE_STORE_PASSWORD']
         }
+    }
+
+    flavorDimensions 'Version'
+    productFlavors {
+        'googleplay' {
+            dimension 'Version'
+            versionNameSuffix "-googleplay"
+            signingConfig signingConfigs.googleplay
+        }
+        'fdroid' {
+            dimension 'Version'
+            versionNameSuffix "-fdroid"
+            isDefault true
+        }
+    }
+
+    sourceSets {
         androidTest {
             resources.srcDirs += ['src/androidTest/resources']
+        }
+        fdroid {
+            assets.srcDirs = ['src/main/assets']
+            java.srcDirs = ['src/main/java', 'src/fdroid/java']
+            resources.srcDirs += ['src/test/resources']
+
+        }
+        googleplay {
+            assets.srcDirs = ['src/main/assets']
+            java.srcDirs = ['src/main/java']
+            resources.srcDirs += ['src/test/resources']
         }
     }
 }
 
 dependencies {
-
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
 
-    implementation project(path: ':OpenCV-3.4.15')
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation 'androidx.compose.material3:material3:1.0.0-alpha01'
+
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.navigation:navigation-compose:2.4.0-beta02'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
+    implementation 'com.google.android.material:material:1.5.0-beta01'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+    implementation 'io.coil-kt:coil:1.4.0'
+
+    implementation "androidx.datastore:datastore-core:1.0.0"
+    implementation "androidx.datastore:datastore-preferences-core:1.0.0"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')
+    implementation project(path: ':OpenCV-3.4.15')
+
+    testImplementation 'io.mockk:mockk:1.12.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'com.google.truth:truth:1.1.3'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2'
 }

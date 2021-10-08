@@ -1,0 +1,119 @@
+name: codecov
+on:
+  push:
+    branches:
+  pull_request:
+    branches:
+
+jobs:
+  coverage-fdroid:
+    name: coverage-fdroid
+    runs-on: macos-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: google-services.json
+        env:
+          GOOGLE_PLAY_JSON_DEVELOPMENT: ${{ secrets.GOOGLE_PLAY_JSON_DEVELOPMENT }}
+        run: echo "${GOOGLE_PLAY_JSON_DEVELOPMENT}" | base64 -d > app/google-services.json
+
+      - name: app
+        uses: ReactiveCircus/android-emulator-runner@v2.20.0
+        with:
+          api-level: 29
+          target: default
+          script: |
+            adb logcat -c
+            adb logcat &
+            ./gradlew :app:testFdroidDebugCombinedCoverage --stacktrace
+
+      - name: show error report
+        run: |
+          set -x
+          ERROR_REPORT_FILE=/Users/runner/work/PicturePostcard/PicturePostcard/app/build/reports/androidTests/connected/flavors/fdroidDebugAndroidTest/index.html
+          if [ -f "$ERROR_REPORT_FILE" ]; then
+            cat $ERROR_REPORT_FILE
+          fi
+
+      - name: show .gradle size
+        run: |
+          set -x
+          du -h -d 1 ~/.gradle
+
+      - name: publish
+        run: |
+          set -x
+          find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -f app/build/reports/FdroidDebug.xml -F app.froid
+
+  coverage-googleplay:
+    name: coverage-googleplay
+    runs-on: macos-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: google-services.json
+        env:
+          GOOGLE_PLAY_JSON_DEVELOPMENT: ${{ secrets.GOOGLE_PLAY_JSON_DEVELOPMENT }}
+        run: echo "${GOOGLE_PLAY_JSON_DEVELOPMENT}" | base64 -d > app/google-services.json
+
+      - name: app
+        uses: ReactiveCircus/android-emulator-runner@v2.20.0
+        with:
+          api-level: 29
+          target: default
+          script: |
+            adb logcat -c
+            adb logcat &
+            ./gradlew :app:testGoogleplayDebugCombinedCoverage --stacktrace
+
+      - name: show error report
+        run: |
+          set -x
+          ERROR_REPORT_FILE=/Users/runner/work/PicturePostcard/PicturePostcard/app/build/reports/androidTests/connected/flavors/googleplayDebugAndroidTest/index.html
+          if [ -f "$ERROR_REPORT_FILE" ]; then
+            cat $ERROR_REPORT_FILE
+          fi
+
+      - name: show .gradle size
+        run: |
+          set -x
+          du -h -d 1 ~/.gradle
+
+      - name: publish
+        run: |
+          set -x
+          find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -f app/build/reports/GoogleplayDebug.xml -F app.googleplay

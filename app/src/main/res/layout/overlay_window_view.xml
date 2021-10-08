@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.overlaysample.floating.OverlayLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.github.jameshnsears.picturepostcard.view.overlay.window.OverlayLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/overlay_window_border"
     android:orientation="vertical"
-    android:weightSum="1"
-    android:background="@drawable/overlay_window_border">
+    android:weightSum="1">
 
     <LinearLayout
         android:id="@+id/window_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/overlay_window_border"
         android:orientation="horizontal"
-        android:weightSum="1"
-        android:background="@drawable/overlay_window_border">
+        android:weightSum="1">
 
-    <ImageButton
+        <ImageButton
             android:id="@+id/window_close"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -48,4 +48,4 @@
 
     </LinearLayout>
 
-</com.example.overlaysample.floating.OverlayLinearLayout>
+</com.github.jameshnsears.picturepostcard.view.overlay.window.OverlayLinearLayout>

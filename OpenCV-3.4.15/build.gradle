@@ -4,7 +4,6 @@ plugins {
 }
 
 def openCVersionName = "3.4.15"
-def openCVersionCode = 34150
 
 println "OpenCV: " +openCVersionName + " " + project.buildscript.sourceFile
 
@@ -14,8 +13,6 @@ android {
     defaultConfig {
         minSdk 29
         targetSdk 31
-        versionCode openCVersionCode
-        versionName openCVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -31,7 +28,30 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-}
+
+    lintOptions {
+        abortOnError false
+    }
+
+    flavorDimensions 'Version'
+    productFlavors {
+        'googleplay' {
+            dimension 'Version'
+        }
+        'fdroid' {
+            dimension 'Version'
+            isDefault true
+        }
+    }
+
+    sourceSets {
+        fdroid {
+            java.srcDirs = ['src/main/java']
+        }
+        googleplay {
+            java.srcDirs = ['src/main/java']
+        }
+    }}
 
 dependencies {
 }
