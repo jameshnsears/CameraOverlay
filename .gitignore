@@ -1,0 +1,24 @@
+docs/uml/Picture Postcard.vpp.bak_*
+docs/uml/.Picture Postcard.vpp.lck
+docs/ui/.~lock.Picutre PostCard.odp#
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+app/src/test/resources/digikam4.db
+app/src/test/resources/similarity.db
+app/src/test/resources/thumbnails-digikam.db
+app/src/test/resources/recognition.db
+/docs/books/Atomic Kotlin-leanpub.com (2020).epub
+/docs/books/OpenCV Android Programming By Example-Packt Publishing (2015).epub
