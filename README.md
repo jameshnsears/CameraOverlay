@@ -1,45 +1,7 @@
-# Postcard
+# Camera Overlay
 
-## 1. Applications used for development
+## Status
 
-* Debian 11
-* exiftool
-
----
-
-## 2. Viewing / Adding exif GPS coordinates (decimal)
-
-### 2.1. Tower_Bridge_from_Shad_Thames.jpg
-
-* https://en.wikipedia.org/wiki/Tower_Bridge
-* https://geohack.toolforge.org/geohack.php?pagename=Tower_Bridge&params=51.5055_N_0.075406_W_
-
-```text
-51.5055, -0.075406
-
-exiftool -gpslatitude=51.5055 -gpslongitude=-0.075406 Tower_Bridge_from_Shad_Thames.jpg
-exiftool -gpslatituderef=N -gpslongituderef=W Tower_Bridge_from_Shad_Thames.jpg
-
-exiftool -gpslatitude -gpslongitude Tower_Bridge_from_Shad_Thames.jpg
-GPS Latitude                    : 51 deg 30' 19.80" N
-GPS Longitude                   : 0 deg 4' 31.46" W
-```
-
-### 2.2. Berlin_reichstag_west_panorama_2.jpg
-
-* https://en.wikipedia.org/wiki/Reichstag_building
-* https://geohack.toolforge.org/geohack.php?pagename=Reichstag_building&params=52.5186_N_13.3763_E_region:DE-BE_type:landmark
-
-```text
-52.5186, 13.3763
-
-exiftool -gpslatitude=52.5186 -gpslongitude=13.3763 Berlin_reichstag_west_panorama_2.jpg
-exiftool -gpslatituderef=N -gpslongituderef=E Berlin_reichstag_west_panorama_2.jpg
-```
-
---
-
-## 3. rm app
-
-* adb uninstall com.gitlab.jameshnsears.postcard
-
+| | test | androidTest | codecov | codacy | sonarcloud | codescene |
+| - | - | - | - | - | - | - |
+| :app | [![coverage-test](https://github.com/jameshnsears/CameraOverlay/actions/workflows/coverage-test.yml/badge.svg)](https://github.com/jameshnsears/CameraOverlay/actions/workflows/coverage-test.yml) | [![coverage-androidTest](https://github.com/jameshnsears/CameraOverlay/actions/workflows/coverage-androidTest.yml/badge.svg)](https://github.com/jameshnsears/CameraOverlay/actions/workflows/coverage-androidTest.yml) | [![codecov](https://codecov.io/gh/jameshnsears/CameraOverlay/branch/master/graph/badge.svg?token=5134RP5ZKY)](https://codecov.io/gh/jameshnsears/CameraOverlay) | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9d9584674063453bb59aefce7ad815d6)](https://www.codacy.com/gh/jameshnsears/CameraOverlay/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jameshnsears/CameraOverlay&amp;utm_campaign=Badge_Grade) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jameshnsears_CameraOverlay&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jameshnsears_CameraOverlay) | [![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/21058) |

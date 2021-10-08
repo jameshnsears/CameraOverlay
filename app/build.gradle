@@ -1,77 +1,238 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
     id 'kotlin-android'
+    id "io.gitlab.arturbosch.detekt" version "1.21.0"
+    id "org.jlleitschuh.gradle.ktlint" version "11.0.0"
+    id 'com.diffplug.spotless'
 }
 
+apply from: '../jacoco.gradle'
+apply from: '../ktlint.gradle'
+apply from: '../detekt.gradle'
+apply from: '../sonarcube.gradle'
+
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+
+if (!localPropertiesFile.exists()) {
+    localProperties.setProperty("RELEASE_STORE_PASSWORD", "")
+    localProperties.setProperty("RELEASE_KEY_PASSWORD", "")
+    localProperties.setProperty("RELEASE_KEY_ALIAS", "")
+    localProperties.setProperty("RELEASE_STORE_FILE", "keystore.jks")
+    Writer writer = new FileWriter(localPropertiesFile, false)
+    localProperties.store(writer, "empty, as creating the file is done manually via gpg")
+    writer.close()
+
+    file(project(':app').projectDir.path + "/keystore.jks").text = ""
+}
+
+localProperties.load(new FileInputStream(localPropertiesFile))
+
 android {
-    compileSdk 31
+    compileSdk 33
+
+    signingConfigs {
+        googleplay {
+            keyAlias localProperties['RELEASE_KEY_ALIAS']
+            keyPassword localProperties['RELEASE_KEY_PASSWORD']
+            storeFile file(localProperties['RELEASE_STORE_FILE'])
+            storePassword localProperties['RELEASE_STORE_PASSWORD']
+        }
+    }
 
     defaultConfig {
-        applicationId "com.gitlab.jameshnsears.picturepostcard"
         minSdk 29
-        targetSdk 31
-        versionCode 1
+        targetSdk 33
+
+        applicationId "com.github.jameshnsears.cameraoverlay"
+
+        // changelog version | min sdk | target sdk
+        versionCode 12933
+        // semantic versioning
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+
         vectorDrawables {
             useSupportLibrary true
         }
     }
 
-    buildTypes {
-        release {
-            shrinkResources true
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    packagingOptions {
+        resources {
+            excludes += [
+                    '**/module-info.class',
+                    'LICENSE',
+                    'README.md',
+                    'META-INF/LICENSE.md',
+                    'META-INF/LICENSE-notice.md'
+            ]
         }
     }
+
+    buildTypes {
+        def gitHash = { ->
+            def stdout = new ByteArrayOutputStream()
+            exec {
+                commandLine 'git', 'rev-parse', '--short=8', 'HEAD'
+                standardOutput = stdout
+            }
+            return stdout.toString().trim()
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
+
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
+        }
+
+        debug {
+            testCoverageEnabled true
+            buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
+        }
+    }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
+
     kotlinOptions {
-        jvmTarget = '1.8'
-        useIR = true
+        jvmTarget = '11'
     }
+
     buildFeatures {
         compose true
     }
+
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion "1.3.2"
     }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+
+    flavorDimensions 'Version'
+    productFlavors {
+        'googleplay' {
+            dimension 'Version'
+            versionNameSuffix "-googleplay"
+            signingConfig signingConfigs.googleplay
+        }
+        'fdroid' {
+            dimension 'Version'
+            versionNameSuffix "-fdroid"
+            isDefault true
         }
     }
 
     sourceSets {
-        test {
+        androidTest {
+            resources.srcDirs += ['src/androidTest/ressources', 'src/androidTest/res']
+        }
+        fdroid {
+            assets.srcDirs = ['src/main/assets']
+            java.srcDirs = ['src/main/java', 'src/fdroid/java']
             resources.srcDirs += ['src/test/resources']
         }
-        androidTest {
-            resources.srcDirs += ['src/androidTest/resources']
+        googleplay {
+            assets.srcDirs = ['src/main/assets']
+            java.srcDirs = ['src/main/java']
+            resources.srcDirs += ['src/test/resources']
         }
+    }
+
+    testOptions {
+        // will make tests run very slowly on the emulator/device + affects coverage #
+        // execution 'ANDROIDX_TEST_ORCHESTRATOR'
+
+        animationsDisabled true
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+            all {
+                useJUnitPlatform()
+                maxHeapSize = "1024m"
+                jacoco {
+                    includeNoLocationClasses = true
+                    excludes = ['jdk.internal.*']
+                }
+            }
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    lint {
+        abortOnError false
+        baseline file("$rootDir/config/lint/baseline.xml")
+        checkAllWarnings true
+        htmlReport true
+        warningsAsErrors true
+        xmlReport true
     }
 }
 
 dependencies {
+    // junit 4
+    androidTestImplementation 'androidx.activity:activity-compose:1.6.1'
+    androidTestImplementation 'androidx.compose.foundation:foundation:1.3.1'
+    androidTestImplementation 'androidx.compose.material:material:1.3.1'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.3.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.ext:truth:1.5.0'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'androidx.test:runner:1.5.1'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    //noinspection GradleDependency
+    androidTestImplementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    //noinspection GradleDependency
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
+    androidTestImplementation 'io.mockk:mockk-android:1.13.2'
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation 'androidx.compose.ui:ui-test-manifest:1.3.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
-    implementation project(path: ':OpenCV-3.4.15')
+    implementation 'androidx.activity:activity-compose:1.6.1'
+    implementation 'androidx.activity:activity-ktx:1.6.1'
+    implementation 'androidx.compose.foundation:foundation:1.3.1'
+    implementation 'androidx.compose.compiler:compiler:1.3.2'
+    implementation 'androidx.compose.material:material:1.3.1'
+    implementation 'androidx.compose.material:material-icons-extended:1.3.1'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.3.1'
+    implementation 'androidx.compose.ui:ui:1.3.1'
+    implementation 'androidx.compose.ui:ui-tooling:1.3.1'
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+    implementation 'androidx.exifinterface:exifinterface:1.3.5'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-compose:2.5.3'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.firebase:firebase-analytics:21.2.0'
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    implementation 'io.coil-kt:coil-compose:2.2.2'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation platform('com.google.firebase:firebase-bom:31.0.3')
+    implementation project(path: ':module:common')
+    implementation project(path: ':module:permissions')
+    implementation project(path: ':module:opencv')
+
+    // junit 5
+    testImplementation 'com.google.truth:truth:1.1.3'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.4'
+
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.9.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
 }

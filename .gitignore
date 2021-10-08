@@ -1,24 +1,42 @@
-docs/uml/Picture Postcard.vpp.bak_*
-docs/uml/.Picture Postcard.vpp.lck
-docs/ui/.~lock.Picutre PostCard.odp#
-*.iml
+/app/build/
+app/.classpath
+/app/googleplay/debug/
+/app/googleplay/release/
+/app/googleplay/release/app-googleplay-release.aab
+/app/google-services.json
+/app/keystore.jks
+/app/src/googleplay/google-services.json
+/app/src/google-services.json
+app/src/test/resources/digikam4.db
+app/src/test/resources/recognition.db
+app/src/test/resources/similarity.db
+app/src/test/resources/thumbnails-digikam.db
+/bin/envvars.sh
+/bin/tidy-up-github-actions.sh
+/build
+/captures
+.cxx
+/docs/.~lock.overlay-window.odp#
+docs/ui/.~lock.Camera Overlay.odp#
+docs/uml/Camera Overlay.vpp.bak_*
+docs/uml/.Camera Overlay.vpp.lck
+.DS_Store
+.externalNativeBuild
 .gradle
-/local.properties
+/.idea/assetWizardSettings.xml
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
-/.idea/workspace.xml
 /.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+/.idea/sonarlint
+/.idea/sonarlint/issuestore/*
+.idea/sonarlint/issuestore/index.pb
+/.idea/sonarlint-state.xml
+/.idea/workspace.xml
+*.iml
+/local.properties
 local.properties
-app/src/test/resources/digikam4.db
-app/src/test/resources/similarity.db
-app/src/test/resources/thumbnails-digikam.db
-app/src/test/resources/recognition.db
-/docs/books/Atomic Kotlin-leanpub.com (2020).epub
-/docs/books/OpenCV Android Programming By Example-Packt Publishing (2015).epub
+/node_modules/
+/package.json
+/package-lock.json
+/vendor/
