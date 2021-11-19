@@ -13,9 +13,9 @@ app/src/test/resources/thumbnails-digikam.db
 /docs/books/Beginning Android Development with Kotlin (2021).pdf
 /docs/books/Jetpack Compose by Tutorials (2021).pdf
 /docs/books/OpenCV Android Programming By Example-Packt Publishing (2015).epub
-docs/ui/.~lock.Picutre PostCard.odp#
-docs/uml/Picture Postcard.vpp.bak_*
-docs/uml/.Picture Postcard.vpp.lck
+docs/ui/.~lock.Camera Overlay.odp#
+docs/uml/Camera Overlay.vpp.bak_*
+docs/uml/.Camera Overlay.vpp.lck
 .DS_Store
 .externalNativeBuild
 .gradle

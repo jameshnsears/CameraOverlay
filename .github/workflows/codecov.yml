@@ -46,7 +46,7 @@ jobs:
       - name: show error report
         run: |
           set -x
-          ERROR_REPORT_FILE=/Users/runner/work/PicturePostcard/PicturePostcard/app/build/reports/androidTests/connected/flavors/fdroidDebugAndroidTest/index.html
+          ERROR_REPORT_FILE=/Users/runner/work/CameraOverlay/CameraOverlay/app/build/reports/androidTests/connected/flavors/fdroidDebugAndroidTest/index.html
           if [ -f "$ERROR_REPORT_FILE" ]; then
             cat $ERROR_REPORT_FILE
           fi
@@ -102,7 +102,7 @@ jobs:
       - name: show error report
         run: |
           set -x
-          ERROR_REPORT_FILE=/Users/runner/work/PicturePostcard/PicturePostcard/app/build/reports/androidTests/connected/flavors/googleplayDebugAndroidTest/index.html
+          ERROR_REPORT_FILE=/Users/runner/work/CameraOverlay/CameraOverlay/app/build/reports/androidTests/connected/flavors/googleplayDebugAndroidTest/index.html
           if [ -f "$ERROR_REPORT_FILE" ]; then
             cat $ERROR_REPORT_FILE
           fi

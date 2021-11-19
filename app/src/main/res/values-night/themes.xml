@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.PicturePostcard" parent="Platform.Theme.PicturePostcard" >
+    <style name="Theme.CameraOverlay" parent="Platform.Theme.CameraOverlay" >
         <item name="colorPrimary">@color/blue300</item>
         <item name="colorPrimaryDark">@color/blue400</item>
         <item name="colorAccent">@color/yellow400</item>

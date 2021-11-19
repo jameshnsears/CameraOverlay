@@ -1,22 +1,23 @@
 <resources>
-    <string name="app_name">Picture Postcard</string>
+    <string name="app_name">Camera Overlay</string>
 
-    <string name="permissions_justification">Compare the past with the present</string>
-    <string name="permissions_usage_0">Usage</string>
-    <string name="permissions_usage_1">\u2022 Select photo, ideally with geolocation data</string>
-    <string name="permissions_usage_2">\u2022 Configure overlay containing the photo</string>
-    <string name="permissions_usage_3">\u2022 Align overlay with subject in camera app</string>
-    <string name="permissions_required">Permissions</string>
-    <string name="permissions_privacy_policy_0">\u2022 See\u0020</string>
-    <string name="permissions_privacy_policy_1">Privacy Policy</string>
-    <string name="permissions_privacy_policy_2">\u0020for details</string>
-    <string name="permissions_media">Access photos…</string>
-    <string name="permissions_location">Show distance from photo…</string>
-    <string name="permissions_display">Display overlay…</string>
+    <string name="main_usage_0">Usage</string>
+    <string name="main_usage_1">\u2022 Select photo, ideally with location data</string>
+    <string name="main_usage_2">\u2022 Configure overlay containing the photo</string>
+    <string name="main_usage_3">\u2022 Align overlay with subject in camera app</string>
+    <string name="main_required">Permissions</string>
+    <string name="main_media">Access photos…</string>
+    <string name="main_location">Show distance from photo…</string>
+    <string name="main_display">Display overlay…</string>
+    <string name="main_select_photo">Select photo</string>
+
+    <string name="help">Help</string>
+    <string name="help_privacy_policy">Privacy Policy</string>
+    <string name="help_permissions">Permissions</string>
 
     <string name="select_photo">Select Photo</string>
-    <string name="select_photo_location">Folder containing photo(s)…</string>
-    <string name="select_photo_location_error_dialog_message">Picture Postcard - Select P</string>
+    <string name="select_photo_location">Folder with photo(s)…</string>
+    <string name="select_photo_location_error_dialog_message">Camera Overlay - Select P</string>
     <string name="select_photo_location_error_dialog_cancel">Cancel</string>
     <string name="select_photo_key">Key</string>
     <string name="select_photo_when_taken">When taken</string>
@@ -24,16 +25,17 @@
     <string name="select_photo_launch_nav_app">Tap to launch navigation App</string>
     <string name="select_photo_filter_dialog">Sort by…</string>
     <string name="select_photo_filter_sort_by">Sort By</string>
+    <string name="select_photo_configure_overlay">Configure overlay</string>
 
-    <string name="overlay_configure_selection">Configure Overlay</string>
-    <string name="overlay_configure_window">Window</string>
-    <string name="overlay_configure_colour">Border &amp; button colour</string>
-    <string name="overlay_configure_width">Width</string>
-    <string name="overlay_configure_height">Height</string>
-    <string name="overlay_configure_photo">Photo</string>
-    <string name="overlay_configure_transparency">Transparency %</string>
-    <string name="overlay_configure_edge_detection">Edge Detection</string>
-    <string name="overlay_configure_blur">Blur</string>
-    <string name="overlay_configure_thresholds">Thresholds</string>
-    <string name="overlay_configure_display_overlay">Display Overlay</string>
+    <string name="configure_overlay_selection">Configure Overlay</string>
+    <string name="configure_overlay_window">Window</string>
+    <string name="configure_overlay_colour">Border &amp; button colour</string>
+    <string name="configure_overlay_width">Width</string>
+    <string name="configure_overlay_height">Height</string>
+    <string name="configure_overlay_photo">Photo</string>
+    <string name="configure_overlay_transparency">Transparency %</string>
+    <string name="configure_overlay_edge_detection">Edge Detection</string>
+    <string name="configure_overlay_blur">Blur</string>
+    <string name="configure_overlay_thresholds">Thresholds</string>
+    <string name="configure_overlay_display_overlay">Display Overlay</string>
 </resources>

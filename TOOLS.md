@@ -9,20 +9,38 @@
 
 ## 2. adb
 
-* adb uninstall com.github.jameshnsears.picturepostcard
+* adb uninstall cameraoverlay
 
 --
 
 ## 3. npm tools
 
-* npm install jscpd markdownlint markdownlint-cli
-* ./node_modules/.bin/jscpd .github
-* ./node_modules/.bin/markdownlint .
+```bash
+npm install jscpd markdownlint markdownlint-cli
+./node_modules/.bin/jscpd .github
+./node_modules/.bin/markdownlint .
+```
 
 --
 
-## 4. android studio plugins
+## 4. Android studio plugins
 
 * ADB Idea - Philippe Breault
 * SonarLint - SonarSource
 * detekt - detekt
+
+--
+
+## 5. find
+
+```bash
+find . -name .editorconfig -exec rm -f {} \;
+```
+
+--
+
+## 6. GitHub Secrets
+
+```bash
+base64 -w 0 <filename>
+```

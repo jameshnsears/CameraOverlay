@@ -1,74 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <issues format="6" by="lint 7.0.3" type="baseline" client="gradle" name="AGP (7.0.3)" variant="all" version="7.0.3">
 
-    <issue id="InvalidPackage">
-        <ignore path="**/org.jacoco.agent-0.8.3-runtime.jar" />
-    </issue>
-
     <issue
-        id="InflateParams"
-        message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
-        errorLine1="        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayLinearLayout"
-        errorLine2="                                                             ~~~~">
-        <location
-            file="src/main/java/com/github/jameshnsears/picturepostcard/overlay/OverlayWindow.kt"
-            line="20"
-            column="62"/>
-    </issue>
-
-    <issue
-        id="InflateParams"
-        message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
-        errorLine1="        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayLinearLayout"
-        errorLine2="                                                             ~~~~">
-        <location
-            file="src/main/java/com/github/jameshnsears/picturepostcard/overlay/OverlayWindow.kt"
-            line="20"
-            column="62"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.layout.main_activity` appears to be unused"
-        errorLine1="&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        id="MissingClass"
+        message="Class referenced in the layout file, `cameraoverlay.view.overlay.window.OverlayLinearLayout`, was not found in the project or the libraries"
+        errorLine1="&lt;cameraoverlay.view.overlay.window.OverlayLinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
         errorLine2="^">
         <location
-            file="src/main/res/layout/main_activity.xml"
+            file="src/main/res/layout/overlay_window_view.xml"
             line="2"
             column="1"/>
     </issue>
 
     <issue
-        id="UnusedResources"
-        message="The resource `R.style.Theme_Postcard_AppBarOverlay` appears to be unused"
-        errorLine1="    &lt;style name=&quot;Theme.Postcard.AppBarOverlay&quot; parent=&quot;ThemeOverlay.AppCompat.Dark.ActionBar&quot; />"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        id="InvalidPackage"
+        message="Invalid package reference in library; not included in Android: `java.lang.instrument`. Referenced from `org.jacoco.agent.rt.internal_1f1cc91.CoverageTransformer`.">
         <location
-            file="src/main/res/values/themes.xml"
-            line="22"
+            file="../../../../.gradle/caches/modules-2/files-2.1/org.jacoco/org.jacoco.agent/0.8.3/edd294e541c8176d55768ba4b8bcb1bb267d18f4/org.jacoco.agent-0.8.3-runtime.jar"/>
+    </issue>
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in library; not included in Android: `java.lang.management`. Referenced from `org.jacoco.agent.rt.internal_1f1cc91.JmxRegistration`.">
+        <location
+            file="../../../../.gradle/caches/modules-2/files-2.1/org.jacoco/org.jacoco.agent/0.8.3/edd294e541c8176d55768ba4b8bcb1bb267d18f4/org.jacoco.agent-0.8.3-runtime.jar"/>
+    </issue>
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in library; not included in Android: `javax.management`. Referenced from `org.jacoco.agent.rt.internal_1f1cc91.JmxRegistration`.">
+        <location
+            file="../../../../.gradle/caches/modules-2/files-2.1/org.jacoco/org.jacoco.agent/0.8.3/edd294e541c8176d55768ba4b8bcb1bb267d18f4/org.jacoco.agent-0.8.3-runtime.jar"/>
+    </issue>
+
+    <issue
+        id="InflateParams"
+        message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
+        errorLine1="        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayLinearLayout"
+        errorLine2="                                                             ~~~~">
+        <location
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindow.kt"
+            line="20"
+            column="62"/>
+    </issue>
+
+    <issue
+        id="InflateParams"
+        message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
+        errorLine1="        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayLinearLayout"
+        errorLine2="                                                             ~~~~">
+        <location
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindow.kt"
+            line="20"
+            column="62"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="This folder configuration (`v26`) is unnecessary; `minSdkVersion` is 29. Merge all the resources in this folder into `mipmap-anydpi`.">
+        <location
+            file="src/main/res/mipmap-anydpi-v26"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.ic_baseline_image_search_24` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/ic_baseline_image_search_24.xml"
+            line="1"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.ic_baseline_tune_24` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/ic_baseline_tune_24.xml"
+            line="1"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.ic_launcher_background` appears to be unused"
+        errorLine1="    &lt;color name=&quot;ic_launcher_background&quot;>#FFFFFF&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/ic_launcher_background.xml"
+            line="3"
             column="12"/>
     </issue>
 
     <issue
         id="UnusedResources"
-        message="The resource `R.style.Theme_Postcard_PopupOverlay` appears to be unused"
-        errorLine1="    &lt;style name=&quot;Theme.Postcard.PopupOverlay&quot; parent=&quot;ThemeOverlay.AppCompat.Light&quot; />"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        message="The resource `R.drawable.ic_launcher_foreground` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/ic_launcher_foreground.xml"
+            line="1"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.select_photo_key` appears to be unused"
+        errorLine1="    &lt;string name=&quot;select_photo_key&quot;>Key&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="20"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.select_photo_launch_nav_app` appears to be unused"
+        errorLine1="    &lt;string name=&quot;select_photo_launch_nav_app&quot;>Tap to launch navigation App&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="23"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.Theme_CameraOverlay_AppBarOverlay` appears to be unused"
+        errorLine1="    &lt;style name=&quot;Theme.CameraOverlay.AppBarOverlay&quot; parent=&quot;ThemeOverlay.Material3.Dark.ActionBar&quot; />"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/themes.xml"
-            line="24"
+            line="17"
             column="12"/>
     </issue>
 
     <issue
-        id="UnusedIds"
-        message="The resource `R.id.toggle_button` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/toggle_button&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        id="UnusedResources"
+        message="The resource `R.style.Theme_CameraOverlay_PopupOverlay` appears to be unused"
+        errorLine1="    &lt;style name=&quot;Theme.CameraOverlay.PopupOverlay&quot; parent=&quot;ThemeOverlay.Material3.Light&quot; />"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/res/layout/main_activity.xml"
-            line="11"
-            column="9"/>
+            file="src/main/res/values/themes.xml"
+            line="19"
+            column="12"/>
     </issue>
 
     <issue
@@ -83,8 +162,32 @@
     </issue>
 
     <issue
+        id="IconXmlAndPng"
+        message="The following images appear both as density independent `.xml` files and as bitmap files: /home/jsears/GIT_REPOS/PicturePostcard/CameraOverlay/app/src/main/res/drawable/ic_launcher_foreground.xml, /home/jsears/GIT_REPOS/PicturePostcard/PicturePostcard/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png">
+        <location
+            file="src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png"/>
+        <location
+            file="src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png"/>
+        <location
+            file="src/main/res/mipmap-xhdpi/ic_launcher_foreground.png"/>
+        <location
+            file="src/main/res/mipmap-mdpi/ic_launcher_foreground.png"/>
+        <location
+            file="src/main/res/mipmap-hdpi/ic_launcher_foreground.png"/>
+        <location
+            file="src/main/res/drawable/ic_launcher_foreground.xml"/>
+    </issue>
+
+    <issue
+        id="ConvertToWebp"
+        message="One or more images in this project can be converted to the WebP format which typically results in smaller file sizes, even for lossless conversion">
+        <location
+            file="src/main/res/mipmap-xxxhdpi/ic_launcher.png"/>
+    </issue>
+
+    <issue
         id="IconMissingDensityFolder"
-        message="Missing density variation folders in `/home/jsears/GIT_REPOS/PicturePostcard/PicturePostcard/app/src/main/res`: drawable-hdpi, drawable-xhdpi, drawable-xxhdpi">
+        message="Missing density variation folders in `/home/jsears/GIT_REPOS/PicturePostcard/CameraOverlay/app/src/main/res`: drawable-hdpi, drawable-xhdpi, drawable-xxhdpi">
         <location
             file="src/main/res"/>
     </issue>
@@ -95,7 +198,7 @@
         errorLine1="    override fun onTouchEvent(event: MotionEvent): Boolean {"
         errorLine2="                 ~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/github/jameshnsears/picturepostcard/overlay/OverlayLinearLayout.kt"
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayLinearLayout.kt"
             line="23"
             column="18"/>
     </issue>
@@ -106,7 +209,7 @@
         errorLine1="    override fun onTouchEvent(event: MotionEvent): Boolean {"
         errorLine2="                 ~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/github/jameshnsears/picturepostcard/overlay/OverlayLinearLayout.kt"
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayLinearLayout.kt"
             line="23"
             column="18"/>
     </issue>
@@ -139,7 +242,7 @@
         errorLine1="        params.gravity = Gravity.TOP or Gravity.LEFT"
         errorLine2="                                                ~~~~">
         <location
-            file="src/main/java/com/github/jameshnsears/picturepostcard/overlay/OverlayWindow.kt"
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindow.kt"
             line="64"
             column="49"/>
     </issue>
@@ -150,7 +253,7 @@
         errorLine1="        params.gravity = Gravity.TOP or Gravity.LEFT"
         errorLine2="                                                ~~~~">
         <location
-            file="src/main/java/com/github/jameshnsears/picturepostcard/overlay/OverlayWindow.kt"
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindow.kt"
             line="64"
             column="49"/>
     </issue>
