@@ -17,6 +17,10 @@ import com.google.android.material.color.DynamicColors
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        private const val OVERLAY_PERMISSION_REQUEST_CODE = 1
+    }
+
     @ExperimentalMaterial3Api
     override fun onCreate(savedInstanceState: Bundle?) {
 

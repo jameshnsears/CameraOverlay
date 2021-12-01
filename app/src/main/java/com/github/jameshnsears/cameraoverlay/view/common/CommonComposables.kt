@@ -1,6 +1,11 @@
 package com.github.jameshnsears.cameraoverlay.view.common
 
-import android.widget.Toast
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,7 +26,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.navigation.NavController
+import timber.log.Timber
 
 @Composable
 fun CommonSmallTopAppBar(title: String, navController: NavController, navRoute: String) {
@@ -42,8 +49,37 @@ fun CommonSmallTopAppBar(title: String, navController: NavController, navRoute: 
 fun CommonPermissionsButton(icon: ImageVector, title: String) {
     val context = LocalContext.current
 
+    val activity = context as Activity
+
+
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Timber.d("isGranted=%b", isGranted)
+        } else {
+            // request permission
+            if (!Settings.canDrawOverlays(context)) {
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + context.packageName)
+                )
+                startActivityForResult(activity, intent, 1, null)
+            }
+        }
+    }
+
     ElevatedButton(
-        onClick = { Toast.makeText(context, "Clicked on Icon Button", Toast.LENGTH_SHORT).show() },
+        onClick = {
+            // Toast.makeText(context, "Clicked on Icon Button", Toast.LENGTH_SHORT).show()
+
+            if (Settings.canDrawOverlays(context)) {
+                Timber.d("received permission")
+            } else {
+                // ask for permission
+                launcher.launch(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            }
+        },
         modifier = Modifier
             .padding(2.dp)
             .width(280.dp),

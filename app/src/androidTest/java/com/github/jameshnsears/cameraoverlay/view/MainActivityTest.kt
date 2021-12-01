@@ -35,9 +35,6 @@ class MainActivityTest {
         composeTestRule.setContent {
             MainScreen(NavController(context = context), HelloViewModel())
         }
-
-        composeTestRule.onRoot().printToLog("XXXXXX")
-
         composeTestRule.onNodeWithText(stringResource()).assertIsDisplayed()
         composeTestRule.onNodeWithText(stringResource()).performClick()
     }
