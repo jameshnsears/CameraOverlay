@@ -28,6 +28,9 @@ npm install jscpd markdownlint markdownlint-cli
 * ADB Idea - Philippe Breault
 * SonarLint - SonarSource
 * detekt - detekt
+* CPU Usage Indicator - Vojtech Krasa
+* CodeGlance - Vektah
+* ADB Wi-Fi - Yury Polek
 
 --
 

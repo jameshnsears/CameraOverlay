@@ -17,7 +17,7 @@ class OverlayWindow(context: Context) {
     private val layoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private val rootView =
-        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayLinearLayout
+        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayWindowLinearLayout
 
     /*
     Transparency

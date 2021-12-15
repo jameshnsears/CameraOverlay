@@ -3,18 +3,15 @@ package com.github.jameshnsears.cameraoverlay.view.main
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.OutlinedTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.ImageSearch
-import androidx.compose.material.icons.outlined.Layers
-import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,9 +21,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,17 +33,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.stateholder.HelloStateHolder
 import com.github.jameshnsears.cameraoverlay.view.Navigation
-import com.github.jameshnsears.cameraoverlay.view.common.CommonPermissionsButton
+import com.github.jameshnsears.cameraoverlay.view.main.permission.AccessPhotosPermissionButton
+import com.github.jameshnsears.cameraoverlay.view.main.permission.DisplayOverlayPermissionButton
+import com.github.jameshnsears.cameraoverlay.view.main.permission.AboutDialog
+import com.github.jameshnsears.cameraoverlay.view.main.permission.ShowDistancePermissionButton
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.HelloViewModel
+import com.github.jameshnsears.cameraoverlay.viewmodel.MainScreenViewModel
 
 @ExperimentalMaterial3Api
 @Composable
-fun MainScreen(navController: NavController, helloViewModel: HelloViewModel) {
+fun MainScreen(navController: NavController,
+               helloViewModel: HelloViewModel,
+) {
+
+    val mainScreenViewModel = MainScreenViewModel(LocalContext.current)
+
     CameraOverlayTheme {
         Scaffold(
             topBar = { CentreAlignedTopAppBar() },
@@ -53,29 +60,18 @@ fun MainScreen(navController: NavController, helloViewModel: HelloViewModel) {
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
             ) {
                 Usage()
 
                 PermissionsHeader(navController)
-
-                CommonPermissionsButton(
-                    Icons.Outlined.Folder,
-                    stringResource(R.string.main_media)
-                )
-                CommonPermissionsButton(
-                    Icons.Outlined.LocationOn,
-                    stringResource(R.string.main_location)
-                )
-                CommonPermissionsButton(
-                    Icons.Outlined.Layers,
-                    stringResource(R.string.main_display)
-                )
+                AccessPhotosPermissionButton(mainScreenViewModel)
+                ShowDistancePermissionButton(mainScreenViewModel)
+                DisplayOverlayPermissionButton(mainScreenViewModel)
 
                 SelectPhoto(navController)
 
                 HoistedHello(helloViewModel)
-
-                Footer()
             }
         }
     }
@@ -94,25 +90,41 @@ fun HoistedHello(helloViewModel: HelloViewModel) {
 
 @Composable
 fun Hello(helloStateHolder: HelloStateHolder, onNameChange: (String) -> Unit) {
-    Column {
-        if (helloStateHolder.name.isNotEmpty()) {
-            Text(
-                text = "Hello, " + helloStateHolder.name
-            )
-        }
-        OutlinedTextField(
-            value = helloStateHolder.name,
-            onValueChange = onNameChange,
-            label = { Text("Name") }
-        )
-    }
+//    Column {
+//        if (helloStateHolder.name.isNotEmpty()) {
+//            Text(
+//                text = "Hello, " + helloStateHolder.name
+//            )
+//        }
+//        OutlinedTextField(
+//            value = helloStateHolder.name,
+//            onValueChange = onNameChange,
+//            label = { Text("Name") }
+//        )
+//    }
 }
 
 @Composable
 fun CentreAlignedTopAppBar() {
+    val infoDialogState = remember { mutableStateOf(false) }
+
+    if (infoDialogState.value) {
+        AboutDialog(infoDialogState)
+    }
+
     CenterAlignedTopAppBar(
         title = { Text(stringResource(R.string.app_name)) },
-    )
+        actions = {
+            IconButton(onClick = {
+                infoDialogState.value = true
+            }
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = ""
+                )
+            }
+        })
 }
 
 @Composable
@@ -122,21 +134,29 @@ fun Usage() {
             .padding(vertical = 5.dp)
     ) {
         Text(
-            stringResource(R.string.main_usage_0),
+            stringResource(R.string.main_usage),
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp
         )
         Text(
+            stringResource(R.string.main_usage_0),
+            modifier = Modifier
+                .padding(vertical = 4.dp)
+        )
+        Text(
             stringResource(R.string.main_usage_1),
-            modifier = Modifier.padding(start = 16.dp).padding(vertical = 4.dp)
+            modifier = Modifier
+                .padding(vertical = 4.dp)
         )
         Text(
             stringResource(R.string.main_usage_2),
-            modifier = Modifier.padding(start = 16.dp).padding(vertical = 4.dp)
+            modifier = Modifier
+                .padding(vertical = 4.dp)
         )
         Text(
             stringResource(R.string.main_usage_3),
-            modifier = Modifier.padding(start = 16.dp).padding(vertical = 4.dp)
+            modifier = Modifier
+                .padding(vertical = 4.dp)
         )
     }
 }
@@ -153,7 +173,7 @@ fun PermissionsHeader(navController: NavController) {
         )
 
         IconButton(
-            onClick = { navController.navigate(Navigation.HELP_SCREEN) },
+            onClick = { navController.navigate(Navigation.PERMISSIONS_SCREEN) },
         ) {
             Icon(
                 imageVector = Icons.Outlined.HelpOutline,
@@ -166,15 +186,15 @@ fun PermissionsHeader(navController: NavController) {
 @Composable
 fun SelectPhoto(navController: NavController) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
         horizontalAlignment = Alignment.End
     ) {
         ElevatedButton(
-            onClick = { navController.navigate(Navigation.PHOTO_SCREEN) },
-            modifier = Modifier
-                .padding(8.dp),
+            onClick = { navController.navigate(Navigation.SELECT_PHOTO_SCREEN) },
             shape = RoundedCornerShape(16.dp),
-            enabled = false
+            enabled = true
         ) {
             Icon(
                 imageVector = Icons.Outlined.ImageSearch,
@@ -188,50 +208,27 @@ fun SelectPhoto(navController: NavController) {
     }
 }
 
-@Composable
-fun Footer() {
-    Row(
-        Modifier
-            .fillMaxSize()
-            .padding(bottom = 4.dp)
-    ) {
-        Column(Modifier.align(Alignment.Bottom)) {
-            Text(
-                text = BuildConfig.VERSION_NAME + "/" + BuildConfig.GIT_HASH,
-                fontSize = 14.sp
-            )
-        }
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .align(Alignment.Bottom)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_github_logo),
-                contentDescription = null,
-                modifier = Modifier
-                    .height(24.dp)
-                    .align(Alignment.End)
-            )
-        }
-    }
-}
 
 @ExperimentalMaterial3Api
 @Preview(name = "Light Theme")
 @Composable
 fun PreviewPortrait() {
-    MainScreen(rememberNavController(), HelloViewModel())
+    MainScreen(
+        rememberNavController(),
+        HelloViewModel()
+    )
 }
 
 @ExperimentalMaterial3Api
 @Preview(
-    name = "Landscape",
+    name = "Dark Theme, Landscape",
     widthDp = 720, heightDp = 720,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
-
 @Composable
 fun PreviewLandscape() {
-    MainScreen(rememberNavController(), HelloViewModel())
+    MainScreen(
+        rememberNavController(),
+        HelloViewModel()
+    )
 }

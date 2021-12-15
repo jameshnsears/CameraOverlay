@@ -28,7 +28,7 @@ fun SortByDialog() {
         ShowDialog()
     }
 
-    Column(modifier = Modifier.padding(bottom = 10.dp)) {
+    Column(modifier = Modifier.padding(bottom = 8.dp)) {
         ElevatedButton(
             onClick = { showDialog.value = true },
             shape = RoundedCornerShape(16.dp),

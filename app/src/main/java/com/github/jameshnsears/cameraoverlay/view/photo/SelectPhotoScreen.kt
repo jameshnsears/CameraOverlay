@@ -3,7 +3,9 @@ package com.github.jameshnsears.cameraoverlay.view.photo
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.outlined.Tune
@@ -22,7 +24,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.Navigation
-import com.github.jameshnsears.cameraoverlay.view.common.CommonSmallTopAppBar
+import com.github.jameshnsears.cameraoverlay.view.main.permission.CommonSmallTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.photo.sortby.SortByDialog
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
@@ -43,6 +45,7 @@ fun SelectPhotoScreen(navController: NavController) {
         ) {
             Column(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp).fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
             ) {
                 Location()
 
@@ -78,15 +81,13 @@ fun Location() {
 @Composable
 fun ConfigureOverlay(navController: NavController) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(top = 8.dp).padding(bottom=8.dp),
         horizontalAlignment = Alignment.End
     ) {
         ElevatedButton(
-            onClick = { navController.navigate(Navigation.OVERLAY_SCREEN) },
-            modifier = Modifier
-                .padding(8.dp),
+            onClick = { navController.navigate(Navigation.CONFIGURE_OVERLAY_SCREEN) },
             shape = RoundedCornerShape(16.dp),
-            enabled = false
+            enabled = true
         ) {
             Icon(
                 imageVector = Icons.Outlined.Tune,
@@ -103,6 +104,6 @@ fun ConfigureOverlay(navController: NavController) {
 @ExperimentalMaterial3Api
 @Preview(name = "Light Theme")
 @Composable
-fun PreviewPortrait() {
+fun Preview() {
     SelectPhotoScreen(rememberNavController())
 }

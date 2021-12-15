@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.LinearLayout
 
-class OverlayLinearLayout : LinearLayout {
+class OverlayWindowLinearLayout : LinearLayout {
     private var listener: ((activate: Boolean) -> Unit)? = null
 
     constructor(context: Context) : super(context)

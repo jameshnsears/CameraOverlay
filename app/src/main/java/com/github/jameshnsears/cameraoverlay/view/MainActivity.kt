@@ -9,9 +9,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.BuildConfig
-import com.github.jameshnsears.cameraoverlay.view.help.HelpScreen
+import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
-import com.github.jameshnsears.cameraoverlay.view.overlay.OverlayScreen
+import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionScreen
+import com.github.jameshnsears.cameraoverlay.view.overlay.ConfigureOverlayScreen
 import com.github.jameshnsears.cameraoverlay.view.photo.SelectPhotoScreen
 import com.google.android.material.color.DynamicColors
 import timber.log.Timber
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         private const val OVERLAY_PERMISSION_REQUEST_CODE = 1
     }
 
-    @ExperimentalMaterial3Api
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -36,22 +37,22 @@ class MainActivity : AppCompatActivity() {
                 composable(Navigation.MAIN_SCREEN) {
                     MainScreen(navController, helloViewModel = viewModel())
                 }
-                composable(Navigation.HELP_SCREEN) {
-                    HelpScreen(navController)
+                composable(Navigation.PERMISSIONS_SCREEN) {
+                    PermissionScreen(navController)
                 }
-                composable(Navigation.PHOTO_SCREEN) {
+                composable(Navigation.SELECT_PHOTO_SCREEN) {
                     SelectPhotoScreen(navController)
                 }
-                composable(Navigation.OVERLAY_SCREEN) {
-                    OverlayScreen(navController)
+                composable(Navigation.CONFIGURE_OVERLAY_SCREEN) {
+                    ConfigureOverlayScreen(navController)
                 }
             }
         }
     }
 
     private fun initLogging() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
+        if (BuildConfig.DEBUG && Timber.treeCount == 0) {
+            Timber.plant(MethodLineLoggingTree())
         }
     }
 }

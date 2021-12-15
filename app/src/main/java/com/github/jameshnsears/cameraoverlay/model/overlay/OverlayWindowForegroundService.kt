@@ -18,14 +18,13 @@ newX = oldX / oldScreenWidth * newScreenWidth
 
 The window seems to be still in the same position relatively.
 */
-class OverlayForegroundService : Service() {
+class OverlayWindowForegroundService : Service() {
     private lateinit var overlay: OverlayWindow
 
     override fun onCreate() {
         overlay = OverlayWindow(this)
     }
 
-    /** Handles [ACTION_SHOW] and [ACTION_HIDE] intents. */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
             when (it.action) {
@@ -55,14 +54,14 @@ class OverlayForegroundService : Service() {
         private const val ACTION_HIDE = "HIDE"
 
         fun start(context: Context) {
-            val intent = Intent(context, OverlayForegroundService::class.java).apply {
+            val intent = Intent(context, OverlayWindowForegroundService::class.java).apply {
                 action = ACTION_SHOW
             }
             context.startService(intent)
         }
 
         fun stop(context: Context) {
-            val intent = Intent(context, OverlayForegroundService::class.java).apply {
+            val intent = Intent(context, OverlayWindowForegroundService::class.java).apply {
                 action = ACTION_HIDE
             }
             context.startService(intent)

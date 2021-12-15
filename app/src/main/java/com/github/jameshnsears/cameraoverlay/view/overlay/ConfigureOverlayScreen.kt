@@ -1,10 +1,13 @@
 package com.github.jameshnsears.cameraoverlay.view.overlay
 
+import android.app.Activity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Height
 import androidx.compose.material.icons.outlined.Layers
@@ -18,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,32 +32,35 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.Navigation
-import com.github.jameshnsears.cameraoverlay.view.common.CommonSmallTopAppBar
+import com.github.jameshnsears.cameraoverlay.view.main.permission.CommonSmallTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
+import com.github.jameshnsears.cameraoverlay.viewmodel.OverlayScreenViewModel
 
 @ExperimentalMaterial3Api
 @Composable
-fun OverlayScreen(navController: NavController) {
+fun ConfigureOverlayScreen(navController: NavController) {
     CameraOverlayTheme {
         Scaffold(
             topBar = {
                 CommonSmallTopAppBar(
                     stringResource(R.string.configure_overlay_selection),
                     navController,
-                    Navigation.PHOTO_SCREEN
+                    Navigation.SELECT_PHOTO_SCREEN
                 )
             },
         ) {
             Column(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp).fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
             ) {
-                Window()
 
                 Photo()
 
                 EdgeDetection()
 
-                ConfigureOverlay()
+                Window()
+
+                DisplayOverlay()
             }
         }
     }
@@ -61,9 +68,7 @@ fun OverlayScreen(navController: NavController) {
 
 @Composable
 fun Window() {
-    Column(
-        modifier = Modifier.padding(bottom = 4.dp),
-    ) {
+    Column {
         Text(
             stringResource(R.string.configure_overlay_window),
             modifier = Modifier.padding(bottom = 5.dp),
@@ -74,7 +79,6 @@ fun Window() {
             Icon(
                 imageVector = Icons.Outlined.Palette,
                 contentDescription = null,
-                modifier = Modifier.padding(start = 16.dp),
             )
             Text(
                 stringResource(R.string.configure_overlay_colour),
@@ -85,7 +89,6 @@ fun Window() {
             Icon(
                 painter = painterResource(id = R.drawable.ic_width_black_24dp),
                 contentDescription = null,
-                modifier = Modifier.padding(start = 16.dp)
             )
             Text(
                 stringResource(R.string.configure_overlay_width),
@@ -96,7 +99,6 @@ fun Window() {
             Icon(
                 imageVector = Icons.Outlined.Height,
                 contentDescription = null,
-                modifier = Modifier.padding(start = 16.dp),
             )
             Text(
                 stringResource(R.string.configure_overlay_height),
@@ -108,9 +110,7 @@ fun Window() {
 
 @Composable
 fun Photo() {
-    Column(
-        modifier = Modifier.padding(vertical = 16.dp),
-    ) {
+    Column {
         Text(
             stringResource(R.string.configure_overlay_photo),
             modifier = Modifier.padding(bottom = 5.dp),
@@ -121,7 +121,6 @@ fun Photo() {
             Icon(
                 imageVector = Icons.Outlined.Visibility,
                 contentDescription = null,
-                modifier = Modifier.padding(start = 16.dp),
             )
             Text(
                 stringResource(R.string.configure_overlay_transparency),
@@ -133,7 +132,7 @@ fun Photo() {
 
 @Composable
 fun EdgeDetection() {
-    Column() {
+    Column(modifier = Modifier.padding(vertical = 16.dp)) {
         Row {
             Text(
                 stringResource(R.string.configure_overlay_edge_detection),
@@ -153,7 +152,6 @@ fun EdgeDetection() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_blur_24dp),
                     contentDescription = null,
-                    modifier = Modifier.padding(start = 16.dp)
                 )
                 Text(
                     stringResource(R.string.configure_overlay_blur),
@@ -164,7 +162,6 @@ fun EdgeDetection() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_threshold_24dp),
                     contentDescription = null,
-                    modifier = Modifier.padding(start = 16.dp),
                 )
                 Text(
                     stringResource(R.string.configure_overlay_thresholds),
@@ -176,17 +173,27 @@ fun EdgeDetection() {
 }
 
 @Composable
-fun ConfigureOverlay() {
+fun DisplayOverlay() {
+    val context = LocalContext.current
+
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(bottom=8.dp),
         horizontalAlignment = Alignment.End
     ) {
         ElevatedButton(
-            onClick = {},
-            modifier = Modifier
-                .padding(8.dp),
+            onClick = {
+                val overlayScreenViewModel = OverlayScreenViewModel()
+                if (!overlayScreenViewModel.isOverlayWindowServiceActive) {
+                    overlayScreenViewModel.startOverlayWindowService(context)
+                    // quit Compose
+                    (context as Activity).finish()
+
+                } else {
+                    overlayScreenViewModel.stopOverlayWindowService(context)
+                }
+            },
             shape = RoundedCornerShape(16.dp),
-            enabled = false
+            enabled = true
         ) {
             Icon(
                 imageVector = Icons.Outlined.Layers,
@@ -203,6 +210,6 @@ fun ConfigureOverlay() {
 @ExperimentalMaterial3Api
 @Preview(name = "Light Theme")
 @Composable
-fun PreviewPortrait() {
-    OverlayScreen(rememberNavController())
+fun Preview() {
+    ConfigureOverlayScreen(rememberNavController())
 }
