@@ -53,14 +53,14 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-fdroid-logcat
+          name: codecov-fdroid-logcat
           path: logcat.txt
 
       - name: artifact
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-fdroid
+          name: codecov-fdroid
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*
@@ -123,14 +123,14 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-googleplay-logcat
+          name: codecov-googleplay-logcat
           path: logcat.txt
 
       - name: artifact
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-googleplay
+          name: codecov-googleplay
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*

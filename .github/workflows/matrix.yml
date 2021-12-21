@@ -11,7 +11,7 @@ jobs:
 
     name: fdroid
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 80
 
     strategy:
       fail-fast: false
@@ -60,7 +60,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-fdroid-logcat-${{ matrix.api-level }}
+          name: matrix-fdroid-logcat-${{ matrix.api-level }}
           path: logcat.txt
 
       - name: artifact
@@ -126,7 +126,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-fdroid-logcat-${{ matrix.api-level }}
+          name: matrix-googleplay-logcat-${{ matrix.api-level }}
           path: logcat.txt
 
       - name: artifact
