@@ -6,14 +6,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.outlined.Tune
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,11 +23,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.Navigation
-import com.github.jameshnsears.cameraoverlay.view.main.permission.CommonSmallTopAppBar
+import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.photo.sortby.SortByDialog
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
-@ExperimentalMaterial3Api
 @Composable
 fun SelectPhotoScreen(navController: NavController) {
     // TODO see Cart.kt in Jetsnack to make my own reusable composable API
@@ -36,7 +34,7 @@ fun SelectPhotoScreen(navController: NavController) {
     CameraOverlayTheme {
         Scaffold(
             topBar = {
-                CommonSmallTopAppBar(
+                CommonTopAppBar(
                     stringResource(R.string.select_photo),
                     navController,
                     Navigation.MAIN_SCREEN
@@ -62,7 +60,7 @@ fun SelectPhotoScreen(navController: NavController) {
 @Composable
 fun Location() {
     Column {
-        ElevatedButton(
+        Button(
             onClick = {},
             shape = RoundedCornerShape(16.dp),
         ) {
@@ -81,10 +79,10 @@ fun Location() {
 @Composable
 fun ConfigureOverlay(navController: NavController) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 8.dp).padding(bottom=8.dp),
+        modifier = Modifier.fillMaxWidth().padding(top = 8.dp).padding(bottom = 8.dp),
         horizontalAlignment = Alignment.End
     ) {
-        ElevatedButton(
+        Button(
             onClick = { navController.navigate(Navigation.CONFIGURE_OVERLAY_SCREEN) },
             shape = RoundedCornerShape(16.dp),
             enabled = true
@@ -95,13 +93,12 @@ fun ConfigureOverlay(navController: NavController) {
                 modifier = Modifier.padding(end = 16.dp),
             )
             Text(
-                text = stringResource(R.string.select_photo_configure_overlay)
+                text = stringResource(R.string.configure_overlay)
             )
         }
     }
 }
 
-@ExperimentalMaterial3Api
 @Preview(name = "Light Theme")
 @Composable
 fun Preview() {

@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
-import com.github.jameshnsears.cameraoverlay.model.main.permission.PermissionMediator
+import com.github.jameshnsears.cameraoverlay.model.permission.PermissionMediator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -42,7 +42,8 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
             }
             PermissionMediator.Permission.DISPLAY_OVERLAY -> {
                 context.dataStore.edit {
-                    denyCount = it[SettingsRepository.PreferencesKey.PERMISSION_DISPLAY_OVERLAY] ?: 0
+                    denyCount =
+                        it[SettingsRepository.PreferencesKey.PERMISSION_DISPLAY_OVERLAY] ?: 0
                     denyCount += 1
                     it[SettingsRepository.PreferencesKey.PERMISSION_DISPLAY_OVERLAY] = denyCount
                 }

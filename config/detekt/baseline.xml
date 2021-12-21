@@ -2,12 +2,11 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
-    <ID>FunctionOnlyReturningConstant:Blah.kt$Blah$fun go(): Int</ID>
     <ID>MagicNumber:Canny.kt$Canny$4</ID>
     <ID>MagicNumber:Canny.kt$Canny$80.0</ID>
     <ID>MagicNumber:EdgeDetectionUtils.kt$EdgeDetectionUtils$3.0</ID>
     <ID>MagicNumber:OverlayWindow.kt$OverlayWindow$259</ID>
-    <ID>MagicNumber:PermissionsActivity.kt$4</ID>
-    <ID>UnusedPrivateMember:PermissionsActivity.kt$PermissionsActivity$private fun requestOverlayPermission()</ID>
+    <ID>UnusedPrivateMember:DisplayOverlayPermissionButton.kt$mainScreenViewModel: MainScreenViewModel</ID>
+    <ID>UnusedPrivateMember:ShowDistancePermissionButton.kt$mainScreenViewModel: MainScreenViewModel</ID>
   </CurrentIssues>
 </SmellBaseline>

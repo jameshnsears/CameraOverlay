@@ -1,9 +1,8 @@
 package com.github.jameshnsears.cameraoverlay.view
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,22 +10,14 @@ import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
-import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionScreen
+import com.github.jameshnsears.cameraoverlay.view.main.PermissionScreen
 import com.github.jameshnsears.cameraoverlay.view.overlay.ConfigureOverlayScreen
 import com.github.jameshnsears.cameraoverlay.view.photo.SelectPhotoScreen
-import com.google.android.material.color.DynamicColors
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
-    companion object {
-        private const val OVERLAY_PERMISSION_REQUEST_CODE = 1
-    }
-
-    @OptIn(ExperimentalMaterial3Api::class)
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        DynamicColors.applyToActivitiesIfAvailable(application)
 
         initLogging()
 
@@ -35,7 +26,11 @@ class MainActivity : AppCompatActivity() {
 
             NavHost(navController, startDestination = Navigation.MAIN_SCREEN) {
                 composable(Navigation.MAIN_SCREEN) {
-                    MainScreen(navController, helloViewModel = viewModel())
+                    MainScreen(
+                        navController,
+                        helloViewModel = viewModel(),
+                        mainScreenViewModel = viewModel()
+                    )
                 }
                 composable(Navigation.PERMISSIONS_SCREEN) {
                     PermissionScreen(navController)

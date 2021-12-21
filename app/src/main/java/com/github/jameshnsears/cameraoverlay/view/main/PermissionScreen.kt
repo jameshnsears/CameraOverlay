@@ -1,13 +1,18 @@
-package com.github.jameshnsears.cameraoverlay.view.main.permission
+package com.github.jameshnsears.cameraoverlay.view.main
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Folder
+import androidx.compose.material.icons.outlined.Layers
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,15 +24,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.Navigation
+import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
-@ExperimentalMaterial3Api
 @Composable
 fun PermissionScreen(navController: NavController) {
     CameraOverlayTheme {
         Scaffold(
             topBar = {
-                CommonSmallTopAppBar(
+                CommonTopAppBar(
                     stringResource(R.string.permissions),
                     navController,
                     Navigation.MAIN_SCREEN
@@ -40,7 +45,7 @@ fun PermissionScreen(navController: NavController) {
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                MandatoryWarning()
+                Common()
                 AccessPhotos()
                 ShowDistance()
                 DisplayOverlay()
@@ -55,18 +60,30 @@ fun AccessPhotos() {
         modifier = Modifier
             .padding(vertical = 5.dp)
     ) {
+        Row {
+            Icon(
+                imageVector = Icons.Outlined.Folder,
+                contentDescription = null,
+                modifier = Modifier.padding(end = 8.dp),
+            )
+            Text(
+                stringResource(R.string.permissions_access_photos),
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+        }
         Text(
-            stringResource(R.string.permissions_access_photos),
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
-        )
-        Text(
-            stringResource(R.string.permissions_access_photos_0),
+            stringResource(R.string.permissions_mandatory),
             modifier = Modifier
                 .padding(vertical = 4.dp)
         )
         Text(
             stringResource(R.string.permissions_access_photos_1),
+            modifier = Modifier
+                .padding(vertical = 4.dp)
+        )
+        Text(
+            stringResource(R.string.permissions_access_photos_2),
             modifier = Modifier
                 .padding(vertical = 4.dp)
         )
@@ -79,11 +96,18 @@ fun ShowDistance() {
         modifier = Modifier
             .padding(vertical = 5.dp)
     ) {
-        Text(
-            stringResource(R.string.permissions_show_distance),
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
-        )
+        Row {
+            Icon(
+                imageVector = Icons.Outlined.LocationOn,
+                contentDescription = null,
+                modifier = Modifier.padding(end = 8.dp),
+            )
+            Text(
+                stringResource(R.string.permissions_show_distance),
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+        }
         Text(
             stringResource(R.string.permissions_show_distance_0),
             modifier = Modifier
@@ -91,6 +115,11 @@ fun ShowDistance() {
         )
         Text(
             stringResource(R.string.permissions_show_distance_1),
+            modifier = Modifier
+                .padding(vertical = 4.dp)
+        )
+        Text(
+            stringResource(R.string.permissions_show_distance_2),
             modifier = Modifier
                 .padding(vertical = 4.dp)
         )
@@ -103,13 +132,20 @@ fun DisplayOverlay() {
         modifier = Modifier
             .padding(vertical = 5.dp)
     ) {
+        Row {
+            Icon(
+                imageVector = Icons.Outlined.Layers,
+                contentDescription = null,
+                modifier = Modifier.padding(end = 8.dp),
+            )
+            Text(
+                stringResource(R.string.permissions_display_overlay),
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+        }
         Text(
-            stringResource(R.string.permissions_display_overlay),
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
-        )
-        Text(
-            stringResource(R.string.permissions_display_overlay_0),
+            stringResource(R.string.permissions_mandatory),
             modifier = Modifier
                 .padding(vertical = 4.dp)
         )
@@ -118,25 +154,37 @@ fun DisplayOverlay() {
             modifier = Modifier
                 .padding(vertical = 4.dp)
         )
-    }
-}
-
-@Composable
-fun MandatoryWarning() {
-    Column {
         Text(
-            stringResource(R.string.permissions_display_mandatory),
+            stringResource(R.string.permissions_display_overlay_2),
             modifier = Modifier
                 .padding(vertical = 4.dp)
         )
     }
 }
 
+@Composable
+fun Common() {
+    Column {
+        Text(
+            stringResource(R.string.permissions_display_mandatory),
+            modifier = Modifier
+                .padding(vertical = 4.dp)
+        )
+        Text(
+            stringResource(R.string.permissions_display_allowing),
+            modifier = Modifier
+                .padding(vertical = 4.dp)
+        )
+        Text(
+            stringResource(R.string.permissions_display_analytics),
+            modifier = Modifier
+                .padding(vertical = 4.dp)
+        )
+    }
+}
 
-@ExperimentalMaterial3Api
 @Composable
 @Preview
 fun PreviewPermissionScreen() {
     PermissionScreen(rememberNavController())
 }
-

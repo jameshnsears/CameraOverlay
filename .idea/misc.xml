@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BuildAttributionWarningsFilter">
+    <option name="noGCSettingWarning" value="true" />
+  </component>
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
@@ -173,6 +176,20 @@
         <entry key="../../../../../layout/compose-model-1639322264891.xml" value="0.17947635135135134" />
         <entry key="../../../../../layout/compose-model-1639409272750.xml" value="0.25" />
         <entry key="../../../../../layout/compose-model-1639498586791.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1639568888152.xml" value="0.22" />
+        <entry key="../../../../../layout/compose-model-1639569169695.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1639570760761.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1639762097868.xml" value="0.25" />
+        <entry key="../../../../../layout/compose-model-1639913435150.xml" value="0.25" />
+        <entry key="../../../../../layout/compose-model-1639914478351.xml" value="0.25" />
+        <entry key="../../../../../layout/compose-model-1639914945849.xml" value="0.33" />
+        <entry key="../../../../../layout/compose-model-1639915221104.xml" value="0.17" />
+        <entry key="../../../../../layout/compose-model-1639915221107.xml" value="0.10714285714285714" />
+        <entry key="../../../../../layout/compose-model-1639916500787.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1639922561644.xml" value="0.33" />
+        <entry key="../../../../../layout/compose-model-1640098616874.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1640102053373.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1640102061545.xml" value="0.1" />
         <entry key="../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_category_24.xml" value="0.14114583333333333" />
         <entry key="app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.10572916666666667" />

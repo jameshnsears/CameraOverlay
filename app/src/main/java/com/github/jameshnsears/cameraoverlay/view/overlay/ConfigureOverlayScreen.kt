@@ -8,16 +8,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Height
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,18 +31,17 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.Navigation
-import com.github.jameshnsears.cameraoverlay.view.main.permission.CommonSmallTopAppBar
+import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.OverlayScreenViewModel
 
-@ExperimentalMaterial3Api
 @Composable
 fun ConfigureOverlayScreen(navController: NavController) {
     CameraOverlayTheme {
         Scaffold(
             topBar = {
-                CommonSmallTopAppBar(
-                    stringResource(R.string.configure_overlay_selection),
+                CommonTopAppBar(
+                    stringResource(R.string.configure_overlay),
                     navController,
                     Navigation.SELECT_PHOTO_SCREEN
                 )
@@ -177,17 +175,16 @@ fun DisplayOverlay() {
     val context = LocalContext.current
 
     Column(
-        modifier = Modifier.fillMaxWidth().padding(bottom=8.dp),
+        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
         horizontalAlignment = Alignment.End
     ) {
-        ElevatedButton(
+        Button(
             onClick = {
                 val overlayScreenViewModel = OverlayScreenViewModel()
                 if (!overlayScreenViewModel.isOverlayWindowServiceActive) {
                     overlayScreenViewModel.startOverlayWindowService(context)
                     // quit Compose
                     (context as Activity).finish()
-
                 } else {
                     overlayScreenViewModel.stopOverlayWindowService(context)
                 }
@@ -201,13 +198,12 @@ fun DisplayOverlay() {
                 modifier = Modifier.padding(end = 16.dp),
             )
             Text(
-                text = stringResource(R.string.configure_overlay_display_overlay)
+                text = stringResource(R.string.configure_overlay)
             )
         }
     }
 }
 
-@ExperimentalMaterial3Api
 @Preview(name = "Light Theme")
 @Composable
 fun Preview() {

@@ -1,7 +1,7 @@
 package com.github.jameshnsears.cameraoverlay.model.settings
 
 import androidx.test.platform.app.InstrumentationRegistry
-import com.github.jameshnsears.cameraoverlay.model.main.permission.PermissionMediator
+import com.github.jameshnsears.cameraoverlay.model.permission.PermissionMediator
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

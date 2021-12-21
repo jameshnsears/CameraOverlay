@@ -47,3 +47,11 @@ find . -name .editorconfig -exec rm -f {} \;
 ```bash
 base64 -w 0 <filename>
 ```
+
+--
+
+## 7. headless emulator
+
+```bash
+./Android/Sdk/emulator/emulator -avd "27_Nexus_5_-_8.1" -no-window
+```

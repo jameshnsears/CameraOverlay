@@ -9,23 +9,26 @@
     <string name="main_usage_1">\u2022 Select photo, ideally with location data</string>
     <string name="main_usage_2">\u2022 Configure overlay containing the photo</string>
     <string name="main_usage_3">\u2022 Align overlay with subject in camera app</string>
-    <string name="main_required">Permission</string>
     <string name="main_access_photos">Access photos…</string>
     <string name="main_show_distance">Show distance…</string>
     <string name="main_display_overlay">Display overlay…</string>
-    <string name="main_select_photo">Select photo</string>
 
     <string name="permissions">Permission</string>
-    <string name="permissions_display_mandatory">\u2022 If you deny a mandatory permission then the app will become inoperable</string>
+    <string name="permissions_display_allowing">\u2022 You need only Allow a permission once</string>
+    <string name="permissions_display_mandatory">\u2022 If you Deny a mandatory permission then the app will become inoperable</string>
+    <string name="permissions_display_analytics">\u2022 No photo or location data is recorded in analytics - refer to Privacy Policy for details</string>
+
     <string name="permissions_access_photos">Access photos</string>
-    <string name="permissions_access_photos_0">\u2022 mandatory</string>
+    <string name="permissions_mandatory">\u2022 mandatory</string>
     <string name="permissions_access_photos_1">\u2022 access storage / files and media on your device</string>
+    <string name="permissions_access_photos_2">\u2022 used to choose photo to display in overlay</string>
     <string name="permissions_show_distance">Show distance</string>
     <string name="permissions_show_distance_0">\u2022 optional</string>
     <string name="permissions_show_distance_1">\u2022 access location of this device</string>
+    <string name="permissions_show_distance_2">\u2022 used to show distance from current location to where photo taken, if photo contains location data</string>
     <string name="permissions_display_overlay">Display overlay</string>
-    <string name="permissions_display_overlay_0">\u2022 mandatory</string>
     <string name="permissions_display_overlay_1">\u2022 display over other apps</string>
+    <string name="permissions_display_overlay_2">\u2022 used to display photo in overlay</string>
 
     <string name="permissions_denial_msg">Permission is mandatory</string>
 
@@ -33,15 +36,13 @@
     <string name="select_photo_location">Browse storage…</string>
     <string name="select_photo_location_error_dialog_message">msg</string>
     <string name="select_photo_location_error_dialog_cancel">Cancel</string>
-    <string name="select_photo_key">Key</string>
     <string name="select_photo_when_taken">When taken</string>
     <string name="select_photo_distance">Distance from current location</string>
     <string name="select_photo_launch_nav_app">Tap to launch navigation App</string>
     <string name="select_photo_filter_dialog">Sort by…</string>
     <string name="select_photo_filter_sort_by">Sort By</string>
-    <string name="select_photo_configure_overlay">Configure overlay</string>
+    <string name="configure_overlay">Configure overlay</string>
 
-    <string name="configure_overlay_selection">Configure overlay</string>
     <string name="configure_overlay_window">Window</string>
     <string name="configure_overlay_colour">Colour</string>
     <string name="configure_overlay_width">Width</string>
@@ -51,5 +52,4 @@
     <string name="configure_overlay_edge_detection">Edge Detection</string>
     <string name="configure_overlay_blur">Blur</string>
     <string name="configure_overlay_thresholds">Thresholds</string>
-    <string name="configure_overlay_display_overlay">Display overlay</string>
 </resources>

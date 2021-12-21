@@ -1,7 +1,7 @@
 package com.github.jameshnsears.cameraoverlay.model.settings
 
 import androidx.datastore.preferences.core.intPreferencesKey
-import com.github.jameshnsears.cameraoverlay.model.main.permission.PermissionMediator
+import com.github.jameshnsears.cameraoverlay.model.permission.PermissionMediator
 
 interface SettingsRepository {
     object PreferencesKey {

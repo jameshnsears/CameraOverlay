@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.main.permission
+package com.github.jameshnsears.cameraoverlay.view.main
 
 import android.content.Context
 import android.content.Intent
@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.R
-
 
 @Composable
 fun AboutDialog(openDialog: MutableState<Boolean>) {
@@ -49,7 +48,8 @@ fun AboutDialog(openDialog: MutableState<Boolean>) {
             TextButton(
                 onClick = {
                     openDialog.value = false
-                }) {
+                }
+            ) {
                 Text(stringResource(R.string.ok))
             }
         }
@@ -63,11 +63,8 @@ fun AboutDialogRow(context: Context) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(Modifier.align(Alignment.CenterVertically)) {
-            val version = BuildConfig.VERSION_NAME
-                .replace("-fdroid", "")
-                .replace("-googleplay", "")
             SelectionContainer {
-                Text(version + "/" + BuildConfig.GIT_HASH)
+                Text(BuildConfig.GIT_HASH)
             }
         }
         IconButton(onClick = { linkToGitHub(context) }) {

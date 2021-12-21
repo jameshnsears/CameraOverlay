@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.model.main.permission
+package com.github.jameshnsears.cameraoverlay.model.permission
 
 import kotlinx.coroutines.flow.Flow
 

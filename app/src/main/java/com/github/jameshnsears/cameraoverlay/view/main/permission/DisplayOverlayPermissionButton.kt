@@ -48,4 +48,4 @@ fun DisplayOverlayPermissionButton(mainScreenViewModel: MainScreenViewModel) {
             launcher.launch(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
         }
     }, false, Icons.Outlined.Layers, stringResource(R.string.main_display_overlay))
-}
+    }

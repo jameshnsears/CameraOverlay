@@ -3,11 +3,11 @@ package com.github.jameshnsears.cameraoverlay.view.photo.sortby
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Sort
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +29,7 @@ fun SortByDialog() {
     }
 
     Column(modifier = Modifier.padding(bottom = 8.dp)) {
-        ElevatedButton(
+        Button(
             onClick = { showDialog.value = true },
             shape = RoundedCornerShape(16.dp),
         ) {

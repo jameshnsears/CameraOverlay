@@ -8,24 +8,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,23 +37,21 @@ import com.github.jameshnsears.cameraoverlay.stateholder.HelloStateHolder
 import com.github.jameshnsears.cameraoverlay.view.Navigation
 import com.github.jameshnsears.cameraoverlay.view.main.permission.AccessPhotosPermissionButton
 import com.github.jameshnsears.cameraoverlay.view.main.permission.DisplayOverlayPermissionButton
-import com.github.jameshnsears.cameraoverlay.view.main.permission.AboutDialog
 import com.github.jameshnsears.cameraoverlay.view.main.permission.ShowDistancePermissionButton
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.HelloViewModel
 import com.github.jameshnsears.cameraoverlay.viewmodel.MainScreenViewModel
+import io.mockk.mockk
 
-@ExperimentalMaterial3Api
 @Composable
-fun MainScreen(navController: NavController,
-               helloViewModel: HelloViewModel,
+fun MainScreen(
+    navController: NavController,
+    helloViewModel: HelloViewModel,
+    mainScreenViewModel: MainScreenViewModel
 ) {
-
-    val mainScreenViewModel = MainScreenViewModel(LocalContext.current)
-
     CameraOverlayTheme {
         Scaffold(
-            topBar = { CentreAlignedTopAppBar() },
+            topBar = { AppBar() },
         ) {
             Column(
                 modifier = Modifier
@@ -65,6 +62,7 @@ fun MainScreen(navController: NavController,
                 Usage()
 
                 PermissionsHeader(navController)
+
                 AccessPhotosPermissionButton(mainScreenViewModel)
                 ShowDistancePermissionButton(mainScreenViewModel)
                 DisplayOverlayPermissionButton(mainScreenViewModel)
@@ -90,41 +88,43 @@ fun HoistedHello(helloViewModel: HelloViewModel) {
 
 @Composable
 fun Hello(helloStateHolder: HelloStateHolder, onNameChange: (String) -> Unit) {
-//    Column {
-//        if (helloStateHolder.name.isNotEmpty()) {
-//            Text(
-//                text = "Hello, " + helloStateHolder.name
-//            )
-//        }
-//        OutlinedTextField(
-//            value = helloStateHolder.name,
-//            onValueChange = onNameChange,
-//            label = { Text("Name") }
-//        )
-//    }
+    Column {
+        if (helloStateHolder.name.isNotEmpty()) {
+            Text(
+                text = "Hello, " + helloStateHolder.name
+            )
+        }
+        OutlinedTextField(
+            value = helloStateHolder.name,
+            onValueChange = onNameChange,
+            label = { Text("Name") }
+        )
+    }
 }
 
 @Composable
-fun CentreAlignedTopAppBar() {
+fun AppBar() {
     val infoDialogState = remember { mutableStateOf(false) }
 
     if (infoDialogState.value) {
         AboutDialog(infoDialogState)
     }
 
-    CenterAlignedTopAppBar(
+    TopAppBar(
         title = { Text(stringResource(R.string.app_name)) },
         actions = {
-            IconButton(onClick = {
-                infoDialogState.value = true
-            }
+            IconButton(
+                onClick = {
+                    infoDialogState.value = true
+                }
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Info,
                     contentDescription = ""
                 )
             }
-        })
+        }
+    )
 }
 
 @Composable
@@ -167,7 +167,7 @@ fun PermissionsHeader(navController: NavController) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            stringResource(R.string.main_required),
+            stringResource(R.string.permissions),
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp
         )
@@ -191,7 +191,7 @@ fun SelectPhoto(navController: NavController) {
             .padding(bottom = 8.dp),
         horizontalAlignment = Alignment.End
     ) {
-        ElevatedButton(
+        Button(
             onClick = { navController.navigate(Navigation.SELECT_PHOTO_SCREEN) },
             shape = RoundedCornerShape(16.dp),
             enabled = true
@@ -202,24 +202,22 @@ fun SelectPhoto(navController: NavController) {
                 modifier = Modifier.padding(end = 16.dp),
             )
             Text(
-                text = stringResource(R.string.main_select_photo)
+                text = stringResource(R.string.select_photo)
             )
         }
     }
 }
 
-
-@ExperimentalMaterial3Api
 @Preview(name = "Light Theme")
 @Composable
 fun PreviewPortrait() {
     MainScreen(
         rememberNavController(),
-        HelloViewModel()
+        HelloViewModel(),
+        MainScreenViewModel(mockk())
     )
 }
 
-@ExperimentalMaterial3Api
 @Preview(
     name = "Dark Theme, Landscape",
     widthDp = 720, heightDp = 720,
@@ -229,6 +227,7 @@ fun PreviewPortrait() {
 fun PreviewLandscape() {
     MainScreen(
         rememberNavController(),
-        HelloViewModel()
+        HelloViewModel(),
+        MainScreenViewModel(mockk())
     )
 }

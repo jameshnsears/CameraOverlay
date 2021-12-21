@@ -1,4 +1,4 @@
-name: codecov - test & androidTest
+name: matrix - codecov
 on:
   push:
     branches:
@@ -6,12 +6,18 @@ on:
     branches:
 
 jobs:
-  coverage-fdroid:
-    if: "!contains(github.event.head_commit.message, 'skip codecov fdroid')"
+  fdroid:
+    if: "!contains(github.event.head_commit.message, 'skip matrix')"
 
-    name: coverage-fdroid
+    name: fdroid
     runs-on: macos-latest
-    timeout-minutes: 80
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [27, 28, 29]
+        target: [default, google_apis]
 
     steps:
       - name: checkout
@@ -38,10 +44,11 @@ jobs:
         run: echo "${GOOGLE_PLAY_JSON_DEVELOPMENT}" | base64 -d > app/google-services.json
 
       - name: app
-        uses: ReactiveCircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          target: default
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
           profile: Galaxy Nexus
           emulator-build: 7425822 # https://github.com/ReactiveCircus/android-emulator-runner/issues/160
           script: |
@@ -53,35 +60,30 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-fdroid-logcat
+          name: coverage-fdroid-logcat-${{ matrix.api-level }}
           path: logcat.txt
 
       - name: artifact
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-fdroid
+          name: matrix-fdroid-${{ matrix.api-level }}
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*
 
-      - name: show .gradle size
-        run: |
-          set -x
-          du -h -d 1 ~/.gradle
+  googleplay:
+    if: "!contains(github.event.head_commit.message, 'skip matrix')"
 
-      - name: publish
-        run: |
-          set -x
-          find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
-          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -f app/build/reports/FdroidDebug.xml -F app.froid
-
-  coverage-googleplay:
-    if: "!contains(github.event.head_commit.message, 'skip codecov googleplay')"
-
-    name: coverage-googleplay
+    name: googleplay
     runs-on: macos-latest
-    timeout-minutes: 80
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [27, 28, 29]
+        target: [default, google_apis]
 
     steps:
       - name: checkout
@@ -108,11 +110,12 @@ jobs:
         run: echo "${GOOGLE_PLAY_JSON_DEVELOPMENT}" | base64 -d > app/google-services.json
 
       - name: app
-        uses: ReactiveCircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          target: default
-          profile: Galaxy Nexus
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          profile: Nexus 6
           emulator-build: 7425822 # https://github.com/ReactiveCircus/android-emulator-runner/issues/160
           script: |
             adb logcat -c
@@ -123,25 +126,14 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-googleplay-logcat
+          name: coverage-fdroid-logcat-${{ matrix.api-level }}
           path: logcat.txt
 
       - name: artifact
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-googleplay
+          name: matrix-googleplay-${{ matrix.api-level }}
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*
-
-      - name: show .gradle size
-        run: |
-          set -x
-          du -h -d 1 ~/.gradle
-
-      - name: publish
-        run: |
-          set -x
-          find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
-          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -f app/build/reports/GoogleplayDebug.xml -F app.googleplay

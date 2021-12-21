@@ -39,5 +39,4 @@ fun ShowDistancePermissionButton(mainScreenViewModel: MainScreenViewModel) {
             )
         )
     }, false, Icons.Outlined.LocationOn, stringResource(R.string.main_show_distance))
-
-}
+    }

@@ -1,4 +1,4 @@
-name: sonarcloud
+name: sonarcloud - no coverage
 
 on:
   push:
@@ -54,4 +54,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -x
-          ./gradlew clean assembleGoogleplayDebug assembleFdroidDebug sonarqube --stacktrace
+          ./gradlew clean assembleGoogleplayDebug assembleFdroidDebug sonarqube --stacktrace --no-configuration-cache

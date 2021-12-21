@@ -1,17 +1,17 @@
-package com.github.jameshnsears.cameraoverlay.view.main.permission
+package com.github.jameshnsears.cameraoverlay.view.common
 
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 
 @Composable
-fun CommonSmallTopAppBar(title: String, navController: NavController, navRoute: String) {
-    SmallTopAppBar(
+fun CommonTopAppBar(title: String, navController: NavController, navRoute: String) {
+    TopAppBar(
         title = { Text(title) },
         navigationIcon = {
             IconButton(onClick = { navController.navigate(navRoute) }) {

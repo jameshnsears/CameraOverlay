@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 7.0.3" type="baseline" client="gradle" name="AGP (7.0.3)" variant="all" version="7.0.3">
+<issues format="6" by="lint 7.0.4" type="baseline" client="gradle" name="AGP (7.0.4)" variant="all" version="7.0.4">
 
     <issue
-        id="MissingClass"
-        message="Class referenced in the layout file, `cameraoverlay.view.overlay.window.OverlayLinearLayout`, was not found in the project or the libraries"
-        errorLine1="&lt;cameraoverlay.view.overlay.window.OverlayLinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
-        errorLine2="^">
+        id="InvalidPackage"
+        message="Invalid package reference in library; not included in Android: `java.lang.management`. Referenced from `net.bytebuddy.agent.ByteBuddyAgent.ProcessProvider.ForCurrentVm.ForLegacyVm`.">
         <location
-            file="src/main/res/layout/overlay_window_view.xml"
-            line="2"
-            column="1"/>
+            file="../../../../.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.11.5/ec760e507143fb9696595150a03573b066f46887/byte-buddy-agent-1.11.5.jar"/>
     </issue>
 
     <issue
         id="InvalidPackage"
-        message="Invalid package reference in library; not included in Android: `java.lang.instrument`. Referenced from `org.jacoco.agent.rt.internal_1f1cc91.CoverageTransformer`.">
+        message="Invalid package reference in library; not included in Android: `java.lang.instrument`. Referenced from `io.mockk.proxy.jvm.JvmMockKAgentFactory`.">
         <location
-            file="../../../../.gradle/caches/modules-2/files-2.1/org.jacoco/org.jacoco.agent/0.8.3/edd294e541c8176d55768ba4b8bcb1bb267d18f4/org.jacoco.agent-0.8.3-runtime.jar"/>
-    </issue>
-
-    <issue
-        id="InvalidPackage"
-        message="Invalid package reference in library; not included in Android: `java.lang.management`. Referenced from `org.jacoco.agent.rt.internal_1f1cc91.JmxRegistration`.">
-        <location
-            file="../../../../.gradle/caches/modules-2/files-2.1/org.jacoco/org.jacoco.agent/0.8.3/edd294e541c8176d55768ba4b8bcb1bb267d18f4/org.jacoco.agent-0.8.3-runtime.jar"/>
+            file="../../../../.gradle/caches/modules-2/files-2.1/io.mockk/mockk-agent-jvm/1.12.1/7453f5d4a403c33a96a26282ffbf7a6a75b37d93/mockk-agent-jvm-1.12.1.jar"/>
     </issue>
 
     <issue
@@ -36,7 +25,7 @@
     <issue
         id="InflateParams"
         message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
-        errorLine1="        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayLinearLayout"
+        errorLine1="        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayWindowLinearLayout"
         errorLine2="                                                             ~~~~">
         <location
             file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindow.kt"
@@ -47,19 +36,12 @@
     <issue
         id="InflateParams"
         message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
-        errorLine1="        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayLinearLayout"
+        errorLine1="        layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayWindowLinearLayout"
         errorLine2="                                                             ~~~~">
         <location
             file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindow.kt"
             line="20"
             column="62"/>
-    </issue>
-
-    <issue
-        id="ObsoleteSdkInt"
-        message="This folder configuration (`v26`) is unnecessary; `minSdkVersion` is 29. Merge all the resources in this folder into `mipmap-anydpi`.">
-        <location
-            file="src/main/res/mipmap-anydpi-v26"/>
     </issue>
 
     <issue
@@ -86,6 +68,13 @@
 
     <issue
         id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher_background` appears to be unused">
+        <location
+            file="src/main/res/mipmap-hdpi/ic_launcher_background.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
         message="The resource `R.color.ic_launcher_background` appears to be unused"
         errorLine1="    &lt;color name=&quot;ic_launcher_background&quot;>#FFFFFF&lt;/color>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
@@ -97,24 +86,9 @@
 
     <issue
         id="UnusedResources"
-        message="The resource `R.drawable.ic_launcher_foreground` appears to be unused"
-        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
-        errorLine2="^">
+        message="The resource `R.mipmap.ic_launcher_foreground` appears to be unused">
         <location
-            file="src/main/res/drawable/ic_launcher_foreground.xml"
-            line="1"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.string.select_photo_key` appears to be unused"
-        errorLine1="    &lt;string name=&quot;select_photo_key&quot;>Key&lt;/string>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="20"
-            column="13"/>
+            file="src/main/res/mipmap-hdpi/ic_launcher_foreground.png"/>
     </issue>
 
     <issue
@@ -124,29 +98,29 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="23"
+            line="42"
             column="13"/>
     </issue>
 
     <issue
         id="UnusedResources"
         message="The resource `R.style.Theme_CameraOverlay_AppBarOverlay` appears to be unused"
-        errorLine1="    &lt;style name=&quot;Theme.CameraOverlay.AppBarOverlay&quot; parent=&quot;ThemeOverlay.Material3.Dark.ActionBar&quot; />"
+        errorLine1="    &lt;style name=&quot;Theme.CameraOverlay.AppBarOverlay&quot; parent=&quot;ThemeOverlay.MaterialComponents.Dark.ActionBar&quot; />"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/themes.xml"
-            line="17"
+            line="22"
             column="12"/>
     </issue>
 
     <issue
         id="UnusedResources"
         message="The resource `R.style.Theme_CameraOverlay_PopupOverlay` appears to be unused"
-        errorLine1="    &lt;style name=&quot;Theme.CameraOverlay.PopupOverlay&quot; parent=&quot;ThemeOverlay.Material3.Light&quot; />"
+        errorLine1="    &lt;style name=&quot;Theme.CameraOverlay.PopupOverlay&quot; parent=&quot;ThemeOverlay.MaterialComponents.Light&quot; />"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/themes.xml"
-            line="19"
+            line="24"
             column="12"/>
     </issue>
 
@@ -159,23 +133,6 @@
             file="src/main/res/layout/overlay_window_view.xml"
             line="32"
             column="9"/>
-    </issue>
-
-    <issue
-        id="IconXmlAndPng"
-        message="The following images appear both as density independent `.xml` files and as bitmap files: /home/jsears/GIT_REPOS/PicturePostcard/CameraOverlay/app/src/main/res/drawable/ic_launcher_foreground.xml, /home/jsears/GIT_REPOS/PicturePostcard/PicturePostcard/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png">
-        <location
-            file="src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png"/>
-        <location
-            file="src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png"/>
-        <location
-            file="src/main/res/mipmap-xhdpi/ic_launcher_foreground.png"/>
-        <location
-            file="src/main/res/mipmap-mdpi/ic_launcher_foreground.png"/>
-        <location
-            file="src/main/res/mipmap-hdpi/ic_launcher_foreground.png"/>
-        <location
-            file="src/main/res/drawable/ic_launcher_foreground.xml"/>
     </issue>
 
     <issue
@@ -194,22 +151,22 @@
 
     <issue
         id="ClickableViewAccessibility"
-        message="Custom view `OverlayLinearLayout` overrides `onTouchEvent` but not `performClick`"
+        message="Custom view `OverlayWindowLinearLayout` overrides `onTouchEvent` but not `performClick`"
         errorLine1="    override fun onTouchEvent(event: MotionEvent): Boolean {"
         errorLine2="                 ~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayLinearLayout.kt"
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindowLinearLayout.kt"
             line="23"
             column="18"/>
     </issue>
 
     <issue
         id="ClickableViewAccessibility"
-        message="Custom view `OverlayLinearLayout` overrides `onTouchEvent` but not `performClick`"
+        message="Custom view `OverlayWindowLinearLayout` overrides `onTouchEvent` but not `performClick`"
         errorLine1="    override fun onTouchEvent(event: MotionEvent): Boolean {"
         errorLine2="                 ~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayLinearLayout.kt"
+            file="src/main/java/com/github/jameshnsears/cameraoverlay/view/overlay/window/OverlayWindowLinearLayout.kt"
             line="23"
             column="18"/>
     </issue>

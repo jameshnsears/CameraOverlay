@@ -36,24 +36,29 @@ android {
 
     defaultConfig {
         applicationId "com.github.jameshnsears.cameraoverlay"
-        minSdk 29
+        minSdk 27
         targetSdk 31
-        versionCode 291
+        versionCode 271
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
         }
+
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     testOptions {
-        // will make tests run very slowly on the emulator/device + affects coverage #
-        // execution 'ANDROIDX_TEST_ORCHESTRATOR'
-
         animationsDisabled true
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
 
         unitTests {
+            includeAndroidResources = true
+
             all {
                 useJUnitPlatform()
                 maxHeapSize = "1024m"
@@ -91,7 +96,12 @@ android {
         debug {
             testCoverageEnabled true
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
+            buildConfigField("boolean", "GITHUB_ACTION", gitHubAction())
         }
+    }
+
+    packagingOptions {
+        excludes += "/META-INF/LICENSE*"
     }
 
     compileOptions {
@@ -109,7 +119,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion '1.0.5'
     }
 
     packagingOptions {
@@ -169,44 +179,62 @@ android {
 }
 
 dependencies {
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-//    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2'
+    // https://maven.google.com/web/index.html#androidx.activity:activity-compose
 
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    androidTestImplementation 'androidx.activity:activity-compose:1.4.0'
+    androidTestImplementation 'androidx.compose.foundation:foundation:1.0.5'
+    androidTestImplementation 'androidx.compose.material:material:1.0.5'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.5'
+    androidTestImplementation 'androidx.compose.ui:ui-test-manifest:1.0.5'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.ext:truth:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    androidTestImplementation 'io.mockk:mockk-android:1.12.1'
+
+//    androidTestImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+//    androidTestImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
+    androidTestUtil 'androidx.test:orchestrator:1.4.1'
+
+    debugImplementation 'androidx.compose.ui:ui-test-manifest:1.0.5'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     implementation 'androidx.activity:activity-compose:1.4.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation 'androidx.compose.material3:material3:1.0.0-alpha02'
-
-    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
-    implementation "androidx.compose.material:material-icons-extended:$compose_version"
-    implementation 'androidx.compose.ui:ui:1.1.0-beta04'
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.navigation:navigation-compose:2.4.0-beta02'
+    implementation 'androidx.activity:activity-ktx:1.4.0'
+    implementation 'androidx.compose.foundation:foundation:1.0.5'
+    implementation 'androidx.compose.material:material:1.0.5'
+    implementation 'androidx.compose.material:material-icons-extended:1.0.5'
+    implementation 'androidx.compose.ui:ui:1.0.5'
+    implementation 'androidx.compose.ui:ui-tooling:1.0.5'
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
-    implementation 'com.google.android.material:material:1.6.0-alpha01'
+    implementation 'androidx.navigation:navigation-compose:2.4.0-rc01'
+    implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.jakewharton.timber:timber:5.0.1'
-    implementation 'io.coil-kt:coil:1.4.0'
-
-    implementation 'androidx.datastore:datastore-preferences:1.0.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'io.mockk:mockk:1.12.1'  // for @Preview
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation project(path: ':OpenCV-3.4.15')
 
-    testImplementation 'io.mockk:mockk:1.12.1'
+    testImplementation 'com.google.truth:truth:1.1.3'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    testImplementation 'com.google.truth:truth:1.1.3'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2'
-    testImplementation 'org.hamcrest:hamcrest:2.2'
+}
+
+def gitHubAction() {
+    /*
+     when running in GitHub Action...
+     ./gradlew --no-configuration-cache -PgitHubAction :app:connectedFdroidDebugAndroidTest
+     */
+
+    def value = project.getProperties().get("gitHubAction") != null ? "true": "false"
+    println 'gitHubAction=' + value
+    return value
 }
