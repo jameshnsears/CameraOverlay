@@ -3,11 +3,11 @@ package com.github.jameshnsears.cameraoverlay.model.edgedetection
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import java.io.InputStream
 import org.opencv.android.Utils
 import org.opencv.core.Mat
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
-import java.io.InputStream
 
 open class EdgeDetectionUtils {
     fun makeBitmapTransparent(bitmap: Bitmap): Bitmap {
