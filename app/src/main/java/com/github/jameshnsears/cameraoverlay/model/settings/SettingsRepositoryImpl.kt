@@ -5,22 +5,20 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
-import com.github.jameshnsears.cameraoverlay.model.permission.PermissionMediator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "preferences")
 
 class SettingsRepositoryImpl(private val context: Context) : SettingsRepository {
-    val denialsAccessPhotos: Flow<Int> = context.dataStore.data
+    val permissionRequestedForStorage: Flow<Boolean> = context.dataStore.data
         .map {
-            it[SettingsRepository.PreferencesKey.PERMISSION_ACCESS_PHOTOS] ?: 0
+            it[SettingsRepository.PreferencesKey.PERMISSION_REQUEST_STORAGE] ?: false
         }
 
-    val denialsDisplayOverlay: Flow<Int> = context.dataStore.data
+    val permissionRequestedForLocation: Flow<Boolean> = context.dataStore.data
         .map {
-            it[SettingsRepository.PreferencesKey.PERMISSION_DISPLAY_OVERLAY] ?: 0
+            it[SettingsRepository.PreferencesKey.PERMISSION_REQUEST_LOCATION] ?: false
         }
 
     override suspend fun empty() {
@@ -29,27 +27,15 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
         }
     }
 
-    override suspend fun denyPermission(permission: PermissionMediator.Permission) {
-        var denyCount = 0
-
-        when (permission) {
-            PermissionMediator.Permission.ACCESS_PHOTOS -> {
-                context.dataStore.edit {
-                    denyCount = it[SettingsRepository.PreferencesKey.PERMISSION_ACCESS_PHOTOS] ?: 0
-                    denyCount += 1
-                    it[SettingsRepository.PreferencesKey.PERMISSION_ACCESS_PHOTOS] = denyCount
-                }
-            }
-            PermissionMediator.Permission.DISPLAY_OVERLAY -> {
-                context.dataStore.edit {
-                    denyCount =
-                        it[SettingsRepository.PreferencesKey.PERMISSION_DISPLAY_OVERLAY] ?: 0
-                    denyCount += 1
-                    it[SettingsRepository.PreferencesKey.PERMISSION_DISPLAY_OVERLAY] = denyCount
-                }
-            }
+    override suspend fun rememberPermissionRequestStorage() {
+        context.dataStore.edit {
+            it[SettingsRepository.PreferencesKey.PERMISSION_REQUEST_STORAGE] = true
         }
+    }
 
-        Timber.d("%s=%d", permission.toString(), denyCount)
+    override suspend fun rememberPermissionRequestLocation() {
+        context.dataStore.edit {
+            it[SettingsRepository.PreferencesKey.PERMISSION_REQUEST_LOCATION] = true
+        }
     }
 }

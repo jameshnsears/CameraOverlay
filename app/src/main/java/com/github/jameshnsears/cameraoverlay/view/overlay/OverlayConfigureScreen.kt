@@ -33,10 +33,10 @@ import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.Navigation
 import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
-import com.github.jameshnsears.cameraoverlay.viewmodel.OverlayScreenViewModel
+import com.github.jameshnsears.cameraoverlay.viewmodel.overlay.ViewModelOverlayConfigureScreen
 
 @Composable
-fun ConfigureOverlayScreen(navController: NavController) {
+fun OverlayConfigureScreen(navController: NavController) {
     CameraOverlayTheme {
         Scaffold(
             topBar = {
@@ -71,7 +71,7 @@ fun Window() {
             stringResource(R.string.configure_overlay_window),
             modifier = Modifier.padding(bottom = 5.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
+            fontSize = 20.sp
         )
         Row {
             Icon(
@@ -113,7 +113,7 @@ fun Photo() {
             stringResource(R.string.configure_overlay_photo),
             modifier = Modifier.padding(bottom = 5.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
+            fontSize = 20.sp
         )
         Row {
             Icon(
@@ -139,7 +139,7 @@ fun EdgeDetection() {
                     .padding(bottom = 5.dp)
                     .padding(top = 4.dp),
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
+                fontSize = 20.sp
             )
         }
         Column(
@@ -180,7 +180,7 @@ fun DisplayOverlay() {
     ) {
         Button(
             onClick = {
-                val overlayScreenViewModel = OverlayScreenViewModel()
+                val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
                 if (!overlayScreenViewModel.isOverlayWindowServiceActive) {
                     overlayScreenViewModel.startOverlayWindowService(context)
                     // quit Compose
@@ -198,7 +198,7 @@ fun DisplayOverlay() {
                 modifier = Modifier.padding(end = 16.dp),
             )
             Text(
-                text = stringResource(R.string.configure_overlay)
+                text = stringResource(R.string.configure_overlay_launch_camera_app_and_overlay)
             )
         }
     }
@@ -207,5 +207,5 @@ fun DisplayOverlay() {
 @Preview(name = "Light Theme")
 @Composable
 fun Preview() {
-    ConfigureOverlayScreen(rememberNavController())
+    OverlayConfigureScreen(rememberNavController())
 }

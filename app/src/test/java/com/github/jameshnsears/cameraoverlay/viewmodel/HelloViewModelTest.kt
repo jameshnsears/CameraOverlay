@@ -1,6 +1,7 @@
 package com.github.jameshnsears.cameraoverlay.viewmodel
 
 import com.github.jameshnsears.cameraoverlay.stateholder.HelloStateHolder
+import com.github.jameshnsears.cameraoverlay.viewmodel.main.HelloViewModel
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.Test

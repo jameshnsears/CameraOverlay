@@ -3,16 +3,16 @@ package com.github.jameshnsears.cameraoverlay.view
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
-import com.github.jameshnsears.cameraoverlay.view.main.PermissionScreen
-import com.github.jameshnsears.cameraoverlay.view.overlay.ConfigureOverlayScreen
-import com.github.jameshnsears.cameraoverlay.view.photo.SelectPhotoScreen
+import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionScreen
+import com.github.jameshnsears.cameraoverlay.view.overlay.OverlayConfigureScreen
+import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
+import com.github.jameshnsears.cameraoverlay.viewmodel.main.ViewModelMainScreen
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
@@ -28,18 +28,17 @@ class MainActivity : ComponentActivity() {
                 composable(Navigation.MAIN_SCREEN) {
                     MainScreen(
                         navController,
-                        helloViewModel = viewModel(),
-                        mainScreenViewModel = viewModel()
+                        viewModelMainScreen = ViewModelMainScreen(applicationContext)
                     )
                 }
                 composable(Navigation.PERMISSIONS_SCREEN) {
                     PermissionScreen(navController)
                 }
                 composable(Navigation.SELECT_PHOTO_SCREEN) {
-                    SelectPhotoScreen(navController)
+                    PhotoSelectScreen(navController)
                 }
                 composable(Navigation.CONFIGURE_OVERLAY_SCREEN) {
-                    ConfigureOverlayScreen(navController)
+                    OverlayConfigureScreen(navController)
                 }
             }
         }

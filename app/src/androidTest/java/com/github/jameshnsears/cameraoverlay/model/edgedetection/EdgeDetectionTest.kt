@@ -9,7 +9,7 @@ class EdgeDetectionTest {
     }
 
     @Test
-    fun cannyEdgeDetection() {
+    fun canny() {
         val edgeDetectionCanny = Canny()
         val originalImageAsMat = getImageAsBitmap(edgeDetectionCanny)
 

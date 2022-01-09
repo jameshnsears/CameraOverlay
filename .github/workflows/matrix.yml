@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [27, 28, 29]
+        api-level: [25, 26, 27, 28, 29]
         target: [default, google_apis]
 
     steps:
@@ -82,7 +82,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [27, 28, 29]
+        api-level: [25, 26, 27, 28, 29]
         target: [default, google_apis]
 
     steps:

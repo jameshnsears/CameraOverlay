@@ -11,7 +11,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -20,11 +19,12 @@ import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,21 +33,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
-import com.github.jameshnsears.cameraoverlay.stateholder.HelloStateHolder
 import com.github.jameshnsears.cameraoverlay.view.Navigation
-import com.github.jameshnsears.cameraoverlay.view.main.permission.AccessPhotosPermissionButton
-import com.github.jameshnsears.cameraoverlay.view.main.permission.DisplayOverlayPermissionButton
-import com.github.jameshnsears.cameraoverlay.view.main.permission.ShowDistancePermissionButton
+import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonLocation
+import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonStorage
+import com.github.jameshnsears.cameraoverlay.view.main.permission.observeAsSate
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
-import com.github.jameshnsears.cameraoverlay.viewmodel.HelloViewModel
-import com.github.jameshnsears.cameraoverlay.viewmodel.MainScreenViewModel
-import io.mockk.mockk
+import com.github.jameshnsears.cameraoverlay.viewmodel.main.ViewModelMainScreen
+import timber.log.Timber
 
 @Composable
 fun MainScreen(
     navController: NavController,
-    helloViewModel: HelloViewModel,
-    mainScreenViewModel: MainScreenViewModel
+    viewModelMainScreen: ViewModelMainScreen
 ) {
     CameraOverlayTheme {
         Scaffold(
@@ -61,45 +58,25 @@ fun MainScreen(
             ) {
                 Usage()
 
-                PermissionsHeader(navController)
-
-                AccessPhotosPermissionButton(mainScreenViewModel)
-                ShowDistancePermissionButton(mainScreenViewModel)
-                DisplayOverlayPermissionButton(mainScreenViewModel)
-
-                SelectPhoto(navController)
-
-                HoistedHello(helloViewModel)
+                Permissions(navController, viewModelMainScreen)
             }
         }
     }
 }
 
 @Composable
-fun HoistedHello(helloViewModel: HelloViewModel) {
-    val helloStateHolder by helloViewModel.helloStateHolder
-    Hello(
-        helloStateHolder = helloStateHolder,
-        onNameChange = {
-            helloViewModel.onNameChange(HelloStateHolder(it))
-        }
-    )
-}
+fun PermissionButtons(
+    navController: NavController,
+    viewModelMainScreen: ViewModelMainScreen
+) {
+    val lifeCycleState = LocalLifecycleOwner.current.lifecycle.observeAsSate()
+//    Timber.d("lifeCycleState=${lifeCycleState.value.name}")
 
-@Composable
-fun Hello(helloStateHolder: HelloStateHolder, onNameChange: (String) -> Unit) {
-    Column {
-        if (helloStateHolder.name.isNotEmpty()) {
-            Text(
-                text = "Hello, " + helloStateHolder.name
-            )
-        }
-        OutlinedTextField(
-            value = helloStateHolder.name,
-            onValueChange = onNameChange,
-            label = { Text("Name") }
-        )
-    }
+    PermissionButtonStorage(viewModelMainScreen)
+    PermissionButtonLocation(viewModelMainScreen)
+//    PermissionButtonDisplayOverlay(viewModelMainScreen)
+//
+//    ButtonSelectPhoto(navController, viewModelMainScreen)
 }
 
 @Composable
@@ -133,11 +110,14 @@ fun Usage() {
         modifier = Modifier
             .padding(vertical = 5.dp)
     ) {
-        Text(
-            stringResource(R.string.main_usage),
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
-        )
+        Column(
+        ) {
+            Text(
+                stringResource(R.string.main_usage),
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
+        }
         Text(
             stringResource(R.string.main_usage_0),
             modifier = Modifier
@@ -162,14 +142,17 @@ fun Usage() {
 }
 
 @Composable
-fun PermissionsHeader(navController: NavController) {
+fun Permissions(
+    navController: NavController,
+    viewModelMainScreen: ViewModelMainScreen
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             stringResource(R.string.permissions),
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
+            fontSize = 20.sp
         )
 
         IconButton(
@@ -181,10 +164,15 @@ fun PermissionsHeader(navController: NavController) {
             )
         }
     }
+
+    PermissionButtons(navController, viewModelMainScreen)
 }
 
 @Composable
-fun SelectPhoto(navController: NavController) {
+fun ButtonSelectPhoto(
+    navController: NavController,
+    viewModelMainScreen: ViewModelMainScreen
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -194,7 +182,9 @@ fun SelectPhoto(navController: NavController) {
         Button(
             onClick = { navController.navigate(Navigation.SELECT_PHOTO_SCREEN) },
             shape = RoundedCornerShape(16.dp),
-            enabled = true
+            enabled = false
+//            viewModelMainScreen.isPermissionAllowedStorage(). && viewModelMainScreen.isPermissionAllowedOverlay()
+
         ) {
             Icon(
                 imageVector = Icons.Outlined.ImageSearch,
@@ -211,10 +201,11 @@ fun SelectPhoto(navController: NavController) {
 @Preview(name = "Light Theme")
 @Composable
 fun PreviewPortrait() {
+    val context = LocalContext.current
+
     MainScreen(
         rememberNavController(),
-        HelloViewModel(),
-        MainScreenViewModel(mockk())
+        ViewModelMainScreen(context)
     )
 }
 
@@ -225,9 +216,10 @@ fun PreviewPortrait() {
 )
 @Composable
 fun PreviewLandscape() {
+    val context = LocalContext.current
+
     MainScreen(
         rememberNavController(),
-        HelloViewModel(),
-        MainScreenViewModel(mockk())
+        ViewModelMainScreen(context)
     )
 }

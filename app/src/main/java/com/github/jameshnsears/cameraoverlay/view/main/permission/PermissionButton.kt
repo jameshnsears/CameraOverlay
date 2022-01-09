@@ -15,8 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-// Higher-Order function, as onClick is lambda
-fun PermissionElevatedButton(
+fun PermissionButton(
     onClick: () -> Unit,
     enabled: Boolean,
     icon: ImageVector,
@@ -25,8 +24,8 @@ fun PermissionElevatedButton(
     Button(
         onClick = onClick,
         modifier = Modifier
-            .padding(2.dp)
-            .width(200.dp),
+            .padding(bottom = 10.dp)
+            .width(260.dp),
         shape = RoundedCornerShape(16.dp),
         enabled = enabled
     ) {

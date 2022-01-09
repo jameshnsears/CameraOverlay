@@ -28,7 +28,7 @@ import com.github.jameshnsears.cameraoverlay.view.photo.sortby.SortByDialog
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
 @Composable
-fun SelectPhotoScreen(navController: NavController) {
+fun PhotoSelectScreen(navController: NavController) {
     // TODO see Cart.kt in Jetsnack to make my own reusable composable API
 
     CameraOverlayTheme {
@@ -102,5 +102,5 @@ fun ConfigureOverlay(navController: NavController) {
 @Preview(name = "Light Theme")
 @Composable
 fun Preview() {
-    SelectPhotoScreen(rememberNavController())
+    PhotoSelectScreen(rememberNavController())
 }

@@ -10,6 +10,10 @@
 ## 2. adb
 
 * adb uninstall cameraoverlay
+* adb shell dumpsys package com.github.jameshnsears.cameraoverlay
+* adb kill-server 
+* adb start-server
+
 
 --
 

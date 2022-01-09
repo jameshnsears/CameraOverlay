@@ -52,6 +52,26 @@ internal fun grantPermissionProgrammatically(
     }
 }
 
+internal fun pressDrawOverOtherApps(
+    instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
+) {
+    val sdkVersion = Build.VERSION.SDK_INT
+
+    when (sdkVersion) {
+        30 -> {
+            UiDevice.getInstance(instrumentation).findObject(
+                UiSelector().text("Camera Overlay")
+            ).click()
+        }
+    }
+
+    when (sdkVersion) {
+        30 -> pressBack()
+    }
+
+    pressBack()
+}
+
 internal fun grantPermissionInDialog(
     instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
 ) {
@@ -70,6 +90,7 @@ internal fun grantPermissionInDialog(
         uiDevice.findPermissionButton(
             when (sdkVersion) {
                 29 -> "Allow only while using the app"
+                30 -> "WHILE USING THE APP"
                 else -> "While using the app"
             }
         ).clickForPermission(instrumentation)
