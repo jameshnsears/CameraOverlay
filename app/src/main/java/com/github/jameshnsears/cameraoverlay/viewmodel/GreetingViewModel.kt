@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class GreetingViewModel() : ViewModel() {
+class GreetingViewModel : ViewModel() {
     private val _n = mutableStateOf(0)
     val n: State<Int> = _n
 
     fun increment() {
         viewModelScope.launch {
-            _n.value = _n.value?.plus(1)
+            _n.value = _n.value.plus(1)
         }
     }
 }

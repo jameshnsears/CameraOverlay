@@ -58,51 +58,66 @@ internal fun pressDrawOverOtherApps(
     val sdkVersion = Build.VERSION.SDK_INT
 
     when (sdkVersion) {
-        30 -> {
+        25 -> {
+            UiDevice.getInstance(instrumentation).findObject(
+                UiSelector().text("Permit drawing over other apps")
+            ).click()
+        }
+        in 30..31 -> {
             UiDevice.getInstance(instrumentation).findObject(
                 UiSelector().text("Camera Overlay")
+            ).click()
+
+            UiDevice.getInstance(instrumentation).findObject(
+                UiSelector().text("Allow display over other apps")
             ).click()
         }
     }
 
     when (sdkVersion) {
-        30 -> pressBack()
+        25 -> pressBack()
+        in 30..31 -> {
+            pressBack()
+            pressBack()
+        }
     }
-
-    pressBack()
 }
 
-internal fun grantPermissionInDialog(
+internal fun grantPermissionInDialogLocation(
     instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
 ) {
-    val uiDevice = UiDevice.getInstance(instrumentation)
-    val sdkVersion = Build.VERSION.SDK_INT
-    val clicked = uiDevice.findPermissionButton(
-        when (sdkVersion) {
-            in 24..28 -> "ALLOW"
-            30 -> "ALLOW"
+    UiDevice.getInstance(instrumentation).findPermissionButton(
+        when (Build.VERSION.SDK_INT) {
+            25 -> "ALLOW"
+            30 -> "WHILE USING THE APP"
+            31 -> "While using the app"
             else -> "Allow"
         }
     ).clickForPermission(instrumentation)
-
-    // Or maybe this permission doesn't have the Allow option
-    if (!clicked && sdkVersion > 28) {
-        uiDevice.findPermissionButton(
-            when (sdkVersion) {
-                29 -> "Allow only while using the app"
-                30 -> "WHILE USING THE APP"
-                else -> "While using the app"
-            }
-        ).clickForPermission(instrumentation)
-    }
 }
+
+internal fun grantPermissionInDialogStorage(
+    instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
+) {
+    UiDevice.getInstance(instrumentation).findPermissionButton(
+        when (Build.VERSION.SDK_INT) {
+            25 -> "ALLOW"
+            30 -> "ALLOW"
+            31 -> "Allow"
+            else -> "Allow"
+        }
+    ).clickForPermission(instrumentation)
+}
+
+// 25, "ALLOW" / "DENY"
+// 31, "While using the app" / "Only this time" / "Don't allow"
 
 internal fun denyPermissionInDialog(
     instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
 ) {
     UiDevice.getInstance(instrumentation).findPermissionButton(
         when (Build.VERSION.SDK_INT) {
-            in 24..28 -> "DENY"
+            25 -> "DENY"
             30 -> "DENY"
             31 -> "Don’t allow" // https://en.wikipedia.org/wiki/Right_single_quotation_mark
             else -> "Deny"

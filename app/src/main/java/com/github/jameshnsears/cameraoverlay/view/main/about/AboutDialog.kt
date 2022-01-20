@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.main
+package com.github.jameshnsears.cameraoverlay.view.main.about
 
 import android.content.Context
 import android.content.Intent
@@ -82,7 +82,7 @@ fun AboutDialogRow(context: Context) {
         Column {
             IconButton(
                 onClick = { linkToGitHub(context) },
-                 modifier = Modifier.width(70.dp)
+                modifier = Modifier.width(70.dp)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_github_logo),

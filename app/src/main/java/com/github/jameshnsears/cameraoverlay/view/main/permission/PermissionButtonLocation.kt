@@ -1,19 +1,14 @@
 package com.github.jameshnsears.cameraoverlay.view.main.permission
 
 import android.Manifest
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -21,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.permission.PermissionArea
 import com.github.jameshnsears.cameraoverlay.model.permission.PermissionPrompt
@@ -34,31 +28,24 @@ fun PermissionButtonLocation(viewModelMainScreen: ViewModelMainScreen) {
     var permissionPrompt =
         remember { mutableStateOf(viewModelMainScreen.permissionPrompt(PermissionArea.LOCATION)) }
 
-    val permissionDeniedMessage =
-        stringResource(R.string.permissions_denial_optional) as CharSequence
-
     val launcherRequestPermissionShowLocation =
         launcherRequestPermissionAccessLocation(
             viewModelMainScreen,
             buttonEnabled,
-            permissionPrompt,
-            LocalContext.current,
-            permissionDeniedMessage
+            permissionPrompt
         )
 
     val launcherAppInfoShowLocation =
         launcherAppInfoAccessLocation(
             viewModelMainScreen,
-            buttonEnabled,
-            LocalContext.current,
-            permissionDeniedMessage
+            buttonEnabled
         )
 
     val packageName = LocalContext.current.packageName
 
-    if (BuildConfig.DEBUG) {
-        Text(text = "${buttonEnabled.value} : ${permissionPrompt.value}")
-    }
+//    if (BuildConfig.DEBUG) {
+//        Text(text = "${buttonEnabled.value} : ${permissionPrompt.value}")
+//    }
 
     PermissionButton(
         {
@@ -93,43 +80,24 @@ fun PermissionButtonLocation(viewModelMainScreen: ViewModelMainScreen) {
 private fun launcherRequestPermissionAccessLocation(
     viewModelMainScreen: ViewModelMainScreen,
     buttonEnabled: MutableState<Boolean>,
-    permissionPrompt: MutableState<PermissionPrompt>,
-    context: Context,
-    permissionDeniedMessage: CharSequence
+    permissionPrompt: MutableState<PermissionPrompt>
 ) = rememberLauncherForActivityResult(
     ActivityResultContracts.RequestMultiplePermissions()
 ) {
+
     buttonEnabled.value = viewModelMainScreen.permissionButtonEnabled(PermissionArea.LOCATION)
     permissionPrompt.value = viewModelMainScreen.permissionPrompt(PermissionArea.LOCATION)
-
-    if (buttonEnabled.value) {
-        Toast.makeText(
-            context as Activity,
-            permissionDeniedMessage,
-            Toast.LENGTH_SHORT
-        ).show()
-    }
 }
 
 @Composable
 fun launcherAppInfoAccessLocation(
     viewModelMainScreen: ViewModelMainScreen,
-    buttonEnabled: MutableState<Boolean>,
-    context: Context,
-    permissionDeniedMessage: CharSequence
+    buttonEnabled: MutableState<Boolean>
 ): ManagedActivityResultLauncher<Intent, ActivityResult> {
     val launcherAppInfo = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
         buttonEnabled.value = viewModelMainScreen.permissionButtonEnabled(PermissionArea.LOCATION)
-
-        if (buttonEnabled.value) {
-            Toast.makeText(
-                context as Activity,
-                permissionDeniedMessage,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
     }
     return launcherAppInfo
 }

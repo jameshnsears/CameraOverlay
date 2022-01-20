@@ -9,22 +9,22 @@ import com.github.jameshnsears.cameraoverlay.model.settings.SettingsRepositoryIm
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
-class PermissionMediatorImpl(private val context: Context) : PermissionMediator {
+open class PermissionMediatorImpl(private val context: Context) : PermissionMediator {
     private val settingsRepository = SettingsRepositoryImpl(context)
 
     override suspend fun rememberPermissionRequest(permissionArea: PermissionArea) {
-        return when (permissionArea) {
-            PermissionArea.STORAGE -> settingsRepository.rememberPermissionRequestStorage()
-            PermissionArea.LOCATION -> settingsRepository.rememberPermissionRequestLocation()
-            PermissionArea.OVERLAY -> { }
+        if (permissionArea == PermissionArea.STORAGE) {
+            settingsRepository.rememberPermissionRequestStorage()
+        } else {
+            settingsRepository.rememberPermissionRequestLocation()
         }
     }
 
     override suspend fun permissionPreviouslyRequested(permissionArea: PermissionArea): Boolean {
-        return when (permissionArea) {
-            PermissionArea.STORAGE -> settingsRepository.permissionRequestedForStorage.first()
-            PermissionArea.LOCATION -> settingsRepository.permissionRequestedForLocation.first()
-            PermissionArea.OVERLAY -> false
+        return if (permissionArea == PermissionArea.STORAGE) {
+            settingsRepository.permissionRequestedForStorage.first()
+        } else {
+            settingsRepository.permissionRequestedForLocation.first()
         }
     }
 
@@ -37,11 +37,13 @@ class PermissionMediatorImpl(private val context: Context) : PermissionMediator 
     }
 
     private fun permissionAllowedStorage(): Boolean {
+        // 29, "Allow" / "Deny"
         if (ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+            Timber.d("READ_EXTERNAL_STORAGE==PERMISSION_GRANTED")
             return true
         }
 
@@ -55,6 +57,7 @@ class PermissionMediatorImpl(private val context: Context) : PermissionMediator 
             )
             == PackageManager.PERMISSION_GRANTED
         ) {
+            Timber.d("ACCESS_FINE_LOCATION==PERMISSION_GRANTED")
             return true
         }
 
@@ -63,6 +66,7 @@ class PermissionMediatorImpl(private val context: Context) : PermissionMediator 
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+            Timber.d("ACCESS_COARSE_LOCATION==PERMISSION_GRANTED")
             return true
         }
 
@@ -70,6 +74,8 @@ class PermissionMediatorImpl(private val context: Context) : PermissionMediator 
     }
 
     private fun permissionAllowedOverlay(): Boolean {
-        return Settings.canDrawOverlays(context)
+        val permission = Settings.canDrawOverlays(context)
+        if (permission) Timber.d("SYSTEM_APPLICATION_OVERLAY==PERMISSION_GRANTED")
+        return permission
     }
 }

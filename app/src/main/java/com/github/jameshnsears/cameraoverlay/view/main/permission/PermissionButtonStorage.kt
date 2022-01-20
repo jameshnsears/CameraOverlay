@@ -11,7 +11,6 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.runtime.Composable
@@ -20,7 +19,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.permission.PermissionArea
 import com.github.jameshnsears.cameraoverlay.model.permission.PermissionPrompt
@@ -53,9 +51,9 @@ fun PermissionButtonStorage(viewModelMainScreen: ViewModelMainScreen) {
 
     val packageName = LocalContext.current.packageName
 
-    if (BuildConfig.DEBUG) {
-        Text(text = "${buttonEnabled.value.toString()} : ${permissionPrompt.value}")
-    }
+//    if (BuildConfig.DEBUG) {
+//        Text(text = "${buttonEnabled.value} : ${permissionPrompt.value}")
+//    }
 
     PermissionButton(
         {
@@ -103,7 +101,6 @@ private fun launcherRequestPermissionAccessPhotos(
                 Toast.LENGTH_SHORT
             ).show()
         }
-
     }
     return launcherRequestPermission
 }

@@ -33,8 +33,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
+import com.github.jameshnsears.cameraoverlay.model.permission.PermissionArea
 import com.github.jameshnsears.cameraoverlay.view.Navigation
+import com.github.jameshnsears.cameraoverlay.view.main.about.AboutDialog
 import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonLocation
+import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonOverlay
 import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonStorage
 import com.github.jameshnsears.cameraoverlay.view.main.permission.observeAsSate
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
@@ -70,13 +73,13 @@ fun PermissionButtons(
     viewModelMainScreen: ViewModelMainScreen
 ) {
     val lifeCycleState = LocalLifecycleOwner.current.lifecycle.observeAsSate()
-//    Timber.d("lifeCycleState=${lifeCycleState.value.name}")
+    Timber.d("lifeCycleState=${lifeCycleState.value.name}")
 
     PermissionButtonStorage(viewModelMainScreen)
     PermissionButtonLocation(viewModelMainScreen)
-//    PermissionButtonDisplayOverlay(viewModelMainScreen)
-//
-//    ButtonSelectPhoto(navController, viewModelMainScreen)
+    PermissionButtonOverlay(viewModelMainScreen)
+
+    ButtonSelectPhoto(navController, viewModelMainScreen)
 }
 
 @Composable
@@ -110,8 +113,7 @@ fun Usage() {
         modifier = Modifier
             .padding(vertical = 5.dp)
     ) {
-        Column(
-        ) {
+        Column() {
             Text(
                 stringResource(R.string.main_usage),
                 fontWeight = FontWeight.Bold,
@@ -173,6 +175,7 @@ fun ButtonSelectPhoto(
     navController: NavController,
     viewModelMainScreen: ViewModelMainScreen
 ) {
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -182,8 +185,8 @@ fun ButtonSelectPhoto(
         Button(
             onClick = { navController.navigate(Navigation.SELECT_PHOTO_SCREEN) },
             shape = RoundedCornerShape(16.dp),
-            enabled = false
-//            viewModelMainScreen.isPermissionAllowedStorage(). && viewModelMainScreen.isPermissionAllowedOverlay()
+            enabled = !viewModelMainScreen.permissionButtonEnabled(PermissionArea.STORAGE) &&
+                !viewModelMainScreen.permissionButtonEnabled(PermissionArea.OVERLAY)
 
         ) {
             Icon(

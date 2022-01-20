@@ -121,7 +121,7 @@ fun ShowLocation() {
                         .padding(vertical = 4.dp)
                 )
                 Text(
-                    stringResource(R.string.permissions_show_distance_2),
+                    stringResource(R.string.permissions_show_distance_1),
                     modifier = Modifier
                         .padding(vertical = 4.dp)
                 )
@@ -159,7 +159,7 @@ fun DisplayOverlay() {
                         .padding(vertical = 4.dp)
                 )
                 Text(
-                    stringResource(R.string.permissions_display_overlay_2),
+                    stringResource(R.string.permissions_display_overlay_1),
                     modifier = Modifier
                         .padding(vertical = 4.dp)
                 )

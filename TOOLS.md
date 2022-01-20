@@ -7,13 +7,12 @@
 
 --
 
-## 2. adb
+## 2. adb - useful commands
 
-* adb uninstall cameraoverlay
+* adb uninstall com.github.jameshnsears.cameraoverlay
 * adb shell dumpsys package com.github.jameshnsears.cameraoverlay
-* adb kill-server 
 * adb start-server
-
+* adb shell run-as androidx.test.orchestrator cat /data/user_de/0/androidx.test.orchestrator/files/com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonOverlayTest#permissionNotGranted.txt
 
 --
 

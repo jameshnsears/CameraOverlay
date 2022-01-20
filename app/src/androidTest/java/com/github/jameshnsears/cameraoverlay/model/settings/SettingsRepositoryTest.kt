@@ -2,9 +2,9 @@ package com.github.jameshnsears.cameraoverlay.model.settings
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -13,7 +13,7 @@ class SettingsRepositoryTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Test
-    fun markAppAsRun() = runBlocking {
+    fun markAppAsRun() = runBlocking(Dispatchers.Default) {
         val settingsRepository = SettingsRepositoryImpl(context)
         settingsRepository.empty()
 

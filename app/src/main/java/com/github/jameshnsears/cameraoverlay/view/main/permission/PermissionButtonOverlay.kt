@@ -13,19 +13,26 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.github.jameshnsears.cameraoverlay.R
+import com.github.jameshnsears.cameraoverlay.model.permission.PermissionArea
 import com.github.jameshnsears.cameraoverlay.viewmodel.main.ViewModelMainScreen
-import timber.log.Timber
 
 @Composable
-fun PermissionButtonDisplayOverlay(viewModelMainScreen: ViewModelMainScreen) {
-    val enabled =
-        remember { mutableStateOf(viewModelMainScreen.permissionAllowedOverlay()) }
-    Timber.d("enabled=%b", enabled.value)
+fun PermissionButtonOverlay(viewModelMainScreen: ViewModelMainScreen) {
+    var buttonEnabled = remember {
+        mutableStateOf(
+            viewModelMainScreen.permissionButtonEnabled(
+                PermissionArea.OVERLAY
+            )
+        )
+    }
+
+    buttonEnabled.value = viewModelMainScreen.permissionButtonEnabled(PermissionArea.OVERLAY)
 
     val context = LocalContext.current
 
@@ -33,15 +40,20 @@ fun PermissionButtonDisplayOverlay(viewModelMainScreen: ViewModelMainScreen) {
         stringResource(R.string.permissions_denial_mandatory) as CharSequence
 
     val launcherAppInfoDisplayOverlay =
-        launcherAppInfoDisplayOverlay(
+        launcherAppInfoOverlay(
             viewModelMainScreen,
+            buttonEnabled,
             context,
             permissionDeniedMessage
         )
 
+//    if (BuildConfig.DEBUG) {
+//        Text(text = "${buttonEnabled.value}")
+//    }
+
     PermissionButton(
         {
-            if (!enabled.value) {
+            if (buttonEnabled.value) {
                 launcherAppInfoDisplayOverlay.launch(
                     Intent(
                         Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
@@ -50,21 +62,24 @@ fun PermissionButtonDisplayOverlay(viewModelMainScreen: ViewModelMainScreen) {
                 )
             }
         },
-        !viewModelMainScreen.permissionAllowedOverlay(),
+        buttonEnabled.value,
         Icons.Outlined.Layers, stringResource(R.string.main_display_overlay)
     )
 }
 
 @Composable
-fun launcherAppInfoDisplayOverlay(
-    viewModel: ViewModelMainScreen,
+fun launcherAppInfoOverlay(
+    viewModelMainScreen: ViewModelMainScreen,
+    buttonEnabled: MutableState<Boolean>,
     context: Context,
     permissionDeniedMessage: CharSequence
 ): ManagedActivityResultLauncher<Intent, ActivityResult> {
     val launcherAppInfo = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        if (!viewModel.permissionAllowedOverlay()) {
+        buttonEnabled.value = viewModelMainScreen.permissionButtonEnabled(PermissionArea.OVERLAY)
+
+        if (buttonEnabled.value) {
             Toast.makeText(
                 context as Activity,
                 permissionDeniedMessage,
