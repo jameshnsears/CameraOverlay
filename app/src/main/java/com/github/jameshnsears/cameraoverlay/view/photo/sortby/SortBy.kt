@@ -42,7 +42,7 @@ fun SortBy() {
 @Composable
 private fun Header() {
     Text(
-        stringResource(R.string.select_photo_filter_sort_by),
+        stringResource(R.string.select_photo_screen_filter_sort_by),
         modifier = Modifier.padding(bottom = 8.dp),
     )
     Divider(
@@ -61,7 +61,7 @@ private fun WhenTaken() {
                 .padding(bottom = 8.dp),
         )
         Text(
-            stringResource(R.string.select_photo_when_taken),
+            stringResource(R.string.select_photo_screen_when_taken),
             modifier = Modifier
                 .padding(start = 16.dp)
                 .padding(bottom = 8.dp)
@@ -93,7 +93,7 @@ private fun DistanceFromCurrentLocation() {
                 .padding(bottom = 8.dp),
         )
         Text(
-            stringResource(R.string.select_photo_distance),
+            stringResource(R.string.select_photo_screen_distance),
             modifier = Modifier
                 .padding(start = 16.dp)
                 .padding(bottom = 8.dp)

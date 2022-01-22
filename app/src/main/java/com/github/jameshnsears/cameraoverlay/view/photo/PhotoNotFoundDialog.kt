@@ -11,9 +11,9 @@ fun PhotoNotFoundDialog() {
     val context = LocalContext.current
 
     MaterialAlertDialogBuilder(context)
-        .setTitle(stringResource(R.string.select_photo_location_error_dialog_message))
-        .setMessage(stringResource(R.string.select_photo_location_error_dialog_message))
-        .setNeutralButton(stringResource(R.string.select_photo_location_error_dialog_cancel)) {
+        .setTitle(stringResource(R.string.select_photo_screen_location_error_dialog_message))
+        .setMessage(stringResource(R.string.select_photo_screen_location_error_dialog_message))
+        .setNeutralButton(stringResource(R.string.select_photo_screen_location_error_dialog_cancel)) {
             _, _ ->
             // Respond to neutral button press
         }

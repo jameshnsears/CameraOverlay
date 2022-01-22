@@ -12,7 +12,7 @@
 * adb uninstall com.github.jameshnsears.cameraoverlay
 * adb shell dumpsys package com.github.jameshnsears.cameraoverlay
 * adb start-server
-* adb shell run-as androidx.test.orchestrator cat /data/user_de/0/androidx.test.orchestrator/files/com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonOverlayTest#permissionNotGranted.txt
+* adb shell run-as androidx.test.orchestrator cat /data/user_de/0/androidx.test.orchestrator/files/com.github.jameshnsears.cameraoverlay.view.permission.PermissionButtonOverlayTest#permissionNotGranted.txt
 
 --
 
@@ -31,7 +31,7 @@ npm install jscpd markdownlint markdownlint-cli
 * ADB Idea - Philippe Breault
 * SonarLint - SonarSource
 * detekt - detekt
-* CPU Usage Indicator - Vojtech Krasa
+* ShellScript - JetBrains
 * CodeGlance - Vektah
 * ADB Wi-Fi - Yury Polek
 

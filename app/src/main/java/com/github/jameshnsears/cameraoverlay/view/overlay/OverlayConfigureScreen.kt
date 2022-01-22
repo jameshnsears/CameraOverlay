@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
-import com.github.jameshnsears.cameraoverlay.view.Navigation
+import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.overlay.ViewModelOverlayConfigureScreen
@@ -43,7 +43,7 @@ fun OverlayConfigureScreen(navController: NavController) {
                 CommonTopAppBar(
                     stringResource(R.string.configure_overlay),
                     navController,
-                    Navigation.SELECT_PHOTO_SCREEN
+                    Navigation.SCREEN_SELECT_PHOTO
                 )
             },
         ) {
@@ -68,7 +68,7 @@ fun OverlayConfigureScreen(navController: NavController) {
 fun Window() {
     Column {
         Text(
-            stringResource(R.string.configure_overlay_window),
+            stringResource(R.string.configure_overlay_screen_window),
             modifier = Modifier.padding(bottom = 5.dp),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
@@ -79,7 +79,7 @@ fun Window() {
                 contentDescription = null,
             )
             Text(
-                stringResource(R.string.configure_overlay_colour),
+                stringResource(R.string.configure_overlay_screen_colour),
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -89,7 +89,7 @@ fun Window() {
                 contentDescription = null,
             )
             Text(
-                stringResource(R.string.configure_overlay_width),
+                stringResource(R.string.configure_overlay_screen_width),
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -99,7 +99,7 @@ fun Window() {
                 contentDescription = null,
             )
             Text(
-                stringResource(R.string.configure_overlay_height),
+                stringResource(R.string.configure_overlay_screen_height),
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -110,7 +110,7 @@ fun Window() {
 fun Photo() {
     Column {
         Text(
-            stringResource(R.string.configure_overlay_photo),
+            stringResource(R.string.configure_overlay_screen_photo),
             modifier = Modifier.padding(bottom = 5.dp),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
@@ -121,7 +121,7 @@ fun Photo() {
                 contentDescription = null,
             )
             Text(
-                stringResource(R.string.configure_overlay_transparency),
+                stringResource(R.string.configure_overlay_screen_transparency),
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -133,7 +133,7 @@ fun EdgeDetection() {
     Column(modifier = Modifier.padding(vertical = 16.dp)) {
         Row {
             Text(
-                stringResource(R.string.configure_overlay_edge_detection),
+                stringResource(R.string.configure_overlay_screen_edge_detection),
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .padding(bottom = 5.dp)
@@ -152,7 +152,7 @@ fun EdgeDetection() {
                     contentDescription = null,
                 )
                 Text(
-                    stringResource(R.string.configure_overlay_blur),
+                    stringResource(R.string.configure_overlay_screen_blur),
                     modifier = Modifier.padding(start = 16.dp)
                 )
             }
@@ -162,7 +162,7 @@ fun EdgeDetection() {
                     contentDescription = null,
                 )
                 Text(
-                    stringResource(R.string.configure_overlay_thresholds),
+                    stringResource(R.string.configure_overlay_screen_thresholds),
                     modifier = Modifier.padding(start = 16.dp)
                 )
             }
@@ -198,7 +198,7 @@ fun DisplayOverlay() {
                 modifier = Modifier.padding(end = 16.dp),
             )
             Text(
-                text = stringResource(R.string.configure_overlay_launch_camera_app_and_overlay)
+                text = stringResource(R.string.configure_overlay_screen_launch_camera_app_and_overlay)
             )
         }
     }

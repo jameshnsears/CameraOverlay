@@ -1,16 +1,14 @@
 plugins {
     id 'com.android.application'
-    id 'com.google.gms.google-services'
     id 'kotlin-android'
+    id 'com.google.gms.google-services'
     id "io.gitlab.arturbosch.detekt" version "1.18.1"
     id "org.jlleitschuh.gradle.ktlint" version "10.2.0"
-    id 'com.diffplug.spotless' version '5.15.0'
     id "org.sonarqube" version "3.3"
 }
 
 apply from: '../detekt.gradle'
 apply from: '../ktlint.gradle'
-apply from: '../spotless.gradle'
 apply from: '../jacoco.gradle'
 apply from: '../sonarqube.gradle'
 
@@ -45,16 +43,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
-
-        // The following argument makes the Android Test Orchestrator run its
-        // "pm clear" command after each test invocation. This command ensures
-        // that the app's state is completely cleared between tests.
-        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     testOptions {
         animationsDisabled true
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
 
         unitTests {
             includeAndroidResources = true
@@ -83,8 +75,7 @@ android {
         }
 
         release {
-            shrinkResources true
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
 
@@ -96,12 +87,7 @@ android {
         debug {
             testCoverageEnabled true
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
-            buildConfigField("boolean", "GITHUB_ACTION", gitHubAction())
         }
-    }
-
-    packagingOptions {
-        excludes += "/META-INF/LICENSE*"
     }
 
     compileOptions {
@@ -119,12 +105,13 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion '1.0.5'
+        kotlinCompilerExtensionVersion compose_version
     }
 
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += "/META-INF/LICENSE*"
         }
     }
 
@@ -183,10 +170,10 @@ dependencies {
 
     // junit 4
     androidTestImplementation 'androidx.activity:activity-compose:1.4.0'
-    androidTestImplementation 'androidx.compose.foundation:foundation:1.0.5'
-    androidTestImplementation 'androidx.compose.material:material:1.0.5'
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.5'
-    androidTestImplementation 'androidx.compose.ui:ui-test-manifest:1.0.5'
+    androidTestImplementation "androidx.compose.foundation:foundation:$compose_version"
+    androidTestImplementation "androidx.compose.material:material:$compose_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.ext:truth:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
@@ -194,19 +181,17 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'io.mockk:mockk-android:1.12.2'
 
-    androidTestUtil 'androidx.test:orchestrator:1.4.1'
-
-    debugImplementation 'androidx.compose.ui:ui-test-manifest:1.0.5'
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 
     implementation 'androidx.activity:activity-compose:1.4.0'
     implementation 'androidx.activity:activity-ktx:1.4.0'
-    implementation 'androidx.compose.foundation:foundation:1.0.5'
-    implementation 'androidx.compose.material:material:1.0.5'
-    implementation 'androidx.compose.material:material-icons-extended:1.0.5'
-    implementation 'androidx.compose.runtime:runtime-livedata:1.0.5'
-    implementation 'androidx.compose.ui:ui:1.0.5'
-    implementation 'androidx.compose.ui:ui-tooling:1.0.5'
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.navigation:navigation-compose:2.4.0-rc01'
@@ -216,8 +201,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt'
-    implementation platform('com.google.firebase:firebase-bom:28.4.2')
-    implementation project(path: ':OpenCV-3.4.15')
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')    
+    implementation project(path: ':module:common')
+    implementation project(path: ':module:permissions')
+    implementation project(path: ':module:opencv')
 
     // junit 5
     testImplementation 'com.google.truth:truth:1.1.3'
@@ -225,15 +212,4 @@ dependencies {
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0-native-mt'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-}
-
-def gitHubAction() {
-    /*
-     when running in a GitHub Action...
-     ./gradlew --no-configuration-cache -PgitHubAction :app:connectedFdroidDebugAndroidTest
-     */
-
-    def value = project.getProperties().get("gitHubAction") != null ? "true": "false"
-    println 'gitHubAction=' + value
-    return value
 }

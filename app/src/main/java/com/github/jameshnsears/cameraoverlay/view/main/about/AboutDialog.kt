@@ -40,7 +40,7 @@ fun AboutDialog(openDialog: MutableState<Boolean>) {
         },
         title = {
             Text(
-                text = stringResource(R.string.about),
+                text = stringResource(R.string.about_screen),
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
             )
@@ -57,7 +57,7 @@ fun AboutDialog(openDialog: MutableState<Boolean>) {
                 },
                 shape = RoundedCornerShape(16.dp),
             ) {
-                Text(stringResource(R.string.ok))
+                Text(stringResource(R.string.about_screen_ok))
             }
         }
     )

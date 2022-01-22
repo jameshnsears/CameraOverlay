@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.github.jameshnsears.cameraoverlay.R
 
 @Preview
@@ -62,27 +63,30 @@ fun CardFooter() {
     Row {
         Divider()
     }
-    Row {
+    Row(verticalAlignment = Alignment.CenterVertically) {
         Icon(
             imageVector = Icons.Outlined.Schedule,
             contentDescription = null,
         )
         Text(
             "YYYYMMDD, HHMMSS",
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = Modifier.padding(start = 11.dp),
+            fontSize = 12.sp
         )
     }
     Row {
         Divider()
     }
-    Row {
+    Row(verticalAlignment = Alignment.CenterVertically,
+    modifier = Modifier.padding(start=2.dp)) {
         Icon(
             imageVector = Icons.Outlined.Straighten,
             contentDescription = null,
         )
         Text(
             "0m",
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier.padding(start = 12.dp),
+            fontSize = 12.sp
         )
         Column(
             Modifier.fillMaxWidth(),

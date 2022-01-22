@@ -8,11 +8,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
+import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
-import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionScreen
+import com.github.jameshnsears.cameraoverlay.view.permission.PermissionScreen
 import com.github.jameshnsears.cameraoverlay.view.overlay.OverlayConfigureScreen
 import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
-import com.github.jameshnsears.cameraoverlay.viewmodel.main.ViewModelMainScreen
+import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
@@ -24,20 +25,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            NavHost(navController, startDestination = Navigation.MAIN_SCREEN) {
-                composable(Navigation.MAIN_SCREEN) {
+            NavHost(navController, startDestination = Navigation.SCREEN_MAIN) {
+                composable(Navigation.SCREEN_MAIN) {
                     MainScreen(
                         navController,
-                        viewModelMainScreen = ViewModelMainScreen(applicationContext)
+                        viewModelPermission = ViewModelPermission(applicationContext)
                     )
                 }
-                composable(Navigation.PERMISSIONS_SCREEN) {
+                composable(Navigation.SCREEN_PERMISSIONS) {
                     PermissionScreen(navController)
                 }
-                composable(Navigation.SELECT_PHOTO_SCREEN) {
+                composable(Navigation.SCREEN_SELECT_PHOTO) {
                     PhotoSelectScreen(navController)
                 }
-                composable(Navigation.CONFIGURE_OVERLAY_SCREEN) {
+                composable(Navigation.SCREEN_CONFIGURE_OVERLAY) {
                     OverlayConfigureScreen(navController)
                 }
             }

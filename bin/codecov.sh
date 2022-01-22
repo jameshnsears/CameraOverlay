@@ -13,7 +13,7 @@
 GIT_HEAD_HASH=$(git rev-parse HEAD)
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 CODECOV_UPLOADER_NAME=$(hostname)
-export $(grep CODECOV_TOKEN local.properties | xargs -d '\n')
+export "$(grep CODECOV_TOKEN local.properties | xargs -d '\n')"
 
 ./gradlew clean :app:uninstallAll :app:testGoogleplayDebugCombinedCoverage --stacktrace
 bash <(curl https://codecov.io/bash) -t "${CODECOV_TOKEN}" -C "${GIT_HEAD_HASH}" -b 0 -B "${GIT_BRANCH}" -n "${CODECOV_UPLOADER_NAME}" -f "app/build/reports/GoogleplayDebug.xml" -F app.googleplay

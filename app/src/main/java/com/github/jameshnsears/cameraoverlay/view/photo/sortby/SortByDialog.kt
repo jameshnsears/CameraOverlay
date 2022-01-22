@@ -28,7 +28,7 @@ fun SortByDialog() {
         ShowDialog()
     }
 
-    Column(modifier = Modifier.padding(bottom = 8.dp)) {
+    Column(modifier = Modifier.padding(top=10.dp, bottom = 10.dp)) {
         Button(
             onClick = { showDialog.value = true },
             shape = RoundedCornerShape(16.dp),
@@ -39,7 +39,7 @@ fun SortByDialog() {
                 modifier = Modifier.padding(end = 16.dp),
             )
             Text(
-                text = stringResource(R.string.select_photo_filter_dialog)
+                text = stringResource(R.string.select_photo_screen_filter_dialog)
             )
         }
     }
@@ -50,9 +50,9 @@ fun ShowDialog() {
     val context = LocalContext.current
 
     MaterialAlertDialogBuilder(context)
-        .setTitle(stringResource(R.string.select_photo_location_error_dialog_message))
-        .setMessage(stringResource(R.string.select_photo_location_error_dialog_message))
-        .setNeutralButton(stringResource(R.string.select_photo_location_error_dialog_cancel)) {
+        .setTitle(stringResource(R.string.select_photo_screen_location_error_dialog_message))
+        .setMessage(stringResource(R.string.select_photo_screen_location_error_dialog_message))
+        .setNeutralButton(stringResource(R.string.select_photo_screen_location_error_dialog_cancel)) {
             _, _ ->
             // Respond to neutral button press
         }

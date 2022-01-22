@@ -11,8 +11,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/OpenCV-3.4.15" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/module" />
+            <option value="$PROJECT_DIR$/module/common" />
+            <option value="$PROJECT_DIR$/module/opencv" />
+            <option value="$PROJECT_DIR$/module/permissions" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

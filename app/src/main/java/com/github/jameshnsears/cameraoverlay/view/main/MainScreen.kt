@@ -34,20 +34,20 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.permission.PermissionArea
-import com.github.jameshnsears.cameraoverlay.view.Navigation
+import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.main.about.AboutDialog
-import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonLocation
-import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonOverlay
-import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonStorage
-import com.github.jameshnsears.cameraoverlay.view.main.permission.observeAsSate
+import com.github.jameshnsears.cameraoverlay.view.permission.PermissionButtonLocation
+import com.github.jameshnsears.cameraoverlay.view.permission.PermissionButtonOverlay
+import com.github.jameshnsears.cameraoverlay.view.permission.PermissionButtonStorage
+import com.github.jameshnsears.cameraoverlay.view.permission.observeAsSate
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
-import com.github.jameshnsears.cameraoverlay.viewmodel.main.ViewModelMainScreen
+import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import timber.log.Timber
 
 @Composable
 fun MainScreen(
     navController: NavController,
-    viewModelMainScreen: ViewModelMainScreen
+    viewModelPermission: ViewModelPermission
 ) {
     CameraOverlayTheme {
         Scaffold(
@@ -61,7 +61,7 @@ fun MainScreen(
             ) {
                 Usage()
 
-                Permissions(navController, viewModelMainScreen)
+                Permissions(navController, viewModelPermission)
             }
         }
     }
@@ -70,16 +70,16 @@ fun MainScreen(
 @Composable
 fun PermissionButtons(
     navController: NavController,
-    viewModelMainScreen: ViewModelMainScreen
+    viewModelPermission: ViewModelPermission
 ) {
     val lifeCycleState = LocalLifecycleOwner.current.lifecycle.observeAsSate()
     Timber.d("lifeCycleState=${lifeCycleState.value.name}")
 
-    PermissionButtonStorage(viewModelMainScreen)
-    PermissionButtonLocation(viewModelMainScreen)
-    PermissionButtonOverlay(viewModelMainScreen)
+    PermissionButtonStorage(viewModelPermission)
+    PermissionButtonLocation(viewModelPermission)
+    PermissionButtonOverlay(viewModelPermission)
 
-    ButtonSelectPhoto(navController, viewModelMainScreen)
+    ButtonSelectPhoto(navController, viewModelPermission)
 }
 
 @Composable
@@ -115,28 +115,28 @@ fun Usage() {
     ) {
         Column() {
             Text(
-                stringResource(R.string.main_usage),
+                stringResource(R.string.main_screen_usage),
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
             )
         }
         Text(
-            stringResource(R.string.main_usage_0),
+            stringResource(R.string.main_screen_usage_0),
             modifier = Modifier
                 .padding(vertical = 4.dp)
         )
         Text(
-            stringResource(R.string.main_usage_1),
+            stringResource(R.string.main_screen_usage_1),
             modifier = Modifier
                 .padding(vertical = 4.dp)
         )
         Text(
-            stringResource(R.string.main_usage_2),
+            stringResource(R.string.main_screen_usage_2),
             modifier = Modifier
                 .padding(vertical = 4.dp)
         )
         Text(
-            stringResource(R.string.main_usage_3),
+            stringResource(R.string.main_screen_usage_3),
             modifier = Modifier
                 .padding(vertical = 4.dp)
         )
@@ -146,7 +146,7 @@ fun Usage() {
 @Composable
 fun Permissions(
     navController: NavController,
-    viewModelMainScreen: ViewModelMainScreen
+    viewModelPermission: ViewModelPermission
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -158,7 +158,7 @@ fun Permissions(
         )
 
         IconButton(
-            onClick = { navController.navigate(Navigation.PERMISSIONS_SCREEN) },
+            onClick = { navController.navigate(Navigation.SCREEN_PERMISSIONS) },
         ) {
             Icon(
                 imageVector = Icons.Outlined.HelpOutline,
@@ -167,13 +167,13 @@ fun Permissions(
         }
     }
 
-    PermissionButtons(navController, viewModelMainScreen)
+    PermissionButtons(navController, viewModelPermission)
 }
 
 @Composable
 fun ButtonSelectPhoto(
     navController: NavController,
-    viewModelMainScreen: ViewModelMainScreen
+    viewModelPermission: ViewModelPermission
 ) {
 
     Column(
@@ -183,10 +183,10 @@ fun ButtonSelectPhoto(
         horizontalAlignment = Alignment.End
     ) {
         Button(
-            onClick = { navController.navigate(Navigation.SELECT_PHOTO_SCREEN) },
+            onClick = { navController.navigate(Navigation.SCREEN_SELECT_PHOTO) },
             shape = RoundedCornerShape(16.dp),
-            enabled = !viewModelMainScreen.permissionButtonEnabled(PermissionArea.STORAGE) &&
-                !viewModelMainScreen.permissionButtonEnabled(PermissionArea.OVERLAY)
+            enabled = !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
+                !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
 
         ) {
             Icon(
@@ -208,7 +208,7 @@ fun PreviewPortrait() {
 
     MainScreen(
         rememberNavController(),
-        ViewModelMainScreen(context)
+        ViewModelPermission(context)
     )
 }
 
@@ -223,6 +223,6 @@ fun PreviewLandscape() {
 
     MainScreen(
         rememberNavController(),
-        ViewModelMainScreen(context)
+        ViewModelPermission(context)
     )
 }

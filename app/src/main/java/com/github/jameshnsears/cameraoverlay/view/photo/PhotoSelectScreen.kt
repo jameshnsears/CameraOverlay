@@ -1,6 +1,7 @@
 package com.github.jameshnsears.cameraoverlay.view.photo
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -22,32 +23,39 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
-import com.github.jameshnsears.cameraoverlay.view.Navigation
 import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
+import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.photo.sortby.SortByDialog
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
 @Composable
 fun PhotoSelectScreen(navController: NavController) {
-    // TODO see Cart.kt in Jetsnack to make my own reusable composable API
-
     CameraOverlayTheme {
         Scaffold(
             topBar = {
                 CommonTopAppBar(
                     stringResource(R.string.select_photo),
                     navController,
-                    Navigation.MAIN_SCREEN
+                    Navigation.SCREEN_MAIN
                 )
             },
         ) {
             Column(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp).fillMaxWidth()
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp)
+                    .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                Location()
+                Row {
+                    BrowseStorage()
 
-                SortByDialog()
+                    Column(
+                        Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.End,
+                    ) {
+                        SortByDialog()
+                    }
+                }
 
                 CardPhoto()
 
@@ -58,8 +66,25 @@ fun PhotoSelectScreen(navController: NavController) {
 }
 
 @Composable
-fun Location() {
-    Column {
+fun BrowseStorage() {
+    /*
+    MediaStore.Images
+    MediaStore.Files
+
+    Android provides two APIs for storing and accessing shareable data.
+    MediaStore API is a recommended way to go when working with media files (pictures, audio, video).
+    If, on the other hand, you need to work with documents and other files, you should use the platform’s
+    Storage Access Framework.
+
+    https://www.cobeisfresh.com/stories/taming-file-storage-on-android-part-2
+
+    https://github.com/android/storage-samples
+
+    https://guides.codepath.com/android/Accessing-the-Camera-and-Stored-Media
+
+
+     */
+    Column(Modifier.padding(top = 10.dp, bottom = 5.dp)) {
         Button(
             onClick = {},
             shape = RoundedCornerShape(16.dp),
@@ -70,7 +95,7 @@ fun Location() {
                 modifier = Modifier.padding(end = 16.dp),
             )
             Text(
-                text = stringResource(R.string.select_photo_location)
+                text = stringResource(R.string.select_photo_screen_location)
             )
         }
     }
@@ -79,11 +104,14 @@ fun Location() {
 @Composable
 fun ConfigureOverlay(navController: NavController) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 8.dp).padding(bottom = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp)
+            .padding(bottom = 10.dp),
         horizontalAlignment = Alignment.End
     ) {
         Button(
-            onClick = { navController.navigate(Navigation.CONFIGURE_OVERLAY_SCREEN) },
+            onClick = { navController.navigate(Navigation.SCREEN_CONFIGURE_OVERLAY) },
             shape = RoundedCornerShape(16.dp),
             enabled = true
         ) {
@@ -101,6 +129,6 @@ fun ConfigureOverlay(navController: NavController) {
 
 @Preview(name = "Light Theme")
 @Composable
-fun Preview() {
+fun PreviewPortrait() {
     PhotoSelectScreen(rememberNavController())
 }
