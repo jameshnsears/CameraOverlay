@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.jameshnsears.cameraoverlay.view.permission
+package com.github.jameshnsears.cameraoverlay.view.main.permission
 
 import android.app.Instrumentation
 import android.os.Build

@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.permission
+package com.github.jameshnsears.cameraoverlay.view.main.permission
 
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText

@@ -1,43 +1,118 @@
 package com.github.jameshnsears.cameraoverlay.view.photo
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FolderOpen
-import androidx.compose.material.icons.outlined.Tune
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Collections
+import androidx.compose.material.icons.outlined.FilterAlt
+import androidx.compose.material.icons.outlined.Refresh
+import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
-import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
-import com.github.jameshnsears.cameraoverlay.view.photo.sortby.SortByDialog
+import com.github.jameshnsears.cameraoverlay.view.photo.menu.collection.CollectionDialog
+import com.github.jameshnsears.cameraoverlay.view.photo.menu.filter.FilterDialog
+import com.github.jameshnsears.cameraoverlay.view.photo.menu.sortby.SortDialog
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
 @Composable
 fun PhotoSelectScreen(navController: NavController) {
+
+    val filterDialogState = remember { mutableStateOf(false) }
+    if (filterDialogState.value) {
+        FilterDialog(filterDialogState)
+    }
+
+    val collectionDialogState = remember { mutableStateOf(false) }
+    if (collectionDialogState.value) {
+        CollectionDialog(collectionDialogState)
+    }
+
+    val sortDialogState = remember { mutableStateOf(false) }
+    if (sortDialogState.value) {
+        SortDialog(sortDialogState)
+    }
+
     CameraOverlayTheme {
         Scaffold(
             topBar = {
-                CommonTopAppBar(
-                    stringResource(R.string.select_photo),
-                    navController,
-                    Navigation.SCREEN_MAIN
+                TopAppBar(
+                    title = { Text(stringResource(R.string.select_photo)) },
+                    navigationIcon = {
+                        IconButton(onClick = { navController.navigate(Navigation.SCREEN_MAIN) }) {
+                            Icon(
+                                imageVector = Icons.Outlined.ArrowBack,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = { filterDialogState.value = true }) {
+                            Icon(
+                                imageVector = Icons.Outlined.FilterAlt,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+                        IconButton(onClick = { collectionDialogState.value = true }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Collections,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+
+                        IconButton(onClick = { sortDialogState.value = true }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Sort,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+
+                        IconButton(onClick = { }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Refresh,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+                    }
                 )
+
             },
         ) {
             Column(
@@ -46,86 +121,17 @@ fun PhotoSelectScreen(navController: NavController) {
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                Row {
-                    BrowseStorage()
-
-                    Column(
-                        Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.End,
-                    ) {
-                        SortByDialog()
-                    }
+                Row(Modifier.padding(top=5.dp, bottom=5.dp)) {
+                    Text(stringResource(R.string.select_photo_usage_0))
                 }
 
+                // TODO replace with coil
                 CardPhoto()
-
-                ConfigureOverlay(navController)
             }
         }
     }
 }
 
-@Composable
-fun BrowseStorage() {
-    /*
-    MediaStore.Images
-    MediaStore.Files
-
-    Android provides two APIs for storing and accessing shareable data.
-    MediaStore API is a recommended way to go when working with media files (pictures, audio, video).
-    If, on the other hand, you need to work with documents and other files, you should use the platform’s
-    Storage Access Framework.
-
-    https://www.cobeisfresh.com/stories/taming-file-storage-on-android-part-2
-
-    https://github.com/android/storage-samples
-
-    https://guides.codepath.com/android/Accessing-the-Camera-and-Stored-Media
-
-
-     */
-    Column(Modifier.padding(top = 10.dp, bottom = 5.dp)) {
-        Button(
-            onClick = {},
-            shape = RoundedCornerShape(16.dp),
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.FolderOpen,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp),
-            )
-            Text(
-                text = stringResource(R.string.select_photo_screen_location)
-            )
-        }
-    }
-}
-
-@Composable
-fun ConfigureOverlay(navController: NavController) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp)
-            .padding(bottom = 10.dp),
-        horizontalAlignment = Alignment.End
-    ) {
-        Button(
-            onClick = { navController.navigate(Navigation.SCREEN_CONFIGURE_OVERLAY) },
-            shape = RoundedCornerShape(16.dp),
-            enabled = true
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Tune,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp),
-            )
-            Text(
-                text = stringResource(R.string.configure_overlay)
-            )
-        }
-    }
-}
 
 @Preview(name = "Light Theme")
 @Composable

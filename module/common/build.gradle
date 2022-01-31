@@ -77,19 +77,11 @@ android {
     }
 
     sourceSets {
-        androidTest {
-            resources.srcDirs += ['src/androidTest/resources']
-        }
         fdroid {
-            assets.srcDirs = ['src/main/assets']
             java.srcDirs = ['src/main/java', 'src/fdroid/java']
-            resources.srcDirs += ['src/test/resources']
-
         }
         googleplay {
-            assets.srcDirs = ['src/main/assets']
             java.srcDirs = ['src/main/java']
-            resources.srcDirs += ['src/test/resources']
         }
     }
 }

@@ -12,7 +12,7 @@
 * adb uninstall com.github.jameshnsears.cameraoverlay
 * adb shell dumpsys package com.github.jameshnsears.cameraoverlay
 * adb start-server
-* adb shell run-as androidx.test.orchestrator cat /data/user_de/0/androidx.test.orchestrator/files/com.github.jameshnsears.cameraoverlay.view.permission.PermissionButtonOverlayTest#permissionNotGranted.txt
+* adb shell run-as androidx.test.orchestrator cat /data/user_de/0/androidx.test.orchestrator/files/com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonOverlayTest#permissionNotGranted.txt
 
 --
 

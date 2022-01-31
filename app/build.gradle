@@ -155,7 +155,6 @@ android {
             assets.srcDirs = ['src/main/assets']
             java.srcDirs = ['src/main/java', 'src/fdroid/java']
             resources.srcDirs += ['src/test/resources']
-
         }
         googleplay {
             assets.srcDirs = ['src/main/assets']
@@ -167,6 +166,8 @@ android {
 
 dependencies {
     // https://maven.google.com/web/index.html
+
+    // https://developer.android.com/jetpack/androidx/versions
 
     // junit 4
     androidTestImplementation 'androidx.activity:activity-compose:1.4.0'
@@ -194,7 +195,7 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
-    implementation 'androidx.navigation:navigation-compose:2.4.0-rc01'
+    implementation 'androidx.navigation:navigation-compose:2.4.0'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.jakewharton.timber:timber:5.0.1'

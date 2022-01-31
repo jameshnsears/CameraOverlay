@@ -1,11 +1,14 @@
-package com.github.jameshnsears.cameraoverlay.view.permission
+package com.github.jameshnsears.cameraoverlay.view.main.permission
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -68,13 +71,13 @@ fun AccessPhotos() {
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Folder,
-                        contentDescription = null,
-                        modifier = Modifier.padding(end = 8.dp),
+                        contentDescription = null
                     )
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                     Text(
                         stringResource(R.string.permissions_screen_files_and_media),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                        fontSize = 22.sp
                     )
                 }
                 Text(
@@ -106,13 +109,13 @@ fun ShowLocation() {
 
                     Icon(
                         imageVector = Icons.Outlined.LocationOn,
-                        contentDescription = null,
-                        modifier = Modifier.padding(end = 8.dp),
+                        contentDescription = null
                     )
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                     Text(
                         stringResource(R.string.permissions_screen_location),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                        fontSize = 22.sp
                     )
                 }
                 Text(
@@ -144,13 +147,13 @@ fun DisplayOverlay() {
 
                     Icon(
                         imageVector = Icons.Outlined.Layers,
-                        contentDescription = null,
-                        modifier = Modifier.padding(end = 8.dp),
+                        contentDescription = null
                     )
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                     Text(
                         stringResource(R.string.permissions_screen_overlay),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                        fontSize = 22.sp
                     )
                 }
                 Text(

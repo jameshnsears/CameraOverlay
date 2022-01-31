@@ -3,12 +3,15 @@ package com.github.jameshnsears.cameraoverlay.view.overlay
 import android.app.Activity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -71,16 +74,16 @@ fun Window() {
             stringResource(R.string.configure_overlay_screen_window),
             modifier = Modifier.padding(bottom = 5.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
+            fontSize = 22.sp
         )
         Row {
             Icon(
                 imageVector = Icons.Outlined.Palette,
                 contentDescription = null,
             )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text(
-                stringResource(R.string.configure_overlay_screen_colour),
-                modifier = Modifier.padding(start = 16.dp)
+                stringResource(R.string.configure_overlay_screen_colour)
             )
         }
         Row {
@@ -88,9 +91,9 @@ fun Window() {
                 painter = painterResource(id = R.drawable.ic_width_black_24dp),
                 contentDescription = null,
             )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text(
-                stringResource(R.string.configure_overlay_screen_width),
-                modifier = Modifier.padding(start = 16.dp)
+                stringResource(R.string.configure_overlay_screen_width)
             )
         }
         Row {
@@ -98,9 +101,9 @@ fun Window() {
                 imageVector = Icons.Outlined.Height,
                 contentDescription = null,
             )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text(
-                stringResource(R.string.configure_overlay_screen_height),
-                modifier = Modifier.padding(start = 16.dp)
+                stringResource(R.string.configure_overlay_screen_height)
             )
         }
     }
@@ -113,16 +116,16 @@ fun Photo() {
             stringResource(R.string.configure_overlay_screen_photo),
             modifier = Modifier.padding(bottom = 5.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
+            fontSize = 22.sp
         )
         Row {
             Icon(
                 imageVector = Icons.Outlined.Visibility,
                 contentDescription = null,
             )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text(
-                stringResource(R.string.configure_overlay_screen_transparency),
-                modifier = Modifier.padding(start = 16.dp)
+                stringResource(R.string.configure_overlay_screen_transparency)
             )
         }
     }
@@ -139,7 +142,7 @@ fun EdgeDetection() {
                     .padding(bottom = 5.dp)
                     .padding(top = 4.dp),
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                fontSize = 22.sp
             )
         }
         Column(
@@ -151,9 +154,9 @@ fun EdgeDetection() {
                     painter = painterResource(id = R.drawable.ic_blur_24dp),
                     contentDescription = null,
                 )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text(
-                    stringResource(R.string.configure_overlay_screen_blur),
-                    modifier = Modifier.padding(start = 16.dp)
+                    stringResource(R.string.configure_overlay_screen_blur)
                 )
             }
             Row {
@@ -161,9 +164,9 @@ fun EdgeDetection() {
                     painter = painterResource(id = R.drawable.ic_threshold_24dp),
                     contentDescription = null,
                 )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text(
-                    stringResource(R.string.configure_overlay_screen_thresholds),
-                    modifier = Modifier.padding(start = 16.dp)
+                    stringResource(R.string.configure_overlay_screen_thresholds)
                 )
             }
         }
@@ -189,14 +192,11 @@ fun DisplayOverlay() {
                     overlayScreenViewModel.stopOverlayWindowService(context)
                 }
             },
+            modifier = Modifier
+                .size(width = 220.dp, height = 45.dp),
             shape = RoundedCornerShape(16.dp),
             enabled = true
         ) {
-            Icon(
-                imageVector = Icons.Outlined.Layers,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp),
-            )
             Text(
                 text = stringResource(R.string.configure_overlay_screen_launch_camera_app_and_overlay)
             )

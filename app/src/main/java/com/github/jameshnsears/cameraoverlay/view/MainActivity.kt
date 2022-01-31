@@ -10,7 +10,7 @@ import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
-import com.github.jameshnsears.cameraoverlay.view.permission.PermissionScreen
+import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionScreen
 import com.github.jameshnsears.cameraoverlay.view.overlay.OverlayConfigureScreen
 import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission

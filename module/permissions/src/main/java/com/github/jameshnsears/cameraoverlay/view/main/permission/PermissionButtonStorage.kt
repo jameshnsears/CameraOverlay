@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.permission
+package com.github.jameshnsears.cameraoverlay.view.main.permission
 
 import android.Manifest
 import android.app.Activity

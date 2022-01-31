@@ -4,7 +4,10 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -16,13 +19,13 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HelpOutline
-import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -32,14 +35,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.permission.PermissionArea
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.main.about.AboutDialog
-import com.github.jameshnsears.cameraoverlay.view.permission.PermissionButtonLocation
-import com.github.jameshnsears.cameraoverlay.view.permission.PermissionButtonOverlay
-import com.github.jameshnsears.cameraoverlay.view.permission.PermissionButtonStorage
-import com.github.jameshnsears.cameraoverlay.view.permission.observeAsSate
+import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonLocation
+import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonOverlay
+import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonStorage
+import com.github.jameshnsears.cameraoverlay.view.main.permission.observeAsSate
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import timber.log.Timber
@@ -62,6 +66,8 @@ fun MainScreen(
                 Usage()
 
                 Permissions(navController, viewModelPermission)
+
+                ButtonSelectPhoto(navController, viewModelPermission)
             }
         }
     }
@@ -78,8 +84,6 @@ fun PermissionButtons(
     PermissionButtonStorage(viewModelPermission)
     PermissionButtonLocation(viewModelPermission)
     PermissionButtonOverlay(viewModelPermission)
-
-    ButtonSelectPhoto(navController, viewModelPermission)
 }
 
 @Composable
@@ -100,7 +104,8 @@ fun AppBar() {
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Info,
-                    contentDescription = ""
+                    contentDescription = "",
+                    tint = Color.White
                 )
             }
         }
@@ -117,7 +122,7 @@ fun Usage() {
             Text(
                 stringResource(R.string.main_screen_usage),
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                fontSize = 22.sp
             )
         }
         Text(
@@ -154,7 +159,7 @@ fun Permissions(
         Text(
             stringResource(R.string.permissions),
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
+            fontSize = 22.sp
         )
 
         IconButton(
@@ -175,30 +180,33 @@ fun ButtonSelectPhoto(
     navController: NavController,
     viewModelPermission: ViewModelPermission
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 8.dp),
+            .padding(bottom = 10.dp),
         horizontalAlignment = Alignment.End
     ) {
         Button(
             onClick = { navController.navigate(Navigation.SCREEN_SELECT_PHOTO) },
+            modifier = Modifier
+                .size(width = 180.dp, height = 45.dp),
             shape = RoundedCornerShape(16.dp),
-            enabled = !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
-                !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
-
+            enabled = enableButtonSelectPhoto(viewModelPermission)
         ) {
-            Icon(
-                imageVector = Icons.Outlined.ImageSearch,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp),
-            )
             Text(
                 text = stringResource(R.string.select_photo)
             )
         }
     }
+}
+
+fun enableButtonSelectPhoto(viewModelPermission: ViewModelPermission): Boolean {
+    if (BuildConfig.DEBUG) {
+        return true
+    }
+
+    return !(!viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
+            !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY))
 }
 
 @Preview(name = "Light Theme")
