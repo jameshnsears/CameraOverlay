@@ -17,7 +17,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Height
-import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.runtime.Composable
@@ -33,8 +32,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
-import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
+import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.overlay.ViewModelOverlayConfigureScreen
 

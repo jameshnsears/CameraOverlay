@@ -5,7 +5,7 @@ import android.graphics.Point
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import java.util.Timer
+import java.util.*
 import kotlin.concurrent.timerTask
 import kotlin.math.hypot
 
