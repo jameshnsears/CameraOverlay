@@ -1,6 +1,5 @@
 package com.github.jameshnsears.cameraoverlay.view.photo.menu.filter
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +19,6 @@ import androidx.compose.material.icons.outlined.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,8 +28,6 @@ import com.github.jameshnsears.cameraoverlay.R
 
 @Composable
 fun FilterDialog(openDialog: MutableState<Boolean>) {
-    val context = LocalContext.current
-
     AlertDialog(
         onDismissRequest = {
             openDialog.value = false
@@ -45,7 +41,7 @@ fun FilterDialog(openDialog: MutableState<Boolean>) {
         },
         shape = RoundedCornerShape(16.dp),
         text = {
-            FilterDialogRow(context)
+            FilterDialogRow()
         },
         confirmButton = {},
         dismissButton = {}
@@ -53,7 +49,7 @@ fun FilterDialog(openDialog: MutableState<Boolean>) {
 }
 
 @Composable
-fun FilterDialogRow(context: Context) {
+fun FilterDialogRow() {
     Column(
         Modifier
             .padding(top = 5.dp)
@@ -111,6 +107,5 @@ fun FilterDialogRow(context: Context) {
 @Preview()
 @Composable
 fun Preview() {
-    val context = LocalContext.current
-    FilterDialogRow(context)
+    FilterDialogRow()
 }

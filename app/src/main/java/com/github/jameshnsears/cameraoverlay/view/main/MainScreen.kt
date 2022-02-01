@@ -44,6 +44,7 @@ import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButt
 import com.github.jameshnsears.cameraoverlay.view.main.permission.observeAsSate
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
+import java.security.Permissions
 import timber.log.Timber
 
 @Composable
@@ -69,19 +70,6 @@ fun MainScreen(
             }
         }
     }
-}
-
-@Composable
-fun PermissionButtons(
-    navController: NavController,
-    viewModelPermission: ViewModelPermission
-) {
-    val lifeCycleState = LocalLifecycleOwner.current.lifecycle.observeAsSate()
-    Timber.d("lifeCycleState=${lifeCycleState.value.name}")
-
-    PermissionButtonStorage(viewModelPermission)
-    PermissionButtonLocation(viewModelPermission)
-    PermissionButtonOverlay(viewModelPermission)
 }
 
 @Composable
@@ -170,7 +158,19 @@ fun Permissions(
         }
     }
 
-    PermissionButtons(navController, viewModelPermission)
+    PermissionButtons(viewModelPermission)
+}
+
+@Composable
+fun PermissionButtons(
+    viewModelPermission: ViewModelPermission
+) {
+    val lifeCycleState = LocalLifecycleOwner.current.lifecycle.observeAsSate()
+    Timber.d("lifeCycleState=${lifeCycleState.value.name}")
+
+    PermissionButtonStorage(viewModelPermission)
+    PermissionButtonLocation(viewModelPermission)
+    PermissionButtonOverlay(viewModelPermission)
 }
 
 @Composable

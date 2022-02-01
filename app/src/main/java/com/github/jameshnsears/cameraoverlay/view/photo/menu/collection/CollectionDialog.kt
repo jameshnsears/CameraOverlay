@@ -1,7 +1,6 @@
 package com.github.jameshnsears.cameraoverlay.view.photo.menu.collection
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -32,7 +31,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,8 +41,6 @@ import timber.log.Timber
 
 @Composable
 fun CollectionDialog(openDialog: MutableState<Boolean>) {
-    val context = LocalContext.current
-
     AlertDialog(
         onDismissRequest = {
             openDialog.value = false
@@ -58,7 +54,7 @@ fun CollectionDialog(openDialog: MutableState<Boolean>) {
         },
         shape = RoundedCornerShape(16.dp),
         text = {
-            CollectionDialogRow(context)
+            CollectionDialogRow()
         },
         confirmButton = {},
         dismissButton = {}
@@ -66,7 +62,7 @@ fun CollectionDialog(openDialog: MutableState<Boolean>) {
 }
 
 @Composable
-fun CollectionDialogRow(context: Context) {
+fun CollectionDialogRow() {
     var state by remember { mutableStateOf(true) }
 
     Column(Modifier.selectableGroup()) {
@@ -191,6 +187,5 @@ fun launcherAppInfoAccessLocation(
 @Preview()
 @Composable
 fun Preview() {
-    val context = LocalContext.current
-    CollectionDialogRow(context)
+    CollectionDialogRow()
 }

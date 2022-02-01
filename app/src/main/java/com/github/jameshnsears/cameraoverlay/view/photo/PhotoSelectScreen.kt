@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,7 +32,7 @@ import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.photo.menu.collection.CollectionDialog
 import com.github.jameshnsears.cameraoverlay.view.photo.menu.filter.FilterDialog
-import com.github.jameshnsears.cameraoverlay.view.photo.menu.sortby.SortDialog
+import com.github.jameshnsears.cameraoverlay.view.photo.menu.sort.SortDialog
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
 @Composable
@@ -66,36 +67,11 @@ fun PhotoSelectScreen(navController: NavController) {
                         }
                     },
                     actions = {
-                        IconButton(onClick = { filterDialogState.value = true }) {
-                            Icon(
-                                imageVector = Icons.Outlined.FilterAlt,
-                                contentDescription = null,
-                                tint = Color.White
-                            )
-                        }
-                        IconButton(onClick = { collectionDialogState.value = true }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Collections,
-                                contentDescription = null,
-                                tint = Color.White
-                            )
-                        }
-
-                        IconButton(onClick = { sortDialogState.value = true }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Sort,
-                                contentDescription = null,
-                                tint = Color.White
-                            )
-                        }
-
-                        IconButton(onClick = { }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Refresh,
-                                contentDescription = null,
-                                tint = Color.White
-                            )
-                        }
+                        TopBarActions(
+                            filterDialogState,
+                            collectionDialogState,
+                            sortDialogState
+                        )
                     }
                 )
 
@@ -118,6 +94,42 @@ fun PhotoSelectScreen(navController: NavController) {
     }
 }
 
+@Composable
+fun TopBarActions(
+    filterDialogState: MutableState<Boolean>,
+    collectionDialogState: MutableState<Boolean>,
+    sortDialogState: MutableState<Boolean>) {
+    IconButton(onClick = { filterDialogState.value = true }) {
+        Icon(
+            imageVector = Icons.Outlined.FilterAlt,
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
+    IconButton(onClick = { collectionDialogState.value = true }) {
+        Icon(
+            imageVector = Icons.Outlined.Collections,
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
+
+    IconButton(onClick = { sortDialogState.value = true }) {
+        Icon(
+            imageVector = Icons.Outlined.Sort,
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
+
+    IconButton(onClick = { }) {
+        Icon(
+            imageVector = Icons.Outlined.Refresh,
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
+}
 
 @Preview(name = "Light Theme")
 @Composable
