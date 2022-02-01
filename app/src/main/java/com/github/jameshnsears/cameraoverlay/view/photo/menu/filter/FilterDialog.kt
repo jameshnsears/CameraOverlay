@@ -34,7 +34,7 @@ fun FilterDialog(openDialog: MutableState<Boolean>) {
         },
         title = {
             Text(
-                text = stringResource(R.string.select_photo_dialog_filter),
+                text = stringResource(R.string.select_photo_filter),
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp
             )

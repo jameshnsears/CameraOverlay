@@ -99,17 +99,18 @@ fun TopBarActions(
     filterDialogState: MutableState<Boolean>,
     collectionDialogState: MutableState<Boolean>,
     sortDialogState: MutableState<Boolean>) {
+
     IconButton(onClick = { filterDialogState.value = true }) {
         Icon(
             imageVector = Icons.Outlined.FilterAlt,
-            contentDescription = null,
+            contentDescription = stringResource(R.string.select_photo_filter),
             tint = Color.White
         )
     }
     IconButton(onClick = { collectionDialogState.value = true }) {
         Icon(
             imageVector = Icons.Outlined.Collections,
-            contentDescription = null,
+            contentDescription = stringResource(R.string.select_photo_collections),
             tint = Color.White
         )
     }
@@ -117,7 +118,7 @@ fun TopBarActions(
     IconButton(onClick = { sortDialogState.value = true }) {
         Icon(
             imageVector = Icons.Outlined.Sort,
-            contentDescription = null,
+            contentDescription = stringResource(R.string.select_photo_sort),
             tint = Color.White
         )
     }
@@ -125,7 +126,7 @@ fun TopBarActions(
     IconButton(onClick = { }) {
         Icon(
             imageVector = Icons.Outlined.Refresh,
-            contentDescription = null,
+            contentDescription = stringResource(R.string.select_photo_button_refresh),
             tint = Color.White
         )
     }

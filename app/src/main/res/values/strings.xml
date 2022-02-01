@@ -22,27 +22,23 @@
     <string name="permissions_screen_overlay_display_photo">\u2022 Display photo in overlay</string>
 
     <string name="select_photo">Select photo</string>
-
     <string name="select_photo_usage_0">Tap photo to configure overlay</string>
-
-    <string name="select_photo_dialog_filter">Filter</string>
+    <string name="select_photo_filter">Filter</string>
     <string name="select_photo_dialog_filter_exif">Only jpeg &amp; png can contain geolocation data</string>
     <string name="select_photo_dialog_filter_jpeg">jpeg</string>
     <string name="select_photo_dialog_filter_png">png</string>
     <string name="select_photo_dialog_filter_webp">webp</string>
-
-    <string name="select_photo_dialog_collection">Collection</string>
-    <string name="select_photo_dialog_collection_media_store">MediaStore</string>
-    <string name="select_photo_dialog_collection_access_framework">Storage Access Framework</string>
-    <string name="select_photo_dialog_collection_file">File</string>
-    <string name="select_photo_dialog_collection_folder">Folder</string>
-
-    <string name="select_photo_dialog_sort">Sort</string>
+    <string name="select_photo_collections">Collections</string>
+    <string name="select_photo_dialog_collections_media_store">MediaStore</string>
+    <string name="select_photo_dialog_collections_access_framework">Storage Access Framework</string>
+    <string name="select_photo_dialog_collections_file">File</string>
+    <string name="select_photo_dialog_collections_folder">Folder</string>
+    <string name="select_photo_sort">Sort</string>
     <string name="select_photo_dialog_sort_when_taken">When taken</string>
     <string name="select_photo_dialog_sort_distance">Distance from current location</string>
+    <string name="select_photo_button_refresh">Refresh</string>
 
     <string name="configure_overlay">Configure overlay</string>
-
     <string name="configure_overlay_screen_photo">Photo</string>
     <string name="configure_overlay_screen_transparency">Transparency %</string>
     <string name="configure_overlay_screen_edge_detection">Edge Detection</string>

@@ -38,7 +38,7 @@ fun SortDialog(openDialog: MutableState<Boolean>) {
         },
         title = {
             Text(
-                text = stringResource(R.string.select_photo_dialog_sort),
+                text = stringResource(R.string.select_photo_sort),
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp
             )

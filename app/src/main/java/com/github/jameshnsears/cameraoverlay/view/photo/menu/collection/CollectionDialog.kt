@@ -47,7 +47,7 @@ fun CollectionDialog(openDialog: MutableState<Boolean>) {
         },
         title = {
             Text(
-                text = stringResource(R.string.select_photo_dialog_collection),
+                text = stringResource(R.string.select_photo_collections),
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp
             )
@@ -72,7 +72,7 @@ fun CollectionDialogRow() {
                 onClick = { state = true }
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(stringResource(R.string.select_photo_dialog_collection_media_store))
+            Text(stringResource(R.string.select_photo_dialog_collections_media_store))
         }
 
         Row(Modifier.padding(top = 10.dp)) {
@@ -81,7 +81,7 @@ fun CollectionDialogRow() {
                 onClick = { state = false }
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(stringResource(R.string.select_photo_dialog_collection_access_framework))
+            Text(stringResource(R.string.select_photo_dialog_collections_access_framework))
         }
 
         Row(
@@ -99,7 +99,7 @@ fun CollectionDialogRow() {
                         modifier = Modifier.size(ButtonDefaults.IconSize)
                     )
                     Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                    Text(stringResource(R.string.select_photo_dialog_collection_file))
+                    Text(stringResource(R.string.select_photo_dialog_collections_file))
                 }
 
                 ButtonPicker()
@@ -159,7 +159,7 @@ fun ButtonPicker() {
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Text(
-            text = stringResource(R.string.select_photo_dialog_collection_folder)
+            text = stringResource(R.string.select_photo_dialog_collections_folder)
         )
     }
 }

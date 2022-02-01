@@ -202,7 +202,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt'
-    implementation platform('com.google.firebase:firebase-bom:28.4.2')    
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation project(path: ':module:common')
     implementation project(path: ':module:permissions')
     implementation project(path: ':module:opencv')
@@ -214,3 +214,14 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
+
+task pushResources(type: Exec) {
+    group = "androidTest"
+    description = "Push /resources onto /storage/emulated/0/Pictures"
+
+    def resourcesFolder = new File(projectDir.absolutePath + '/src/androidTest/resources')
+
+    commandLine android.getAdbExecutable(), 'push', "${resourcesFolder.absolutePath}", '/storage/emulated/0/Pictures'
+}
+
+
