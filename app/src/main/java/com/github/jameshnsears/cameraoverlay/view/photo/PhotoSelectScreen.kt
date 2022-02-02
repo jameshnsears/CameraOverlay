@@ -30,9 +30,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
-import com.github.jameshnsears.cameraoverlay.view.photo.menu.collection.CollectionDialog
-import com.github.jameshnsears.cameraoverlay.view.photo.menu.filter.FilterDialog
-import com.github.jameshnsears.cameraoverlay.view.photo.menu.sort.SortDialog
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
 @Composable
@@ -45,7 +42,7 @@ fun PhotoSelectScreen(navController: NavController) {
 
     val collectionDialogState = remember { mutableStateOf(false) }
     if (collectionDialogState.value) {
-        CollectionDialog(collectionDialogState)
+        PhotoCollectionDialog(collectionDialogState)
     }
 
     val sortDialogState = remember { mutableStateOf(false) }
@@ -134,6 +131,6 @@ fun TopBarActions(
 
 @Preview(name = "Light Theme")
 @Composable
-fun PreviewPortrait() {
+fun PreviewPhotoSelectScreen() {
     PhotoSelectScreen(rememberNavController())
 }

@@ -11,6 +11,7 @@ import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
 import io.mockk.mockk
+import junit.framework.Assert.fail
 import org.junit.Rule
 import org.junit.Test
 import timber.log.Timber
@@ -67,5 +68,15 @@ class PhotoSelectScreenTest {
     fun mediaStore() {
         // https://www.cobeisfresh.com/stories/taming-file-storage-on-android-part-2
         // https://developer.android.com/training/data-storage/shared/media
+    }
+
+    @Test
+    fun buttonCollection() {
+        fail()
+    }
+
+    @Test
+    fun buttonSort() {
+        fail()
     }
 }

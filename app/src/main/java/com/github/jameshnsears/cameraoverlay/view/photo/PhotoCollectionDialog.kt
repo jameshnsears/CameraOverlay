@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.photo.menu.collection
+package com.github.jameshnsears.cameraoverlay.view.photo
 
 import android.app.Activity
 import android.content.Intent
@@ -40,7 +40,7 @@ import com.github.jameshnsears.cameraoverlay.R
 import timber.log.Timber
 
 @Composable
-fun CollectionDialog(openDialog: MutableState<Boolean>) {
+fun PhotoCollectionDialog(openDialog: MutableState<Boolean>) {
     AlertDialog(
         onDismissRequest = {
             openDialog.value = false
@@ -186,6 +186,6 @@ fun launcherAppInfoAccessLocation(
 
 @Preview()
 @Composable
-fun Preview() {
+fun PreviewPhotoCollectionDialog() {
     CollectionDialogRow()
 }

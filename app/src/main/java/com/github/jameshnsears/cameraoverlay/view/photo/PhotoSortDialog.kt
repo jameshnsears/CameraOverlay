@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.photo.menu.sort
+package com.github.jameshnsears.cameraoverlay.view.photo
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.photo.menu.filter
+package com.github.jameshnsears.cameraoverlay.view.photo
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -104,8 +104,8 @@ fun FilterDialogRow() {
     }
 }
 
-@Preview()
+@Preview
 @Composable
-fun Preview() {
+fun PreviewPhotoFilterDialog() {
     FilterDialogRow()
 }
