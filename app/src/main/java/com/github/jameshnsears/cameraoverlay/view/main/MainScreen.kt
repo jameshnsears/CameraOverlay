@@ -104,7 +104,7 @@ fun Usage() {
         modifier = Modifier
             .padding(vertical = 5.dp)
     ) {
-        Column() {
+        Column(Modifier.padding(bottom = 10.dp)) {
             Text(
                 stringResource(R.string.main_screen_usage),
                 fontWeight = FontWeight.Bold,
@@ -181,7 +181,7 @@ fun ButtonSelectPhoto(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 10.dp),
+            .padding(top = 10.dp, bottom = 10.dp),
         horizontalAlignment = Alignment.End
     ) {
         Button(

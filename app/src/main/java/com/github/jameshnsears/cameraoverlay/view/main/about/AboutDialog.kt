@@ -1,11 +1,14 @@
 package com.github.jameshnsears.cameraoverlay.view.main.about
 
+import ButtonOk
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,6 +20,7 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -32,9 +36,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat.startActivity
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.R
+
+@Composable
+fun FullScreenDialog(showDialog:Boolean, onClose:()->Unit) {
+    if (showDialog) {
+        Dialog(onDismissRequest =  onClose ) {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                shape = RoundedCornerShape(16.dp),
+                color = Color.LightGray
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(modifier = Modifier.align(Alignment.TopCenter),
+                        text = "top")
+                    Text("center")
+                    Text(
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                        text = "bottom")
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun AboutDialog(openDialog: MutableState<Boolean>) {
@@ -60,19 +89,6 @@ fun AboutDialog(openDialog: MutableState<Boolean>) {
             ButtonOk { openDialog.value = false }
         }
     )
-}
-
-@Composable
-fun ButtonOk(onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .size(width = 120.dp, height = 45.dp)
-            .padding(bottom = 10.dp, end = 10.dp),
-        shape = RoundedCornerShape(16.dp),
-    ) {
-        Text(stringResource(R.string.about_dialog_ok))
-    }
 }
 
 @Composable

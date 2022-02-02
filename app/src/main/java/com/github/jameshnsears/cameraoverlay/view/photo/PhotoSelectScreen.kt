@@ -34,23 +34,23 @@ import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
 @Composable
 fun PhotoSelectScreen(navController: NavController) {
-
-    val filterDialogState = remember { mutableStateOf(false) }
-    if (filterDialogState.value) {
-        FilterDialog(filterDialogState)
-    }
-
-    val collectionDialogState = remember { mutableStateOf(false) }
-    if (collectionDialogState.value) {
-        PhotoCollectionDialog(collectionDialogState)
-    }
-
-    val sortDialogState = remember { mutableStateOf(false) }
-    if (sortDialogState.value) {
-        SortDialog(sortDialogState)
-    }
-
     CameraOverlayTheme {
+
+        val filterDialogState = remember { mutableStateOf(false) }
+        if (filterDialogState.value) {
+            FilterDialog(filterDialogState)
+        }
+
+        val collectionDialogState = remember { mutableStateOf(false) }
+        if (collectionDialogState.value) {
+            PhotoCollectionDialog(collectionDialogState)
+        }
+
+        val sortDialogState = remember { mutableStateOf(false) }
+        if (sortDialogState.value) {
+            SortDialog(sortDialogState)
+        }
+
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -80,10 +80,6 @@ fun PhotoSelectScreen(navController: NavController) {
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                Row(Modifier.padding(top=5.dp, bottom=5.dp)) {
-                    Text(stringResource(R.string.select_photo_usage_0))
-                }
-
                 // TODO replace with coil
                 CardPhoto()
             }
