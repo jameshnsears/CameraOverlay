@@ -76,7 +76,6 @@ fun CollectionDialogRow() {
 
     var selected by remember { mutableStateOf(radioMediaStore) }
 
-
     Column {
         val onSelectedChange = { text: String ->
             selected = text
@@ -103,11 +102,6 @@ fun CollectionDialogRow() {
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text(radioMediaStore)
         }
-
-
-
-
-
 
         Column {
             Row(
@@ -143,6 +137,7 @@ fun CollectionDialogRow() {
                     modifier = Modifier
                         .width(120.dp),
                     shape = RoundedCornerShape(16.dp),
+                    enabled = (radioStorageAccessFramework == selected)
                 ) {
                     Icon(
                         Icons.Outlined.Image,
@@ -159,6 +154,7 @@ fun CollectionDialogRow() {
                     modifier = Modifier
                         .width(120.dp),
                     shape = RoundedCornerShape(16.dp),
+                    enabled = (radioStorageAccessFramework == selected)
                 ) {
                     Icon(
                         Icons.Outlined.Folder,
@@ -169,7 +165,6 @@ fun CollectionDialogRow() {
                     Text(stringResource(R.string.select_photo_dialog_collections_folder))
                 }
             }
-
         }
     }
 }
