@@ -3,6 +3,9 @@ package com.github.jameshnsears.cameraoverlay.view.photo
 import ButtonOk
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.DocumentsContract
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
@@ -41,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.R
 import timber.log.Timber
 
@@ -145,8 +149,18 @@ fun ButtonStorageAccessFrameworkFile(
     radioStorageAccessFramework: String,
     selected: String
 ) {
+    val buttonState = remember { mutableStateOf(false) }
+    val launcherAppInfoShowLocation = launcherAppInfoAccessLocation(buttonState)
+
+    if (buttonState.value) {
+        launcherAppInfoShowLocation
+            .launch(
+                getIntent(Intent.ACTION_OPEN_DOCUMENT)
+            )
+    }
+
     Button(
-        onClick = { /* ... */ },
+        onClick = { buttonState.value = true },
         modifier = Modifier
             .width(120.dp),
         shape = RoundedCornerShape(16.dp),
@@ -167,8 +181,20 @@ fun ButtonStorageAccessFrameworkFolder(
     radioStorageAccessFramework: String,
     selected: String
 ) {
+    val buttonState = remember { mutableStateOf(false) }
+    val launcherAppInfoShowLocation = launcherAppInfoAccessLocation(buttonState)
+
+    if (buttonState.value) {
+        launcherAppInfoShowLocation
+            .launch(
+                getIntent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+            )
+    }
+
+    //     android.content.ActivityNotFoundException: No Activity found to handle Intent { act=android.intent.action.OPEN_DOCUMENT_TREE cat=[android.intent.category.OPENABLE] (has extras) }
+
     Button(
-        onClick = { /* ... */ },
+        onClick = { buttonState.value = true },
         modifier = Modifier
             .width(120.dp),
         shape = RoundedCornerShape(16.dp),
@@ -184,61 +210,27 @@ fun ButtonStorageAccessFrameworkFolder(
     }
 }
 
+private fun getIntent(intentAction: String): Intent {
+    // https://developer.android.com/training/data-storage/shared/documents-files
+    // == shows how to access items metadata
 
-@Composable
-fun ButtonStorageAccessFrameworkFolder() {
-    val buttonState = remember { mutableStateOf(false) }
+    return Intent(intentAction).apply {
+        if (intentAction == Intent.ACTION_OPEN_DOCUMENT) {
+            addCategory(Intent.CATEGORY_OPENABLE)
+        }
 
-    val launcherAppInfoShowLocation = launcherAppInfoAccessLocation(buttonState)
-
-    if (buttonState.value) {
-        launcherAppInfoShowLocation
-
-            .launch(
-                // https://developer.android.com/training/data-storage/shared/documents-files
-                // == shows how to access items metadata
-
-                // TODO - a folder ACTION_OPEN_DOCUMENT_TREE
-                // TODO - v. a single file: ACTION_OPEN_DOCUMENT
-                Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                        val authority = "com.android.externalstorage.documents"
-//                        putExtra(
-//                            DocumentsContract.EXTRA_INITIAL_URI,
-//                            Uri.parse("content://${authority}/document/primary:Pictures"))
-//                    }
-
-                    // https://www.iana.org/assignments/media-types/media-types.xhtml#image
-                    // only jpeg + tiff types can contain EXIF
-
-
-                    // "image/tiff", "image/png", "image/bmp", "image/webp"
-                    type = "image/jpeg"
-
-                }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && BuildConfig.DEBUG == true) {
+            val authority = "com.android.externalstorage.documents"
+            putExtra(
+                DocumentsContract.EXTRA_INITIAL_URI,
+                Uri.parse("content://${authority}/document/primary:Pictures")
             )
-    }
+        }
 
-
-    Button(
-        onClick = {
-            buttonState.value = true
-        },
-        modifier = Modifier
-            .width(120.dp),
-        shape = RoundedCornerShape(16.dp),
-    ) {
-        Icon(
-            imageVector = Icons.Outlined.Folder,
-            contentDescription = null,
-            modifier = Modifier.size(ButtonDefaults.IconSize)
-        )
-        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text(
-            text = stringResource(R.string.select_photo_dialog_collections_folder)
-        )
+        if (intentAction == Intent.ACTION_OPEN_DOCUMENT) {
+            // "image/tiff", "image/png", "image/bmp", "image/webp"
+            type = "image/jpeg"
+        }
     }
 }
 
@@ -254,7 +246,6 @@ fun launcherAppInfoAccessLocation(
         }
 
         // Activity.RESULT_CANCELED; data = null
-
         val data = it.data
 
         buttonState.value = false
