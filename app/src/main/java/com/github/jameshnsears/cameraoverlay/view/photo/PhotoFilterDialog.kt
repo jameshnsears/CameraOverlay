@@ -1,13 +1,13 @@
 package com.github.jameshnsears.cameraoverlay.view.photo
 
 import ButtonOk
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.ButtonDefaults
@@ -57,65 +57,47 @@ fun FilterDialog(openDialog: MutableState<Boolean>) {
 
 @Composable
 fun FilterDialogRow() {
-    var state by remember { mutableStateOf(true) }
 
-    Column(
-        Modifier
-            .selectableGroup()
-    ) {
+    val jpeg = stringResource(R.string.select_photo_dialog_filter_jpeg)
+    var selected by remember { mutableStateOf(jpeg) }
+
+    val radioGroupOptions = listOf(
+        stringResource(R.string.select_photo_dialog_filter_jpeg),
+        stringResource(R.string.select_photo_dialog_filter_png),
+        stringResource(R.string.select_photo_dialog_filter_webp)
+    )
+
+    Column {
         Row {
             Text(stringResource(R.string.select_photo_dialog_filter_exif))
         }
 
-        Row(
-            Modifier
-                .padding(top = 20.dp, start = 16.dp, bottom = 15.dp)
-        ) {
-            RadioButton(
-                selected = state,
-                onClick = { state = true },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = MaterialTheme.colors.primary,
-                    unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-                    disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
-                )
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(stringResource(R.string.select_photo_dialog_filter_jpeg))
+        val onSelectedChange = { text: String ->
+            selected = text
         }
 
-        Row(
-            Modifier
-                .padding(top = 10.dp, start = 16.dp, bottom = 15.dp)
-        ) {
-            RadioButton(
-                selected = !state,
-                onClick = { state = false },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = MaterialTheme.colors.primary,
-                    unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-                    disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+        radioGroupOptions.forEach { text ->
+            Row(
+                Modifier
+                    .padding(top = 20.dp, start = 16.dp)
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = (text == selected),
+                        onClick = { onSelectedChange(text) }
+                    )
+            ) {
+                RadioButton(
+                    selected = (text == selected),
+                    onClick = { onSelectedChange(text) },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = MaterialTheme.colors.primary,
+                        unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                        disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+                    )
                 )
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(stringResource(R.string.select_photo_dialog_filter_png))
-        }
-
-        Row(
-            Modifier
-                .padding(top = 10.dp, start = 16.dp)
-        ) {
-            RadioButton(
-                selected = !state,
-                onClick = { state = false },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = MaterialTheme.colors.primary,
-                    unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-                    disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
-                )
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(stringResource(R.string.select_photo_dialog_filter_webp))
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text(text)
+            }
         }
     }
 }
