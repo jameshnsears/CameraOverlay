@@ -1,5 +1,6 @@
 package com.github.jameshnsears.cameraoverlay.view.photo
 
+import ButtonOk
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -10,16 +11,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
+import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Folder
@@ -57,36 +62,82 @@ fun PhotoCollectionDialog(openDialog: MutableState<Boolean>) {
             CollectionDialogRow()
         },
         confirmButton = {},
-        dismissButton = {}
+        dismissButton = {
+            ButtonOk { openDialog.value = false }
+        }
     )
 }
 
 @Composable
 fun CollectionDialogRow() {
-    var state by remember { mutableStateOf(true) }
+    val radioMediaStore = stringResource(R.string.select_photo_dialog_collections_media_store)
+    val radioStorageAccessFramework =
+        stringResource(R.string.select_photo_dialog_collections_access_framework)
 
-    Column(Modifier.selectableGroup()) {
-        Row {
-            RadioButton(
-                selected = state,
-                onClick = { state = true }
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(stringResource(R.string.select_photo_dialog_collections_media_store))
-        }
+    var selected by remember { mutableStateOf(radioMediaStore) }
 
-        Row(Modifier.padding(top = 10.dp)) {
-            RadioButton(
-                selected = !state,
-                onClick = { state = false }
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(stringResource(R.string.select_photo_dialog_collections_access_framework))
+
+    Column {
+        val onSelectedChange = { text: String ->
+            selected = text
         }
 
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween
+            Modifier
+                .padding(top = 20.dp)
+                .fillMaxWidth()
+                .selectable(
+                    selected = (radioMediaStore == selected),
+                    onClick = { onSelectedChange(radioMediaStore) }
+                )
         ) {
+            RadioButton(
+                selected = (radioMediaStore == selected),
+                onClick = { onSelectedChange(radioMediaStore) },
+                colors = RadioButtonDefaults.colors(
+                    selectedColor = MaterialTheme.colors.primary,
+                    unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                    disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+                )
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text(radioMediaStore)
+        }
+
+
+
+
+
+
+        Column {
+            Row(
+                Modifier
+                    .padding(top = 20.dp)
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = (radioStorageAccessFramework == selected),
+                        onClick = { onSelectedChange(radioStorageAccessFramework) }
+                    )
+            ) {
+                RadioButton(
+                    selected = (radioStorageAccessFramework == selected),
+                    onClick = { onSelectedChange(radioStorageAccessFramework) },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = MaterialTheme.colors.primary,
+                        unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                        disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+                    )
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text(radioStorageAccessFramework)
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp, start = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Button(
                     onClick = { /* ... */ },
                     modifier = Modifier
@@ -102,8 +153,24 @@ fun CollectionDialogRow() {
                     Text(stringResource(R.string.select_photo_dialog_collections_file))
                 }
 
-                ButtonPicker()
+
+                Button(
+                    onClick = { /* ... */ },
+                    modifier = Modifier
+                        .width(120.dp),
+                    shape = RoundedCornerShape(16.dp),
+                ) {
+                    Icon(
+                        Icons.Outlined.Folder,
+                        contentDescription = "",
+                        modifier = Modifier.size(ButtonDefaults.IconSize)
+                    )
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                    Text(stringResource(R.string.select_photo_dialog_collections_folder))
+                }
             }
+
+        }
     }
 }
 

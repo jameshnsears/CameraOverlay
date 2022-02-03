@@ -79,7 +79,7 @@ fun FilterDialogRow() {
         radioGroupOptions.forEach { text ->
             Row(
                 Modifier
-                    .padding(top = 20.dp, start = 16.dp)
+                    .padding(top = 20.dp)
                     .fillMaxWidth()
                     .selectable(
                         selected = (text == selected),
