@@ -132,45 +132,61 @@ fun CollectionDialogRow() {
                     .padding(top = 20.dp, start = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Button(
-                    onClick = { /* ... */ },
-                    modifier = Modifier
-                        .width(120.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    enabled = (radioStorageAccessFramework == selected)
-                ) {
-                    Icon(
-                        Icons.Outlined.Image,
-                        contentDescription = "",
-                        modifier = Modifier.size(ButtonDefaults.IconSize)
-                    )
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                    Text(stringResource(R.string.select_photo_dialog_collections_file))
-                }
+                ButtonStorageAccessFrameworkFile(radioStorageAccessFramework, selected)
 
-
-                Button(
-                    onClick = { /* ... */ },
-                    modifier = Modifier
-                        .width(120.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    enabled = (radioStorageAccessFramework == selected)
-                ) {
-                    Icon(
-                        Icons.Outlined.Folder,
-                        contentDescription = "",
-                        modifier = Modifier.size(ButtonDefaults.IconSize)
-                    )
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                    Text(stringResource(R.string.select_photo_dialog_collections_folder))
-                }
+                ButtonStorageAccessFrameworkFolder(radioStorageAccessFramework, selected)
             }
         }
     }
 }
 
 @Composable
-fun ButtonPicker() {
+fun ButtonStorageAccessFrameworkFile(
+    radioStorageAccessFramework: String,
+    selected: String
+) {
+    Button(
+        onClick = { /* ... */ },
+        modifier = Modifier
+            .width(120.dp),
+        shape = RoundedCornerShape(16.dp),
+        enabled = (radioStorageAccessFramework == selected)
+    ) {
+        Icon(
+            Icons.Outlined.Image,
+            contentDescription = "",
+            modifier = Modifier.size(ButtonDefaults.IconSize)
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text(stringResource(R.string.select_photo_dialog_collections_file))
+    }
+}
+
+@Composable
+fun ButtonStorageAccessFrameworkFolder(
+    radioStorageAccessFramework: String,
+    selected: String
+) {
+    Button(
+        onClick = { /* ... */ },
+        modifier = Modifier
+            .width(120.dp),
+        shape = RoundedCornerShape(16.dp),
+        enabled = (radioStorageAccessFramework == selected)
+    ) {
+        Icon(
+            Icons.Outlined.Folder,
+            contentDescription = "",
+            modifier = Modifier.size(ButtonDefaults.IconSize)
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text(stringResource(R.string.select_photo_dialog_collections_folder))
+    }
+}
+
+
+@Composable
+fun ButtonStorageAccessFrameworkFolder() {
     val buttonState = remember { mutableStateOf(false) }
 
     val launcherAppInfoShowLocation = launcherAppInfoAccessLocation(buttonState)
@@ -246,7 +262,7 @@ fun launcherAppInfoAccessLocation(
     return launcherAppInfo
 }
 
-@Preview()
+@Preview
 @Composable
 fun PreviewPhotoCollectionDialog() {
     CollectionDialogRow()
