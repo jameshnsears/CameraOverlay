@@ -49,16 +49,16 @@ fun PermissionScreen(navController: NavController) {
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                AccessPhotos()
-                ShowLocation()
-                DisplayOverlay()
+                FilesAndMedia()
+                Location()
+                DisplayOverOtherApps()
             }
         }
     }
 }
 
 @Composable
-fun AccessPhotos() {
+fun FilesAndMedia() {
     Column(
         modifier = Modifier
             .padding(vertical = 5.dp)
@@ -83,11 +83,13 @@ fun AccessPhotos() {
                     stringResource(R.string.permissions_screen_mandatory),
                     modifier = Modifier
                         .padding(vertical = 4.dp)
+                        .padding(start = 16.dp)
                 )
                 Text(
                     stringResource(R.string.permissions_screen_choose_photo),
                     modifier = Modifier
                         .padding(vertical = 4.dp)
+                        .padding(start = 16.dp)
                 )
             }
         }
@@ -95,7 +97,7 @@ fun AccessPhotos() {
 }
 
 @Composable
-fun ShowLocation() {
+fun Location() {
     Column(
         modifier = Modifier
             .padding(vertical = 5.dp)
@@ -121,11 +123,13 @@ fun ShowLocation() {
                     stringResource(R.string.permissions_screen_optional),
                     modifier = Modifier
                         .padding(vertical = 4.dp)
+                        .padding(start = 16.dp)
                 )
                 Text(
                     stringResource(R.string.permissions_screen_show_distance),
                     modifier = Modifier
                         .padding(vertical = 4.dp)
+                        .padding(start = 16.dp)
                 )
             }
         }
@@ -133,7 +137,7 @@ fun ShowLocation() {
 }
 
 @Composable
-fun DisplayOverlay() {
+fun DisplayOverOtherApps() {
     Column(
         modifier = Modifier
             .padding(vertical = 5.dp)
@@ -159,11 +163,13 @@ fun DisplayOverlay() {
                     stringResource(R.string.permissions_screen_mandatory),
                     modifier = Modifier
                         .padding(vertical = 4.dp)
+                        .padding(start = 16.dp)
                 )
                 Text(
                     stringResource(R.string.permissions_screen_overlay_display_photo),
                     modifier = Modifier
                         .padding(vertical = 4.dp)
+                        .padding(start = 16.dp)
                 )
             }
         }

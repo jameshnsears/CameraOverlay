@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
-    id "io.gitlab.arturbosch.detekt" version "1.18.1"
-    id "org.jlleitschuh.gradle.ktlint" version "10.2.0"
+    id "io.gitlab.arturbosch.detekt" version "1.19.0"
+    id "org.jlleitschuh.gradle.ktlint" version "10.2.1"
     id "org.sonarqube" version "3.3"
 }
 
@@ -36,7 +36,7 @@ android {
         applicationId "com.github.jameshnsears.cameraoverlay"
         minSdk 24
         targetSdk 31
-        versionCode 241
+        versionCode 12431
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -194,8 +194,8 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
-    implementation 'androidx.navigation:navigation-compose:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-compose:2.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.jakewharton.timber:timber:5.0.1'

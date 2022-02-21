@@ -118,6 +118,7 @@ private fun DistanceFromCurrentLocation() {
             stringResource(R.string.select_photo_dialog_sort_distance),
             modifier = Modifier
                 .padding(bottom = 8.dp)
+                .align(Alignment.CenterVertically)
         )
 
         Column(
@@ -130,6 +131,7 @@ private fun DistanceFromCurrentLocation() {
                     contentDescription = null,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
+                        .align(Alignment.CenterVertically)
                 )
             }
         }

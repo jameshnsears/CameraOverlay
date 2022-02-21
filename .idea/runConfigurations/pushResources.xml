@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CameraOverlay [pushResources]" type="GradleRunConfiguration" factoryName="Gradle" folderName="androidTest" nameIsGenerated="true">
+  <configuration default="false" name="pushResources" type="GradleRunConfiguration" factoryName="Gradle" folderName="androidTest">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
