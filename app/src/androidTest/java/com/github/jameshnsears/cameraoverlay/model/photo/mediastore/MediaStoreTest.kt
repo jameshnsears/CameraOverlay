@@ -1,21 +1,30 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 
-import android.app.Application
-import android.content.ContentResolver
+import android.Manifest
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import java.util.concurrent.TimeUnit
+import junit.framework.Assert.assertEquals
 import junit.framework.Assert.fail
 import org.junit.Test
+import androidx.test.rule.GrantPermissionRule
+import org.junit.Rule
+import org.junit.runner.RunWith
+
 
 
 class MediaStoreTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+
+    @get:Rule
+    var mRuntimePermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
     @Test
     fun mediaStoreTest() {
@@ -26,13 +35,23 @@ class MediaStoreTest {
 
         ////////////////////////////////////////////////////
 
-        // Container for information about each video.
-        data class Video(val uri: Uri,
-                         val name: String,
-                         val duration: Int,
-                         val size: Int
-        )
-        val videoList = mutableListOf<Video>()
+        // https://developer.android.com/training/data-storage/shared/media
+        // https://developer.android.com/training/data-storage/shared/media#query-collection
+        // /home/jsears/GIT_REPOS/PicturePostcard/storage-samples
+
+        /*
+        If your app targets Android 10 (API level 29) or higher, in order for your app to
+        retrieve unredacted Exif metadata from photos, you need to declare the
+        ACCESS_MEDIA_LOCATION permission in your app's manifest, then request this
+        permission at runtime.
+
+        With scoped storage, an app no longer has direct access to all the files in external storage.
+        If an app wants to manipulate a file that it didn’t create, it has to get explicit authorization from the user.
+        */
+
+        val galleryImageUrls = mutableListOf<Uri>()
+        val columns = arrayOf(MediaStore.Images.Media._ID)
+        val orderBy = MediaStore.Images.Media.DATE_TAKEN
 
         val collection =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -43,57 +62,24 @@ class MediaStoreTest {
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI
             }
 
-        val projection = arrayOf(
-            MediaStore.Video.Media._ID,
-            MediaStore.Video.Media.DISPLAY_NAME,
-            MediaStore.Video.Media.DURATION,
-            MediaStore.Video.Media.SIZE
-        )
-
-        // Show only videos that are at least 5 minutes in duration.
-        val selection = "${MediaStore.Video.Media.DURATION} >= ?"
-        val selectionArgs = arrayOf(
-            TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES).toString()
-        )
-
-        // Display videos in alphabetical order based on their display name.
-        val sortOrder = "${MediaStore.Video.Media.DISPLAY_NAME} ASC"
-
-        val query = context.contentResolver.query(
-            collection,
-            projection,
-            selection,
-            selectionArgs,
-            sortOrder
-        )
-        query?.use { cursor ->
-            // Cache column indices.
-            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
-            val nameColumn =
-                cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME)
-            val durationColumn =
-                cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION)
-            val sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE)
+        context.contentResolver.query(
+            collection, columns,
+            null, null, "$orderBy DESC"
+        )?.use { cursor ->
+            val idColumn = cursor.getColumnIndex(MediaStore.Images.Media._ID)
 
             while (cursor.moveToNext()) {
-                // Get values of columns for a given video.
                 val id = cursor.getLong(idColumn)
-                val name = cursor.getString(nameColumn)
-                val duration = cursor.getInt(durationColumn)
-                val size = cursor.getInt(sizeColumn)
 
-                val contentUri: Uri = ContentUris.withAppendedId(
-                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                    id
+                galleryImageUrls.add(
+                    ContentUris.withAppendedId(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        id
+                    )
                 )
-
-                // Stores column values and the contentUri in a local object
-                // that represents the media file.
-                videoList += Video(contentUri, name, duration, size)
             }
         }
 
-
-        fail("todo")
+        assertEquals(galleryImageUrls, 3);
     }
 }
