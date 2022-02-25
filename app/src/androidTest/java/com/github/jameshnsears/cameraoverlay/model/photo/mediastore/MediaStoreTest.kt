@@ -23,7 +23,6 @@ class MediaStoreTest {
     @get:Rule
     var mRuntimePermissionRule = GrantPermissionRule.grant(
         Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
 
     @Test
@@ -46,20 +45,21 @@ class MediaStoreTest {
         permission at runtime.
 
         With scoped storage, an app no longer has direct access to all the files in external storage.
-        If an app wants to manipulate a file that it didn’t create, it has to get explicit authorization from the user.
+        If an app wants to manipulate a file that it didn't create, it has to get explicit authorization from the user.
         */
 
         val galleryImageUrls = mutableListOf<Uri>()
-        val columns = arrayOf(MediaStore.Images.Media._ID)
+        val columns = arrayOf(MediaStore.Images.Media._ID,
+            MediaStore.Images.Media.RELATIVE_PATH)
         val orderBy = MediaStore.Images.Media.DATE_TAKEN
 
         val collection =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                MediaStore.Video.Media.getContentUri(
+                MediaStore.Images.Media.getContentUri(
                     MediaStore.VOLUME_EXTERNAL
                 )
             } else {
-                MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             }
 
         context.contentResolver.query(
@@ -80,6 +80,6 @@ class MediaStoreTest {
             }
         }
 
-        assertEquals(galleryImageUrls, 3);
+        assertEquals(3, galleryImageUrls.size);
     }
 }
