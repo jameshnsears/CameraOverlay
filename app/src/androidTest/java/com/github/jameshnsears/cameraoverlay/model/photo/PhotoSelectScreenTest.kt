@@ -11,7 +11,6 @@ import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
 import io.mockk.mockk
-import junit.framework.Assert.fail
 import org.junit.Rule
 import org.junit.Test
 import timber.log.Timber
@@ -29,7 +28,7 @@ class PhotoSelectScreenTest {
         }
 
         composeTestRule.setContent {
-            PhotoSelectScreen(mockk<NavController>())
+            PhotoSelectScreen(mockk())
         }
 
         val filterButtonText =
@@ -67,13 +66,13 @@ class PhotoSelectScreenTest {
         // https://developer.android.com/training/data-storage/shared/media
     }
 
-    @Test
-    fun buttonCollection() {
-        fail()
-    }
-
-    @Test
-    fun buttonSort() {
-        fail()
-    }
+//    @Test
+//    fun buttonCollection() {
+//         fail()
+//    }
+//
+//    @Test
+//    fun buttonSort() {
+//         fail()
+//    }
 }
