@@ -58,7 +58,7 @@ fun OverlayConfigureScreen(navController: NavController) {
 
                 EdgeDetection()
 
-                Window()
+                OverlayConfigureWindow()
 
                 DisplayOverlay()
             }
@@ -67,7 +67,7 @@ fun OverlayConfigureScreen(navController: NavController) {
 }
 
 @Composable
-fun Window() {
+fun OverlayConfigureWindow() {
     Column {
         Text(
             stringResource(R.string.configure_overlay_screen_window),

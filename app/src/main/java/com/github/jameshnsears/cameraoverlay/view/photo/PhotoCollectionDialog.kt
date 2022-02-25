@@ -86,50 +86,10 @@ fun CollectionDialogRow() {
             selected = text
         }
 
-        Row(
-            Modifier
-                .padding(top = 20.dp)
-                .fillMaxWidth()
-                .selectable(
-                    selected = (radioMediaStore == selected),
-                    onClick = { onSelectedChange(radioMediaStore) }
-                )
-        ) {
-            RadioButton(
-                selected = (radioMediaStore == selected),
-                onClick = { onSelectedChange(radioMediaStore) },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = MaterialTheme.colors.primary,
-                    unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-                    disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
-                )
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(radioMediaStore, modifier = Modifier.align(Alignment.CenterVertically))
-        }
+        RowMediaStore(radioMediaStore, selected, onSelectedChange)
 
         Column {
-            Row(
-                Modifier
-                    .padding(top = 20.dp)
-                    .fillMaxWidth()
-                    .selectable(
-                        selected = (radioStorageAccessFramework == selected),
-                        onClick = { onSelectedChange(radioStorageAccessFramework) }
-                    )
-            ) {
-                RadioButton(
-                    selected = (radioStorageAccessFramework == selected),
-                    onClick = { onSelectedChange(radioStorageAccessFramework) },
-                    colors = RadioButtonDefaults.colors(
-                        selectedColor = MaterialTheme.colors.primary,
-                        unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-                        disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
-                    )
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text(radioStorageAccessFramework, modifier = Modifier.align(Alignment.CenterVertically))
-            }
+            RowStorageAccessFramework(radioStorageAccessFramework, selected, onSelectedChange)
 
             Row(
                 modifier = Modifier
@@ -142,6 +102,64 @@ fun CollectionDialogRow() {
                 ButtonStorageAccessFrameworkFolder(radioStorageAccessFramework, selected)
             }
         }
+    }
+}
+
+@Composable
+private fun RowStorageAccessFramework(
+    radioStorageAccessFramework: String,
+    selected: String,
+    onSelectedChange: (String) -> Unit
+) {
+    Row(
+        Modifier
+            .padding(top = 20.dp)
+            .fillMaxWidth()
+            .selectable(
+                selected = (radioStorageAccessFramework == selected),
+                onClick = { onSelectedChange(radioStorageAccessFramework) }
+            )
+    ) {
+        RadioButton(
+            selected = (radioStorageAccessFramework == selected),
+            onClick = { onSelectedChange(radioStorageAccessFramework) },
+            colors = RadioButtonDefaults.colors(
+                selectedColor = MaterialTheme.colors.primary,
+                unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+            )
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text(radioStorageAccessFramework, modifier = Modifier.align(Alignment.CenterVertically))
+    }
+}
+
+@Composable
+private fun RowMediaStore(
+    radioMediaStore: String,
+    selected: String,
+    onSelectedChange: (String) -> Unit
+) {
+    Row(
+        Modifier
+            .padding(top = 20.dp)
+            .fillMaxWidth()
+            .selectable(
+                selected = (radioMediaStore == selected),
+                onClick = { onSelectedChange(radioMediaStore) }
+            )
+    ) {
+        RadioButton(
+            selected = (radioMediaStore == selected),
+            onClick = { onSelectedChange(radioMediaStore) },
+            colors = RadioButtonDefaults.colors(
+                selectedColor = MaterialTheme.colors.primary,
+                unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+            )
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text(radioMediaStore, modifier = Modifier.align(Alignment.CenterVertically))
     }
 }
 
