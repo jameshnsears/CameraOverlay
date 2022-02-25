@@ -14,6 +14,8 @@ import junit.framework.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import android.content.ContentResolver
+import android.provider.OpenableColumns
+import android.database.Cursor
 
 
 
@@ -90,6 +92,24 @@ class MediaStoreTest {
                 )
 
                 val type = context.contentResolver.getType(contentUri)
+                var fileName = ""
+
+                val metaCursor = context.contentResolver.query(
+                    contentUri,
+                    arrayOf(MediaStore.MediaColumns.DISPLAY_NAME),
+                    null,
+                    null,
+                    null)
+
+                if (metaCursor != null) {
+                    try {
+                        if (metaCursor.moveToFirst()) {
+                            fileName = metaCursor.getString(0)
+                        }
+                    } finally {
+                        metaCursor.close()
+                    }
+                }
 
 
                 galleryImageUrls.add(contentUri)
