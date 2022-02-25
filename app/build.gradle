@@ -217,10 +217,10 @@ dependencies {
 
 task pushResources(type: Exec) {
     group = "androidTest"
-    description = "Push /resources/PhotoSelect onto /storage/emulated/0/Pictures"
+    description = "Push /resources/PhotoSelect onto /storage/..."
 
-    def resourcesFolder = new File(projectDir.absolutePath + '/src/androidTest/resources/PhotoSelect')
-    commandLine android.getAdbExecutable(), 'push', "${resourcesFolder.absolutePath}", '/storage/emulated/0/Pictures'
+    def resourcesFolder = new File(projectDir.absolutePath + '/src/androidTest/resources')
+    commandLine android.getAdbExecutable(), 'push', "${resourcesFolder.absolutePath}/eiffel_tower.jpg", '/storage/emulated/0/Pictures'
 }
 
 
