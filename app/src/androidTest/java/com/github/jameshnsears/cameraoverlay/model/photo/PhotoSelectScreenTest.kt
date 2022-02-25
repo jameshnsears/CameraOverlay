@@ -35,8 +35,6 @@ class PhotoSelectScreenTest {
         val filterButtonText =
             context.resources.getString(R.string.select_photo_filter)
 
-
-
         // https://developer.android.com/jetpack/compose/testing-cheatsheet
         composeTestRule.onNodeWithContentDescription(filterButtonText).performClick()
 
@@ -62,7 +60,6 @@ class PhotoSelectScreenTest {
         // TODO also enable the app to receive an image via a "Share"
 
         // TODO have different images formats that the test can select
-
     }
 
     fun mediaStore() {

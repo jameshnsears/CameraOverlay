@@ -70,7 +70,6 @@ fun PhotoSelectScreen(navController: NavController) {
                         )
                     }
                 )
-
             },
         ) {
             Column(
@@ -90,7 +89,8 @@ fun PhotoSelectScreen(navController: NavController) {
 fun TopBarActions(
     filterDialogState: MutableState<Boolean>,
     collectionDialogState: MutableState<Boolean>,
-    sortDialogState: MutableState<Boolean>) {
+    sortDialogState: MutableState<Boolean>
+) {
 
     IconButton(onClick = { filterDialogState.value = true }) {
         Icon(

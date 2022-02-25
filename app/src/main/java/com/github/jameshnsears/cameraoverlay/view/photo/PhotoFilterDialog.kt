@@ -87,17 +87,19 @@ fun FilterDialogRow() {
                         onClick = { onSelectedChange(text) }
                     ),
             ) {
-                    RadioButton(
-                        selected = (text == selected),
-                        onClick = { onSelectedChange(text) },
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = MaterialTheme.colors.primary,
-                            unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-                            disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+                RadioButton(
+                    selected = (text == selected),
+                    onClick = { onSelectedChange(text) },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = MaterialTheme.colors.primary,
+                        unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                        disabledColor = MaterialTheme.colors.onSurface.copy(
+                            alpha = ContentAlpha.disabled
                         )
                     )
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                    Text(text, modifier = Modifier.align(Alignment.CenterVertically))
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text(text, modifier = Modifier.align(Alignment.CenterVertically))
             }
         }
     }

@@ -4,7 +4,6 @@
   <CurrentIssues>
     <ID>FunctionNaming:AboutDialog.kt$@Composable fun AboutDialog(openDialog: MutableState&lt;Boolean&gt;)</ID>
     <ID>FunctionNaming:AboutDialog.kt$@Composable fun AboutDialogRow(context: Context)</ID>
-    <ID>FunctionNaming:AboutDialog.kt$@Composable fun FullScreenDialog(showDialog:Boolean, onClose:()-&gt;Unit)</ID>
     <ID>FunctionNaming:AboutDialog.kt$@Preview @Composable fun Preview()</ID>
     <ID>FunctionNaming:Greeting.kt$@Composable fun Greeting()</ID>
     <ID>FunctionNaming:MainScreen.kt$@Composable fun AppBar()</ID>
@@ -38,7 +37,7 @@
     <ID>FunctionNaming:PhotoFilterDialog.kt$@Composable fun FilterDialogRow()</ID>
     <ID>FunctionNaming:PhotoFilterDialog.kt$@Preview @Composable fun PreviewPhotoFilterDialog()</ID>
     <ID>FunctionNaming:PhotoSelectScreen.kt$@Composable fun PhotoSelectScreen(navController: NavController)</ID>
-    <ID>FunctionNaming:PhotoSelectScreen.kt$@Composable fun TopBarActions( filterDialogState: MutableState&lt;Boolean&gt;, collectionDialogState: MutableState&lt;Boolean&gt;, sortDialogState: MutableState&lt;Boolean&gt;)</ID>
+    <ID>FunctionNaming:PhotoSelectScreen.kt$@Composable fun TopBarActions( filterDialogState: MutableState&lt;Boolean&gt;, collectionDialogState: MutableState&lt;Boolean&gt;, sortDialogState: MutableState&lt;Boolean&gt; )</ID>
     <ID>FunctionNaming:PhotoSelectScreen.kt$@Preview(name = "Light Theme") @Composable fun PreviewPhotoSelectScreen()</ID>
     <ID>FunctionNaming:PhotoSortDialog.kt$@Composable fun SortDialog(openDialog: MutableState&lt;Boolean&gt;)</ID>
     <ID>FunctionNaming:PhotoSortDialog.kt$@Composable fun SortDialogRow()</ID>

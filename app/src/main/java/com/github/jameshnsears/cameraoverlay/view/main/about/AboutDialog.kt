@@ -31,7 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat.startActivity
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.R
@@ -91,14 +90,17 @@ fun AboutDialogRow(context: Context) {
         }
     }
 
-    Row(Modifier.padding(top=50.dp)) {
+    Row(Modifier.padding(top = 50.dp)) {
         ClickableText(
             text = AnnotatedString(stringResource(R.string.about_dialog_privacy_policy)),
             style = TextStyle(color = Color.Blue),
             onClick = {
                 startActivity(
                     context,
-                    Intent(Intent.ACTION_VIEW, Uri.parse("https://jameshnsears.github.io/CameraOverlay/")),
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://jameshnsears.github.io/CameraOverlay/")
+                    ),
                     null
                 )
             }

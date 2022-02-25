@@ -242,7 +242,7 @@ private fun getIntent(intentAction: String): Intent {
             val authority = "com.android.externalstorage.documents"
             putExtra(
                 DocumentsContract.EXTRA_INITIAL_URI,
-                Uri.parse("content://${authority}/document/primary:Pictures")
+                Uri.parse("content://$authority/document/primary:Pictures")
             )
         }
 

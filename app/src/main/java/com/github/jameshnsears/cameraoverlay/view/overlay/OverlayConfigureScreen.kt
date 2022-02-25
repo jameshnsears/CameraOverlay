@@ -197,7 +197,9 @@ fun DisplayOverlay() {
             enabled = true
         ) {
             Text(
-                text = stringResource(R.string.configure_overlay_screen_launch_camera_app_and_overlay)
+                text = stringResource(
+                    R.string.configure_overlay_screen_launch_camera_app_and_overlay
+                )
             )
         }
     }
