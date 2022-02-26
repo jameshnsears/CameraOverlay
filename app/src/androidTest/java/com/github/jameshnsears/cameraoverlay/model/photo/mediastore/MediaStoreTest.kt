@@ -17,7 +17,7 @@ import org.junit.Test
 class MediaStoreTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    // no need for permission, as automatically granted
+    // no need for permission, as automatically granted to androidTest
 //    @get:Rule
 //    var permissionRule = GrantPermissionRule.grant(
 //        Manifest.permission.READ_EXTERNAL_STORAGE,  // access other apps files, outside of Scoped Storage
@@ -26,26 +26,14 @@ class MediaStoreTest {
 
     @Test
     fun mediaStoreTest() {
-        val application = ApplicationProvider.getApplicationContext() as Application
+//        val application = ApplicationProvider.getApplicationContext() as Application
 //        val viewModel = MainActivityViewModel(application)
 //        viewModel.loadImages()
-
-        // https://developer.android.com/training/data-storage/shared/media
-        // https://developer.android.com/training/data-storage/shared/media#query-collection
-        // /home/jsears/GIT_REPOS/PicturePostcard/storage-samples
-
-        /*
-        With scoped storage, an app no longer has direct access to all the files in external storage.
-        If an app wants to manipulate a file that it didn't create, it has to get explicit authorization from the user.
-        */
-
-        // MediaStore.Images            == stored in the DCIM/ and Pictures/ directories
-        // /storage/emulated/0/Pictures == internal == MediaStore.Images.Media.INTERNAL_CONTENT_URI
-        // /storage/1A0E-211D/Pictures  == external (SDCARD) == MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 
         val galleryImageUrls = mutableListOf<Uri>()
 
         val cursor = context.contentResolver.query(
+            // MediaStore.Images are stored in the DCIM/ and Pictures/ directories
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,       // not sdcard!
             arrayOf(
                 MediaStore.Images.Media._ID,                    // column 0
@@ -67,9 +55,10 @@ class MediaStoreTest {
                 val filename = cursor.getString(1)
                 val type = context.contentResolver.getType(contentUri)
 
+                // if dateTaken == 0 then see: https://developer.android.com/reference/android/provider/MediaStore.MediaColumns#DATE_TAKEN
+                val dateTaken = cursor.getLong(2)
 
-                val date = cursor.getLong(2)
-
+                // https://developer.android.com/reference/androidx/exifinterface/media/ExifInterface
 
                 galleryImageUrls.add(contentUri)
             }
