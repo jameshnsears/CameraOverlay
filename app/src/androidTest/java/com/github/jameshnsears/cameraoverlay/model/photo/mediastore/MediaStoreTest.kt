@@ -9,16 +9,9 @@ import android.provider.MediaStore
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
-import java.net.URLConnection
 import junit.framework.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import android.content.ContentResolver
-import android.provider.OpenableColumns
-import android.database.Cursor
-
-
-
 
 
 class MediaStoreTest {
@@ -55,18 +48,17 @@ class MediaStoreTest {
         val externalContentUri = MediaStore.Files.getContentUri("external")
             ?: throw Exception("External Storage not available")
 
-        val projection = arrayOf(
-            MediaStore.Files.FileColumns._ID,
-            MediaStore.Files.FileColumns.DISPLAY_NAME,
-            MediaStore.Files.FileColumns.SIZE,
-            MediaStore.Files.FileColumns.MEDIA_TYPE,
-            MediaStore.Files.FileColumns.MIME_TYPE,
-            MediaStore.Files.FileColumns.DATA,
-        )
-
         val cursor = context.contentResolver.query(
             externalContentUri,
-            projection,
+            arrayOf(
+//            MediaStore.Files.FileColumns._ID,
+                MediaStore.Images.Media._ID,
+//            MediaStore.Files.FileColumns.DISPLAY_NAME,
+//            MediaStore.Files.FileColumns.SIZE,
+//            MediaStore.Files.FileColumns.MEDIA_TYPE,
+//            MediaStore.Files.FileColumns.MIME_TYPE,
+//            MediaStore.Files.FileColumns.DATA,
+            ),
             null,
             null,
             "${MediaStore.MediaColumns.DATE_ADDED} DESC"
@@ -76,14 +68,14 @@ class MediaStoreTest {
         cursor.use {
             while (cursor.moveToNext()) {
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)
-                val displayNameColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)
-                val sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)
-                val mediaTypeColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE)
-                val mimeTypeColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MIME_TYPE)
-                val dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
+//                val displayNameColumn =
+//                    cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)
+//                val sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)
+//                val mediaTypeColumn =
+//                    cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE)
+//                val mimeTypeColumn =
+//                    cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MIME_TYPE)
+//                val dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
 
                 val id = cursor.getInt(idColumn)
                 val contentUri: Uri = ContentUris.withAppendedId(
@@ -94,20 +86,16 @@ class MediaStoreTest {
                 val type = context.contentResolver.getType(contentUri)
                 var fileName = ""
 
-                val metaCursor = context.contentResolver.query(
+                context.contentResolver.query(
                     contentUri,
-                    arrayOf(MediaStore.MediaColumns.DISPLAY_NAME),
+                    arrayOf(
+                        MediaStore.MediaColumns.DISPLAY_NAME),
                     null,
                     null,
-                    null)
-
-                if (metaCursor != null) {
-                    try {
-                        if (metaCursor.moveToFirst()) {
-                            fileName = metaCursor.getString(0)
-                        }
-                    } finally {
-                        metaCursor.close()
+                    null
+                )?.use { metaCursor ->
+                    if (metaCursor.moveToFirst()) {
+                        fileName = metaCursor.getString(0)
                     }
                 }
 
