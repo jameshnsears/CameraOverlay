@@ -17,11 +17,12 @@ import org.junit.Test
 class MediaStoreTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    @get:Rule
-    var permissionRule = GrantPermissionRule.grant(
-        Manifest.permission.READ_EXTERNAL_STORAGE,  // access other apps files, outside of Scoped Storage
-        Manifest.permission.ACCESS_MEDIA_LOCATION   // retrieve unredacted Exif metadata from photos
-    )
+    // no need for permission, as automatically granted
+//    @get:Rule
+//    var permissionRule = GrantPermissionRule.grant(
+//        Manifest.permission.READ_EXTERNAL_STORAGE,  // access other apps files, outside of Scoped Storage
+//        Manifest.permission.ACCESS_MEDIA_LOCATION   // retrieve unredacted Exif metadata from photos
+//    )
 
     @Test
     fun mediaStoreTest() {
@@ -44,110 +45,34 @@ class MediaStoreTest {
 
         val galleryImageUrls = mutableListOf<Uri>()
 
-        // "external" == actually internal on the Phone!
-        val externalContentUri = MediaStore.Files.getContentUri("external")
-            ?: throw Exception("External Storage not available")
-
         val cursor = context.contentResolver.query(
-            externalContentUri,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,       // not sdcard!
             arrayOf(
-//            MediaStore.Files.FileColumns._ID,
-                MediaStore.Images.Media._ID,
-//            MediaStore.Files.FileColumns.DISPLAY_NAME,
-//            MediaStore.Files.FileColumns.SIZE,
-//            MediaStore.Files.FileColumns.MEDIA_TYPE,
-//            MediaStore.Files.FileColumns.MIME_TYPE,
-//            MediaStore.Files.FileColumns.DATA,
+                MediaStore.Images.Media._ID,                    // column 0
+                MediaStore.Images.Media.DISPLAY_NAME,           // column 1
+                MediaStore.Images.Media.DATE_TAKEN,             // column 2
             ),
             null,
             null,
-            "${MediaStore.MediaColumns.DATE_ADDED} DESC"
+            "${MediaStore.Images.Media.DATE_TAKEN} ASC"
         ) ?: throw Exception("Query could not be executed")
-
 
         cursor.use {
             while (cursor.moveToNext()) {
-                val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)
-//                val displayNameColumn =
-//                    cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)
-//                val sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)
-//                val mediaTypeColumn =
-//                    cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE)
-//                val mimeTypeColumn =
-//                    cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MIME_TYPE)
-//                val dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
-
-                val id = cursor.getInt(idColumn)
                 val contentUri: Uri = ContentUris.withAppendedId(
-                    externalContentUri,
-                    id.toLong()
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    cursor.getInt(0).toLong()
                 )
 
+                val filename = cursor.getString(1)
                 val type = context.contentResolver.getType(contentUri)
-                var fileName = ""
 
-                context.contentResolver.query(
-                    contentUri,
-                    arrayOf(
-                        MediaStore.MediaColumns.DISPLAY_NAME),
-                    null,
-                    null,
-                    null
-                )?.use { metaCursor ->
-                    if (metaCursor.moveToFirst()) {
-                        fileName = metaCursor.getString(0)
-                    }
-                }
+
+                val date = cursor.getLong(2)
 
 
                 galleryImageUrls.add(contentUri)
             }
-
-
-            /*
-            context.contentResolver.query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                arrayOf(
-                    MediaStore.Images.Media._ID,
-                    MediaStore.Images.Media.DISPLAY_NAME,
-                    MediaStore.Images.Media.DATE_ADDED
-                ),
-                null,
-                null,
-                "${MediaStore.Images.Media.DATE_ADDED} DESC"
-            )?.use { cursor ->
-                Timber.d("Found ${cursor.count} images")
-
-                val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-                val dateModifiedColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED)
-                val displayNameColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-
-                while (cursor.moveToNext()) {
-                    val id = cursor.getLong(idColumn)
-
-    //                var photoUri: Uri = Uri.withAppendedPath(
-    //                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-    //                    cursor.getString(idColumn)
-    //                )
-    //
-    //                photoUri = MediaStore.setRequireOriginal(photoUri)
-    //                context.contentResolver.openInputStream(photoUri)?.use { stream ->
-    //                    ExifInterface(stream).run {
-    //                        // If lat/long is null, fall back to the coordinates (0, 0).
-    //                        val latLong = latLong ?: doubleArrayOf(0.0, 0.0)
-    //                    }
-    //                }
-
-                    galleryImageUrls.add(
-                        ContentUris.withAppendedId(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            id
-                        )
-                    )
-                }
-             */
         }
 
         assertEquals(1, galleryImageUrls.size);
