@@ -1,16 +1,12 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 
-import android.Manifest
-import android.app.Application
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.test.core.app.ApplicationProvider
+import androidx.exifinterface.media.ExifInterface
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.rule.GrantPermissionRule
 import junit.framework.Assert.assertEquals
-import org.junit.Rule
 import org.junit.Test
 
 
@@ -47,20 +43,23 @@ class MediaStoreTest {
 
         cursor.use {
             while (cursor.moveToNext()) {
-                val contentUri: Uri = ContentUris.withAppendedId(
+                val uri: Uri = ContentUris.withAppendedId(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     cursor.getInt(0).toLong()
                 )
 
                 val filename = cursor.getString(1)
-                val type = context.contentResolver.getType(contentUri)
+                val type = context.contentResolver.getType(uri)
 
                 // if dateTaken == 0 then see: https://developer.android.com/reference/android/provider/MediaStore.MediaColumns#DATE_TAKEN
                 val dateTaken = cursor.getLong(2)
 
                 // https://developer.android.com/reference/androidx/exifinterface/media/ExifInterface
+                val inputStream = context.contentResolver.openInputStream(uri)
+                val exifInterface = ExifInterface(inputStream!!)
+                var latLongArray = exifInterface.latLong
 
-                galleryImageUrls.add(contentUri)
+                galleryImageUrls.add(uri)
             }
         }
 
