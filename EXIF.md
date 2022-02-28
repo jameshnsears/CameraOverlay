@@ -27,3 +27,7 @@ GPS Longitude                   : 0 deg 4' 31.46" W
 exiftool -gpslatitude=52.5186 -gpslongitude=13.3763 Berlin_reichstag_west_panorama_2.jpg
 exiftool -gpslatituderef=N -gpslongituderef=E Berlin_reichstag_west_panorama_2.jpg
 ```
+
+## 3. ImageMagick
+
+* identify -verbose eiffel_tower.jpg | grep "exif:GPS"

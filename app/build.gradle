@@ -221,7 +221,7 @@ task pushResources(type: Exec) {
     description = "Push /resources/PhotoSelect onto /storage/..."
 
     def resourcesFolder = new File(projectDir.absolutePath + '/src/androidTest/resources')
-    commandLine android.getAdbExecutable(), 'push', "${resourcesFolder.absolutePath}/eiffel_tower.jpg", '/storage/emulated/0/Pictures'
+    commandLine android.getAdbExecutable(), 'push', "${resourcesFolder.absolutePath}/reichstag.jpg", '/storage/emulated/0/Pictures'
 }
 
 

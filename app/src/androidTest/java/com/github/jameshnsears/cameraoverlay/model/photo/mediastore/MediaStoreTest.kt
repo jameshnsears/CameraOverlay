@@ -1,13 +1,26 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 
 import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Context
+import android.media.MediaScannerConnection
 import android.net.Uri
+import android.os.Environment
+import android.os.FileUtils
 import android.provider.MediaStore
+import android.util.Log
 import androidx.exifinterface.media.ExifInterface
 import androidx.test.platform.app.InstrumentationRegistry
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import junit.framework.Assert.assertEquals
 import org.junit.Test
+import timber.log.Timber
+import java.io.OutputStream
+
+
+
 
 
 class MediaStoreTest {
@@ -20,14 +33,63 @@ class MediaStoreTest {
 //        Manifest.permission.ACCESS_MEDIA_LOCATION   // retrieve unredacted Exif metadata from photos
 //    )
 
+    fun copyFileToInternalStorage() {
+        // /storage/emulated/0/Pictures
+        val resolver = context.contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "CuteKitten001")
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+        }
+
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        if (uri != null) {
+            val outputStream = context.contentResolver.openOutputStream(uri)
+            if (outputStream != null) {
+                outputStream.write("file contexts".toByteArray())
+                outputStream.close()
+            }
+        }
+
+        if (uri != null) {
+            MediaScannerConnection.scanFile(
+                context,
+                arrayOf(uri.path),
+                null
+            ) { path, uri ->
+                Timber.d("path=", path)
+                Timber.d("uri=", uri)
+            }
+        }
+
+
+        return
+    }
+
+    fun foreMediaStoreRefresh() {
+//        MediaScannerConnection.scanFile(
+//            context,
+//            arrayOf(f.toString()),
+//            null
+//        ) { path, uri ->
+//            Timber.d("Scanned ${path}:${uri}")
+//        }
+//
+//        return
+    }
+
     @Test
     fun mediaStoreTest() {
 //        val application = ApplicationProvider.getApplicationContext() as Application
 //        val viewModel = MainActivityViewModel(application)
 //        viewModel.loadImages()
 
+        copyFileToInternalStorage()
+        foreMediaStoreRefresh()
+
         val galleryImageUrls = mutableListOf<Uri>()
 
+        // TODO need to launch in viewModelScope.launch
         val cursor = context.contentResolver.query(
             // MediaStore.Images are stored in the DCIM/ and Pictures/ directories
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,       // not sdcard!
