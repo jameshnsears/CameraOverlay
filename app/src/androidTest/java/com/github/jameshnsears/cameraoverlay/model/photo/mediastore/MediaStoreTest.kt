@@ -6,21 +6,12 @@ import android.content.Context
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
-import android.os.FileUtils
 import android.provider.MediaStore
-import android.util.Log
 import androidx.exifinterface.media.ExifInterface
 import androidx.test.platform.app.InstrumentationRegistry
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import timber.log.Timber
-import java.io.OutputStream
-
-
-
 
 
 class MediaStoreTest {
@@ -37,16 +28,19 @@ class MediaStoreTest {
         // /storage/emulated/0/Pictures
         val resolver = context.contentResolver
         val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, "CuteKitten001")
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "reichstag")
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
             put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
         }
+
+        this::class.java.classLoader.res
 
         val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
         if (uri != null) {
             val outputStream = context.contentResolver.openOutputStream(uri)
             if (outputStream != null) {
-                outputStream.write("file contexts".toByteArray())
+                val inputStream = this::class.java.classLoader.getResourceAsStream("reichstag.jpg")
+                outputStream.write(inputStream.readBytes())
                 outputStream.close()
             }
         }
