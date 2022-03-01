@@ -9,7 +9,11 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.exifinterface.media.ExifInterface
 import androidx.test.platform.app.InstrumentationRegistry
+import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
+import java.text.SimpleDateFormat
+import java.util.*
 import junit.framework.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import timber.log.Timber
 
@@ -24,69 +28,69 @@ class MediaStoreTest {
 //        Manifest.permission.ACCESS_MEDIA_LOCATION   // retrieve unredacted Exif metadata from photos
 //    )
 
-    fun copyFileToInternalStorage() {
-        // /storage/emulated/0/Pictures
-        val resolver = context.contentResolver
+    @Before
+    fun copyImageResourcesToExternalStorage() {
+        if (Timber.treeCount == 0) {
+            Timber.plant(MethodLineLoggingTree())
+        }
+
+        removeExternalStorageImages()
+
+        val images = arrayOf(
+            "eiffel_tower",
+            "reichstag",
+            "tower_bridge"
+        )
+
+        for (image in images) {
+            copyImageToExternalStorage(image)
+        }
+    }
+
+    private fun removeExternalStorageImages() {
+        context.contentResolver.delete(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            null,
+            null
+        )
+    }
+
+    private fun copyImageToExternalStorage(imageName: String) {
         val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, "reichstag")
+            put(MediaStore.MediaColumns.DISPLAY_NAME, imageName)
+
+            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+
             put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
         }
 
-        this::class.java.classLoader.res
+        val uri = context.contentResolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            contentValues
+        )
 
-        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
         if (uri != null) {
             val outputStream = context.contentResolver.openOutputStream(uri)
             if (outputStream != null) {
-                val inputStream = this::class.java.classLoader.getResourceAsStream("reichstag.jpg")
+                val inputStream = this::class.java.classLoader.getResourceAsStream("$imageName.jpg")
                 outputStream.write(inputStream.readBytes())
                 outputStream.close()
             }
-        }
 
-        if (uri != null) {
             MediaScannerConnection.scanFile(
                 context,
                 arrayOf(uri.path),
-                null
-            ) { path, uri ->
-                Timber.d("path=", path)
-                Timber.d("uri=", uri)
-            }
+                null, null)
         }
-
-
-        return
-    }
-
-    fun foreMediaStoreRefresh() {
-//        MediaScannerConnection.scanFile(
-//            context,
-//            arrayOf(f.toString()),
-//            null
-//        ) { path, uri ->
-//            Timber.d("Scanned ${path}:${uri}")
-//        }
-//
-//        return
     }
 
     @Test
-    fun mediaStoreTest() {
-//        val application = ApplicationProvider.getApplicationContext() as Application
-//        val viewModel = MainActivityViewModel(application)
-//        viewModel.loadImages()
+    fun locateItemsInMediaStore() {
+        val mediaStoreEntries = mutableListOf<Uri>()
 
-        copyFileToInternalStorage()
-        foreMediaStoreRefresh()
-
-        val galleryImageUrls = mutableListOf<Uri>()
-
-        // TODO need to launch in viewModelScope.launch
         val cursor = context.contentResolver.query(
-            // MediaStore.Images are stored in the DCIM/ and Pictures/ directories
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,       // not sdcard!
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,       // /storage/emulated/0/Pictures
             arrayOf(
                 MediaStore.Images.Media._ID,                    // column 0
                 MediaStore.Images.Media.DISPLAY_NAME,           // column 1
@@ -99,26 +103,47 @@ class MediaStoreTest {
 
         cursor.use {
             while (cursor.moveToNext()) {
-                val uri: Uri = ContentUris.withAppendedId(
+                val mediaStoreImageUri: Uri = ContentUris.withAppendedId(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     cursor.getInt(0).toLong()
                 )
 
                 val filename = cursor.getString(1)
-                val type = context.contentResolver.getType(uri)
+                val type = context.contentResolver.getType(mediaStoreImageUri)
 
                 // if dateTaken == 0 then see: https://developer.android.com/reference/android/provider/MediaStore.MediaColumns#DATE_TAKEN
                 val dateTaken = cursor.getLong(2)
+                val d = Date(dateTaken)
+                val dateFormat = SimpleDateFormat("dd.MM.yyyy")
 
-                // https://developer.android.com/reference/androidx/exifinterface/media/ExifInterface
-                val inputStream = context.contentResolver.openInputStream(uri)
-                val exifInterface = ExifInterface(inputStream!!)
-                var latLongArray = exifInterface.latLong
+                Timber.d("dateTaken=%s", dateFormat.format(d))
 
-                galleryImageUrls.add(uri)
+                /*
+    Calendar myCal;
+    myCal.setTimeInMillis(milliVal);
+    Date dateText = new Date(myCal.get(Calendar.YEAR)-1900,
+            myCal.get(Calendar.MONTH),
+            myCal.get(Calendar.DAY_OF_MONTH),
+            myCal.get(Calendar.HOUR_OF_DAY),
+            myCal.get(Calendar.MINUTE));
+    Log.d("MyApp", "DATE: " + android.text.format.DateFormat.format("MM/dd/yyyy hh:mm", dateText));
+                 */
+
+                getExif(mediaStoreImageUri)
+
+                mediaStoreEntries.add(mediaStoreImageUri)
             }
         }
 
-        assertEquals(1, galleryImageUrls.size);
+        assertEquals(3, mediaStoreEntries.size);
+    }
+
+    private fun getExif(mediaStoreImageUri: Uri) {
+        // https://developer.android.com/reference/androidx/exifinterface/media/ExifInterface
+        val inputStream = context.contentResolver.openInputStream(mediaStoreImageUri)
+        val exifInterface = ExifInterface(inputStream!!)
+        var latLongArray = exifInterface.latLong
+
+        Timber.d("latLongArray=${latLongArray}")
     }
 }
