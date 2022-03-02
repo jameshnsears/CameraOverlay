@@ -10,8 +10,6 @@ import android.provider.MediaStore
 import androidx.exifinterface.media.ExifInterface
 import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
-import java.text.SimpleDateFormat
-import java.util.*
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -81,7 +79,9 @@ class MediaStoreTest {
             MediaScannerConnection.scanFile(
                 context,
                 arrayOf(uri.path),
-                null, null)
+                arrayOf("image/jpeg"),
+                null
+            )
         }
     }
 
@@ -94,11 +94,10 @@ class MediaStoreTest {
             arrayOf(
                 MediaStore.Images.Media._ID,                    // column 0
                 MediaStore.Images.Media.DISPLAY_NAME,           // column 1
-                MediaStore.Images.Media.DATE_TAKEN,             // column 2
             ),
             null,
             null,
-            "${MediaStore.Images.Media.DATE_TAKEN} ASC"
+            "${MediaStore.Images.Media.DISPLAY_NAME} ASC"
         ) ?: throw Exception("Query could not be executed")
 
         cursor.use {
@@ -107,27 +106,6 @@ class MediaStoreTest {
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     cursor.getInt(0).toLong()
                 )
-
-                val filename = cursor.getString(1)
-                val type = context.contentResolver.getType(mediaStoreImageUri)
-
-                // if dateTaken == 0 then see: https://developer.android.com/reference/android/provider/MediaStore.MediaColumns#DATE_TAKEN
-                val dateTaken = cursor.getLong(2)
-                val d = Date(dateTaken)
-                val dateFormat = SimpleDateFormat("dd.MM.yyyy")
-
-                Timber.d("dateTaken=%s", dateFormat.format(d))
-
-                /*
-    Calendar myCal;
-    myCal.setTimeInMillis(milliVal);
-    Date dateText = new Date(myCal.get(Calendar.YEAR)-1900,
-            myCal.get(Calendar.MONTH),
-            myCal.get(Calendar.DAY_OF_MONTH),
-            myCal.get(Calendar.HOUR_OF_DAY),
-            myCal.get(Calendar.MINUTE));
-    Log.d("MyApp", "DATE: " + android.text.format.DateFormat.format("MM/dd/yyyy hh:mm", dateText));
-                 */
 
                 getExif(mediaStoreImageUri)
 
@@ -139,11 +117,10 @@ class MediaStoreTest {
     }
 
     private fun getExif(mediaStoreImageUri: Uri) {
-        // https://developer.android.com/reference/androidx/exifinterface/media/ExifInterface
         val inputStream = context.contentResolver.openInputStream(mediaStoreImageUri)
         val exifInterface = ExifInterface(inputStream!!)
-        var latLongArray = exifInterface.latLong
 
-        Timber.d("latLongArray=${latLongArray}")
+        Timber.d("latLongArray=${exifInterface.latLong}")
+        Timber.d("dateTime={$exifInterface.dateTime}")
     }
 }
