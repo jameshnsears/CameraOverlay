@@ -1,16 +1,15 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 
-import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.media.MediaScannerConnection
-import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.exifinterface.media.ExifInterface
 import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
+import java.util.*
 import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import timber.log.Timber
@@ -27,25 +26,31 @@ class MediaStoreTest {
 //    )
 
     @Before
-    fun copyImageResourcesToExternalStorage() {
+    fun setup() {
+        initLogging()
+
+        removeImagesFromExternalStorage()
+
+        copyImageResourcesToExternalStorage()
+    }
+
+    private fun initLogging() {
         if (Timber.treeCount == 0) {
             Timber.plant(MethodLineLoggingTree())
         }
+    }
 
-        removeExternalStorageImages()
-
-        val images = arrayOf(
+    private fun copyImageResourcesToExternalStorage() {
+        for (image in arrayOf(
             "eiffel_tower",
             "reichstag",
             "tower_bridge"
-        )
-
-        for (image in images) {
+        )) {
             copyImageToExternalStorage(image)
         }
     }
 
-    private fun removeExternalStorageImages() {
+    private fun removeImagesFromExternalStorage() {
         context.contentResolver.delete(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             null,
@@ -87,40 +92,27 @@ class MediaStoreTest {
 
     @Test
     fun locateItemsInMediaStore() {
-        val mediaStoreEntries = mutableListOf<Uri>()
-
-        val cursor = context.contentResolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,       // /storage/emulated/0/Pictures
-            arrayOf(
-                MediaStore.Images.Media._ID,                    // column 0
-                MediaStore.Images.Media.DISPLAY_NAME,           // column 1
-            ),
-            null,
-            null,
-            "${MediaStore.Images.Media.DISPLAY_NAME} ASC"
-        ) ?: throw Exception("Query could not be executed")
-
-        cursor.use {
-            while (cursor.moveToNext()) {
-                val mediaStoreImageUri: Uri = ContentUris.withAppendedId(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    cursor.getInt(0).toLong()
-                )
-
-                getExif(mediaStoreImageUri)
-
-                mediaStoreEntries.add(mediaStoreImageUri)
-            }
-        }
-
-        assertEquals(3, mediaStoreEntries.size);
+        val picturesInMediaStore = MediaStoreMediator.picturesInMediaStore(context)
+        assertEquals(3, picturesInMediaStore.size)
     }
 
-    private fun getExif(mediaStoreImageUri: Uri) {
-        val inputStream = context.contentResolver.openInputStream(mediaStoreImageUri)
-        val exifInterface = ExifInterface(inputStream!!)
+    @Test
+    fun confirmExifValues() {
+        val picturesInMediaStore = MediaStoreMediator.picturesInMediaStore(context)
 
-        Timber.d("latLongArray=${exifInterface.latLong}")
-        Timber.d("dateTime={$exifInterface.dateTime}")
+        val eiffelTower = picturesInMediaStore[0]
+        val eiffelTowerExif = MediaStoreMediator.getExifFromUri(context, eiffelTower)
+        assertEquals("eiffel_tower.jpg", eiffelTower.filename)
+        assertEquals(1631639311000, eiffelTowerExif.dateTime)
+        assertNull(eiffelTowerExif.latLong)
+
+        val towerBridge = picturesInMediaStore[2]
+        val towerBridgeExif = MediaStoreMediator.getExifFromUri(context, towerBridge)
+        assertEquals("tower_bridge.jpg", towerBridge.filename)
+        assertEquals(1631639351000, towerBridgeExif.dateTime)
+
+        // latitude = 51/1,30/1,99/5
+        // longitude = 0/1,4/1,39327/1250
+        assertEquals("[51.5055, -0.075406]", Arrays.toString(towerBridgeExif.latLong))
     }
 }
