@@ -34,9 +34,9 @@ android {
 
     defaultConfig {
         applicationId "com.github.jameshnsears.cameraoverlay"
-        minSdk 24
+        minSdk 29
         targetSdk 31
-        versionCode 12431
+        versionCode 12931
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
