@@ -3,17 +3,17 @@ package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 import android.content.ContentValues
 import android.content.Context
 import android.media.MediaScannerConnection
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import java.util.*
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
+import junit.framework.TestCase.assertNull
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import timber.log.Timber
-
 
 class MediaStoreTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
@@ -51,8 +51,17 @@ class MediaStoreTest {
     }
 
     private fun removeImagesFromExternalStorage() {
+        val collection =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.Images.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL
+                )
+            } else {
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            }
+
         context.contentResolver.delete(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            collection,
             null,
             null
         )
@@ -68,8 +77,17 @@ class MediaStoreTest {
             put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
         }
 
+        val collection =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.Images.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL
+                )
+            } else {
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            }
+
         val uri = context.contentResolver.insert(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            collection,
             contentValues
         )
 
