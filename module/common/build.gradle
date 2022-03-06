@@ -14,8 +14,6 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 31
-        versionCode 241
-        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -54,24 +52,14 @@ android {
         kotlinCompilerExtensionVersion compose_version
     }
 
-    lintOptions {
-        abortOnError false
-        warningsAsErrors true
-        checkAllWarnings = true
-        xmlReport true
-        htmlReport true
-        baseline file("${project.rootDir}/config/lint/baseline.xml")
-    }
 
     flavorDimensions 'Version'
     productFlavors {
         'googleplay' {
             dimension 'Version'
-            versionNameSuffix "-googleplay"
         }
         'fdroid' {
             dimension 'Version'
-            versionNameSuffix "-fdroid"
             isDefault true
         }
     }
@@ -83,6 +71,14 @@ android {
         googleplay {
             java.srcDirs = ['src/main/java']
         }
+    }
+    lint {
+        abortOnError false
+        baseline file("$rootDir/config/lint/baseline.xml")
+        checkAllWarnings true
+        htmlReport true
+        warningsAsErrors true
+        xmlReport true
     }
 }
 
@@ -98,7 +94,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-    androidTestImplementation 'io.mockk:mockk-android:1.12.2'
+    androidTestImplementation 'io.mockk:mockk-android:1.12.3'
 
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'

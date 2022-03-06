@@ -115,14 +115,6 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-        warningsAsErrors true
-        checkAllWarnings = true
-        xmlReport true
-        htmlReport true
-        baseline file("${project.rootDir}/config/lint/baseline.xml")
-    }
 
     signingConfigs {
         googleplay {
@@ -161,6 +153,14 @@ android {
             java.srcDirs = ['src/main/java']
             resources.srcDirs += ['src/test/resources']
         }
+    }
+    lint {
+        abortOnError false
+        baseline file("$rootDir/config/lint/baseline.xml")
+        checkAllWarnings true
+        htmlReport true
+        warningsAsErrors true
+        xmlReport true
     }
 }
 

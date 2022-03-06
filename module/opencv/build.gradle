@@ -29,9 +29,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    lintOptions {
-        abortOnError false
-    }
 
     flavorDimensions 'Version'
     productFlavors {
@@ -51,7 +48,11 @@ android {
         googleplay {
             java.srcDirs = ['src/main/java']
         }
-    }}
+    }
+    lint {
+        abortOnError false
+    }
+}
 
 dependencies {
 }
