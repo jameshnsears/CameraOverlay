@@ -141,7 +141,7 @@ android {
 
     sourceSets {
         androidTest {
-            resources.srcDirs += ['src/androidTest/resources']
+            resources.srcDirs += ['src/androidTest/ressources', 'src/androidTest/res']
         }
         fdroid {
             assets.srcDirs = ['src/main/assets']
@@ -200,8 +200,12 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.jakewharton.timber:timber:5.0.1'
+
     implementation 'io.coil-kt:coil:1.4.0'
     implementation 'io.coil-kt:coil-compose:1.4.0'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt'
