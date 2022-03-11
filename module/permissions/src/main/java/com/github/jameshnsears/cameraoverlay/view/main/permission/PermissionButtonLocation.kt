@@ -27,9 +27,13 @@ import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermi
 @Composable
 fun PermissionButtonLocation(viewModelPermission: ViewModelPermission) {
     val buttonEnabled =
-        remember { mutableStateOf(viewModelPermission.permissionButtonEnabled(PermissionArea.LOCATION)) }
+        remember {
+            mutableStateOf(viewModelPermission.permissionButtonEnabled(PermissionArea.LOCATION))
+        }
     val permissionPrompt =
-        remember { mutableStateOf(viewModelPermission.permissionPrompt(PermissionArea.LOCATION)) }
+        remember {
+            mutableStateOf(viewModelPermission.permissionPrompt(PermissionArea.LOCATION))
+        }
 
     val permissionDeniedMessage =
         stringResource(R.string.permissions_denial_optional) as CharSequence
