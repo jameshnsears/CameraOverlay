@@ -6,7 +6,11 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.exifinterface.media.ExifInterface
 
-class MediaStoreMediator() {
+class MediaStoreMediator {
+    private constructor() {
+        // detekt: UtilityClassWithPublicConstructor
+    }
+
     companion object {
         fun picturesInMediaStore(context: Context): List<MediaStoreData> {
             val mediaStoreEntries = mutableListOf<MediaStoreData>()
@@ -20,7 +24,7 @@ class MediaStoreMediator() {
                 null,
                 null,
                 "${MediaStore.Images.Media.DISPLAY_NAME} ASC"
-            ) ?: throw Exception("Query could not be executed")
+            )
 
             cursor.use {
                 while (cursor.moveToNext()) {
