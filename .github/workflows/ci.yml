@@ -147,7 +147,7 @@ jobs:
 
   lintFdroidDebug:
     name: lintFdroidDebug
-    needs: [checkstyle, detekt, ktlint]
+    needs: [detekt, ktlint]
     runs-on: macOS-latest
     steps:
       - name: clone
