@@ -204,8 +204,8 @@ dependencies {
     implementation 'io.coil-kt:coil-compose:1.4.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation project(path: ':module:common')
     implementation project(path: ':module:permissions')
@@ -214,8 +214,8 @@ dependencies {
     // junit 5
     testImplementation 'com.google.truth:truth:1.1.3'
     testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0-native-mt'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.0-native-mt'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.0'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }

@@ -1,20 +1,39 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
-import java.util.Arrays
+import java.util.*
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
+import org.junit.Before
 import org.junit.Test
 
 class MediaStoreTest : PhotoResourcesUtility() {
+    fun setup() {
+        initLogging()
+
+//        if (MediaStoreMediator.picturesInMediaStore(context).size != images.size) {
+            removeImagesFromExternalStorage()
+//        }
+
+        if (MediaStoreMediator.picturesInMediaStore(context).isEmpty()) {
+            copyImageResourcesToExternalStorage()
+        }
+
+        return
+    }
+
     @Test
     fun locateItemsInMediaStore() {
+        setup()
+
         val picturesInMediaStore = MediaStoreMediator.picturesInMediaStore(context)
         assertEquals(3, picturesInMediaStore.size)
     }
 
     @Test
     fun confirmExifValues() {
+        setup()
+
         val picturesInMediaStore = MediaStoreMediator.picturesInMediaStore(context)
 
         val eiffelTower = picturesInMediaStore[0]

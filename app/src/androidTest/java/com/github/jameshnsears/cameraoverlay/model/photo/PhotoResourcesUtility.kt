@@ -6,6 +6,7 @@ import android.media.MediaScannerConnection
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.test.platform.app.InstrumentationRegistry
+import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediator
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import org.junit.Before
 import timber.log.Timber
@@ -13,34 +14,27 @@ import timber.log.Timber
 open class PhotoResourcesUtility {
     protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    @Before
-    fun setup() {
-        initLogging()
-
-        removeImagesFromExternalStorage()
-
-        copyImageResourcesToExternalStorage()
-    }
-
-    private fun initLogging() {
+    protected fun initLogging() {
         if (Timber.treeCount == 0) {
             Timber.plant(MethodLineLoggingTree())
         }
     }
 
-    private fun copyImageResourcesToExternalStorage() {
+    protected var images = arrayOf(
+        "eiffel_tower",
+        "reichstag",
+        "tower_bridge"
+    )
+
+    protected fun copyImageResourcesToExternalStorage() {
         for (
-            image in arrayOf(
-                "eiffel_tower",
-                "reichstag",
-                "tower_bridge"
-            )
+        image in images
         ) {
             copyImageToExternalStorage(image)
         }
     }
 
-    private fun removeImagesFromExternalStorage() {
+    protected fun removeImagesFromExternalStorage() {
         context.contentResolver.delete(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             null,
@@ -66,7 +60,8 @@ open class PhotoResourcesUtility {
         if (uri != null) {
             val outputStream = context.contentResolver.openOutputStream(uri)
             if (outputStream != null) {
-                val inputStream = this::class.java.classLoader.getResourceAsStream("$imageName.jpg")
+                val inputStream =
+                    this::class.java.classLoader.getResourceAsStream("$imageName.jpg")
                 outputStream.write(inputStream.readBytes())
                 outputStream.close()
             }
