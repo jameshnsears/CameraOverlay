@@ -50,8 +50,8 @@ jobs:
           set -x
           ./gradlew detekt
 
-  ktlint:
-    name: ktlint
+  ktlintCheck:
+    name: ktlintCheck
     runs-on: macOS-latest
     steps:
       - name: clone
@@ -86,14 +86,14 @@ jobs:
           GOOGLE_PLAY_JSON_DEVELOPMENT: ${{ secrets.GOOGLE_PLAY_JSON_DEVELOPMENT }}
         run: echo "${GOOGLE_PLAY_JSON_DEVELOPMENT}" | base64 -d > app/google-services.json
 
-      - name: gradlew ktlint
+      - name: gradlew ktlintCheck
         run: |
           set -x
-          ./gradlew ktlint
+          ./gradlew ktlintCheck
 
   lintGooglePlayDebug:
     name: lintGooglePlayDebug
-    needs: [detekt, ktlint]
+    needs: [detekt, ktlintCheck]
     runs-on: macOS-latest
     steps:
       - name: clone
@@ -135,7 +135,7 @@ jobs:
 
   lintFdroidDebug:
     name: lintFdroidDebug
-    needs: [detekt, ktlint]
+    needs: [detekt, ktlintCheck]
     runs-on: macOS-latest
     steps:
       - name: clone
