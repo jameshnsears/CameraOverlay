@@ -1,14 +1,11 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.coil
 
-
 import android.widget.ImageView
 import coil.ImageLoader
 import coil.request.ImageRequest
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
 import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediator
 import org.junit.Assert.assertNotNull
-import org.junit.Test
-
 
 class PhotosTest : PhotoResourcesUtility() {
 //    @Test
@@ -22,12 +19,14 @@ class PhotosTest : PhotoResourcesUtility() {
             .build()
 
         val request = ImageRequest.Builder(imageView.context)
-            .data("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png")
+            .data(
+                "https://www.paintshoppro.com/static/psp/images/pages/seo/ui-screenshot.jpg"
+            )
             .target(imageView)
             .build()
         imageLoader.enqueue(request)
 
-        ////////////////
+        // //////////////
 
         // .kt extension function on ImageView
         // i.e. content://media/external/images/media/247
@@ -35,7 +34,7 @@ class PhotosTest : PhotoResourcesUtility() {
 
         assertNotNull(imageView)
 
-        //////////////////
+        // ////////////////
 
         /*
         Preload:

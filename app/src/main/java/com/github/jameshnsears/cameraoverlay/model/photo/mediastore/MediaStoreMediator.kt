@@ -16,10 +16,10 @@ class MediaStoreMediator {
             val mediaStoreEntries = mutableListOf<MediaStoreData>()
 
             val cursor = context.contentResolver.query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,       // /storage/emulated/0/Pictures
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, // /storage/emulated/0/Pictures
                 arrayOf(
-                    MediaStore.Images.Media._ID,                    // column 0
-                    MediaStore.Images.Media.DISPLAY_NAME,           // column 1
+                    MediaStore.Images.Media._ID, // column 0
+                    MediaStore.Images.Media.DISPLAY_NAME, // column 1
                 ),
                 null,
                 null,

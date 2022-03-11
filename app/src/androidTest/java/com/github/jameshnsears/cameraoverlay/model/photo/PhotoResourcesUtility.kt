@@ -29,11 +29,13 @@ open class PhotoResourcesUtility {
     }
 
     private fun copyImageResourcesToExternalStorage() {
-        for (image in arrayOf(
-            "eiffel_tower",
-            "reichstag",
-            "tower_bridge"
-        )) {
+        for (
+            image in arrayOf(
+                "eiffel_tower",
+                "reichstag",
+                "tower_bridge"
+            )
+        ) {
             copyImageToExternalStorage(image)
         }
     }

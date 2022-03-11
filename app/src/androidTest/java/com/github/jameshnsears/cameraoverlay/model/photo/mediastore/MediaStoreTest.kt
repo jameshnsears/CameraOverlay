@@ -1,11 +1,10 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
-import java.util.*
+import java.util.Arrays
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
 import org.junit.Test
-
 
 class MediaStoreTest : PhotoResourcesUtility() {
     @Test
