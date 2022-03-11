@@ -1,12 +1,16 @@
 package com.github.jameshnsears.cameraoverlay.model.photo
 
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.test.platform.app.InstrumentationRegistry
+import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreData
 import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediator
+import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediatorException
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import org.junit.Before
 import timber.log.Timber
@@ -14,13 +18,14 @@ import timber.log.Timber
 open class PhotoResourcesUtility {
     protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    protected fun initLogging() {
+    @Before
+    fun initLogging() {
         if (Timber.treeCount == 0) {
             Timber.plant(MethodLineLoggingTree())
         }
     }
 
-    protected var images = arrayOf(
+    var images = arrayOf(
         "eiffel_tower",
         "reichstag",
         "tower_bridge"
@@ -32,14 +37,6 @@ open class PhotoResourcesUtility {
         ) {
             copyImageToExternalStorage(image)
         }
-    }
-
-    protected fun removeImagesFromExternalStorage() {
-        context.contentResolver.delete(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            null,
-            null
-        )
     }
 
     private fun copyImageToExternalStorage(imageName: String) {

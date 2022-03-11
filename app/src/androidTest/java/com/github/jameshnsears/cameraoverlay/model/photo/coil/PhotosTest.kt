@@ -1,56 +1,57 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.coil
 
-import android.os.Build
 import android.widget.ImageView
 import coil.ImageLoader
 import coil.request.ImageRequest
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
 import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediator
 import org.junit.Assert.assertNotNull
+import org.junit.Test
 
 class PhotosTest : PhotoResourcesUtility() {
-    //    @Test
+    @Test
     fun coil() {
+        if (MediaStoreMediator.picturesInMediaStore(context).size != 3) {
+            copyImageResourcesToExternalStorage()
+        }
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val picturesInMediaStore = MediaStoreMediator.picturesInMediaStore(context)
+        val picturesInMediaStore = MediaStoreMediator.picturesInMediaStore(context)
 
-            var imageView = ImageView(context)
+        var imageView = ImageView(context)
 
-            val imageLoader = ImageLoader.Builder(context)
-                .crossfade(false)
-                .build()
+        val imageLoader = ImageLoader.Builder(context)
+            .crossfade(false)
+            .build()
 
-            val request = ImageRequest.Builder(imageView.context)
-                .data(
-                    "https://www.paintshoppro.com/static/psp/images/pages/seo/ui-screenshot.jpg"
-                )
-                .target(imageView)
-                .build()
-            imageLoader.enqueue(request)
+        val request = ImageRequest.Builder(imageView.context)
+            .data(
+                "https://www.paintshoppro.com/static/psp/images/pages/seo/ui-screenshot.jpg"
+            )
+            .target(imageView)
+            .build()
+        imageLoader.enqueue(request)
 
-            // //////////////
+        // //////////////
 
-            // .kt extension function on ImageView
-            // i.e. content://media/external/images/media/247
+        // .kt extension function on ImageView
+        // i.e. content://media/external/images/media/247
 //        imageView.load(picturesInMediaStore[0].uri)
 
-            assertNotNull(imageView)
+        assertNotNull(imageView)
 
-            // ////////////////
+        // ////////////////
 
-            /*
-            Preload:
-            val image = Coil.get(imageUrl)
+        /*
+        Preload:
+        val image = Coil.get(imageUrl)
 
-            imageView.load(File("/path/to/ironman.png"))
+        imageView.load(File("/path/to/ironman.png"))
 
-            transformations(CircleCropTransformation())
-            transformations(RoundedCornersTransformation(25f))
-            transformations(GrayscaleTransformation())
-            transformations(BlurTransformation(applicationContext))
-            transformations(BlurTransformation(applicationContext, 5f))
-             */
-//        }
+        transformations(CircleCropTransformation())
+        transformations(RoundedCornersTransformation(25f))
+        transformations(GrayscaleTransformation())
+        transformations(BlurTransformation(applicationContext))
+        transformations(BlurTransformation(applicationContext, 5f))
+         */
     }
 }
