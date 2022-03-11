@@ -1,16 +1,11 @@
 package com.github.jameshnsears.cameraoverlay.model.photo
 
-import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.media.MediaScannerConnection
-import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.test.platform.app.InstrumentationRegistry
-import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreData
-import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediator
-import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediatorException
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import org.junit.Before
 import timber.log.Timber
@@ -32,9 +27,7 @@ open class PhotoResourcesUtility {
     )
 
     protected fun copyImageResourcesToExternalStorage() {
-        for (
-        image in images
-        ) {
+        for (image in images) {
             copyImageToExternalStorage(image)
         }
     }
