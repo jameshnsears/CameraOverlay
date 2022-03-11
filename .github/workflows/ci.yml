@@ -1,150 +1,440 @@
-name: CI
+name: ci
+
 on:
-    push:
-        branches:
-            - main
-    pull_request:
+  push:
+    branches: [ master, qa, photo_dialogs ]
+
 env:
-    # Increment this to manually invalidate the cache.
-    CACHE_VERSION: 1
+  # Increment this to manually invalidate the cache.
+  CACHE_VERSION: 1
+
 jobs:
-    checks:
-        name: Checks
-        runs-on: ubuntu-latest
-        timeout-minutes: 10
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-java@v3
-              with:
-                  distribution: 'zulu'
-                  java-version: 17
-            - run: ./ci_clear_gradle_cache.sh
-            - uses: actions/cache@v2
-              with:
-                  path: |
-                      ~/.gradle/caches
-                      ~/.gradle/wrapper
-                  key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
+  checkstyle:
+    name: checkstyle
+    runs-on: macOS-latest
 
-            - name: Check Gradle wrapper
-              uses: gradle/wrapper-validation-action@v1
+    steps:
+      - name: clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          submodules: true
 
-            - name: Check style
-              run: ./gradlew ktlintCheck
+      - name: set up jdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 11
+      - run: ./ci_clear_gradle_cache.sh
 
-            # Check if there has been a binary incompatible change to the API.
-            # If this change is intentional, run `./gradlew apiDump` and commit the new API files.
-            - name: Check binary compatibility
-              run: ./gradlew apiCheck
+      - name: gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
 
-    unit-tests:
-        name: Unit tests
-        runs-on: ubuntu-latest
-        timeout-minutes: 10
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-java@v3
-              with:
-                  distribution: 'zulu'
-                  java-version: 17
-            - run: ./ci_clear_gradle_cache.sh
-            - uses: actions/cache@v2
-              with:
-                  path: |
-                      ~/.gradle/caches
-                      ~/.gradle/wrapper
-                  key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
+      - name: local.properties
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+          LOCAL_PROPERTIES_CLOUDLIB: ${{ secrets.LOCAL_PROPERTIES_CLOUDLIB }}
+          LOCAL_PROPERTIES_UTILSLIB: ${{ secrets.LOCAL_PROPERTIES_UTILSLIB }}
+        run: |
+          echo "${LOCAL_PROPERTIES}" | base64 -d > local.properties
+          echo "${LOCAL_PROPERTIES_CLOUDLIB}" | base64 -d > QuoteUnquote.cloudLib/cloudLib/local.properties
+          echo "${LOCAL_PROPERTIES_UTILSLIB}" | base64 -d > QuoteUnquote.utilsLib/utilsLib/local.properties
 
-            - name: Unit tests
-              run: ./gradlew testDebugUnitTest
+      - name: google-services.json
+        env:
+          GOOGLE_PLAY_JSON_DEVELOPMENT: ${{ secrets.GOOGLE_PLAY_JSON_DEVELOPMENT }}
+        run: echo "${GOOGLE_PLAY_JSON_DEVELOPMENT}" | base64 -d > app/google-services.json
 
-    instrumentation-tests:
-        name: Instrumentation tests
-        runs-on: macOS-latest
-        timeout-minutes: 30
-        strategy:
-            fail-fast: true
-            matrix:
-                # API 21 is flaky and times out.
-                api-level: [22, 26, 31]
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-java@v3
-              with:
-                  distribution: 'zulu'
-                  java-version: 17
-            - run: ./ci_clear_gradle_cache.sh
-            - uses: actions/cache@v2
-              with:
-                  path: |
-                      ~/.gradle/caches
-                      ~/.gradle/wrapper
-                  key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
+      - name: gradlew checkstyle
+        run: |
+          set -x
+          ./gradlew checkstyle
 
-            # API 30+ emulators only have x86_64 system images.
-            - name: Get AVD info
-              uses: ./.github/actions/get-avd-info
-              id: avd-info
-              with:
-                  api-level: ${{ matrix.api-level }}
+  detekt:
+    name: detekt
+    runs-on: macOS-latest
+    steps:
+      - name: clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          submodules: true
 
-            # Retrieve the cached emulator snapshot.
-            - uses: actions/cache@v2
-              id: avd-cache
-              with:
-                  path: |
-                      ~/.android/avd/*
-                      ~/.android/adb*
-                  key: ${{ runner.os }}-avd-${{ env.CACHE_VERSION }}-${{ steps.avd-info.outputs.arch }}-${{ steps.avd-info.outputs.target }}-${{ matrix.api-level }}
+      - name: set up jdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 11
+      - run: ./ci_clear_gradle_cache.sh
 
-            # Create a new emulator snapshot if it isn't present in the cache.
-            - name: Create AVD snapshot
-              if: steps.avd-cache.outputs.cache-hit != 'true'
-              uses: reactivecircus/android-emulator-runner@v2
-              with:
-                  api-level: ${{ matrix.api-level }}
-                  arch: ${{ steps.avd-info.outputs.arch }}
-                  target: ${{ steps.avd-info.outputs.target }}
-                  disable-animations: false
-                  force-avd-creation: false
-                  ram-size: 4096M
-                  emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-                  script: echo "Generated AVD snapshot."
+      - name: gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
 
-            - name: Instrumentation tests
-              uses: reactivecircus/android-emulator-runner@v2
-              with:
-                  api-level: ${{ matrix.api-level }}
-                  arch: ${{ steps.avd-info.outputs.arch }}
-                  target: ${{ steps.avd-info.outputs.target }}
-                  disable-animations: true
-                  force-avd-creation: false
-                  ram-size: 4096M
-                  emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
-                  script: mv .github/debug.keystore ~/.android; ./gradlew connectedDebugAndroidTest
+      - name: local.properties
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+          LOCAL_PROPERTIES_CLOUDLIB: ${{ secrets.LOCAL_PROPERTIES_CLOUDLIB }}
+          LOCAL_PROPERTIES_UTILSLIB: ${{ secrets.LOCAL_PROPERTIES_UTILSLIB }}
+        run: |
+          echo "${LOCAL_PROPERTIES}" | base64 -d > local.properties
+          echo "${LOCAL_PROPERTIES_CLOUDLIB}" | base64 -d > QuoteUnquote.cloudLib/cloudLib/local.properties
+          echo "${LOCAL_PROPERTIES_UTILSLIB}" | base64 -d > QuoteUnquote.utilsLib/utilsLib/local.properties
 
-    deploy-snapshot:
-        name: Deploy snapshot
-        runs-on: ubuntu-latest
-        timeout-minutes: 10
-        if: github.repository == 'coil-kt/coil' && github.ref == 'refs/heads/main'
-        needs: [checks, unit-tests, instrumentation-tests]
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-java@v3
-              with:
-                  distribution: 'zulu'
-                  java-version: 17
-            - run: ./ci_clear_gradle_cache.sh
-            - uses: actions/cache@v2
-              with:
-                  path: |
-                      ~/.gradle/caches
-                      ~/.gradle/wrapper
-                  key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
+      - name: google-services.json
+        env:
+          GOOGLE_PLAY_JSON_DEVELOPMENT: ${{ secrets.GOOGLE_PLAY_JSON_DEVELOPMENT }}
+        run: echo "${GOOGLE_PLAY_JSON_DEVELOPMENT}" | base64 -d > app/google-services.json
 
-            - name: Deploy Snapshot
-              env:
-                  ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
-                  ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
-              run: ./publish_remote.sh
+      - name: gradlew detekt
+        run: |
+          set -x
+          ./gradlew detekt
+
+  ktlint:
+    name: ktlint
+    runs-on: macOS-latest
+    steps:
+      - name: clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - name: set up jdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 11
+      - run: ./ci_clear_gradle_cache.sh
+
+      - name: gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
+
+      - name: local.properties
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+          LOCAL_PROPERTIES_CLOUDLIB: ${{ secrets.LOCAL_PROPERTIES_CLOUDLIB }}
+          LOCAL_PROPERTIES_UTILSLIB: ${{ secrets.LOCAL_PROPERTIES_UTILSLIB }}
+        run: |
+          echo "${LOCAL_PROPERTIES}" | base64 -d > local.properties
+          echo "${LOCAL_PROPERTIES_CLOUDLIB}" | base64 -d > QuoteUnquote.cloudLib/cloudLib/local.properties
+          echo "${LOCAL_PROPERTIES_UTILSLIB}" | base64 -d > QuoteUnquote.utilsLib/utilsLib/local.properties
+
+      - name: google-services.json
+        env:
+          GOOGLE_PLAY_JSON_DEVELOPMENT: ${{ secrets.GOOGLE_PLAY_JSON_DEVELOPMENT }}
+        run: echo "${GOOGLE_PLAY_JSON_DEVELOPMENT}" | base64 -d > app/google-services.json
+
+      - name: gradlew ktlint
+        run: |
+          set -x
+          ./gradlew ktlint
+
+  lintGooglePlayDebug:
+    name: lintGooglePlayDebug
+    needs: [checkstyle, detekt, ktlint]
+    runs-on: macOS-latest
+    steps:
+      - name: clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - name: set up jdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 11
+      - run: ./ci_clear_gradle_cache.sh
+
+      - name: gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
+
+      - name: local.properties
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+          LOCAL_PROPERTIES_CLOUDLIB: ${{ secrets.LOCAL_PROPERTIES_CLOUDLIB }}
+          LOCAL_PROPERTIES_UTILSLIB: ${{ secrets.LOCAL_PROPERTIES_UTILSLIB }}
+        run: |
+          echo "${LOCAL_PROPERTIES}" | base64 -d > local.properties
+          echo "${LOCAL_PROPERTIES_CLOUDLIB}" | base64 -d > QuoteUnquote.cloudLib/cloudLib/local.properties
+          echo "${LOCAL_PROPERTIES_UTILSLIB}" | base64 -d > QuoteUnquote.utilsLib/utilsLib/local.properties
+
+      - name: google-services.json
+        env:
+          GOOGLE_PLAY_JSON_DEVELOPMENT: ${{ secrets.GOOGLE_PLAY_JSON_DEVELOPMENT }}
+        run: echo "${GOOGLE_PLAY_JSON_DEVELOPMENT}" | base64 -d > app/google-services.json
+
+      - name: gradlew lintGooglePlayDebug
+        run: |
+          set -x
+          ./gradlew lintGooglePlayDebug
+
+  lintFdroidDebug:
+    name: lintFdroidDebug
+    needs: [checkstyle, detekt, ktlint]
+    runs-on: macOS-latest
+    steps:
+      - name: clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - name: set up jdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 11
+      - run: ./ci_clear_gradle_cache.sh
+
+      - name: gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
+
+      - name: local.properties
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+          LOCAL_PROPERTIES_CLOUDLIB: ${{ secrets.LOCAL_PROPERTIES_CLOUDLIB }}
+          LOCAL_PROPERTIES_UTILSLIB: ${{ secrets.LOCAL_PROPERTIES_UTILSLIB }}
+        run: |
+          echo "${LOCAL_PROPERTIES}" | base64 -d > local.properties
+          echo "${LOCAL_PROPERTIES_CLOUDLIB}" | base64 -d > QuoteUnquote.cloudLib/cloudLib/local.properties
+          echo "${LOCAL_PROPERTIES_UTILSLIB}" | base64 -d > QuoteUnquote.utilsLib/utilsLib/local.properties
+
+      - name: gradlew lintFdroidDebug
+        run: |
+          set -x
+          ./gradlew lintFdroidDebug
+
+  coverage-fdroid:
+    name: coverage-fdroid
+    needs: [lintFdroidDebug]
+    runs-on: macOS-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: true
+      matrix:
+        api-level: [ 29, 30, 31 ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 11
+      - run: ./ci_clear_gradle_cache.sh
+
+      - name: gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
+
+      - name: Get AVD info
+        uses: ./.github/actions/get-avd-info
+        id: avd-info
+        with:
+          api-level: ${{ matrix.api-level }}
+
+      # Retrieve the cached emulator snapshot.
+      - uses: actions/cache@v2
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: ${{ runner.os }}-avd-${{ env.CACHE_VERSION }}-${{ steps.avd-info.outputs.arch }}-${{ steps.avd-info.outputs.target }}-${{ matrix.api-level }}
+
+      # Create a new emulator snapshot if it isn't present in the cache.
+      - name: Create AVD snapshot
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: ${{ steps.avd-info.outputs.arch }}
+          target: ${{ steps.avd-info.outputs.target }}
+          disable-animations: false
+          force-avd-creation: false
+          ram-size: 4096M
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: echo "Generated AVD snapshot."
+
+      - name: local.properties
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+          LOCAL_PROPERTIES_CLOUDLIB: ${{ secrets.LOCAL_PROPERTIES_CLOUDLIB }}
+          LOCAL_PROPERTIES_UTILSLIB: ${{ secrets.LOCAL_PROPERTIES_UTILSLIB }}
+        run: |
+          echo "${LOCAL_PROPERTIES}" | base64 -d > local.properties
+          echo "${LOCAL_PROPERTIES_CLOUDLIB}" | base64 -d > QuoteUnquote.cloudLib/cloudLib/local.properties
+          echo "${LOCAL_PROPERTIES_UTILSLIB}" | base64 -d > QuoteUnquote.utilsLib/utilsLib/local.properties
+
+      - name: gradlew testFdroidDebugCombinedCoverage
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: ${{ steps.avd-info.outputs.arch }}
+          target: ${{ steps.avd-info.outputs.target }}
+          disable-animations: true
+          force-avd-creation: false
+          ram-size: 4096M
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
+          script:  |
+            adb logcat -c
+            adb logcat > logcat.txt &
+            ./gradlew :app:testFdroidDebugCombinedCoverage --stacktrace
+
+      - name: artifact logcat
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-fdroid-logcat-${{ matrix.api-level }}
+          path: logcat.txt
+
+      - name: artifact test results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-fdroid-${{ matrix.api-level }}
+          path: |
+            **/build/reports/*
+            **/build/outputs/*/connected/*
+
+      - name: codecov
+        run: |
+          set -x
+          find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/FdroidDebug.xml -F app.froid
+
+  coverage-googleplay:
+    name: coverage-googleplay
+    needs: [lintGooglePlayDebug]
+    runs-on: macOS-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: true
+      matrix:
+        api-level: [ 29, 30, 31 ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 11
+      - run: ./ci_clear_gradle_cache.sh
+
+      - name: gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ env.CACHE_VERSION }}-${{ hashFiles('**/**.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties', '**/libs.versions.toml') }}
+
+      - name: Get AVD info
+        uses: ./.github/actions/get-avd-info
+        id: avd-info
+        with:
+          api-level: ${{ matrix.api-level }}
+
+      # Retrieve the cached emulator snapshot.
+      - uses: actions/cache@v2
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: ${{ runner.os }}-avd-${{ env.CACHE_VERSION }}-${{ steps.avd-info.outputs.arch }}-${{ steps.avd-info.outputs.target }}-${{ matrix.api-level }}
+
+      # Create a new emulator snapshot if it isn't present in the cache.
+      - name: Create AVD snapshot
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: ${{ steps.avd-info.outputs.arch }}
+          target: ${{ steps.avd-info.outputs.target }}
+          disable-animations: false
+          force-avd-creation: false
+          ram-size: 4096M
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: echo "Generated AVD snapshot."
+
+      - name: local.properties
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+          LOCAL_PROPERTIES_CLOUDLIB: ${{ secrets.LOCAL_PROPERTIES_CLOUDLIB }}
+          LOCAL_PROPERTIES_UTILSLIB: ${{ secrets.LOCAL_PROPERTIES_UTILSLIB }}
+        run: |
+          echo "${LOCAL_PROPERTIES}" | base64 -d > local.properties
+          echo "${LOCAL_PROPERTIES_CLOUDLIB}" | base64 -d > QuoteUnquote.cloudLib/cloudLib/local.properties
+          echo "${LOCAL_PROPERTIES_UTILSLIB}" | base64 -d > QuoteUnquote.utilsLib/utilsLib/local.properties
+
+      - name: google-services.json
+        env:
+          GOOGLE_PLAY_JSON_DEVELOPMENT: ${{ secrets.GOOGLE_PLAY_JSON_DEVELOPMENT }}
+        run: echo "${GOOGLE_PLAY_JSON_DEVELOPMENT}" | base64 -d > app/google-services.json
+
+      - name: gradlew testGoogleplayDebugCombinedCoverage
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: ${{ steps.avd-info.outputs.arch }}
+          target: ${{ steps.avd-info.outputs.target }}
+          disable-animations: true
+          force-avd-creation: false
+          ram-size: 4096M
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
+          script:  |
+            adb logcat -c
+            adb logcat > logcat.txt &
+            ./gradlew :app:testGoogleplayDebugCombinedCoverage --stacktrace
+
+      - name: artifact logcat
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-googleplay-logcat-${{ matrix.api-level }}
+          path: logcat.txt
+
+      - name: artifact test results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-googleplay-${{ matrix.api-level }}
+          path: |
+            **/build/reports/*
+            **/build/outputs/*/connected/*
+
+      - name: codecov
+        run: |
+          set -x
+          find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/GoogleplayDebug.xml -F app.gooleplay
