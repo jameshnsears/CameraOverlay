@@ -24,7 +24,7 @@ class MediaStoreMediator {
                 null,
                 null,
                 "${MediaStore.Images.Media.DISPLAY_NAME} ASC"
-            )
+            ) ?: throw MediaStoreMediatorException("Query could not be executed")
 
             cursor.use {
                 while (cursor.moveToNext()) {
