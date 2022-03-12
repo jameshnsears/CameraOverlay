@@ -93,6 +93,7 @@ jobs:
 
   lintGooglePlayDebug:
     name: lintGooglePlayDebug
+    needs: [ detekt, ktlintCheck ]
     runs-on: macOS-latest
     steps:
       - name: clone
@@ -134,6 +135,7 @@ jobs:
 
   lintFdroidDebug:
     name: lintFdroidDebug
+    needs: [detekt, ktlintCheck]
     runs-on: macOS-latest
     steps:
       - name: clone
@@ -170,7 +172,7 @@ jobs:
 
   coverage-fdroid:
     name: coverage-fdroid
-    needs: [detekt, ktlintCheck, lintFdroidDebug]
+    needs: [lintFdroidDebug]
     runs-on: macOS-latest
     timeout-minutes: 45
     strategy:
@@ -265,7 +267,7 @@ jobs:
 
   coverage-googleplay:
     name: coverage-googleplay
-    needs: [detekt, ktlintCheck, lintGooglePlayDebug]
+    needs: [lintGooglePlayDebug]
     runs-on: macOS-latest
     timeout-minutes: 45
     strategy:
