@@ -12,7 +12,7 @@ class MediaStoreTest : PhotoResourcesUtility() {
     fun confirmExif() {
         if (MediaStoreMediator.picturesInMediaStore(context).size != 3) {
             copyImageResourcesToExternalStorage()
-         }
+        }
 
         val picturesInMediaStore = MediaStoreMediator.picturesInMediaStore(context)
         assertTrue(picturesInMediaStore.isNotEmpty())
