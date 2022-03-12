@@ -170,7 +170,7 @@ jobs:
 
   coverage-fdroid:
     name: coverage-fdroid
-    needs: [detekt. ktlintCheck, lintFdroidDebug]
+    needs: [detekt, ktlintCheck, lintFdroidDebug]
     runs-on: macOS-latest
     timeout-minutes: 45
     strategy:
@@ -265,7 +265,7 @@ jobs:
 
   coverage-googleplay:
     name: coverage-googleplay
-    needs: [detekt. ktlintCheck, lintGooglePlayDebug]
+    needs: [detekt, ktlintCheck, lintGooglePlayDebug]
     runs-on: macOS-latest
     timeout-minutes: 45
     strategy:
