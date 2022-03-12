@@ -167,7 +167,7 @@ jobs:
 
       - name: gradlew lintFdroidDebug
         run: |
-          set -xMediaStoreTest
+          set -x
           ./gradlew lintFdroidDebug
 
   coverage-fdroid:
