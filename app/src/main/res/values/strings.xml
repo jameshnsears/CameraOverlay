@@ -22,18 +22,18 @@
 
     <string name="select_photo">Photo</string>
     <string name="select_photo_filter">Filter</string>
-    <string name="select_photo_dialog_filter_exif">Only jpeg &amp; can contain Exif / location data</string>
+    <string name="select_photo_dialog_filter_exif">Only jpeg can contain location data</string>
     <string name="select_photo_dialog_filter_jpeg">jpeg</string>
     <string name="select_photo_dialog_filter_png">png</string>
     <string name="select_photo_dialog_filter_webp">tiff</string>
-    <string name="select_photo_collections">Collections</string>
+    <string name="select_photo_collections">Collection</string>
     <string name="select_photo_dialog_collections_media_store">MediaStore</string>
     <string name="select_photo_dialog_collections_access_framework">Storage Access Framework</string>
     <string name="select_photo_dialog_collections_file">File</string>
     <string name="select_photo_dialog_collections_folder">Folder</string>
     <string name="select_photo_sort">Sort</string>
     <string name="select_photo_dialog_sort_when_taken">When taken</string>
-    <string name="select_photo_dialog_sort_distance">Current location distance</string>
+    <string name="select_photo_dialog_sort_distance">Distance, from current location</string>
     <string name="select_photo_button_refresh">Refresh</string>
 
     <string name="configure_overlay">Overlay</string>

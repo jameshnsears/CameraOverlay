@@ -99,6 +99,7 @@ fun TopBarActions(
             tint = Color.White
         )
     }
+
     IconButton(onClick = { collectionDialogState.value = true }) {
         Icon(
             imageVector = Icons.Outlined.Collections,

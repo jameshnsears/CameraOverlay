@@ -114,21 +114,25 @@ fun Usage() {
             stringResource(R.string.main_screen_usage_0),
             modifier = Modifier
                 .padding(vertical = 4.dp)
+                .padding(start = 16.dp)
         )
         Text(
             stringResource(R.string.main_screen_usage_1),
             modifier = Modifier
                 .padding(vertical = 4.dp)
+                .padding(start = 16.dp)
         )
         Text(
             stringResource(R.string.main_screen_usage_2),
             modifier = Modifier
                 .padding(vertical = 4.dp)
+                .padding(start = 16.dp)
         )
         Text(
             stringResource(R.string.main_screen_usage_3),
             modifier = Modifier
                 .padding(vertical = 4.dp)
+                .padding(start = 16.dp)
         )
     }
 }
@@ -167,9 +171,11 @@ fun PermissionButtons(
     val lifeCycleState = LocalLifecycleOwner.current.lifecycle.observeAsSate()
     Timber.d("lifeCycleState=${lifeCycleState.value.name}")
 
-    PermissionButtonStorage(viewModelPermission)
-    PermissionButtonLocation(viewModelPermission)
-    PermissionButtonOverlay(viewModelPermission)
+    Column(Modifier.padding(start = 16.dp)) {
+        PermissionButtonStorage(viewModelPermission)
+        PermissionButtonLocation(viewModelPermission)
+        PermissionButtonOverlay(viewModelPermission)
+    }
 }
 
 @Composable
