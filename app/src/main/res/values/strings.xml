@@ -4,53 +4,45 @@
     <string name="about_dialog_ok">OK</string>
 
     <string name="main_screen_usage">Usage</string>
-    <string name="main_screen_usage_0">\u2022 Allow mandatory permissions</string>
-    <string name="main_screen_usage_1">\u2022 Select photo</string>
-    <string name="main_screen_usage_2">\u2022 Configure overlay</string>
-    <string name="main_screen_usage_3">\u2022 Launch camera &amp; overlay</string>
+    <string name="main_screen_usage_0">\u2022 Allow mandatory Permissions</string>
+    <string name="main_screen_usage_1">\u2022 Select Photo</string>
+    <string name="main_screen_usage_2">\u2022 Configure Overlay</string>
+    <string name="main_screen_usage_3">\u2022 Launch Camera App &amp; Overlay</string>
 
     <string name="permissions">Permissions</string>
 
-    <string name="permissions_screen_usage">\u2022 No photo or location data is recorded in analytics</string>
     <string name="permissions_screen_files_and_media">Files and media</string>
     <string name="permissions_screen_mandatory">\u2022 Mandatory</string>
-    <string name="permissions_screen_choose_photo">\u2022 Choose photo to display in overlay</string>
+    <string name="permissions_screen_choose_photo">\u2022 Choose Photo to display in Overlay</string>
     <string name="permissions_screen_location">Location</string>
     <string name="permissions_screen_optional">\u2022 Optional</string>
-    <string name="permissions_screen_show_distance">\u2022 Show distance from current location to where photo taken</string>
+    <string name="permissions_screen_show_distance">\u2022 Distance from current location</string>
     <string name="permissions_screen_overlay">Display over other apps</string>
-    <string name="permissions_screen_overlay_display_photo">\u2022 Display photo in overlay</string>
+    <string name="permissions_screen_overlay_display_photo">\u2022 Display Photo in Overlay</string>
 
-    <string name="select_photo">Select photo</string>
-
-    <string name="select_photo_usage_0">Tap photo to configure overlay</string>
-
-    <string name="select_photo_dialog_filter">Filter</string>
-    <string name="select_photo_dialog_filter_exif">Only jpeg &amp; png can contain geolocation data</string>
-    <string name="select_photo_dialog_filter_jpeg">jpeg</string>
-    <string name="select_photo_dialog_filter_png">png</string>
-    <string name="select_photo_dialog_filter_webp">webp</string>
-
-    <string name="select_photo_dialog_collection">Collection</string>
-    <string name="select_photo_dialog_collection_media_store">MediaStore</string>
-    <string name="select_photo_dialog_collection_access_framework">Storage Access Framework</string>
-    <string name="select_photo_dialog_collection_file">File</string>
-    <string name="select_photo_dialog_collection_folder">Folder</string>
-
-    <string name="select_photo_dialog_sort">Sort</string>
+    <string name="select_photo">Select Photo</string>
+    <string name="select_photo_filter">Filter</string>
+    <string name="select_photo_dialog_filter_jpeg">JPEG - can contain location</string>
+    <string name="select_photo_dialog_filter_png">PNG</string>
+    <string name="select_photo_dialog_filter_webp">TIFF</string>
+    <string name="select_photo_collections">Collection</string>
+    <string name="select_photo_dialog_collections_media_store">All (MediaStore)</string>
+    <string name="select_photo_dialog_collections_access_framework">User selection (SAF)</string>
+    <string name="select_photo_dialog_collections_file">File</string>
+    <string name="select_photo_dialog_collections_folder">Folder</string>
+    <string name="select_photo_sort">Sort</string>
     <string name="select_photo_dialog_sort_when_taken">When taken</string>
-    <string name="select_photo_dialog_sort_distance">Distance from current location</string>
+    <string name="select_photo_dialog_sort_distance">Distance</string>
+    <string name="select_photo_button_refresh">Refresh</string>
 
-    <string name="configure_overlay">Configure overlay</string>
-
-    <string name="configure_overlay_screen_photo">Photo</string>
-    <string name="configure_overlay_screen_transparency">Transparency %</string>
+    <string name="configure_overlay">Configure Overlay</string>
+    <string name="configure_overlay_screen_content">Content</string>
+    <string name="configure_overlay_screen_transparency">Transparency</string>
     <string name="configure_overlay_screen_edge_detection">Edge Detection</string>
     <string name="configure_overlay_screen_blur">Blur</string>
     <string name="configure_overlay_screen_thresholds">Thresholds</string>
     <string name="configure_overlay_screen_window">Window</string>
-    <string name="configure_overlay_screen_colour">Colour</string>
     <string name="configure_overlay_screen_width">Width</string>
     <string name="configure_overlay_screen_height">Height</string>
-    <string name="configure_overlay_screen_launch_camera_app_and_overlay">Launch camera &amp; overlay</string>
+    <string name="configure_overlay_screen_launch_camera_app_and_overlay">Launch Camera App &amp; Overlay</string>
 </resources>

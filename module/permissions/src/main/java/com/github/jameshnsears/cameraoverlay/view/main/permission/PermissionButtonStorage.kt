@@ -26,8 +26,12 @@ import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermi
 
 @Composable
 fun PermissionButtonStorage(viewModelPermission: ViewModelPermission) {
-    var buttonEnabled = remember { mutableStateOf(viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE)) }
-    var permissionPrompt = remember { mutableStateOf(viewModelPermission.permissionPrompt(PermissionArea.STORAGE)) }
+    var buttonEnabled = remember {
+        mutableStateOf(viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE))
+    }
+    var permissionPrompt = remember {
+        mutableStateOf(viewModelPermission.permissionPrompt(PermissionArea.STORAGE))
+    }
 
     val permissionDeniedMessage =
         stringResource(R.string.permissions_denial_mandatory) as CharSequence

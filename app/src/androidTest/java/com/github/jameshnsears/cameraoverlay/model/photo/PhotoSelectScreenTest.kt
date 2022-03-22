@@ -2,49 +2,46 @@ package com.github.jameshnsears.cameraoverlay.model.photo
 
 import android.content.Context
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
-import com.github.jameshnsears.cameraoverlay.view.photo.ButtonsLocation
-import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
-import org.junit.Before
+import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
+import io.mockk.mockk
 import org.junit.Rule
 import org.junit.Test
 import timber.log.Timber
 
-class PhotoSelectTest {
+class PhotoSelectScreenTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
-//    @Test
-    fun browseStorage() {
+    @Test
+    fun buttonFilter() {
         if (BuildConfig.DEBUG && Timber.treeCount == 0) {
             Timber.plant(MethodLineLoggingTree())
         }
 
         composeTestRule.setContent {
-            ButtonsLocation()
+            PhotoSelectScreen(mockk())
         }
 
-        val browseStorageButtonText =
-            context.resources.getString(R.string.select_photo_screen_picker)
+        val filterButtonText =
+            context.resources.getString(R.string.select_photo_filter)
 
-        composeTestRule.onNodeWithText(browseStorageButtonText).performClick()
+        // https://developer.android.com/jetpack/compose/testing-cheatsheet
+        composeTestRule.onNodeWithContentDescription(filterButtonText).performClick()
 
 //        composeTestRule.waitUntil {
 //            composeTestRule.onAllNodesWithText(browseStorageButtonText).fetchSemanticsNodes(false)
 //                .isNotEmpty()
 //        }
 
-        copyImageIntoExternalStoragePicturesFolder()
+//        copyImageIntoExternalStoragePicturesFolder()
 
         // https://developer.android.com/training/data-storage/shared/media
         // https://developer.android.com/training/data-storage/shared/documents-files#perform-operations
@@ -61,7 +58,6 @@ class PhotoSelectTest {
         // TODO also enable the app to receive an image via a "Share"
 
         // TODO have different images formats that the test can select
-
     }
 
     fun mediaStore() {
@@ -69,21 +65,13 @@ class PhotoSelectTest {
         // https://developer.android.com/training/data-storage/shared/media
     }
 
-    @Test
-    fun copyImageIntoExternalStoragePicturesFolder() {
-        val sourceFilename = "eiffel_tower.jpg"
-        val targetFilename = "/storage/emulated/0/Pictures/$sourceFilename"
-
-        Files.copy(
-            javaClass.classLoader.getResourceAsStream(sourceFilename),
-            Paths.get(targetFilename),
-            StandardCopyOption.REPLACE_EXISTING
-        )
-    }
-
-    @Before
-    fun emptySharedStoragePictures() {
-        val targetFile = File("/storage/emulated/0/Pictures/")
-        targetFile.deleteRecursively()
-    }
+//    @Test
+//    fun buttonCollection() {
+//         fail()
+//    }
+//
+//    @Test
+//    fun buttonSort() {
+//         fail()
+//    }
 }

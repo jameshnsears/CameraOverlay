@@ -49,17 +49,16 @@ fun PermissionScreen(navController: NavController) {
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                Common()
-                AccessPhotos()
-                ShowLocation()
-                DisplayOverlay()
+                FilesAndMedia()
+                Location()
+                DisplayOverOtherApps()
             }
         }
     }
 }
 
 @Composable
-fun AccessPhotos() {
+fun FilesAndMedia() {
     Column(
         modifier = Modifier
             .padding(vertical = 5.dp)
@@ -96,7 +95,7 @@ fun AccessPhotos() {
 }
 
 @Composable
-fun ShowLocation() {
+fun Location() {
     Column(
         modifier = Modifier
             .padding(vertical = 5.dp)
@@ -134,7 +133,7 @@ fun ShowLocation() {
 }
 
 @Composable
-fun DisplayOverlay() {
+fun DisplayOverOtherApps() {
     Column(
         modifier = Modifier
             .padding(vertical = 5.dp)
@@ -168,17 +167,6 @@ fun DisplayOverlay() {
                 )
             }
         }
-    }
-}
-
-@Composable
-fun Common() {
-    Column {
-        Text(
-            stringResource(R.string.permissions_screen_usage),
-            modifier = Modifier
-                .padding(vertical = 4.dp)
-        )
     }
 }
 

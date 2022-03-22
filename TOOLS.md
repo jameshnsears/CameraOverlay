@@ -34,6 +34,7 @@ npm install jscpd markdownlint markdownlint-cli
 * ShellScript - JetBrains
 * CodeGlance - Vektah
 * ADB Wi-Fi - Yury Polek
+* Visual Studio Code Dark Plus Theme - Alexander Makarov
 
 --
 

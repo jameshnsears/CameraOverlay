@@ -26,8 +26,8 @@ fun PermissionButton(
     Button(
         onClick = onClick,
         modifier = Modifier
-            .padding(bottom = 10.dp)
-            .size(width = 240.dp, height = 45.dp),
+            .padding(top = 10.dp, bottom = 10.dp)
+            .size(width = 250.dp, height = 45.dp),
         shape = RoundedCornerShape(16.dp),
         enabled = enabled
     ) {

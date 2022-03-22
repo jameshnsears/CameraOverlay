@@ -65,23 +65,10 @@ fun MainScreen(
 
                 Permissions(navController, viewModelPermission)
 
-                ButtonSelectPhoto(navController, viewModelPermission)
+                ButtonPhoto(navController, viewModelPermission)
             }
         }
     }
-}
-
-@Composable
-fun PermissionButtons(
-    navController: NavController,
-    viewModelPermission: ViewModelPermission
-) {
-    val lifeCycleState = LocalLifecycleOwner.current.lifecycle.observeAsSate()
-    Timber.d("lifeCycleState=${lifeCycleState.value.name}")
-
-    PermissionButtonStorage(viewModelPermission)
-    PermissionButtonLocation(viewModelPermission)
-    PermissionButtonOverlay(viewModelPermission)
 }
 
 @Composable
@@ -114,9 +101,9 @@ fun AppBar() {
 fun Usage() {
     Column(
         modifier = Modifier
-            .padding(vertical = 5.dp)
+            .padding(vertical = 6.dp)
     ) {
-        Column() {
+        Column(Modifier.padding(bottom = 10.dp)) {
             Text(
                 stringResource(R.string.main_screen_usage),
                 fontWeight = FontWeight.Bold,
@@ -170,18 +157,32 @@ fun Permissions(
         }
     }
 
-    PermissionButtons(navController, viewModelPermission)
+    PermissionButtons(viewModelPermission)
 }
 
 @Composable
-fun ButtonSelectPhoto(
+fun PermissionButtons(
+    viewModelPermission: ViewModelPermission
+) {
+    val lifeCycleState = LocalLifecycleOwner.current.lifecycle.observeAsSate()
+    Timber.d("lifeCycleState=${lifeCycleState.value.name}")
+
+    Column {
+        PermissionButtonStorage(viewModelPermission)
+        PermissionButtonLocation(viewModelPermission)
+        PermissionButtonOverlay(viewModelPermission)
+    }
+}
+
+@Composable
+fun ButtonPhoto(
     navController: NavController,
     viewModelPermission: ViewModelPermission
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 10.dp),
+            .padding(top = 10.dp, bottom = 10.dp),
         horizontalAlignment = Alignment.End
     ) {
         Button(
@@ -203,13 +204,15 @@ fun enableButtonSelectPhoto(viewModelPermission: ViewModelPermission): Boolean {
         return true
     }
 
-    return !(!viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
-            !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY))
+    return !(
+        !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
+            !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
+        )
 }
 
 @Preview(name = "Light Theme")
 @Composable
-fun PreviewPortrait() {
+fun PreviewMainScreenPortrait() {
     val context = LocalContext.current
 
     MainScreen(
@@ -224,7 +227,7 @@ fun PreviewPortrait() {
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-fun PreviewLandscape() {
+fun PreviewMainScreenLandscape() {
     val context = LocalContext.current
 
     MainScreen(

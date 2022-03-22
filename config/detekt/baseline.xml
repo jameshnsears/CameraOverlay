@@ -2,11 +2,52 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
+    <ID>FunctionNaming:AboutDialog.kt$@Composable fun AboutDialog(openDialog: MutableState&lt;Boolean&gt;)</ID>
+    <ID>FunctionNaming:AboutDialog.kt$@Composable fun AboutDialogRow(context: Context)</ID>
+    <ID>FunctionNaming:AboutDialog.kt$@Preview @Composable fun Preview()</ID>
+    <ID>FunctionNaming:Greeting.kt$@Composable fun Greeting()</ID>
+    <ID>FunctionNaming:MainScreen.kt$@Composable fun AppBar()</ID>
+    <ID>FunctionNaming:MainScreen.kt$@Composable fun ButtonSelectPhoto( navController: NavController, viewModelPermission: ViewModelPermission )</ID>
+    <ID>FunctionNaming:MainScreen.kt$@Composable fun MainScreen( navController: NavController, viewModelPermission: ViewModelPermission )</ID>
+    <ID>FunctionNaming:MainScreen.kt$@Composable fun PermissionButtons( viewModelPermission: ViewModelPermission )</ID>
+    <ID>FunctionNaming:MainScreen.kt$@Composable fun Permissions( navController: NavController, viewModelPermission: ViewModelPermission )</ID>
+    <ID>FunctionNaming:MainScreen.kt$@Composable fun Usage()</ID>
+    <ID>FunctionNaming:MainScreen.kt$@Preview( name = "Dark Theme, Landscape", widthDp = 720, heightDp = 720, uiMode = Configuration.UI_MODE_NIGHT_YES ) @Composable fun PreviewLandscape()</ID>
+    <ID>FunctionNaming:MainScreen.kt$@Preview(name = "Light Theme") @Composable fun PreviewPortrait()</ID>
+    <ID>FunctionNaming:OverlayConfigureScreen.kt$@Composable fun DisplayOverlay()</ID>
+    <ID>FunctionNaming:OverlayConfigureScreen.kt$@Composable fun EdgeDetection()</ID>
+    <ID>FunctionNaming:OverlayConfigureScreen.kt$@Composable fun OverlayConfigureScreen(navController: NavController)</ID>
+    <ID>FunctionNaming:OverlayConfigureScreen.kt$@Composable fun OverlayConfigureWindow()</ID>
+    <ID>FunctionNaming:OverlayConfigureScreen.kt$@Composable fun Photo()</ID>
+    <ID>FunctionNaming:OverlayConfigureScreen.kt$@Preview(name = "Light Theme") @Composable fun Preview()</ID>
+    <ID>FunctionNaming:PermissionScreen.kt$@Composable @Preview fun PreviewPermissionScreen()</ID>
+    <ID>FunctionNaming:PermissionScreen.kt$@Composable fun DisplayOverOtherApps()</ID>
+    <ID>FunctionNaming:PermissionScreen.kt$@Composable fun FilesAndMedia()</ID>
+    <ID>FunctionNaming:PermissionScreen.kt$@Composable fun Location()</ID>
+    <ID>FunctionNaming:PermissionScreen.kt$@Composable fun PermissionScreen(navController: NavController)</ID>
+    <ID>FunctionNaming:PhotoCard.kt$@Preview @Composable fun CardPhoto()</ID>
+    <ID>FunctionNaming:PhotoCollectionDialog.kt$@Composable fun ButtonStorageAccessFrameworkFile( radioStorageAccessFramework: String, selected: String )</ID>
+    <ID>FunctionNaming:PhotoCollectionDialog.kt$@Composable fun ButtonStorageAccessFrameworkFolder( radioStorageAccessFramework: String, selected: String )</ID>
+    <ID>FunctionNaming:PhotoCollectionDialog.kt$@Composable fun CollectionDialogRow()</ID>
+    <ID>FunctionNaming:PhotoCollectionDialog.kt$@Composable fun PhotoCollectionDialog(openDialog: MutableState&lt;Boolean&gt;)</ID>
+    <ID>FunctionNaming:PhotoCollectionDialog.kt$@Composable private fun RowMediaStore( radioMediaStore: String, selected: String, onSelectedChange: (String) -&gt; Unit )</ID>
+    <ID>FunctionNaming:PhotoCollectionDialog.kt$@Composable private fun RowStorageAccessFramework( radioStorageAccessFramework: String, selected: String, onSelectedChange: (String) -&gt; Unit )</ID>
+    <ID>FunctionNaming:PhotoCollectionDialog.kt$@Preview @Composable fun PreviewPhotoCollectionDialog()</ID>
+    <ID>FunctionNaming:PhotoFilterDialog.kt$@Composable fun FilterDialog(openDialog: MutableState&lt;Boolean&gt;)</ID>
+    <ID>FunctionNaming:PhotoFilterDialog.kt$@Composable fun FilterDialogRow()</ID>
+    <ID>FunctionNaming:PhotoFilterDialog.kt$@Preview @Composable fun PreviewPhotoFilterDialog()</ID>
+    <ID>FunctionNaming:PhotoSelectScreen.kt$@Composable fun PhotoSelectScreen(navController: NavController)</ID>
+    <ID>FunctionNaming:PhotoSelectScreen.kt$@Composable fun TopBarActions( filterDialogState: MutableState&lt;Boolean&gt;, collectionDialogState: MutableState&lt;Boolean&gt;, sortDialogState: MutableState&lt;Boolean&gt; )</ID>
+    <ID>FunctionNaming:PhotoSelectScreen.kt$@Preview(name = "Light Theme") @Composable fun PreviewPhotoSelectScreen()</ID>
+    <ID>FunctionNaming:PhotoSortDialog.kt$@Composable fun SortDialog(openDialog: MutableState&lt;Boolean&gt;)</ID>
+    <ID>FunctionNaming:PhotoSortDialog.kt$@Composable fun SortDialogRow()</ID>
+    <ID>FunctionNaming:PhotoSortDialog.kt$@Composable private fun DistanceFromCurrentLocation()</ID>
+    <ID>FunctionNaming:PhotoSortDialog.kt$@Composable private fun WhenTaken()</ID>
+    <ID>FunctionNaming:PhotoSortDialog.kt$@Preview @Composable fun PreviewSortDialog()</ID>
+    <ID>FunctionNaming:common.kt$@Composable fun ButtonOk(onClick: () -&gt; Unit)</ID>
     <ID>MagicNumber:Canny.kt$Canny$4</ID>
     <ID>MagicNumber:Canny.kt$Canny$80.0</ID>
     <ID>MagicNumber:EdgeDetectionUtils.kt$EdgeDetectionUtils$3.0</ID>
     <ID>MagicNumber:OverlayWindow.kt$OverlayWindow$259</ID>
-    <ID>UnusedPrivateMember:DisplayOverlayPermissionButton.kt$viewModelPermission: MainScreenViewModel</ID>
-    <ID>UnusedPrivateMember:ShowDistancePermissionButton.kt$viewModelPermission: MainScreenViewModel</ID>
   </CurrentIssues>
 </SmellBaseline>
