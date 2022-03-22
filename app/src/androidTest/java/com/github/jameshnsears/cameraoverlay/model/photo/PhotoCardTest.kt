@@ -1,9 +1,8 @@
-package com.github.jameshnsears.cameraoverlay.model.photo.coil
+package com.github.jameshnsears.cameraoverlay.model.photo
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
 import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediator
-import com.github.jameshnsears.cameraoverlay.view.photo.coil.CoilScreen
+import com.github.jameshnsears.cameraoverlay.view.photo.PhotoCard
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.google.common.net.HttpHeaders.CONTENT_LENGTH
 import junit.framework.TestCase.assertEquals
@@ -20,44 +19,59 @@ import org.junit.Test
 import timber.log.Timber
 
 
-class CoilScreenTest : PhotoResourcesUtility() {
+class PhotoCardTest : PhotoResourcesUtility() {
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun coilMediaStore() {
+    fun mediaStore() {
         if (MediaStoreMediator.picturesInMediaStore(context).size != 3) {
             copyImageResourcesToExternalStorage()
         }
         val picturesInMediaStore = MediaStoreMediator.picturesInMediaStore(context)
 
         composeTestRule.setContent {
-            CameraOverlayTheme() {
-                CoilScreen(picturesInMediaStore[0].uri)
+            CameraOverlayTheme {
+                PhotoCard(
+                    PhotoCardData(
+                        picturesInMediaStore[0].uri,
+                        "date taken 0",
+                        "gps co-ords 0",
+                        "path 0"
+                    ),
+                )
             }
         }
+
+        // TODO test
 
         return
     }
 
     @Test
-    fun coilHttp() {
+    fun http() {
         val mockWebServer = mockWebServer()
         mockWebServer.start(8080)
 
         assertResponseMockWebServer()
 
         composeTestRule.setContent {
-            CameraOverlayTheme() {
-                CoilScreen("http://127.0.0.1:8080/resources/eiffel_tower")
+            CameraOverlayTheme {
+                PhotoCard(
+                    PhotoCardData(
+                        "https://example.com/image.jpg",
+                        "date taken 0",
+                        "gps co-ords 0",
+                        "path 0"
+                    ),
+                )
             }
         }
 
+        // TODO test
 //        composeTestRule.onNodeWithText("Continue").performClick()
 
-
         // TODO how to click on a specific image & identify it?
-        // TODO how to display lots of images in neat way?
 
         mockWebServer.shutdown()
     }
@@ -72,7 +86,7 @@ class CoilScreenTest : PhotoResourcesUtility() {
                     "/resources/eiffel_tower" -> {
                         return MockResponse().setResponseCode(200)
                             .addHeader("Content-Type:image/jpeg")
-                            .setBody(getBinaryFileAsBuffer("eiffel_tower.jpg"));
+                            .setBody(getBinaryFileAsBuffer("eiffel_tower.jpg"))
                     }
                 }
                 return MockResponse().setResponseCode(404)

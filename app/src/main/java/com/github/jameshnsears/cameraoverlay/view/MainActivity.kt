@@ -3,9 +3,11 @@ package com.github.jameshnsears.cameraoverlay.view
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
@@ -38,8 +40,14 @@ class MainActivity : ComponentActivity() {
                 composable(Navigation.SCREEN_SELECT_PHOTO) {
                     PhotoSelectScreen(navController)
                 }
-                composable(Navigation.SCREEN_CONFIGURE_OVERLAY) {
-                    OverlayConfigureScreen(navController)
+                // https://code.luasoftware.com/tutorials/android/jetpack-compose-navigation-pass-arguments/
+                composable(
+                    Navigation.SCREEN_CONFIGURE_OVERLAY + "/{photoId}",
+                    arguments = listOf(navArgument("photoId") { type = NavType.IntType })
+                ) {
+                    OverlayConfigureScreen(
+                        navController, it.arguments?.getInt("photoId")
+                    )
                 }
             }
         }

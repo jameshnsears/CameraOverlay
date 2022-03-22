@@ -1,10 +1,8 @@
 package com.github.jameshnsears.cameraoverlay.view.photo
 
-import ButtonOk
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.provider.DocumentsContract
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -50,7 +48,7 @@ import com.github.jameshnsears.cameraoverlay.R
 import timber.log.Timber
 
 @Composable
-fun PhotoCollectionDialog(openDialog: MutableState<Boolean>) {
+fun PhotoDialogCollection(openDialog: MutableState<Boolean>) {
     AlertDialog(
         onDismissRequest = {
             openDialog.value = false
@@ -64,17 +62,15 @@ fun PhotoCollectionDialog(openDialog: MutableState<Boolean>) {
         },
         shape = RoundedCornerShape(16.dp),
         text = {
-            CollectionDialogRow()
+            PhotoDialogCollection()
         },
         confirmButton = {},
-        dismissButton = {
-            ButtonOk { openDialog.value = false }
-        }
+        dismissButton = {}
     )
 }
 
 @Composable
-fun CollectionDialogRow() {
+fun PhotoDialogCollection() {
     val radioMediaStore = stringResource(R.string.select_photo_dialog_collections_media_store)
     val radioStorageAccessFramework =
         stringResource(R.string.select_photo_dialog_collections_access_framework)
@@ -94,7 +90,7 @@ fun CollectionDialogRow() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp, start = 16.dp),
+                    .padding(start = 16.dp, top = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 ButtonStorageAccessFrameworkFile(radioStorageAccessFramework, selected)
@@ -113,7 +109,6 @@ private fun RowStorageAccessFramework(
 ) {
     Row(
         Modifier
-            .padding(top = 20.dp)
             .fillMaxWidth()
             .selectable(
                 selected = (radioStorageAccessFramework == selected),
@@ -142,7 +137,6 @@ private fun RowMediaStore(
 ) {
     Row(
         Modifier
-            .padding(top = 20.dp)
             .fillMaxWidth()
             .selectable(
                 selected = (radioMediaStore == selected),
@@ -230,15 +224,12 @@ fun ButtonStorageAccessFrameworkFolder(
 }
 
 private fun getIntent(intentAction: String): Intent {
-    // https://developer.android.com/training/data-storage/shared/documents-files
-    // == shows how to access items metadata
-
     return Intent(intentAction).apply {
         if (intentAction == Intent.ACTION_OPEN_DOCUMENT) {
             addCategory(Intent.CATEGORY_OPENABLE)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && BuildConfig.DEBUG == true) {
+        if (BuildConfig.DEBUG) {
             val authority = "com.android.externalstorage.documents"
             putExtra(
                 DocumentsContract.EXTRA_INITIAL_URI,
@@ -264,7 +255,7 @@ fun launcherAppInfoAccessLocation(
             Timber.d(it.data.toString())
         }
 
-        // Activity.RESULT_CANCELED; data = null
+        // TODO Activity.RESULT_CANCELED; data = null
         val data = it.data
 
         buttonState.value = false
@@ -274,6 +265,6 @@ fun launcherAppInfoAccessLocation(
 
 @Preview
 @Composable
-fun PreviewPhotoCollectionDialog() {
-    CollectionDialogRow()
+fun PreviewPhotoDialogCollection() {
+    PhotoDialogCollection()
 }

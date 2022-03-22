@@ -1,11 +1,9 @@
 package com.github.jameshnsears.cameraoverlay.view.photo
 
-import ButtonOk
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.github.jameshnsears.cameraoverlay.R
 
 @Composable
-fun FilterDialog(openDialog: MutableState<Boolean>) {
+fun PhotoDialogFilter(openDialog: MutableState<Boolean>) {
     AlertDialog(
         onDismissRequest = {
             openDialog.value = false
@@ -50,9 +48,7 @@ fun FilterDialog(openDialog: MutableState<Boolean>) {
             FilterDialogRow()
         },
         confirmButton = {},
-        dismissButton = {
-            ButtonOk { openDialog.value = false }
-        }
+        dismissButton = {}
     )
 }
 
@@ -69,10 +65,6 @@ fun FilterDialogRow() {
     )
 
     Column {
-        Row {
-            Text(stringResource(R.string.select_photo_dialog_filter_exif))
-        }
-
         val onSelectedChange = { text: String ->
             selected = text
         }
@@ -80,7 +72,6 @@ fun FilterDialogRow() {
         radioGroupOptions.forEach { text ->
             Row(
                 Modifier
-                    .padding(top = 20.dp)
                     .fillMaxWidth()
                     .selectable(
                         selected = (text == selected),
@@ -107,6 +98,6 @@ fun FilterDialogRow() {
 
 @Preview
 @Composable
-fun PreviewPhotoFilterDialog() {
+fun PreviewPhotoDialogFilter() {
     FilterDialogRow()
 }

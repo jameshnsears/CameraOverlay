@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
+import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCardData
+import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollection
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
@@ -37,17 +39,17 @@ fun PhotoSelectScreen(navController: NavController) {
 
         val filterDialogState = remember { mutableStateOf(false) }
         if (filterDialogState.value) {
-            FilterDialog(filterDialogState)
+            PhotoDialogFilter(filterDialogState)
         }
 
         val collectionDialogState = remember { mutableStateOf(false) }
         if (collectionDialogState.value) {
-            PhotoCollectionDialog(collectionDialogState)
+            PhotoDialogCollection(collectionDialogState)
         }
 
         val sortDialogState = remember { mutableStateOf(false) }
         if (sortDialogState.value) {
-            SortDialog(sortDialogState)
+            PhotoDialogSort(sortDialogState)
         }
 
         Scaffold(
@@ -78,8 +80,19 @@ fun PhotoSelectScreen(navController: NavController) {
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                // TODO replace with coil
-                CardPhoto()
+                for (photoId in 1..20) {
+                    PhotoCard(
+                        navController,
+                        PhotoCardData(
+                            PhotoCollection.MediaStore,
+                            "type $photoId",
+                            "https://example.com/image.jpg",
+                            "when taken $photoId",
+                            "distance $photoId",
+                            photoId = photoId
+                        )
+                    )
+                }
             }
         }
     }
@@ -91,19 +104,18 @@ fun TopBarActions(
     collectionDialogState: MutableState<Boolean>,
     sortDialogState: MutableState<Boolean>
 ) {
+    IconButton(onClick = { collectionDialogState.value = true }) {
+        Icon(
+            imageVector = Icons.Outlined.Collections,
+            contentDescription = stringResource(R.string.select_photo_collections),
+            tint = Color.White
+        )
+    }
 
     IconButton(onClick = { filterDialogState.value = true }) {
         Icon(
             imageVector = Icons.Outlined.FilterAlt,
             contentDescription = stringResource(R.string.select_photo_filter),
-            tint = Color.White
-        )
-    }
-
-    IconButton(onClick = { collectionDialogState.value = true }) {
-        Icon(
-            imageVector = Icons.Outlined.Collections,
-            contentDescription = stringResource(R.string.select_photo_collections),
             tint = Color.White
         )
     }
@@ -116,13 +128,13 @@ fun TopBarActions(
         )
     }
 
-    IconButton(onClick = { }) {
-        Icon(
-            imageVector = Icons.Outlined.Refresh,
-            contentDescription = stringResource(R.string.select_photo_button_refresh),
-            tint = Color.White
-        )
-    }
+//    IconButton(onClick = { }) {
+//        Icon(
+//            imageVector = Icons.Outlined.Refresh,
+//            contentDescription = stringResource(R.string.select_photo_button_refresh),
+//            tint = Color.White
+//        )
+//    }
 }
 
 @Preview(name = "Light Theme")

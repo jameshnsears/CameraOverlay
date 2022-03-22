@@ -1,6 +1,5 @@
 package com.github.jameshnsears.cameraoverlay.view.main.about
 
-import ButtonOk
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -55,9 +53,7 @@ fun AboutDialog(openDialog: MutableState<Boolean>) {
             AboutDialogRow(context)
         },
         confirmButton = {},
-        dismissButton = {
-            ButtonOk { openDialog.value = false }
-        }
+        dismissButton = {},
     )
 }
 
@@ -68,43 +64,45 @@ fun AboutDialogRow(context: Context) {
         .replace("-googleplay", "")
     version += "/" + BuildConfig.GIT_HASH
 
-    Row(
-        Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Column(Modifier.align(Alignment.CenterVertically)) {
-            SelectionContainer {
-                Text(version)
-            }
+    Column {
+        Row {
+            ClickableText(
+                text = AnnotatedString(stringResource(R.string.about_dialog_privacy_policy)),
+                style = TextStyle(color = Color.Blue, fontSize = 16.sp),
+                onClick = {
+                    startActivity(
+                        context,
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://jameshnsears.github.io/CameraOverlay/")
+                        ),
+                        null
+                    )
+                }
+            )
         }
-        Column {
-            IconButton(
-                onClick = { linkToGitHub(context) },
-                modifier = Modifier.width(80.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_github_logo),
-                    contentDescription = null,
-                )
-            }
-        }
-    }
 
-    Row(Modifier.padding(top = 50.dp)) {
-        ClickableText(
-            text = AnnotatedString(stringResource(R.string.about_dialog_privacy_policy)),
-            style = TextStyle(color = Color.Blue),
-            onClick = {
-                startActivity(
-                    context,
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://jameshnsears.github.io/CameraOverlay/")
-                    ),
-                    null
-                )
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(Modifier.align(Alignment.CenterVertically)) {
+                SelectionContainer {
+                    Text(version)
+                }
             }
-        )
+            Column {
+                IconButton(
+                    onClick = { linkToGitHub(context) },
+                    modifier = Modifier.width(65.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_github_logo),
+                        contentDescription = null,
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -118,7 +116,7 @@ fun linkToGitHub(context: Context) {
 
 @Preview
 @Composable
-fun Preview() {
+fun PreviewAboutDialog() {
     val context = LocalContext.current
     AboutDialogRow(context)
 }
