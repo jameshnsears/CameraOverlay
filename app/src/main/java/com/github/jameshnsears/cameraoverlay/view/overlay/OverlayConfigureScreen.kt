@@ -58,7 +58,7 @@ fun OverlayConfigureScreen(navController: NavController, photoId: Int?) {
 
                 Size()
 
-                CameraAppAndOverlay()
+                LaunchOverlay()
             }
         }
     }
@@ -144,9 +144,9 @@ fun Size() {
 }
 
 @Composable
-fun CameraAppAndOverlay() {
+fun LaunchOverlay() {
     val context = LocalContext.current
-    val noPermissionMessage = stringResource(R.string.error_missing_mandatory_permission)
+    val permissionNoGrantedMessage = stringResource(R.string.error_missing_mandatory_permission)
 
     Column(
         modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
@@ -154,38 +154,39 @@ fun CameraAppAndOverlay() {
     ) {
         Button(
             onClick = {
-                launchOverlay(context, noPermissionMessage)
+                launchOverlay(context, permissionNoGrantedMessage)
             },
             modifier = Modifier
-                .size(width = 250.dp, height = 45.dp),
+                .size(width = 180.dp, height = 45.dp),
             shape = RoundedCornerShape(16.dp),
             enabled = true
         ) {
             Text(
                 text = stringResource(
-                    R.string.configure_overlay_screen_launch_camera_app_and_overlay
+                    R.string.configure_overlay_screen_display_overlay
                 )
             )
         }
     }
 }
 
-fun launchOverlay(context: Context, noPermissionMessage: String) {
+fun launchOverlay(context: Context, permissionNoGrantedMessage: String) {
     if (Settings.canDrawOverlays(context)) {
         val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
 
-        if (!overlayScreenViewModel.isOverlayWindowServiceActive) {
-            overlayScreenViewModel.startOverlayWindowService(context)
-            // quit Compose
-//            (context as Activity).finish()
-        } else {
+        if (overlayScreenViewModel.isOverlayWindowServiceActive) {
             overlayScreenViewModel.stopOverlayWindowService(context)
         }
+
+        overlayScreenViewModel.startOverlayWindowService(context)
+
+        // minimise app so that only overlay displayed
+        (context as Activity).moveTaskToBack(true)
     }
     else {
         Toast.makeText(
             context as Activity,
-            noPermissionMessage,
+            permissionNoGrantedMessage,
             Toast.LENGTH_SHORT
         ).show()
     }

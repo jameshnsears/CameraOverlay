@@ -15,6 +15,7 @@ import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
 import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionScreen
 import com.github.jameshnsears.cameraoverlay.view.overlay.OverlayConfigureScreen
 import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
+import com.github.jameshnsears.cameraoverlay.viewmodel.overlay.ViewModelOverlayConfigureScreen
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import timber.log.Timber
 
@@ -58,4 +59,16 @@ class MainActivity : ComponentActivity() {
             Timber.plant(MethodLineLoggingTree())
         }
     }
+
+    override fun onDestroy() {
+        val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
+
+        if (overlayScreenViewModel.isOverlayWindowServiceActive) {
+            overlayScreenViewModel.stopOverlayWindowService(this)
+        }
+
+        super.onDestroy()
+    }
+
+
 }

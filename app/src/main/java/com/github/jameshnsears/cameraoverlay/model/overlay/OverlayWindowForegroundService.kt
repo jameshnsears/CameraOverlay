@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.OverlayWindow
+import timber.log.Timber
 
 /*
 vScreen Rotation
@@ -54,6 +55,8 @@ class OverlayWindowForegroundService : Service() {
         private const val ACTION_HIDE = "HIDE"
 
         fun start(context: Context) {
+            Timber.d("start")
+
             val intent = Intent(context, OverlayWindowForegroundService::class.java).apply {
                 action = ACTION_SHOW
             }
@@ -61,6 +64,8 @@ class OverlayWindowForegroundService : Service() {
         }
 
         fun stop(context: Context) {
+            Timber.d("stop")
+
             val intent = Intent(context, OverlayWindowForegroundService::class.java).apply {
                 action = ACTION_HIDE
             }

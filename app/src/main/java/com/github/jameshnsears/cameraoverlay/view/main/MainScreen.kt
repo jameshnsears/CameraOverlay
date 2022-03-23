@@ -65,7 +65,7 @@ fun MainScreen(
 
                 Permissions(navController, viewModelPermission)
 
-                ButtonPhoto(navController, viewModelPermission)
+                SelectPhoto(navController, viewModelPermission)
             }
         }
     }
@@ -175,7 +175,7 @@ fun PermissionButtons(
 }
 
 @Composable
-fun ButtonPhoto(
+fun SelectPhoto(
     navController: NavController,
     viewModelPermission: ViewModelPermission
 ) {

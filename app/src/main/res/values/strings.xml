@@ -7,7 +7,7 @@
     <string name="main_screen_usage_0">\u2022 Allow mandatory Permissions</string>
     <string name="main_screen_usage_1">\u2022 Select Photo</string>
     <string name="main_screen_usage_2">\u2022 Configure Overlay</string>
-    <string name="main_screen_usage_3">\u2022 Launch Camera App &amp; Overlay</string>
+    <string name="main_screen_usage_3">\u2022 Display Overlay</string>
 
     <string name="permissions">Permissions</string>
 
@@ -46,7 +46,7 @@
     <string name="configure_overlay_screen_window">Window</string>
     <string name="configure_overlay_screen_width">Width</string>
     <string name="configure_overlay_screen_height">Height</string>
-    <string name="configure_overlay_screen_launch_camera_app_and_overlay">Launch Camera App &amp; Overlay</string>
+    <string name="configure_overlay_screen_display_overlay">Display Overlay</string>
 
     <string name="overlay_window_back">Back</string>
     <string name="overlay_window_close">Close</string>
