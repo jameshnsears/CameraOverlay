@@ -1,6 +1,9 @@
 package com.github.jameshnsears.cameraoverlay.view.overlay
 
 import android.app.Activity
+import android.content.Context
+import android.provider.Settings
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -143,6 +146,7 @@ fun Size() {
 @Composable
 fun CameraAppAndOverlay() {
     val context = LocalContext.current
+    val noPermissionMessage = stringResource(R.string.error_missing_mandatory_permission)
 
     Column(
         modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
@@ -150,14 +154,7 @@ fun CameraAppAndOverlay() {
     ) {
         Button(
             onClick = {
-                val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
-                if (!overlayScreenViewModel.isOverlayWindowServiceActive) {
-                    overlayScreenViewModel.startOverlayWindowService(context)
-                    // quit Compose
-//                    (context as Activity).finish()
-                } else {
-                    overlayScreenViewModel.stopOverlayWindowService(context)
-                }
+                LaunchOverlay(context, noPermissionMessage)
             },
             modifier = Modifier
                 .size(width = 250.dp, height = 45.dp),
@@ -170,6 +167,27 @@ fun CameraAppAndOverlay() {
                 )
             )
         }
+    }
+}
+
+fun LaunchOverlay(context: Context, noPermissionMessage: String) {
+    if (Settings.canDrawOverlays(context)) {
+        val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
+
+        if (!overlayScreenViewModel.isOverlayWindowServiceActive) {
+            overlayScreenViewModel.startOverlayWindowService(context)
+            // quit Compose
+//            (context as Activity).finish()
+        } else {
+            overlayScreenViewModel.stopOverlayWindowService(context)
+        }
+    }
+    else {
+        Toast.makeText(
+            context as Activity,
+            noPermissionMessage,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
 

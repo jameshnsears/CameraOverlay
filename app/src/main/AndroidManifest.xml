@@ -20,21 +20,8 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.CameraOverlay.NoActionBar">
 
-<!--        <activity-->
-<!--            android:name="com.github.jameshnsears.cameraoverlay.view.MainActivity"-->
-<!--            android:configChanges="orientation|keyboardHidden|screenSize"-->
-<!--            android:exported="true"-->
-<!--            android:theme="@style/Theme.CameraOverlay">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
-        <service android:name=".model.overlay.OverlayWindowForegroundService"/>
-
         <activity
-            android:name=".OverlayActivity"
+            android:name=".view.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:theme="@style/Theme.CameraOverlay">
@@ -43,6 +30,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".model.overlay.OverlayWindowForegroundService"/>
 
     </application>
 

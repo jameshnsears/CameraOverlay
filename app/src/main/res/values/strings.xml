@@ -20,6 +20,8 @@
     <string name="permissions_screen_overlay">Display over other apps</string>
     <string name="permissions_screen_overlay_display_photo">\u2022 Display Photo in Overlay</string>
 
+    <string name="error_missing_mandatory_permission">Missing mandatory permission</string>
+
     <string name="select_photo">Select Photo</string>
     <string name="select_photo_filter">Filter</string>
     <string name="select_photo_dialog_filter_jpeg">JPEG - can contain location</string>
