@@ -154,7 +154,7 @@ fun CameraAppAndOverlay() {
     ) {
         Button(
             onClick = {
-                LaunchOverlay(context, noPermissionMessage)
+                launchOverlay(context, noPermissionMessage)
             },
             modifier = Modifier
                 .size(width = 250.dp, height = 45.dp),
@@ -170,7 +170,7 @@ fun CameraAppAndOverlay() {
     }
 }
 
-fun LaunchOverlay(context: Context, noPermissionMessage: String) {
+fun launchOverlay(context: Context, noPermissionMessage: String) {
     if (Settings.canDrawOverlays(context)) {
         val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
 

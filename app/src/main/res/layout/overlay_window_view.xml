@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/overlay_window_border"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/window_header"
@@ -17,51 +16,37 @@
 
         <ImageButton
             android:id="@+id/window_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="end|center_vertical"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_margin="4dp"
+            android:layout_weight="0.5"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/overlay_window_back"
             android:padding="0dp"
-            android:src="@drawable/ic_baseline_arrow_back_24"
-            android:tintMode="src_in"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck" />
-
+            android:src="@drawable/ic_baseline_arrow_back_24" />
 
         <ImageButton
             android:id="@+id/window_close"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="end|center_vertical"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_margin="4dp"
+            android:layout_weight="0.5"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/overlay_window_close"
             android:padding="0dp"
-            android:src="@drawable/ic_baseline_close_24"
-            android:tintMode="src_in"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck" />
+            android:src="@drawable/ic_baseline_close_24" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/window_content"
+    <ImageButton
+        android:id="@+id/cat_button"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/cat_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="end|center_vertical"
-            android:layout_margin="4dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/cat"
-            android:tintMode="src_in"
-            tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck"
-            android:contentDescription="@string/overlay_window_photo" />
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="end|center_vertical"
+        android:layout_margin="4dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/overlay_window_photo"
+        android:src="@drawable/cat"
+        android:tintMode="src_in"
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
 </com.github.jameshnsears.cameraoverlay.view.overlay.window.OverlayWindowLinearLayout>

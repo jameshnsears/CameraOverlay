@@ -61,7 +61,7 @@ class OverlayWindow(context: Context) {
     ) {
         val dm = getCurrentDisplayMetrics()
         // We have to set gravity for which the calculated position is relative.
-        params.gravity = Gravity.TOP or Gravity.LEFT
+        params.gravity = Gravity.TOP or Gravity.START
         params.width = (widthInDp * dm.density).toInt()
         params.height = (heightInDp * dm.density).toInt()
         params.x = (dm.widthPixels - params.width) / 2

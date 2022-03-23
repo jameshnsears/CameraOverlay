@@ -12,7 +12,7 @@ In the foreground service, register the broadcast receiver to listen to
 Intent.ACTION_CONFIGURATION_CHANGED, and you get notified when the screen is rotated.
 
 In Floating Apps, when the screen orientation is changed, I keep the same size of the
-window and recalculate its position using the percentual calculation:
+window and recalculate its position using the % calculation:
 
 newX = oldX / oldScreenWidth * newScreenWidth
 
