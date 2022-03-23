@@ -47,4 +47,9 @@
     <string name="configure_overlay_screen_width">Width</string>
     <string name="configure_overlay_screen_height">Height</string>
     <string name="configure_overlay_screen_launch_camera_app_and_overlay">Launch Camera App &amp; Overlay</string>
+
+    <string name="overlay_window_back">Back</string>
+    <string name="overlay_window_close">Close</string>
+    <string name="overlay_window_photo">Photo</string>
+
 </resources>

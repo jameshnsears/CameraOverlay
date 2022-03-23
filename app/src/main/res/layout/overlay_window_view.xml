@@ -16,12 +16,27 @@
         android:weightSum="1">
 
         <ImageButton
+            android:id="@+id/window_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_margin="4dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/overlay_window_back"
+            android:padding="0dp"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:tintMode="src_in"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck" />
+
+
+        <ImageButton
             android:id="@+id/window_close"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="end|center_vertical"
             android:layout_margin="4dp"
             android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/overlay_window_close"
             android:padding="0dp"
             android:src="@drawable/ic_baseline_close_24"
             android:tintMode="src_in"
@@ -44,7 +59,8 @@
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/cat"
             android:tintMode="src_in"
-            tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+            tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck"
+            android:contentDescription="@string/overlay_window_photo" />
 
     </LinearLayout>
 

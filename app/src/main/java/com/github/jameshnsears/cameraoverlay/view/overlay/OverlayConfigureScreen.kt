@@ -76,7 +76,7 @@ fun Content() {
         Row(modifier = Modifier
             .padding(vertical = 8.dp)) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_blur_24dp),
+                painter = painterResource(id = R.drawable.ic_blur),
                 contentDescription = null,
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
@@ -132,7 +132,7 @@ fun Size() {
         Row(modifier = Modifier
             .padding(vertical = 8.dp)) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_width_black_24dp),
+                painter = painterResource(id = R.drawable.ic_width),
                 contentDescription = null,
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
