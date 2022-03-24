@@ -43,6 +43,7 @@
 <!--        android:layout_weight="1">-->
 
         <ImageView
+            android:clickable="false"
             android:id="@+id/cat_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
