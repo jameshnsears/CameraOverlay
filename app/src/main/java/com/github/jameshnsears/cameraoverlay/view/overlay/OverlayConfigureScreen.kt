@@ -71,7 +71,7 @@ fun Content() {
             stringResource(R.string.configure_overlay_screen_content),
             modifier = Modifier.padding(bottom = 5.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 22.sp
+            fontSize = 24.sp
         )
         Row(modifier = Modifier
             .padding(vertical = 8.dp)) {
@@ -116,7 +116,7 @@ fun Size() {
             stringResource(R.string.configure_overlay_screen_window),
             modifier = Modifier.padding(bottom = 5.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 22.sp
+            fontSize = 24.sp
         )
         Row(modifier = Modifier
             .padding(vertical = 8.dp)) {

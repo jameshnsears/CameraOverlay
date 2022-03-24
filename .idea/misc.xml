@@ -379,6 +379,14 @@
         <entry key="../../../../../layout/compose-model-1648054202189.xml" value="0.25" />
         <entry key="../../../../../layout/compose-model-1648054265371.xml" value="0.25" />
         <entry key="../../../../../layout/compose-model-1648054265372.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1648143666091.xml" value="0.25" />
+        <entry key="../../../../../layout/compose-model-1648143666149.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1648143878116.xml" value="0.33" />
+        <entry key="../../../../../layout/compose-model-1648144056221.xml" value="0.3148148148148148" />
+        <entry key="../../../../../layout/compose-model-1648144118974.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1648144158905.xml" value="0.3148148148148148" />
+        <entry key="../../../../../layout/compose-model-1648144228398.xml" value="0.15076013513513514" />
+        <entry key="../../../../../layout/compose-model-1648144299053.xml" value="0.15076013513513514" />
         <entry key="../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_category_24.xml" value="0.14114583333333333" />
         <entry key="app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.10572916666666667" />
@@ -397,7 +405,7 @@
         <entry key="app/src/main/res/drawable/overlay_window_border.xml" value="0.17604166666666668" />
         <entry key="app/src/main/res/layout/layout.xml" value="0.18888888888888888" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.1921875" />
-        <entry key="app/src/main/res/layout/overlay_window_view.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/overlay_window_view.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.20833333333333334" />
       </map>

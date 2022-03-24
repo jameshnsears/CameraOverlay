@@ -80,7 +80,7 @@ fun AppBar() {
     }
 
     TopAppBar(
-        title = { Text(stringResource(R.string.app_name)) },
+        title = { Text(stringResource(R.string.app_name), fontSize = 28.sp) },
         actions = {
             IconButton(
                 onClick = {
@@ -107,7 +107,7 @@ fun Usage() {
             Text(
                 stringResource(R.string.main_screen_usage),
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp
+                fontSize = 24.sp
             )
         }
         Text(
@@ -144,7 +144,7 @@ fun Permissions(
         Text(
             stringResource(R.string.permissions),
             fontWeight = FontWeight.Bold,
-            fontSize = 22.sp
+            fontSize = 24.sp
         )
 
         IconButton(

@@ -40,7 +40,7 @@ fun PhotoDialogFilter(openDialog: MutableState<Boolean>) {
             Text(
                 text = stringResource(R.string.select_photo_filter),
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp
+                fontSize = 24.sp
             )
         },
         shape = RoundedCornerShape(16.dp),

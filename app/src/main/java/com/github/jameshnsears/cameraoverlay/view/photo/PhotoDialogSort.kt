@@ -39,7 +39,7 @@ fun PhotoDialogSort(openDialog: MutableState<Boolean>) {
             Text(
                 text = stringResource(R.string.select_photo_sort),
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp
+                fontSize = 24.sp
             )
         },
         shape = RoundedCornerShape(16.dp),

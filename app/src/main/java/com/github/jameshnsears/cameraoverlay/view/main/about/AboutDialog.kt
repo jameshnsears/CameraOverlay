@@ -45,7 +45,7 @@ fun AboutDialog(openDialog: MutableState<Boolean>) {
             Text(
                 text = stringResource(R.string.about_dialog),
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp
+                fontSize = 24.sp
             )
         },
         shape = RoundedCornerShape(16.dp),

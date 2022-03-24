@@ -76,7 +76,7 @@ fun FilesAndMedia() {
                     Text(
                         stringResource(R.string.permissions_screen_files_and_media),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp
+                        fontSize = 24.sp
                     )
                 }
                 Text(
@@ -114,7 +114,7 @@ fun Location() {
                     Text(
                         stringResource(R.string.permissions_screen_location),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp
+                        fontSize = 24.sp
                     )
                 }
                 Text(
@@ -152,7 +152,7 @@ fun DisplayOverOtherApps() {
                     Text(
                         stringResource(R.string.permissions_screen_overlay),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp
+                        fontSize = 24.sp
                     )
                 }
                 Text(

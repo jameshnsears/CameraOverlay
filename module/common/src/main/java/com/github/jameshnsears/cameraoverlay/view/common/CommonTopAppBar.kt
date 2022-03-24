@@ -7,12 +7,13 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
 fun CommonTopAppBar(title: String, navController: NavController, navRoute: String) {
     TopAppBar(
-        title = { Text(title) },
+        title = { Text(title, fontSize = 28.sp) },
         navigationIcon = {
             IconButton(onClick = { navController.navigate(navRoute) }) {
                 Icon(
