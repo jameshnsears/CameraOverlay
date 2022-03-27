@@ -20,6 +20,50 @@ class OverlayWindow(context: Context) {
         layoutInflater.inflate(R.layout.overlay_window_view, null) as OverlayWindowLinearLayout
 
     /*
+
+Instruction:
+. Tap the window’s title bar and move it anywhere you want!
+
+    ----------
+
+From Android API level 28, extra permission is necessary for foreground services. Add the line below to your AndroidManifest.xml:
+
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+
+    ----------
+Resizing Windows 🔗
+
+This one is tricky. In Floating Apps, some windows can be resized, and such windows have
+ a small handle in the right bottom corner.
+
+Resizing the window is very similar to moving it, and you can use the same 
+DraggableTouchListener as we introduced in the Moving Window article. Just 
+change x and y for width and height.
+
+I experimented with changing the window size directly, but for windows with a complex 
+layout, it’s slow.
+
+So my final version is: When the resize handle is touched, a new semi-transparent 
+floating view is injected above the original window with the same size and position 
+and it’s resized instead of it. When resizing is finished, the new size is applied 
+to the original window.
+
+    --------
+
+Screen Rotation 🔗
+
+In the foreground service, register the broadcast receiver to listen to 
+Intent.ACTION_CONFIGURATION_CHANGED, and you get notified when the screen is rotated.
+
+In Floating Apps, when the screen orientation is changed, I keep the same size of 
+the window and recalculate its position using the percentual calculation:
+
+newX = oldX / oldScreenWidth * newScreenWidth
+
+The window seems to be still in the same position relatively.
+
+    --------
     Transparency
 
     WindowManager.LayoutParams comes with alpha, so this one is as simple as:
@@ -69,12 +113,10 @@ class OverlayWindow(context: Context) {
     }
 
     private fun initWindowParams() {
-        // cat dimentsions!
         calculateSizeAndPosition(windowParams, 259, 259)
     }
 
     private fun initWindow() {
-        // Using kotlin extension for views caused error, so good old findViewById is used
         rootView.findViewById<View>(R.id.window_close).setOnClickListener { close() }
 
         rootView.findViewById<View>(R.id.cat_button).setOnClickListener {
