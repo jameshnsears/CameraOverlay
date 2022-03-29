@@ -408,6 +408,7 @@
         <entry key="app/src/main/res/layout/layout.xml" value="0.18888888888888888" />
         <entry key="app/src/main/res/layout/layout_floating_window.xml" value="0.11666666666666667" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.1921875" />
+        <entry key="app/src/main/res/layout/overlay_window.xml" value="0.33" />
         <entry key="app/src/main/res/layout/overlay_window_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/simple_floating_window.xml" value="0.159375" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.20833333333333334" />

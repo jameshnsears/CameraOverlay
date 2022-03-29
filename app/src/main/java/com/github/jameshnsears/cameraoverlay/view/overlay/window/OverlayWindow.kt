@@ -14,7 +14,7 @@ import timber.log.Timber
 import kotlin.math.abs
 
 
-class SimpleFloatingWindow constructor(private val context: Context) {
+class OverlayWindow constructor(private val context: Context) {
 
     private var windowManager: WindowManager? = null
         get() {

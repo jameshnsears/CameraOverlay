@@ -35,7 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
-import com.github.jameshnsears.cameraoverlay.view.overlay.window.SimpleFloatingWindow
+import com.github.jameshnsears.cameraoverlay.view.overlay.window.OverlayWindow
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
 @Composable
@@ -183,7 +183,7 @@ fun launchOverlay(context: Context, permissionNoGrantedMessage: String) {
         // minimise app so that only overlay displayed
         (context as Activity).moveTaskToBack(true)
 
-        val simpleFloatingWindow = SimpleFloatingWindow(context)
+        val simpleFloatingWindow = OverlayWindow(context)
         simpleFloatingWindow.show()
     }
     else {
