@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.graphics.PixelFormat
 import android.os.Build
+import android.util.Log
 import android.view.*
+import android.widget.SeekBar
 import kotlinx.android.synthetic.main.layout_floating_window.view.*
 import kotlin.math.abs
 
@@ -76,6 +78,16 @@ class SimpleFloatingWindow constructor(private val context: Context) {
     init {
         with(floatView) {
             closeImageButton.setOnClickListener { dismiss() }
+
+            seekBar.setOnSeekBarChangeListener( object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, currentValue: Int, p2: Boolean) {
+                    Log.i("seekBar" , "${currentValue}")
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {}
+                override fun onStopTrackingTouch(p0: SeekBar?) {}
+            })
+
             textView.text = "I'm a float view!"
         }
 
