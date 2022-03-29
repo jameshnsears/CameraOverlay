@@ -1,5 +1,6 @@
 package com.github.jameshnsears.cameraoverlay.view.photo
 
+import android.app.Activity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,10 +36,13 @@ import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollection
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
+import com.github.jameshnsears.cameraoverlay.view.overlay.window.OverlayWindow
 
 @Composable
 fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
     val navigationEndpoint = Navigation.SCREEN_CONFIGURE_OVERLAY + "/${photoCardData.photoId}"
+
+    val context = LocalContext.current
 
     Card(
         elevation = 4.dp,
@@ -45,7 +50,14 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
         modifier = Modifier
             .height(128.dp)
             .padding(8.dp)
-            .fillMaxWidth().clickable { navController.navigate(navigationEndpoint) }
+            .fillMaxWidth().clickable {
+                //navController.navigate(navigationEndpoint)
+                // minimise app so that only overlay displayed
+                (context as Activity).moveTaskToBack(true)
+
+                val simpleFloatingWindow = OverlayWindow(context)
+                simpleFloatingWindow.show()
+            }
     ) {
         Column(
             Modifier
