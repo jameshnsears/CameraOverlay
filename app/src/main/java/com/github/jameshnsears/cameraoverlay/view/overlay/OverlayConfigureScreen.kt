@@ -35,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
+import com.github.jameshnsears.cameraoverlay.view.overlay.simplefloatingwindow.SimpleFloatingWindow
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.overlay.ViewModelOverlayConfigureScreen
 
@@ -172,16 +173,19 @@ fun LaunchOverlay() {
 
 fun launchOverlay(context: Context, permissionNoGrantedMessage: String) {
     if (Settings.canDrawOverlays(context)) {
-        val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
-
-        if (overlayScreenViewModel.isOverlayWindowServiceActive) {
-            overlayScreenViewModel.stopOverlayWindowService(context)
-        }
-
-        overlayScreenViewModel.startOverlayWindowService(context)
+//        val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
+//
+//        if (overlayScreenViewModel.isOverlayWindowServiceActive) {
+//            overlayScreenViewModel.stopOverlayWindowService(context)
+//        }
+//
+//        overlayScreenViewModel.startOverlayWindowService(context)
 
         // minimise app so that only overlay displayed
         (context as Activity).moveTaskToBack(true)
+
+        val simpleFloatingWindow = SimpleFloatingWindow(context)
+        simpleFloatingWindow.show()
     }
     else {
         Toast.makeText(
