@@ -3,15 +3,17 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#ff4444"
-        android:padding="32dp"
-        android:text="text"
-        android:textColor="#ffffff"
-        android:textSize="24sp" />
+    <ImageView
+        android:clickable="false"
+        android:id="@+id/cat_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|center_vertical"
+        android:layout_margin="4dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/overlay_window_photo"
+        android:src="@drawable/cat"
+        android:tintMode="src_in"/>
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/closeImageButton"

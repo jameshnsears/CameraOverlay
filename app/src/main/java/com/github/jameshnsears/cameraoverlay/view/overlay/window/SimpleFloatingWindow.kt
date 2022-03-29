@@ -1,10 +1,13 @@
-package com.github.jameshnsears.cameraoverlay.view.overlay.simplefloatingwindow
+package com.github.jameshnsears.cameraoverlay.view.overlay.window
 
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.graphics.PixelFormat
-import android.os.Build
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.WindowManager
 import android.widget.ImageButton
 import com.github.jameshnsears.cameraoverlay.R
 import timber.log.Timber
@@ -15,12 +18,13 @@ class SimpleFloatingWindow constructor(private val context: Context) {
 
     private var windowManager: WindowManager? = null
         get() {
-            if (field == null) field = (context.getSystemService(WINDOW_SERVICE) as WindowManager)
+            if (field == null)
+                field = (context.getSystemService(WINDOW_SERVICE) as WindowManager)
             return field
         }
 
     private var floatView: View =
-        LayoutInflater.from(context).inflate(R.layout.simple_floating_window, null)
+        LayoutInflater.from(context).inflate(R.layout.overlay_window, null)
 
     private lateinit var layoutParams: WindowManager.LayoutParams
 
@@ -43,9 +47,11 @@ class SimpleFloatingWindow constructor(private val context: Context) {
                 firstX = lastX
                 firstY = lastY
             }
+
             MotionEvent.ACTION_UP -> {
                 view.performClick()
             }
+
             MotionEvent.ACTION_MOVE -> {
                 val deltaX = event.rawX.toInt() - lastX
                 val deltaY = event.rawY.toInt() - lastY
@@ -76,10 +82,17 @@ class SimpleFloatingWindow constructor(private val context: Context) {
     init {
         floatView.findViewById<ImageButton>(R.id.closeImageButton).setOnClickListener { dismiss() }
 
-//        with(floatView) {
-//            closeImageButton.setOnClickListener { dismiss() }
-//            textView.text = "I'm a float view!"
-//        }
+
+        /*
+            seekBar.setOnSeekBarChangeListener( object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, currentValue: Int, p2: Boolean) {
+                    Log.i("seekBar" , "${currentValue}")
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {}
+                override fun onStopTrackingTouch(p0: SeekBar?) {}
+            })
+         */
 
 
         floatView.setOnTouchListener(onTouchListener)
@@ -88,7 +101,6 @@ class SimpleFloatingWindow constructor(private val context: Context) {
             format = PixelFormat.TRANSLUCENT
             flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
             type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-
             gravity = Gravity.CENTER
             width = WindowManager.LayoutParams.WRAP_CONTENT
             height = WindowManager.LayoutParams.WRAP_CONTENT
@@ -103,7 +115,7 @@ class SimpleFloatingWindow constructor(private val context: Context) {
         }
     }
 
-    fun dismiss() {
+    private fun dismiss() {
         if (isShowing) {
             Timber.d("dismiss")
             windowManager?.removeView(floatView)

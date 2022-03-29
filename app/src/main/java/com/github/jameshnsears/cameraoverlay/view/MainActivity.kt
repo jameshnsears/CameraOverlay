@@ -61,14 +61,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
-
-        if (overlayScreenViewModel.isOverlayWindowServiceActive) {
-            overlayScreenViewModel.stopOverlayWindowService(this)
-        }
-
+        // val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
         super.onDestroy()
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.overlay.simplefloatingwindow
+package com.github.jameshnsears.cameraoverlay.view.overlay.window
 
 import android.content.Context
 import android.provider.Settings

@@ -35,9 +35,8 @@ import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
-import com.github.jameshnsears.cameraoverlay.view.overlay.simplefloatingwindow.SimpleFloatingWindow
+import com.github.jameshnsears.cameraoverlay.view.overlay.window.SimpleFloatingWindow
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
-import com.github.jameshnsears.cameraoverlay.viewmodel.overlay.ViewModelOverlayConfigureScreen
 
 @Composable
 fun OverlayConfigureScreen(navController: NavController, photoId: Int?) {
