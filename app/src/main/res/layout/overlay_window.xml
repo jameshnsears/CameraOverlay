@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,13 +9,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/closeImageButton"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="top|right"
-            android:src="@drawable/ic_baseline_close_24" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_baseline_window_24" />
+
+            <SeekBar
+                android:id="@+id/seekBar3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/closeImageButton"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top|right"
+                android:src="@drawable/ic_baseline_close_24" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/cat_button"
@@ -27,6 +47,36 @@
             android:contentDescription="@string/overlay_window_photo"
             android:src="@drawable/cat"
             android:tintMode="src_in" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <SeekBar
+                    android:id="@+id/seekBar2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
