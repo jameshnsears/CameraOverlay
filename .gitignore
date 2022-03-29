@@ -36,3 +36,4 @@ local.properties
 /package.json
 /package-lock.json
 /vendor/
+/docs/.~lock.overlay-window.odp#
