@@ -5,13 +5,12 @@ import android.content.Context.WINDOW_SERVICE
 import android.graphics.PixelFormat
 import android.os.Build
 import android.view.*
+import android.widget.ImageButton
 import com.github.jameshnsears.cameraoverlay.R
+import timber.log.Timber
 import kotlin.math.abs
 
 
-/**
- * @author aminography
- */
 class SimpleFloatingWindow constructor(private val context: Context) {
 
     private var windowManager: WindowManager? = null
@@ -68,12 +67,15 @@ class SimpleFloatingWindow constructor(private val context: Context) {
                 }
             }
             else -> {
+                Timber.d("%d", event.actionMasked)
             }
         }
         touchConsumedByMove
     }
 
     init {
+        floatView.findViewById<ImageButton>(R.id.closeImageButton).setOnClickListener { dismiss() }
+
 //        with(floatView) {
 //            closeImageButton.setOnClickListener { dismiss() }
 //            textView.text = "I'm a float view!"
@@ -85,12 +87,7 @@ class SimpleFloatingWindow constructor(private val context: Context) {
         layoutParams = WindowManager.LayoutParams().apply {
             format = PixelFormat.TRANSLUCENT
             flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-            @Suppress("DEPRECATION")
-            type = when {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ->
-                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-                else -> WindowManager.LayoutParams.TYPE_TOAST
-            }
+            type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
 
             gravity = Gravity.CENTER
             width = WindowManager.LayoutParams.WRAP_CONTENT
@@ -108,6 +105,7 @@ class SimpleFloatingWindow constructor(private val context: Context) {
 
     fun dismiss() {
         if (isShowing) {
+            Timber.d("dismiss")
             windowManager?.removeView(floatView)
             isShowing = false
         }
