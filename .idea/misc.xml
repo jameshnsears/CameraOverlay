@@ -389,6 +389,8 @@
         <entry key="../../../../../layout/compose-model-1648144299053.xml" value="0.15076013513513514" />
         <entry key="../../../../../layout/compose-model-1648568257223.xml" value="0.17314814814814813" />
         <entry key="../../../../../layout/compose-model-1648571331659.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1648647951660.xml" value="0.33" />
+        <entry key="../../../../../layout/compose-model-1648651647574.xml" value="0.4462962962962963" />
         <entry key="../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_category_24.xml" value="0.14114583333333333" />
         <entry key="app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.10572916666666667" />
@@ -412,7 +414,7 @@
         <entry key="app/src/main/res/layout/layout.xml" value="0.18888888888888888" />
         <entry key="app/src/main/res/layout/layout_floating_window.xml" value="0.11666666666666667" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.1921875" />
-        <entry key="app/src/main/res/layout/overlay_window.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/overlay_window.xml" value="0.5825471698113207" />
         <entry key="app/src/main/res/layout/overlay_window_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/simple_floating_window.xml" value="0.159375" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.20833333333333334" />

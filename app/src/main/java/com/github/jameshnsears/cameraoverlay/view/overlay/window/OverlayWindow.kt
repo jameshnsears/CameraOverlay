@@ -80,7 +80,7 @@ class OverlayWindow constructor(private val context: Context) {
     }
 
     init {
-        floatView.findViewById<ImageButton>(R.id.closeImageButton).setOnClickListener { dismiss() }
+        floatView.findViewById<ImageButton>(R.id.closeImageButtonCloseWindow).setOnClickListener { dismiss() }
 
 
         /*

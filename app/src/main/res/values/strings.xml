@@ -29,7 +29,7 @@
     <string name="select_photo_dialog_filter_webp">TIFF</string>
     <string name="select_photo_collections">Collection</string>
     <string name="select_photo_dialog_collections_media_store">All (MediaStore)</string>
-    <string name="select_photo_dialog_collections_access_framework">User selection (SAF)</string>
+    <string name="select_photo_dialog_collections_access_framework">Selection (Storage Access Framework)</string>
     <string name="select_photo_dialog_collections_file">File</string>
     <string name="select_photo_dialog_collections_folder">Folder</string>
     <string name="select_photo_sort">Sort</string>

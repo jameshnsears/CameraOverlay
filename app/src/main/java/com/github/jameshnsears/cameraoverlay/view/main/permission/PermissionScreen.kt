@@ -82,7 +82,8 @@ fun FilesAndMedia() {
                 Text(
                     stringResource(R.string.permissions_screen_mandatory),
                     modifier = Modifier
-                        .padding(vertical = 6.dp)
+                        .padding(vertical = 6.dp),
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     stringResource(R.string.permissions_screen_choose_photo),
@@ -158,7 +159,8 @@ fun DisplayOverOtherApps() {
                 Text(
                     stringResource(R.string.permissions_screen_mandatory),
                     modifier = Modifier
-                        .padding(vertical = 6.dp)
+                        .padding(vertical = 6.dp),
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     stringResource(R.string.permissions_screen_overlay_display_photo),

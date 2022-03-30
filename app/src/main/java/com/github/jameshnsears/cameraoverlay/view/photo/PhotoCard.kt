@@ -55,6 +55,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                 // minimise app so that only overlay displayed
                 (context as Activity).moveTaskToBack(true)
 
+                // TODO only launch if not already lauched; if already launched show a toast
                 val simpleFloatingWindow = OverlayWindow(context)
                 simpleFloatingWindow.show()
             }

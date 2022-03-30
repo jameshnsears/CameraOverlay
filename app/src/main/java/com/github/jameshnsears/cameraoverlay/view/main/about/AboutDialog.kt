@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -65,7 +66,7 @@ fun AboutDialogRow(context: Context) {
     version += "/" + BuildConfig.GIT_HASH
 
     Column {
-        Row {
+        Row(Modifier.padding(bottom = 8.dp)) {
             ClickableText(
                 text = AnnotatedString(stringResource(R.string.about_dialog_privacy_policy)),
                 style = TextStyle(color = Color.Blue, fontSize = 16.sp),
@@ -94,7 +95,7 @@ fun AboutDialogRow(context: Context) {
             Column {
                 IconButton(
                     onClick = { linkToGitHub(context) },
-                    modifier = Modifier.width(65.dp)
+                    modifier = Modifier.width(70.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_github_logo),
