@@ -60,7 +60,7 @@
        y1="12"
        x2="20"
        y2="12"
-       gradientTransform="matrix(0.81250135,0,0,0.99999991,2.2499954,8.4639655e-7)" />
+       gradientTransform="matrix(0.87500147,0,0,0.99999991,1.499995,8.3723057e-7)" />
   </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -75,9 +75,9 @@
      inkscape:window-height="744"
      id="namedview8"
      showgrid="false"
-     inkscape:zoom="5.2410318"
-     inkscape:cx="-20.781274"
-     inkscape:cy="18.564425"
+     inkscape:zoom="20"
+     inkscape:cx="8.1205765"
+     inkscape:cy="12.429586"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -115,37 +115,21 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="black circle border"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <circle
-       style="fill:#000000;stroke:#000000;stroke-width:0.105489;stroke-opacity:1"
+       style="mix-blend-mode:normal;fill:#000000;stroke:#000000;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path22"
        cx="12"
        cy="12"
-       r="11.447255" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer3"
-     inkscape:label="blue circle"
-     style="display:inline"
-     sodipodi:insensitive="true">
-    <circle
-       style="fill:#3366cc;fill-opacity:1;stroke:#3366cc;stroke-width:0.061063;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path985"
-       cx="-12"
-       cy="12.000001"
-       transform="scale(-1,1)"
-       r="9.9694681" />
+       r="10.999999" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="white logo"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <path
-       d="m 12.007206,17.877296 5.322763,-4.807549 1.169998,1.057156 -6.499984,5.873096 -6.4999823,-5.873096 1.1772194,-1.06555 z M 12.000013,15.7462 6.6844738,10.938649 5.5000345,9.8731012 12.000017,4.0000007 18.499999,9.8731012 17.32278,10.938649 Z m 0,-9.6234932 -4.1455429,3.7503944 4.1455439,3.7503948 4.145545,-3.7503948 z"
+       d="m 12.00776,17.877296 5.732207,-4.807549 1.259998,1.057156 -6.999983,5.873096 -6.9999812,-5.873096 1.2677747,-1.06555 z M 12.000014,15.7462 6.2755872,10.938649 5.0000372,9.8731012 12.000018,4.0000007 18.999999,9.8731012 17.732225,10.938649 Z m 0,-9.6234932 -4.4644307,3.7503944 4.4644317,3.7503948 4.464433,-3.7503948 z"
        id="path4-3-7"
        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:url(#linearGradient52);stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
   </g>

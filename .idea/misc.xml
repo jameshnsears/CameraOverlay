@@ -406,6 +406,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.20885416666666667" />
         <entry key="app/src/main/res/drawable/ic_threshold.xml" value="0.1905" />
         <entry key="app/src/main/res/drawable/ic_threshold_24dp.xml" value="0.20885416666666667" />
+        <entry key="app/src/main/res/drawable/ic_threshold_xml.xml" value="0.1945" />
         <entry key="app/src/main/res/drawable/ic_transparency.xml" value="0.1905" />
         <entry key="app/src/main/res/drawable/ic_width.xml" value="0.127" />
         <entry key="app/src/main/res/drawable/ic_width_black_24dp.xml" value="0.216" />
@@ -414,7 +415,7 @@
         <entry key="app/src/main/res/layout/layout.xml" value="0.18888888888888888" />
         <entry key="app/src/main/res/layout/layout_floating_window.xml" value="0.11666666666666667" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.1921875" />
-        <entry key="app/src/main/res/layout/overlay_window.xml" value="0.5825471698113207" />
+        <entry key="app/src/main/res/layout/overlay_window.xml" value="0.5" />
         <entry key="app/src/main/res/layout/overlay_window_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/simple_floating_window.xml" value="0.159375" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.20833333333333334" />
