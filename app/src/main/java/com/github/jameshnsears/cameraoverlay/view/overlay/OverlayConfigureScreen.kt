@@ -66,7 +66,7 @@ fun OverlayConfigureScreen(navController: NavController, photoId: Int?) {
 
 @Composable
 fun Content() {
-    Column(Modifier.padding(bottom = 10.dp).padding(vertical = 6.dp)) {
+    Column(Modifier.padding(bottom = 10.dp).padding(vertical = 8.dp)) {
         Text(
             stringResource(R.string.configure_overlay_screen_content),
             modifier = Modifier.padding(bottom = 5.dp),
@@ -111,7 +111,7 @@ fun Content() {
 
 @Composable
 fun Size() {
-    Column(Modifier.padding(vertical = 6.dp)) {
+    Column(Modifier.padding(vertical = 8.dp)) {
         Text(
             stringResource(R.string.configure_overlay_screen_window),
             modifier = Modifier.padding(bottom = 5.dp),

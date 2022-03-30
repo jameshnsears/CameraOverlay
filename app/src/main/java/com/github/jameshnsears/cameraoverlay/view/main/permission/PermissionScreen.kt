@@ -82,12 +82,12 @@ fun FilesAndMedia() {
                 Text(
                     stringResource(R.string.permissions_screen_mandatory),
                     modifier = Modifier
-                        .padding(vertical = 4.dp)
+                        .padding(vertical = 6.dp)
                 )
                 Text(
                     stringResource(R.string.permissions_screen_choose_photo),
                     modifier = Modifier
-                        .padding(vertical = 4.dp)
+                        .padding(vertical = 6.dp)
                 )
             }
         }
@@ -120,12 +120,12 @@ fun Location() {
                 Text(
                     stringResource(R.string.permissions_screen_optional),
                     modifier = Modifier
-                        .padding(vertical = 4.dp)
+                        .padding(vertical = 6.dp)
                 )
                 Text(
                     stringResource(R.string.permissions_screen_show_distance),
                     modifier = Modifier
-                        .padding(vertical = 4.dp)
+                        .padding(vertical = 6.dp)
                 )
             }
         }
@@ -158,12 +158,12 @@ fun DisplayOverOtherApps() {
                 Text(
                     stringResource(R.string.permissions_screen_mandatory),
                     modifier = Modifier
-                        .padding(vertical = 4.dp)
+                        .padding(vertical = 6.dp)
                 )
                 Text(
                     stringResource(R.string.permissions_screen_overlay_display_photo),
                     modifier = Modifier
-                        .padding(vertical = 4.dp)
+                        .padding(vertical = 6.dp)
                 )
             }
         }

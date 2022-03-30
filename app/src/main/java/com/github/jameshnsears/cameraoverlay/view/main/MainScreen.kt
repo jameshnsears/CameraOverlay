@@ -80,7 +80,7 @@ fun AppBar() {
     }
 
     TopAppBar(
-        title = { Text(stringResource(R.string.app_name), fontSize = 28.sp) },
+        title = { Text(stringResource(R.string.app_name), fontSize = 30.sp) },
         actions = {
             IconButton(
                 onClick = {
@@ -101,7 +101,7 @@ fun AppBar() {
 fun Usage() {
     Column(
         modifier = Modifier
-            .padding(vertical = 6.dp)
+            .padding(vertical = 8.dp)
     ) {
         Column(Modifier.padding(bottom = 10.dp)) {
             Text(
@@ -113,22 +113,22 @@ fun Usage() {
         Text(
             stringResource(R.string.main_screen_usage_0),
             modifier = Modifier
-                .padding(vertical = 4.dp)
+                .padding(vertical = 8.dp)
         )
         Text(
             stringResource(R.string.main_screen_usage_1),
             modifier = Modifier
-                .padding(vertical = 4.dp)
+                .padding(vertical = 8.dp)
         )
         Text(
             stringResource(R.string.main_screen_usage_2),
             modifier = Modifier
-                .padding(vertical = 4.dp)
+                .padding(vertical = 6.dp)
         )
         Text(
             stringResource(R.string.main_screen_usage_3),
             modifier = Modifier
-                .padding(vertical = 4.dp)
+                .padding(vertical = 6.dp)
         )
     }
 }
