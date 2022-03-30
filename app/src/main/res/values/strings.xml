@@ -51,5 +51,6 @@
     <string name="overlay_window_back">Back</string>
     <string name="overlay_window_close">Close</string>
     <string name="overlay_window_photo">Photo</string>
+    <string name="todo">TODO</string>
 
 </resources>

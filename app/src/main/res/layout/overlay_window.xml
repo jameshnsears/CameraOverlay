@@ -17,23 +17,39 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_baseline_window_24" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="start|center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/todo"
+                android:tintMode="src_in"
+                android:src="@drawable/ic_baseline_window_24" />
 
             <SeekBar
                 android:id="@+id/seekBar3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <!--            <androidx.appcompat.widget.AppCompatImageButton-->
+            <!--                android:id="@+id/closeImageButton"-->
+            <!--                style="@style/Base.Widget.AppCompat.Button.Borderless"-->
+            <!--                android:layout_width="48dp"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:layout_gravity="top|end"-->
+            <!--                android:contentDescription="@string/todo"-->
+            <!--                android:src="@drawable/ic_baseline_close_24" />-->
+
+            <ImageButton
                 android:id="@+id/closeImageButton"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="top|right"
-                android:src="@drawable/ic_baseline_close_24" />
+                android:layout_width="48dp"
+                android:layout_height="32dp"
+                android:layout_gravity="end|center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/todo"
+                android:padding="0dp"
+                android:src="@drawable/ic_baseline_close_24"
+                android:tintMode="src_in" />
         </LinearLayout>
 
         <ImageView
@@ -54,14 +70,16 @@
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_baseline_visibility_24" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="start"
+                android:src="@drawable/ic_baseline_visibility_24"
+                android:contentDescription="@string/todo" />
 
             <SeekBar
                 android:id="@+id/seekBar2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
@@ -72,14 +90,16 @@
 
             <ImageView
                 android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_blur" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="start"
+                android:src="@drawable/ic_blur"
+                android:contentDescription="@string/todo" />
 
             <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </LinearLayout>
 
     </LinearLayout>
