@@ -40,7 +40,7 @@ import com.github.jameshnsears.cameraoverlay.view.overlay.window.OverlayWindow
 
 @Composable
 fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
-    val navigationEndpoint = Navigation.SCREEN_CONFIGURE_OVERLAY + "/${photoCardData.photoId}"
+//    val navigationEndpoint = Navigation.SCREEN_CONFIGURE_OVERLAY + "/${photoCardData.photoId}"
 
     val context = LocalContext.current
 

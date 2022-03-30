@@ -28,29 +28,18 @@
     <string name="select_photo_dialog_filter_png">PNG</string>
     <string name="select_photo_dialog_filter_webp">TIFF</string>
     <string name="select_photo_collections">Collection</string>
-    <string name="select_photo_dialog_collections_media_store">All (MediaStore)</string>
-    <string name="select_photo_dialog_collections_access_framework">Selection (Storage Access Framework)</string>
+    <string name="select_photo_dialog_collections_media_store">All</string>
+    <string name="select_photo_dialog_collections_access_framework">Selection</string>
     <string name="select_photo_dialog_collections_file">File</string>
     <string name="select_photo_dialog_collections_folder">Folder</string>
     <string name="select_photo_sort">Sort</string>
     <string name="select_photo_dialog_sort_when_taken">When taken</string>
     <string name="select_photo_dialog_sort_distance">Distance</string>
-    <string name="select_photo_button_refresh">Refresh</string>
-
-    <string name="configure_overlay">Configure Overlay</string>
-    <string name="configure_overlay_screen_content">Content</string>
-    <string name="configure_overlay_screen_transparency">Transparency</string>
-    <string name="configure_overlay_screen_edge_detection">Edge Detection</string>
-    <string name="configure_overlay_screen_blur">Blur</string>
-    <string name="configure_overlay_screen_thresholds">Thresholds</string>
-    <string name="configure_overlay_screen_window">Window</string>
-    <string name="configure_overlay_screen_width">Width</string>
-    <string name="configure_overlay_screen_height">Height</string>
-    <string name="configure_overlay_screen_display_overlay">Display Overlay</string>
 
     <string name="overlay_window_back">Back</string>
     <string name="overlay_window_close">Close</string>
     <string name="overlay_window_photo">Photo</string>
+
     <string name="todo">TODO</string>
 
 </resources>
