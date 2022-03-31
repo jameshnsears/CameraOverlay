@@ -1,6 +1,7 @@
 package com.github.jameshnsears.cameraoverlay.view.photo
 
 import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.github.jameshnsears.cameraoverlay.R
+import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollection
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
@@ -52,12 +54,14 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
             .padding(8.dp)
             .fillMaxWidth().clickable {
                 //navController.navigate(navigationEndpoint)
+
+                // stop any prior service
+                context.stopService(Intent(context, OverlayService::class.java))
+
+
                 // minimise app so that only overlay displayed
                 (context as Activity).moveTaskToBack(true)
-
-                // TODO only launch if not already lauched; if already launched show a toast
-                val simpleFloatingWindow = OverlayWindow(context)
-                simpleFloatingWindow.show()
+                context.startService(Intent(context, OverlayService::class.java))
             }
     ) {
         Column(

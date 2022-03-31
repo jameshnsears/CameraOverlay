@@ -1,22 +1,19 @@
 package com.github.jameshnsears.cameraoverlay.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.github.jameshnsears.cameraoverlay.BuildConfig
+import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
 import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionScreen
 import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
-import com.github.jameshnsears.cameraoverlay.viewmodel.overlay.ViewModelOverlayConfigureScreen
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import timber.log.Timber
 
@@ -66,7 +63,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        // val overlayScreenViewModel = ViewModelOverlayConfigureScreen()
+        stopService(Intent(this, OverlayService::class.java))
         super.onDestroy()
     }
 }
