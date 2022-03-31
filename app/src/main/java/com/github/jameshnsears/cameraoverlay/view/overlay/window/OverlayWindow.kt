@@ -1,13 +1,16 @@
 package com.github.jameshnsears.cameraoverlay.view.overlay.window
 
+import android.app.Activity
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.graphics.PixelFormat
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.view.WindowMetrics
 import android.widget.ImageButton
 import com.github.jameshnsears.cameraoverlay.R
 import timber.log.Timber
@@ -102,9 +105,21 @@ class OverlayWindow constructor(private val context: Context) {
             flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
             type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             gravity = Gravity.CENTER
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
+
+            width = WindowManager.LayoutParams.MATCH_PARENT
+            // 1080
+//            width = 900 // context.resources.displayMetrics.widthPixels.toInt()
+
+//            height = WindowManager.LayoutParams.WRAP_CONTENT
+            // 2070
+            height = (context.resources.displayMetrics.heightPixels * .7).toInt()
+
         }
+    }
+
+    fun screenSize() {
+        val width: Int = context.resources.displayMetrics.widthPixels
+        val height: Int = context.resources.displayMetrics.heightPixels
     }
 
     fun show() {

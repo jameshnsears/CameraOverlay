@@ -125,11 +125,6 @@ fun Usage() {
             modifier = Modifier
                 .padding(vertical = 6.dp)
         )
-        Text(
-            stringResource(R.string.main_screen_usage_3),
-            modifier = Modifier
-                .padding(vertical = 6.dp)
-        )
     }
 }
 

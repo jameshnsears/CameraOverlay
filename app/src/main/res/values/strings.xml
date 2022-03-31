@@ -6,8 +6,7 @@
     <string name="main_screen_usage">Usage</string>
     <string name="main_screen_usage_0">\u2022 Allow mandatory Permissions</string>
     <string name="main_screen_usage_1">\u2022 Select Photo</string>
-    <string name="main_screen_usage_2">\u2022 Configure Overlay</string>
-    <string name="main_screen_usage_3">\u2022 Display Overlay</string>
+    <string name="main_screen_usage_2">\u2022 Use Overlay with Camera App</string>
 
     <string name="permissions">Permissions</string>
 
@@ -41,5 +40,15 @@
     <string name="overlay_window_photo">Photo</string>
 
     <string name="todo">TODO</string>
+
+    <string-array name="width_height">
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>90</item>
+        <item>100</item>
+    </string-array>
+
 
 </resources>
