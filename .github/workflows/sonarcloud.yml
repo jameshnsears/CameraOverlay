@@ -23,14 +23,14 @@ jobs:
           java-version: 11
 
       - name: sonar cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.1
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
       - name: gradle cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.1
         with:
           path: |
             ~/.gradle/caches
