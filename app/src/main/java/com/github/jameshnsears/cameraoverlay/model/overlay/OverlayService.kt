@@ -4,13 +4,17 @@ import android.app.Service
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.IBinder
-import android.widget.Toast
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.OverlayWindow
 import timber.log.Timber
 
 class OverlayService : Service() {
+    companion object {
+        val OVERLAY_WINDOW_HEIGHT_ADJUSTMENT = .80
+        val OVERLAY_WINDOW_WIDTH_ADJUSTMENT = .75
+    }
+
     init {
         if (BuildConfig.DEBUG && Timber.treeCount == 0) {
             Timber.plant(MethodLineLoggingTree())
@@ -23,15 +27,29 @@ class OverlayService : Service() {
         Timber.d("startService")
 
         overlayWindow = OverlayWindow(this)
-
-        // width/height = 1080/2072
-
-        // TODO find layout - as might start off in landscape
-        overlayWindow.show(
-            (this.resources.displayMetrics.widthPixels * .8).toInt(),
-            (this.resources.displayMetrics.heightPixels * .8).toInt())
+        overlayWindow.show(getOverlayWindowWidth(), getOverlayWindowHeight())
 
         return START_STICKY
+    }
+
+    private fun getOverlayWindowWidth(): Int {
+       if (this.resources.displayMetrics.widthPixels < this.resources.displayMetrics.heightPixels) {
+           // Landscape
+           return (this.resources.displayMetrics.widthPixels * OVERLAY_WINDOW_WIDTH_ADJUSTMENT).toInt()
+       } else {
+           // Portrait
+           return (this.resources.displayMetrics.widthPixels * OVERLAY_WINDOW_HEIGHT_ADJUSTMENT).toInt()
+       }
+    }
+
+    private fun getOverlayWindowHeight(): Int {
+        if (this.resources.displayMetrics.widthPixels < this.resources.displayMetrics.heightPixels) {
+            // Landscape
+            return (this.resources.displayMetrics.heightPixels * OVERLAY_WINDOW_HEIGHT_ADJUSTMENT).toInt()
+        } else {
+            // Portrait
+            return (this.resources.displayMetrics.heightPixels * OVERLAY_WINDOW_WIDTH_ADJUSTMENT).toInt()
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -39,22 +57,7 @@ class OverlayService : Service() {
 
         super.onConfigurationChanged(newConfig)
 
-        var height = this.resources.displayMetrics.heightPixels
-        var width = this.resources.displayMetrics.widthPixels
-
-        if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
-            // width/height = 2072/1080
-            Timber.d("landscape")
-            width = (width * .8).toInt()
-            height = (height  * .8).toInt()
-        } else if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
-            // width/height = 1080/2072
-            Timber.d("portrait")
-            width = (width  * .8).toInt()
-            height = (height * .8).toInt()
-        }
-
-        overlayWindow.show(width, height)
+        overlayWindow.show(getOverlayWindowWidth(), getOverlayWindowHeight())
     }
 
     override fun onBind(intent: Intent): IBinder? {

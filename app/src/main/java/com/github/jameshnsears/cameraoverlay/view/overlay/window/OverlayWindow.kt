@@ -79,6 +79,13 @@ class OverlayWindow constructor(private val context: Context) {
         touchConsumedByMove
     }
 
+    /*
+    	@Override
+	public void onCreate() {
+		super.onCreate();
+		}
+     */
+
     init {
         floatingView.findViewById<ImageButton>(R.id.closeImageButtonCloseWindow).setOnClickListener { dismiss() }
 
