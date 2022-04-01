@@ -16,6 +16,7 @@ import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Sort
+import androidx.compose.material.icons.outlined.Window
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -53,10 +54,15 @@ fun PhotoSelectScreen(navController: NavController) {
             PhotoDialogSort(sortDialogState)
         }
 
+        val overlayWindowDialogState = remember { mutableStateOf(false) }
+        if (overlayWindowDialogState.value) {
+            PhotoDialogOverlayWindow(overlayWindowDialogState)
+        }
+
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(stringResource(R.string.select_photo), fontSize = 24.sp) },
+                    title = { },
                     navigationIcon = {
                         IconButton(onClick = { navController.navigate(Navigation.SCREEN_MAIN) }) {
                             Icon(
@@ -69,7 +75,8 @@ fun PhotoSelectScreen(navController: NavController) {
                         TopBarActions(
                             filterDialogState,
                             collectionDialogState,
-                            sortDialogState
+                            sortDialogState,
+                            overlayWindowDialogState
                         )
                     }
                 )
@@ -103,7 +110,8 @@ fun PhotoSelectScreen(navController: NavController) {
 fun TopBarActions(
     filterDialogState: MutableState<Boolean>,
     collectionDialogState: MutableState<Boolean>,
-    sortDialogState: MutableState<Boolean>
+    sortDialogState: MutableState<Boolean>,
+    overlayWindowDialogState: MutableState<Boolean>
 ) {
     IconButton(onClick = { collectionDialogState.value = true }) {
         Icon(
@@ -129,13 +137,14 @@ fun TopBarActions(
         )
     }
 
-//    IconButton(onClick = { }) {
-//        Icon(
-//            imageVector = Icons.Outlined.Refresh,
-//            contentDescription = stringResource(R.string.select_photo_button_refresh),
-//            tint = Color.White
-//        )
-//    }
+    IconButton(onClick = { overlayWindowDialogState.value = true }) {
+        Icon(
+            imageVector = Icons.Outlined.Window,
+            contentDescription = stringResource(R.string.select_photo_dialog_overlay),
+            tint = Color.White
+        )
+    }
+
 }
 
 @Preview(name = "Light Theme")

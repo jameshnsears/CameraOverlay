@@ -2,6 +2,7 @@ package com.github.jameshnsears.cameraoverlay.view.photo
 
 import android.app.Activity
 import android.content.Intent
+import android.provider.Settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -37,14 +39,17 @@ import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollection
-import com.github.jameshnsears.cameraoverlay.view.common.Navigation
-import com.github.jameshnsears.cameraoverlay.view.overlay.window.OverlayWindow
+import com.github.jameshnsears.cameraoverlay.view.overlay.window.canDrawOverlays
+import com.github.jameshnsears.cameraoverlay.view.overlay.window.showToast
 
 @Composable
 fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
 //    val navigationEndpoint = Navigation.SCREEN_CONFIGURE_OVERLAY + "/${photoCardData.photoId}"
 
     val context = LocalContext.current
+
+    val missingMandatoryPermissionMessage
+    = stringResource(R.string.error_missing_mandatory_permission)
 
     Card(
         elevation = 4.dp,
@@ -55,12 +60,17 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
             .fillMaxWidth().clickable {
                 //navController.navigate(navigationEndpoint)
 
-                // stop any prior service
-                context.stopService(Intent(context, OverlayService::class.java))
+                if (context.canDrawOverlays) {
+                    // stop any prior service
+                    context.stopService(Intent(context, OverlayService::class.java))
 
-                // minimise app so that only overlay displayed
-                (context as Activity).moveTaskToBack(true)
-                context.startService(Intent(context, OverlayService::class.java))
+                    // minimise app so that only overlay displayed
+                    (context as Activity).moveTaskToBack(true)
+                    context.startService(Intent(context, OverlayService::class.java))
+                }
+                else {
+                    context.showToast(missingMandatoryPermissionMessage)
+                }
             }
     ) {
         Column(
@@ -73,7 +83,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                     AsyncImage(
                         model = R.drawable.ic_github_logo,
                         placeholder = painterResource(R.drawable.ic_github_logo),
-                        contentDescription = "contentDescription",
+                        contentDescription = "TODO",
                         modifier = Modifier
                             .clip(CircleShape)
                             .size(100.dp),

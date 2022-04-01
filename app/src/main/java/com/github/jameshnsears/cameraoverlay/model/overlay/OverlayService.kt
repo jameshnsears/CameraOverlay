@@ -53,10 +53,9 @@ class OverlayService : Service() {
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
-        overlayWindow.dismiss()
-
         super.onConfigurationChanged(newConfig)
 
+        overlayWindow.dismiss()
         overlayWindow.show(getOverlayWindowWidth(), getOverlayWindowHeight())
     }
 

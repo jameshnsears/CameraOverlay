@@ -64,7 +64,7 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="false"
-            android:contentDescription="@string/overlay_window_photo"
+            android:contentDescription="@string/overlay_window_selected_photo"
             android:src="@drawable/cat" />
 
         <LinearLayout
