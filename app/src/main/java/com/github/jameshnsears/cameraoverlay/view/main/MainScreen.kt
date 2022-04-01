@@ -45,6 +45,7 @@ import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButt
 import com.github.jameshnsears.cameraoverlay.view.main.permission.observeAsSate
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
+import java.security.Permissions
 import timber.log.Timber
 
 @Composable
@@ -62,6 +63,14 @@ fun MainScreen(
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
+                Text(
+                    stringResource(R.string.tag_line),
+                    modifier = Modifier
+                        .padding(vertical = 8.dp),
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.Bold
+                )
+
                 Usage()
 
                 Permissions(navController, viewModelPermission)

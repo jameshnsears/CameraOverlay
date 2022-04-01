@@ -23,9 +23,13 @@ class OverlayService : Service() {
         Timber.d("startService")
 
         overlayWindow = OverlayWindow(this)
+
+        // width/height = 1080/2072
+
+        // TODO find layout - as might start off in landscape
         overlayWindow.show(
-            this.resources.displayMetrics.widthPixels,
-            this.resources.displayMetrics.heightPixels - 500)
+            (this.resources.displayMetrics.widthPixels * .8).toInt(),
+            (this.resources.displayMetrics.heightPixels * .8).toInt())
 
         return START_STICKY
     }
@@ -38,21 +42,17 @@ class OverlayService : Service() {
         var height = this.resources.displayMetrics.heightPixels
         var width = this.resources.displayMetrics.widthPixels
 
-        // TODO convert adjustments to % values
-
         if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
             // width/height = 2072/1080
             Timber.d("landscape")
-            width = width - 500
-            height = height - 100
+            width = (width * .8).toInt()
+            height = (height  * .8).toInt()
         } else if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
             // width/height = 1080/2072
             Timber.d("portrait")
-            width = width - 100
-
-            height = height - 500
+            width = (width  * .8).toInt()
+            height = (height * .8).toInt()
         }
-
 
         overlayWindow.show(width, height)
     }
