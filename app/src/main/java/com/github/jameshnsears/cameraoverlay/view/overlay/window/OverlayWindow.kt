@@ -1,5 +1,6 @@
 package com.github.jameshnsears.cameraoverlay.view.overlay.window
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.graphics.PixelFormat
@@ -7,17 +8,13 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageButton
 import com.github.jameshnsears.cameraoverlay.R
 import timber.log.Timber
 import kotlin.math.abs
 
-
-class OverlayWindow constructor(
-    private val context: Context) {
-
+class OverlayWindow constructor(private val context: Context) {
     private var windowManager: WindowManager? = null
         get() {
             if (field == null)
@@ -25,7 +22,8 @@ class OverlayWindow constructor(
             return field
         }
 
-    private var floatView: View =
+    @SuppressLint("InflateParams")
+    private var floatingView: View =
         LayoutInflater.from(context).inflate(R.layout.overlay_window, null)
 
     private lateinit var layoutParams: WindowManager.LayoutParams
@@ -65,7 +63,7 @@ class OverlayWindow constructor(
                         layoutParams.y += deltaY
                         touchConsumedByMove = true
                         windowManager?.apply {
-                            updateViewLayout(floatView, layoutParams)
+                            updateViewLayout(floatingView, layoutParams)
                         }
                     } else {
                         touchConsumedByMove = false
@@ -82,7 +80,7 @@ class OverlayWindow constructor(
     }
 
     init {
-        floatView.findViewById<ImageButton>(R.id.closeImageButtonCloseWindow).setOnClickListener { dismiss() }
+        floatingView.findViewById<ImageButton>(R.id.closeImageButtonCloseWindow).setOnClickListener { dismiss() }
 
         /*
             seekBar.setOnSeekBarChangeListener( object : SeekBar.OnSeekBarChangeListener {
@@ -95,7 +93,7 @@ class OverlayWindow constructor(
             })
          */
 
-        floatView.setOnTouchListener(onTouchListener)
+        floatingView.setOnTouchListener(onTouchListener)
 
         layoutParams = WindowManager.LayoutParams().apply {
             format = PixelFormat.TRANSLUCENT
@@ -115,7 +113,7 @@ class OverlayWindow constructor(
             layoutParams.height = screenHeight
             layoutParams.width = screenWidth
 
-            windowManager?.addView(floatView, layoutParams)
+            windowManager?.addView(floatingView, layoutParams)
         }
     }
 
@@ -123,7 +121,7 @@ class OverlayWindow constructor(
         if (isShowing) {
             Timber.d("dismiss")
 
-            windowManager?.removeView(floatView)
+            windowManager?.removeView(floatingView)
             isShowing = false
             windowManager = null
         }

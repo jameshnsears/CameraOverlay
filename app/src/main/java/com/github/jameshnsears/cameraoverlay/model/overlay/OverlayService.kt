@@ -38,6 +38,7 @@ class OverlayService : Service() {
         var height = this.resources.displayMetrics.heightPixels
         var width = this.resources.displayMetrics.widthPixels
 
+        // TODO convert adjustments to % values
 
         if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
             // width/height = 2072/1080
@@ -47,6 +48,8 @@ class OverlayService : Service() {
         } else if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
             // width/height = 1080/2072
             Timber.d("portrait")
+            width = width - 100
+
             height = height - 500
         }
 

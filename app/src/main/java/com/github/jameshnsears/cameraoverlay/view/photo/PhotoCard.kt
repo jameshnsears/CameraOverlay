@@ -58,7 +58,6 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                 // stop any prior service
                 context.stopService(Intent(context, OverlayService::class.java))
 
-
                 // minimise app so that only overlay displayed
                 (context as Activity).moveTaskToBack(true)
                 context.startService(Intent(context, OverlayService::class.java))

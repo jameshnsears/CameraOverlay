@@ -3,10 +3,14 @@
     <string name="about_dialog_privacy_policy">Privacy Policy</string>
     <string name="about_dialog_ok">OK</string>
 
+    <string name="tag_line">Compare the past with the present…</string>
+
+
     <string name="main_screen_usage">Usage</string>
-    <string name="main_screen_usage_0">\u2022 Allow mandatory Permissions</string>
-    <string name="main_screen_usage_1">\u2022 Select Photo</string>
-    <string name="main_screen_usage_2">\u2022 Use Overlay with Camera App</string>
+    <string name="main_screen_usage_0">\u2022 Grant mandatory Permissions</string>
+    <string name="main_screen_usage_1">\u2022 Select Photo to use in Overlay</string>
+    <string name="main_screen_usage_2">\u2022 Adjust Overlay appearance</string>
+    <string name="main_screen_usage_3">\u2022 Align Camera app image with Overlay</string>
 
     <string name="permissions">Permissions</string>
 
