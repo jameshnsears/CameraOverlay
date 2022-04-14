@@ -156,7 +156,7 @@ fun Permissions(
     ) {
         Column(
             Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
