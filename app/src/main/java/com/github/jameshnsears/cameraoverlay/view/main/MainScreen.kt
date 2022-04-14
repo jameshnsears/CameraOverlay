@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -30,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,7 +46,6 @@ import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButt
 import com.github.jameshnsears.cameraoverlay.view.main.permission.observeAsSate
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
-import java.security.Permissions
 import timber.log.Timber
 
 @Composable
@@ -69,8 +66,7 @@ fun MainScreen(
                 Text(
                     stringResource(R.string.tag_line),
                     modifier = Modifier
-                        .padding(bottom = 16.dp),
-                    fontStyle = FontStyle.Italic,
+                        .padding(top = 16.dp, bottom = 16.dp),
                     fontWeight = FontWeight.Bold
                 )
 
@@ -114,13 +110,13 @@ fun Usage() {
         elevation = 4.dp,
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .fillMaxWidth().clickable { }
+            .fillMaxWidth()
     ) {
         Column(
             Modifier
-                .padding(8.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
         ) {
-            Column(Modifier.padding(bottom = 10.dp)) {
+            Column(Modifier.padding(bottom = 4.dp)) {
                 Text(
                     stringResource(R.string.main_screen_usage),
                     fontWeight = FontWeight.Bold,
@@ -156,11 +152,11 @@ fun Permissions(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(vertical = 16.dp)
-            .fillMaxWidth().clickable { }
+            .fillMaxWidth()
     ) {
         Column(
             Modifier
-                .padding(8.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -210,7 +206,7 @@ fun SelectPhoto(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp, bottom = 10.dp),
+            .padding(top = 4.dp, bottom = 4.dp),
         horizontalAlignment = Alignment.End
     ) {
         Button(
@@ -233,9 +229,9 @@ fun enableButtonSelectPhoto(viewModelPermission: ViewModelPermission): Boolean {
     }
 
     return !(
-        !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
-            !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
-        )
+            !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
+                    !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
+            )
 }
 
 @Preview(name = "Light Theme")

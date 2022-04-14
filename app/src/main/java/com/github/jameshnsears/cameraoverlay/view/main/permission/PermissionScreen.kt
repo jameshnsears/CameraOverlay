@@ -71,7 +71,7 @@ fun FilesAndMedia() {
     ) {
         Column(
             Modifier
-                .padding(8.dp)
+                .padding(16.dp)
         ) {
             Row {
                 Column {
@@ -117,7 +117,7 @@ fun Location() {
     ) {
         Column(
             Modifier
-                .padding(8.dp)
+                .padding(16.dp)
         ) {
             Row {
                 Column {
@@ -163,7 +163,7 @@ fun DisplayOverOtherApps() {
     ) {
         Column(
             Modifier
-                .padding(8.dp)
+                .padding(16.dp)
         ) {
             Row {
                 Column {
