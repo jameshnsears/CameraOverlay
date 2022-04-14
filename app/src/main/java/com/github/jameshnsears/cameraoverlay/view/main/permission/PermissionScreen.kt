@@ -1,5 +1,6 @@
 package com.github.jameshnsears.cameraoverlay.view.main.permission
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -7,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -45,7 +48,7 @@ fun PermissionScreen(navController: NavController) {
         ) {
             Column(
                 modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp)
+                    .padding(start = 8.dp, end = 8.dp)
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
@@ -59,37 +62,45 @@ fun PermissionScreen(navController: NavController) {
 
 @Composable
 fun FilesAndMedia() {
-    Column(
+    Card(
+        elevation = 4.dp,
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .padding(vertical = 5.dp)
+            .padding(8.dp)
+            .fillMaxWidth().clickable { }
     ) {
-        Row {
-            Column {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Folder,
-                        contentDescription = null
-                    )
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Column(
+            Modifier
+                .padding(8.dp)
+        ) {
+            Row {
+                Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Folder,
+                            contentDescription = null
+                        )
+                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                        Text(
+                            stringResource(R.string.permissions_screen_files_and_media),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp
+                        )
+                    }
                     Text(
-                        stringResource(R.string.permissions_screen_files_and_media),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp
+                        stringResource(R.string.permissions_screen_mandatory),
+                        modifier = Modifier
+                            .padding(vertical = 6.dp),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        stringResource(R.string.permissions_screen_choose_photo),
+                        modifier = Modifier
+                            .padding(vertical = 6.dp)
                     )
                 }
-                Text(
-                    stringResource(R.string.permissions_screen_mandatory),
-                    modifier = Modifier
-                        .padding(vertical = 6.dp),
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    stringResource(R.string.permissions_screen_choose_photo),
-                    modifier = Modifier
-                        .padding(vertical = 6.dp)
-                )
             }
         }
     }
@@ -97,37 +108,45 @@ fun FilesAndMedia() {
 
 @Composable
 fun Location() {
-    Column(
+    Card(
+        elevation = 4.dp,
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .padding(vertical = 5.dp)
+            .padding(8.dp)
+            .fillMaxWidth().clickable { }
     ) {
-        Row {
-            Column {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+        Column(
+            Modifier
+                .padding(8.dp)
+        ) {
+            Row {
+                Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
 
-                    Icon(
-                        imageVector = Icons.Outlined.LocationOn,
-                        contentDescription = null
-                    )
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                        Icon(
+                            imageVector = Icons.Outlined.LocationOn,
+                            contentDescription = null
+                        )
+                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                        Text(
+                            stringResource(R.string.permissions_screen_location),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp
+                        )
+                    }
                     Text(
-                        stringResource(R.string.permissions_screen_location),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp
+                        stringResource(R.string.permissions_screen_optional),
+                        modifier = Modifier
+                            .padding(vertical = 6.dp)
+                    )
+                    Text(
+                        stringResource(R.string.permissions_screen_show_distance),
+                        modifier = Modifier
+                            .padding(vertical = 6.dp)
                     )
                 }
-                Text(
-                    stringResource(R.string.permissions_screen_optional),
-                    modifier = Modifier
-                        .padding(vertical = 6.dp)
-                )
-                Text(
-                    stringResource(R.string.permissions_screen_show_distance),
-                    modifier = Modifier
-                        .padding(vertical = 6.dp)
-                )
             }
         }
     }
@@ -135,38 +154,46 @@ fun Location() {
 
 @Composable
 fun DisplayOverOtherApps() {
-    Column(
+    Card(
+        elevation = 4.dp,
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .padding(vertical = 5.dp)
+            .padding(8.dp)
+            .fillMaxWidth().clickable { }
     ) {
-        Row {
-            Column {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+        Column(
+            Modifier
+                .padding(8.dp)
+        ) {
+            Row {
+                Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
 
-                    Icon(
-                        imageVector = Icons.Outlined.Layers,
-                        contentDescription = null
-                    )
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                        Icon(
+                            imageVector = Icons.Outlined.Layers,
+                            contentDescription = null
+                        )
+                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                        Text(
+                            stringResource(R.string.permissions_screen_overlay),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp
+                        )
+                    }
                     Text(
-                        stringResource(R.string.permissions_screen_overlay),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp
+                        stringResource(R.string.permissions_screen_mandatory),
+                        modifier = Modifier
+                            .padding(vertical = 6.dp),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        stringResource(R.string.permissions_screen_overlay_display_photo),
+                        modifier = Modifier
+                            .padding(vertical = 6.dp)
                     )
                 }
-                Text(
-                    stringResource(R.string.permissions_screen_mandatory),
-                    modifier = Modifier
-                        .padding(vertical = 6.dp),
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    stringResource(R.string.permissions_screen_overlay_display_photo),
-                    modifier = Modifier
-                        .padding(vertical = 6.dp)
-                )
             }
         }
     }

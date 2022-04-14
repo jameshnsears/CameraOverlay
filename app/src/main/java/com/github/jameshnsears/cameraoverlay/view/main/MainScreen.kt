@@ -1,15 +1,18 @@
 package com.github.jameshnsears.cameraoverlay.view.main
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -66,7 +69,7 @@ fun MainScreen(
                 Text(
                     stringResource(R.string.tag_line),
                     modifier = Modifier
-                        .padding(vertical = 8.dp),
+                        .padding(bottom = 16.dp),
                     fontStyle = FontStyle.Italic,
                     fontWeight = FontWeight.Bold
                 )
@@ -74,8 +77,6 @@ fun MainScreen(
                 Usage()
 
                 Permissions(navController, viewModelPermission)
-
-                SelectPhoto(navController, viewModelPermission)
             }
         }
     }
@@ -109,32 +110,39 @@ fun AppBar() {
 
 @Composable
 fun Usage() {
-    Column(
+    Card(
+        elevation = 4.dp,
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .padding(vertical = 8.dp)
+            .fillMaxWidth().clickable { }
     ) {
-        Column(Modifier.padding(bottom = 10.dp)) {
+        Column(
+            Modifier
+                .padding(8.dp)
+        ) {
+            Column(Modifier.padding(bottom = 10.dp)) {
+                Text(
+                    stringResource(R.string.main_screen_usage),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp
+                )
+            }
             Text(
-                stringResource(R.string.main_screen_usage),
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
+                stringResource(R.string.main_screen_usage_0),
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+            )
+            Text(
+                stringResource(R.string.main_screen_usage_1),
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+            )
+            Text(
+                stringResource(R.string.main_screen_usage_2),
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
             )
         }
-        Text(
-            stringResource(R.string.main_screen_usage_0),
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-        )
-        Text(
-            stringResource(R.string.main_screen_usage_1),
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-        )
-        Text(
-            stringResource(R.string.main_screen_usage_2),
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-        )
     }
 }
 
@@ -143,26 +151,41 @@ fun Permissions(
     navController: NavController,
     viewModelPermission: ViewModelPermission
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
+    Card(
+        elevation = 4.dp,
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier
+            .padding(vertical = 16.dp)
+            .fillMaxWidth().clickable { }
     ) {
-        Text(
-            stringResource(R.string.permissions),
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
-        )
-
-        IconButton(
-            onClick = { navController.navigate(Navigation.SCREEN_PERMISSIONS) },
+        Column(
+            Modifier
+                .padding(8.dp)
         ) {
-            Icon(
-                imageVector = Icons.Outlined.HelpOutline,
-                contentDescription = null,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    stringResource(R.string.permissions),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp
+                )
+
+                IconButton(
+                    onClick = { navController.navigate(Navigation.SCREEN_PERMISSIONS) },
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.HelpOutline,
+                        contentDescription = null,
+                    )
+                }
+            }
+
+            PermissionButtons(viewModelPermission)
+
+            SelectPhoto(navController, viewModelPermission)
         }
     }
-
-    PermissionButtons(viewModelPermission)
 }
 
 @Composable
