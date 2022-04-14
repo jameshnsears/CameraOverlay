@@ -55,10 +55,11 @@ fun PhotoDialogFilter(openDialog: MutableState<Boolean>) {
 @Composable
 fun FilterDialogRow() {
 
-    val jpeg = stringResource(R.string.select_photo_dialog_filter_jpeg)
-    var selected by remember { mutableStateOf(jpeg) }
+    val all = stringResource(R.string.select_photo_dialog_filter_all)
+    var selected by remember { mutableStateOf(all) }
 
     val radioGroupOptions = listOf(
+        stringResource(R.string.select_photo_dialog_filter_all),
         stringResource(R.string.select_photo_dialog_filter_jpeg),
         stringResource(R.string.select_photo_dialog_filter_png),
         stringResource(R.string.select_photo_dialog_filter_webp)
