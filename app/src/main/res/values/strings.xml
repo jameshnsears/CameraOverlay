@@ -25,7 +25,6 @@
 
     <string name="select_photo">Select Photo</string>
     <string name="select_photo_filter">Filter</string>
-    <string name="select_photo_dialog_filter_all">*</string>
     <string name="select_photo_dialog_filter_jpeg">JPEG - can contain location</string>
     <string name="select_photo_dialog_filter_png">PNG</string>
     <string name="select_photo_dialog_filter_webp">TIFF</string>

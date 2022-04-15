@@ -8,13 +8,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.FilterAlt
-import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.outlined.Window
 import androidx.compose.runtime.Composable
@@ -26,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
@@ -54,10 +51,7 @@ fun PhotoSelectScreen(navController: NavController) {
             PhotoDialogSort(sortDialogState)
         }
 
-        val overlayWindowDialogState = remember { mutableStateOf(false) }
-        if (overlayWindowDialogState.value) {
-            PhotoDialogOverlayWindow(overlayWindowDialogState)
-        }
+
 
         Scaffold(
             topBar = {
@@ -75,8 +69,7 @@ fun PhotoSelectScreen(navController: NavController) {
                         TopBarActions(
                             filterDialogState,
                             collectionDialogState,
-                            sortDialogState,
-                            overlayWindowDialogState
+                            sortDialogState
                         )
                     }
                 )
@@ -110,8 +103,7 @@ fun PhotoSelectScreen(navController: NavController) {
 fun TopBarActions(
     filterDialogState: MutableState<Boolean>,
     collectionDialogState: MutableState<Boolean>,
-    sortDialogState: MutableState<Boolean>,
-    overlayWindowDialogState: MutableState<Boolean>
+    sortDialogState: MutableState<Boolean>
 ) {
     IconButton(onClick = { collectionDialogState.value = true }) {
         Icon(
@@ -136,15 +128,6 @@ fun TopBarActions(
             tint = Color.White
         )
     }
-
-    IconButton(onClick = { overlayWindowDialogState.value = true }) {
-        Icon(
-            imageVector = Icons.Outlined.Window,
-            contentDescription = stringResource(R.string.select_photo_dialog_overlay),
-            tint = Color.White
-        )
-    }
-
 }
 
 @Preview(name = "Light Theme")

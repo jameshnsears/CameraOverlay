@@ -9,10 +9,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonDefaults
+import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -55,12 +52,11 @@ fun PhotoDialogFilter(openDialog: MutableState<Boolean>) {
 @Composable
 fun FilterDialogRow() {
 
-    val all = stringResource(R.string.select_photo_dialog_filter_all)
-    var selected by remember { mutableStateOf(all) }
+    val jpeg = stringResource(R.string.select_photo_dialog_filter_jpeg)
+    var selected by remember { mutableStateOf(jpeg) }
 
-    val radioGroupOptions = listOf(
-        stringResource(R.string.select_photo_dialog_filter_all),
-        stringResource(R.string.select_photo_dialog_filter_jpeg),
+    val checkboxGroupOptions = listOf(
+        jpeg,
         stringResource(R.string.select_photo_dialog_filter_png),
         stringResource(R.string.select_photo_dialog_filter_webp)
     )
@@ -70,7 +66,7 @@ fun FilterDialogRow() {
             selected = text
         }
 
-        radioGroupOptions.forEach { text ->
+        checkboxGroupOptions.forEach { text ->
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -79,16 +75,9 @@ fun FilterDialogRow() {
                         onClick = { onSelectedChange(text) }
                     ),
             ) {
-                RadioButton(
-                    selected = (text == selected),
-                    onClick = { onSelectedChange(text) },
-                    colors = RadioButtonDefaults.colors(
-                        selectedColor = MaterialTheme.colors.primary,
-                        unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-                        disabledColor = MaterialTheme.colors.onSurface.copy(
-                            alpha = ContentAlpha.disabled
-                        )
-                    )
+                Checkbox(
+                    checked = (text == selected),
+                    onCheckedChange = { onSelectedChange(text) },
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text(text, modifier = Modifier.align(Alignment.CenterVertically))
