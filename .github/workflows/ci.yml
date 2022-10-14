@@ -27,7 +27,7 @@ jobs:
       - run: ./ci_clear_gradle_cache.sh
 
       - name: gradle cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.11
         with:
           path: |
             ~/.gradle/caches
@@ -68,7 +68,7 @@ jobs:
       - run: ./ci_clear_gradle_cache.sh
 
       - name: gradle cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.11
         with:
           path: |
             ~/.gradle/caches
@@ -110,7 +110,7 @@ jobs:
       - run: ./ci_clear_gradle_cache.sh
 
       - name: gradle cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.11
         with:
           path: |
             ~/.gradle/caches
@@ -152,7 +152,7 @@ jobs:
       - run: ./ci_clear_gradle_cache.sh
 
       - name: gradle cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.11
         with:
           path: |
             ~/.gradle/caches
@@ -188,7 +188,7 @@ jobs:
       - run: ./ci_clear_gradle_cache.sh
 
       - name: gradle cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.11
         with:
           path: |
             ~/.gradle/caches
@@ -201,7 +201,7 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3.0.11
         id: avd-cache
         with:
           path: |
@@ -283,7 +283,7 @@ jobs:
       - run: ./ci_clear_gradle_cache.sh
 
       - name: gradle cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3.0.11
         with:
           path: |
             ~/.gradle/caches
@@ -296,7 +296,7 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3.0.11
         id: avd-cache
         with:
           path: |
