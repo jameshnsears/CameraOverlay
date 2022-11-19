@@ -7,14 +7,14 @@
 
     <string name="main_screen_usage">Usage</string>
     <string name="main_screen_usage_0">\u2022 Grant mandatory permissions</string>
-    <string name="main_screen_usage_1">\u2022 Select photo to use in overlay</string>
+    <string name="main_screen_usage_1">\u2022 Select photo to use as overlay</string>
     <string name="main_screen_usage_2">\u2022 Align Camera app image with overlay</string>
 
     <string name="permissions">Permissions</string>
 
     <string name="permissions_screen_files_and_media">Files and media</string>
     <string name="permissions_screen_mandatory">\u2022 Mandatory</string>
-    <string name="permissions_screen_choose_photo">\u2022 Choose Photo to display in Overlay</string>
+    <string name="permissions_screen_choose_photo">\u2022 Choose Photo to use as Overlay</string>
     <string name="permissions_screen_location">Location</string>
     <string name="permissions_screen_optional">\u2022 Optional</string>
     <string name="permissions_screen_show_distance">\u2022 Distance from current location</string>
