@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="detektBaseline" />
+          <option value="app:detektBaseline" />
         </list>
       </option>
       <option name="vmOptions" value="" />

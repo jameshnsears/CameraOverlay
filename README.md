@@ -1,8 +1,7 @@
 # Camera Overlay
 
-| Static Analysis | Sonarcloud | Codecov | Codacy | API matrix | CodeScene |
-| - | - | - | - | - | - |
-| [![static analysis](https://github.com/jameshnsears/CameraOverlay/actions/workflows/staticanalysis.yml/badge.svg)](https://github.com/jameshnsears/CameraOverlay/actions/workflows/staticanalysis.yml) | [![sonarcloud](https://github.com/jameshnsears/CameraOverlay/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/jameshnsears/CameraOverlay/actions/workflows/sonarcloud.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jameshnsears_CameraOverlay&metric=alert_status)](https://sonarcloud.io/dashboard?id=jameshnsears_CameraOverlay) | [![codecov](https://github.com/jameshnsears/CameraOverlay/actions/workflows/codecov.yml/badge.svg)](https://github.com/jameshnsears/CameraOverlay/actions/workflows/codecov.yml) [![codecov](https://codecov.io/gh/jameshnsears/CameraOverlay/branch/master/graph/badge.svg?token=K4G3ZUKQG5)](https://codecov.io/gh/jameshnsears/CameraOverlay) | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9d9584674063453bb59aefce7ad815d6)](https://www.codacy.com/gh/jameshnsears/CameraOverlay/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jameshnsears/CameraOverlay&amp;utm_campaign=Badge_Grade) | [![matrix - codecov @ api-level](https://github.com/jameshnsears/CameraOverlay/actions/workflows/matrix.yml/badge.svg)](https://github.com/jameshnsears/CameraOverlay/actions/workflows/matrix.yml) | [![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/21058) |
+## Status
 
-* API levels supported: 29+
-* codecov: ./bin/codecov.sh
+| | ci | codecov | codacy | sonarcloud | codescene | deployment |
+| - | - | - | - | - | - | - |
+| :app | ? | ? | ? | ? | ? | ? |

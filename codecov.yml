@@ -1,12 +1,12 @@
 flags:
-  app.froid:
+  test.fdroid:
     carryforward: false
 
-  app.googleplay:
+  test.googleplay:
     carryforward: false
 
-ignore:
-  - "**/androidTest/**/*.kt"
-  - "**/androidTest/**/*.java"
-  - "**/test/**/*.kt"
-  - "**/test/**/*.java"
+  androidTest.fdroid:
+    carryforward: false
+
+  androidTest.googleplay:
+    carryforward: false
