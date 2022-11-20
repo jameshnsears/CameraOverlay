@@ -47,8 +47,8 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
 
     val context = LocalContext.current
 
-    val missingMandatoryPermissionMessage
-    = stringResource(R.string.error_missing_mandatory_permission)
+    val missingMandatoryPermissionMessage =
+        stringResource(R.string.error_missing_mandatory_permission)
 
     Card(
         elevation = 4.dp,
@@ -57,7 +57,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
             .height(128.dp)
             .padding(8.dp)
             .fillMaxWidth().clickable {
-                //navController.navigate(navigationEndpoint)
+                // navController.navigate(navigationEndpoint)
 
                 if (context.canDrawOverlays) {
                     // stop any prior service
@@ -66,8 +66,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                     // minimise app so that only overlay displayed
                     (context as Activity).moveTaskToBack(true)
                     context.startService(Intent(context, OverlayService::class.java))
-                }
-                else {
+                } else {
                     context.showToast(missingMandatoryPermissionMessage)
                 }
             }
@@ -167,7 +166,7 @@ fun CardPhotoPreview() {
     // https://developer.android.com/jetpack/compose/lists
     LazyColumn {
         items(photoCardDataList) { item ->
-            PhotoCard(rememberNavController(),  item)
+            PhotoCard(rememberNavController(), item)
         }
     }
 }

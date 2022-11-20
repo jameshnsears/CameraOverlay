@@ -11,8 +11,8 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageButton
 import com.github.jameshnsears.cameraoverlay.R
-import timber.log.Timber
 import kotlin.math.abs
+import timber.log.Timber
 
 class OverlayWindow constructor(private val context: Context) {
     private var windowManager: WindowManager? = null
@@ -87,7 +87,8 @@ class OverlayWindow constructor(private val context: Context) {
      */
 
     init {
-        floatingView.findViewById<ImageButton>(R.id.closeImageButtonCloseWindow).setOnClickListener { dismiss() }
+        floatingView.findViewById<ImageButton>(R.id.closeImageButtonCloseWindow)
+            .setOnClickListener { dismiss() }
 
         /*
             seekBar.setOnSeekBarChangeListener( object : SeekBar.OnSeekBarChangeListener {
@@ -114,7 +115,7 @@ class OverlayWindow constructor(private val context: Context) {
 
     fun show(screenWidth: Int, screenHeight: Int) {
         if (context.canDrawOverlays) {
-            Timber.d("show: width/height = ${screenWidth}/${screenHeight}")
+            Timber.d("show: width/height = $screenWidth/$screenHeight")
             isShowing = true
 
             layoutParams.height = screenHeight

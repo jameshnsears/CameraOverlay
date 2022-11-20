@@ -228,9 +228,9 @@ fun enableButtonSelectPhoto(viewModelPermission: ViewModelPermission): Boolean {
     }
 
     return !(
-            !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
-                    !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
-            )
+        !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
+            !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
+        )
 }
 
 @Preview(name = "Light Theme")

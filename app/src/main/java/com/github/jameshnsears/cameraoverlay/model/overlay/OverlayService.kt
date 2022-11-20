@@ -33,22 +33,38 @@ class OverlayService : Service() {
     }
 
     private fun getOverlayWindowWidth(): Int {
-       if (this.resources.displayMetrics.widthPixels < this.resources.displayMetrics.heightPixels) {
-           // Landscape
-           return (this.resources.displayMetrics.widthPixels * OVERLAY_WINDOW_WIDTH_ADJUSTMENT).toInt()
-       } else {
-           // Portrait
-           return (this.resources.displayMetrics.widthPixels * OVERLAY_WINDOW_HEIGHT_ADJUSTMENT).toInt()
-       }
+        if (this.resources.displayMetrics.widthPixels
+            < this.resources.displayMetrics.heightPixels
+        ) {
+            // Landscape
+            return (
+                this.resources.displayMetrics.widthPixels
+                    * OVERLAY_WINDOW_WIDTH_ADJUSTMENT
+                ).toInt()
+        } else {
+            // Portrait
+            return (
+                this.resources.displayMetrics.widthPixels
+                    * OVERLAY_WINDOW_HEIGHT_ADJUSTMENT
+                ).toInt()
+        }
     }
 
     private fun getOverlayWindowHeight(): Int {
-        if (this.resources.displayMetrics.widthPixels < this.resources.displayMetrics.heightPixels) {
+        if (this.resources.displayMetrics.widthPixels
+            < this.resources.displayMetrics.heightPixels
+        ) {
             // Landscape
-            return (this.resources.displayMetrics.heightPixels * OVERLAY_WINDOW_HEIGHT_ADJUSTMENT).toInt()
+            return (
+                this.resources.displayMetrics.heightPixels
+                    * OVERLAY_WINDOW_HEIGHT_ADJUSTMENT
+                ).toInt()
         } else {
             // Portrait
-            return (this.resources.displayMetrics.heightPixels * OVERLAY_WINDOW_WIDTH_ADJUSTMENT).toInt()
+            return (
+                this.resources.displayMetrics.heightPixels
+                    * OVERLAY_WINDOW_WIDTH_ADJUSTMENT
+                ).toInt()
         }
     }
 

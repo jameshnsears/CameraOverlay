@@ -14,7 +14,6 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material.icons.outlined.Sort
-import androidx.compose.material.icons.outlined.Window
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -50,8 +49,6 @@ fun PhotoSelectScreen(navController: NavController) {
         if (sortDialogState.value) {
             PhotoDialogSort(sortDialogState)
         }
-
-
 
         Scaffold(
             topBar = {

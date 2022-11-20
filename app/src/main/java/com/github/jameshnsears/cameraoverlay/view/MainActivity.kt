@@ -51,8 +51,7 @@ class MainActivity : ComponentActivity() {
 //
 //                @Composable
 //                fun OverlayConfigureScreen(navController: NavController, photoId: Int?) {
-
-                }
+            }
         }
     }
 

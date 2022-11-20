@@ -18,7 +18,6 @@ import org.junit.Rule
 import org.junit.Test
 import timber.log.Timber
 
-
 class PhotoCardTest : PhotoResourcesUtility() {
     @get:Rule
     val composeTestRule = createComposeRule()
