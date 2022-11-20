@@ -3,8 +3,8 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
     id 'kotlin-android'
-    id "io.gitlab.arturbosch.detekt" version "1.19.0"
-    id "org.jlleitschuh.gradle.ktlint" version "10.2.1"
+    id "io.gitlab.arturbosch.detekt" version "1.21.0"
+    id "org.jlleitschuh.gradle.ktlint" version "11.0.0"
     id 'com.diffplug.spotless'
 }
 
