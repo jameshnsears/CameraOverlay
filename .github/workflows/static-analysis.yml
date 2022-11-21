@@ -10,8 +10,8 @@ env:
   CACHE_VERSION: 1
 
 jobs:
-  spotless:
-    name: spotless
+  spotlessCheck:
+    name: spotlessCheck
     runs-on: macOS-latest
     steps:
       - name: clone
