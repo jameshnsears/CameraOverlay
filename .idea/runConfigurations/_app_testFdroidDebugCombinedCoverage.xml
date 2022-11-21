@@ -10,6 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
+          <option value="uninstallAll" />
           <option value=":app:clean" />
           <option value=":app:testFdroidDebugCombinedCoverage" />
         </list>

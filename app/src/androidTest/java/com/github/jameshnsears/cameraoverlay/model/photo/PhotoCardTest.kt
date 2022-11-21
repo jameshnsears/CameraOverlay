@@ -29,18 +29,18 @@ class PhotoCardTest : PhotoResourcesUtility() {
         }
         val picturesInMediaStore = MediaStoreMediator.picturesInMediaStore(context)
 
-        composeTestRule.setContent {
-            CameraOverlayTheme {
-                PhotoCard(
-                    PhotoCardData(
-                        picturesInMediaStore[0].uri,
-                        "date taken 0",
-                        "gps co-ords 0",
-                        "path 0"
-                    ),
-                )
-            }
-        }
+//        composeTestRule.setContent {
+//            CameraOverlayTheme {
+//                PhotoCard(
+//                    PhotoCardData(
+//                        picturesInMediaStore[0].uri,
+//                        "date taken 0",
+//                        "gps co-ords 0",
+//                        "path 0"
+//                    ),
+//                )
+//            }
+//        }
 
         // TODO test
 
@@ -54,18 +54,18 @@ class PhotoCardTest : PhotoResourcesUtility() {
 
         assertResponseMockWebServer()
 
-        composeTestRule.setContent {
-            CameraOverlayTheme {
-                PhotoCard(
-                    PhotoCardData(
-                        "https://example.com/image.jpg",
-                        "date taken 0",
-                        "gps co-ords 0",
-                        "path 0"
-                    ),
-                )
-            }
-        }
+//        composeTestRule.setContent {
+//            CameraOverlayTheme {
+//                PhotoCard(
+//                    PhotoCardData(
+//                        "https://example.com/image.jpg",
+//                        "date taken 0",
+//                        "gps co-ords 0",
+//                        "path 0"
+//                    ),
+//                )
+//            }
+//        }
 
         // TODO test
 //        composeTestRule.onNodeWithText("Continue").performClick()
