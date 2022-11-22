@@ -92,8 +92,8 @@ jobs:
           set -x
           ./gradlew detekt
 
-  ktlint:
-    name: ktlint
+  ktlintCheck:
+    name: ktlintCheck
     runs-on: macOS-latest
     steps:
       - name: clone
@@ -131,11 +131,11 @@ jobs:
       - name: gradlew
         run: |
           set -x
-          ./gradlew ktlint
+          ./gradlew ktlintCheck
 
   lintGooglePlayDebug:
     name: lintGooglePlayDebug
-    needs: [spotlessCheck, detekt, ktlint]
+    needs: [spotlessCheck, detekt, ktlintCheck]
     runs-on: macOS-latest
     steps:
       - name: clone
@@ -177,7 +177,7 @@ jobs:
 
   lintFdroidDebug:
     name: lintFdroidDebug
-    needs: [spotlessCheck, detekt, ktlint]
+    needs: [spotlessCheck, detekt, ktlintCheck]
     runs-on: macOS-latest
     steps:
       - name: clone

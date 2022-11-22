@@ -2,8 +2,6 @@ package com.github.jameshnsears.cameraoverlay.model.photo
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediator
-import com.github.jameshnsears.cameraoverlay.view.photo.PhotoCard
-import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 import com.google.common.net.HttpHeaders.CONTENT_LENGTH
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.fail
