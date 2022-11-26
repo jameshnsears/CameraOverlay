@@ -59,3 +59,18 @@ base64 -w 0 <filename>
 ```bash
 ./Android/Sdk/emulator/emulator -avd "27_Nexus_5_-_8.1" -no-window
 ```
+
+--
+
+## 8. google-services.json search order in bitrise.io
+
+```text
+> File google-services.json is missing. The Google Services Plugin cannot function without it. 
+   Searched Location: 
+  /bitrise/src/app/src/googleplay/debug/google-services.json
+  /bitrise/src/app/src/debug/googleplay/google-services.json
+  /bitrise/src/app/src/googleplay/google-services.json
+  /bitrise/src/app/src/debug/google-services.json
+  /bitrise/src/app/src/googleplayDebug/google-services.json
+  /bitrise/src/app/google-services.json```
+
