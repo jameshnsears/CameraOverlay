@@ -1,6 +1,6 @@
 package com.github.jameshnsears.cameraoverlay.view.main.permission
 
-import androidx.compose.foundation.clickable
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +34,7 @@ import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun PermissionScreen(navController: NavController) {
     CameraOverlayTheme {
@@ -67,7 +68,7 @@ fun FilesAndMedia() {
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth().clickable { }
+            .fillMaxWidth()
     ) {
         Column(
             Modifier
@@ -113,7 +114,7 @@ fun Location() {
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth().clickable { }
+            .fillMaxWidth()
     ) {
         Column(
             Modifier
@@ -159,7 +160,7 @@ fun DisplayOverOtherApps() {
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth().clickable { }
+            .fillMaxWidth()
     ) {
         Column(
             Modifier

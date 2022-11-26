@@ -10,6 +10,8 @@ apply from: '../../ktlint.gradle'
 
 
 android {
+    namespace "com.github.jameshnsears.cameraoverlay.permissions"
+
     compileSdk 33
 
     defaultConfig {

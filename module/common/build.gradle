@@ -9,6 +9,8 @@ apply from: '../../detekt.gradle'
 apply from: '../../ktlint.gradle'
 
 android {
+    namespace "com.github.jameshnsears.cameraoverlay.common"
+
     compileSdk 33
 
     defaultConfig {

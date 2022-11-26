@@ -31,6 +31,8 @@ if (!localPropertiesFile.exists()) {
 localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
+    namespace "com.github.jameshnsears.cameraoverlay"
+
     compileSdk 33
 
     signingConfigs {
