@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "",
-    "project_id": "",
+    "project_number": "000000000000",
+    "project_id": "support-for-bitrise.io",
     "storage_bucket": ""
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "",
+        "mobilesdk_app_id": "mobilesdk_app_id",
         "android_client_info": {
           "package_name": "com.github.jameshnsears.cameraoverlay"
         }
       },
       "oauth_client": [
         {
-          "client_id": "",
+          "client_id": "client_id",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": ""
+          "current_key": "current_key"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "",
+              "client_id": "client_id",
               "client_type": 3
             }
           ]
