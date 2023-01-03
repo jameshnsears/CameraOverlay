@@ -1,5 +1,6 @@
 package com.github.jameshnsears.cameraoverlay.view.main
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,16 +10,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,16 +45,18 @@ import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButt
 import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonOverlay
 import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonStorage
 import com.github.jameshnsears.cameraoverlay.view.main.permission.observeAsSate
-import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
+import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import timber.log.Timber
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navController: NavController,
     viewModelPermission: ViewModelPermission
 ) {
-    CameraOverlayTheme {
+    AppTheme {
         Scaffold(
             topBar = { AppBar() },
         ) {
@@ -77,6 +81,7 @@ fun MainScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar() {
     val infoDialogState = remember { mutableStateOf(false) }
@@ -106,7 +111,6 @@ fun AppBar() {
 @Composable
 fun Usage() {
     Card(
-        elevation = 4.dp,
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .fillMaxWidth()
@@ -147,7 +151,6 @@ fun Permissions(
     viewModelPermission: ViewModelPermission
 ) {
     Card(
-        elevation = 4.dp,
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(vertical = 16.dp)

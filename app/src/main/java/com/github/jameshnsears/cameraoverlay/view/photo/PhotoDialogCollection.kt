@@ -18,18 +18,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -118,11 +116,11 @@ private fun RowStorageAccessFramework(
         RadioButton(
             selected = (radioStorageAccessFramework == selected),
             onClick = { onSelectedChange(radioStorageAccessFramework) },
-            colors = RadioButtonDefaults.colors(
-                selectedColor = MaterialTheme.colors.primary,
-                unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-                disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
-            )
+//            colors = RadioButtonDefaults.colors(
+//                selectedColor = MaterialTheme.colors.primary,
+//                unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+//                disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+//            )
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Text(radioStorageAccessFramework, modifier = Modifier.align(Alignment.CenterVertically))
@@ -147,9 +145,9 @@ private fun RowMediaStore(
             selected = (radioMediaStore == selected),
             onClick = { onSelectedChange(radioMediaStore) },
             colors = RadioButtonDefaults.colors(
-                selectedColor = MaterialTheme.colors.primary,
-                unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-                disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+//                selectedColor = MaterialTheme.colors.primary,
+//                unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+//                disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
             )
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))

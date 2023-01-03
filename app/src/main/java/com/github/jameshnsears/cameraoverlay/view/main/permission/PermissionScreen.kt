@@ -10,15 +10,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,12 +33,13 @@ import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
-import com.github.jameshnsears.cameraoverlay.view.theme.CameraOverlayTheme
+import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PermissionScreen(navController: NavController) {
-    CameraOverlayTheme {
+    AppTheme {
         Scaffold(
             topBar = {
                 CommonTopAppBar(
@@ -64,7 +66,6 @@ fun PermissionScreen(navController: NavController) {
 @Composable
 fun FilesAndMedia() {
     Card(
-        elevation = 4.dp,
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(8.dp)
@@ -110,7 +111,6 @@ fun FilesAndMedia() {
 @Composable
 fun Location() {
     Card(
-        elevation = 4.dp,
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(8.dp)
@@ -156,7 +156,6 @@ fun Location() {
 @Composable
 fun DisplayOverOtherApps() {
     Card(
-        elevation = 4.dp,
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(8.dp)
