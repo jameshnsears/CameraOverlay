@@ -15,7 +15,6 @@ android {
     compileSdk 33
 
     defaultConfig {
-        minSdk 29
         targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -27,6 +26,7 @@ android {
 
         // 'true' means no jacoco coverage + no permissions granted, except for SYSTEM_ALERT_WINDOW
         testInstrumentationRunnerArguments clearPackageData: 'true'
+        minSdk 24
     }
 
     testOptions {
