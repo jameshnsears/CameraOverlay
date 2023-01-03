@@ -35,7 +35,7 @@
 
                 <SeekBar
                     android:id="@+id/seekBarTransparency"
-                    style="@style/Theme.CameraOverlay.SeekBar"
+                    style="@style/AppTheme"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingEnd="17dp" />
@@ -88,7 +88,7 @@
 
                 <SeekBar
                     android:id="@+id/seekBarBlur"
-                    style="@style/Theme.CameraOverlay.SeekBar"
+                    style="@style/AppTheme"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingEnd="16dp" />
