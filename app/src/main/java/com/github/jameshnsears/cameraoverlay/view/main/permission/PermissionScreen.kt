@@ -1,6 +1,5 @@
 package com.github.jameshnsears.cameraoverlay.view.main.permission
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,7 +35,6 @@ import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PermissionScreen(navController: NavController) {
     AppTheme {
@@ -48,11 +46,12 @@ fun PermissionScreen(navController: NavController) {
                     Navigation.SCREEN_MAIN
                 )
             },
-        ) {
+        ) { padding ->
             Column(
                 modifier = Modifier
                     .padding(start = 8.dp, end = 8.dp)
                     .fillMaxWidth()
+                    .padding(padding)
                     .verticalScroll(rememberScrollState())
             ) {
                 FilesAndMedia()

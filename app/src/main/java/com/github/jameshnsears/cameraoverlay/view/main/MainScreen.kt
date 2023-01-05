@@ -1,6 +1,5 @@
 package com.github.jameshnsears.cameraoverlay.view.main
 
-import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -49,7 +47,6 @@ import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import timber.log.Timber
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
@@ -59,11 +56,12 @@ fun MainScreen(
     AppTheme {
         Scaffold(
             topBar = { AppBar() },
-        ) {
+        ) { padding ->
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
+                    .padding(padding)
                     .verticalScroll(rememberScrollState())
             ) {
                 Text(
@@ -98,11 +96,7 @@ fun AppBar() {
                     infoDialogState.value = true
                 }
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.Info,
-                    contentDescription = "",
-                    tint = Color.White
-                )
+                Icon(Icons.Outlined.Info, contentDescription = "")
             }
         }
     )
@@ -231,9 +225,9 @@ fun enableButtonSelectPhoto(viewModelPermission: ViewModelPermission): Boolean {
     }
 
     return !(
-        !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
-            !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
-        )
+            !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
+                    !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
+            )
 }
 
 @Preview(name = "Light Theme")
@@ -252,6 +246,7 @@ fun PreviewMainScreenPortrait() {
     widthDp = 720, heightDp = 720,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
+
 @Composable
 fun PreviewMainScreenLandscape() {
     val context = LocalContext.current

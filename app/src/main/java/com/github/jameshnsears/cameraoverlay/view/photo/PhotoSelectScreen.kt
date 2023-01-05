@@ -33,7 +33,6 @@ import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollection
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
 import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhotoSelectScreen(navController: NavController) {
@@ -75,11 +74,12 @@ fun PhotoSelectScreen(navController: NavController) {
                     }
                 )
             },
-        ) {
+        ) { padding ->
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
+                    .padding(padding)
                     .verticalScroll(rememberScrollState())
             ) {
                 for (photoId in 1..20) {
@@ -110,7 +110,6 @@ fun TopBarActions(
         Icon(
             imageVector = Icons.Outlined.Collections,
             contentDescription = stringResource(R.string.select_photo_collections),
-            tint = Color.White
         )
     }
 
@@ -118,7 +117,6 @@ fun TopBarActions(
         Icon(
             imageVector = Icons.Outlined.FilterAlt,
             contentDescription = stringResource(R.string.select_photo_filter),
-            tint = Color.White
         )
     }
 
@@ -126,7 +124,6 @@ fun TopBarActions(
         Icon(
             imageVector = Icons.Outlined.Sort,
             contentDescription = stringResource(R.string.select_photo_sort),
-            tint = Color.White
         )
     }
 }
