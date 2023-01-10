@@ -60,11 +60,6 @@ fun AboutDialog(openDialog: MutableState<Boolean>) {
 
 @Composable
 fun AboutDialogRow(context: Context) {
-    var version = BuildConfig.VERSION_NAME
-        .replace("-fdroid", "")
-        .replace("-googleplay", "")
-    version += "/" + BuildConfig.GIT_HASH
-
     Column {
         Row(Modifier.padding(bottom = 8.dp)) {
             ClickableText(
@@ -89,7 +84,10 @@ fun AboutDialogRow(context: Context) {
         ) {
             Column(Modifier.align(Alignment.CenterVertically)) {
                 SelectionContainer {
-                    Text(version)
+                    Text(BuildConfig.VERSION_NAME)
+                }
+                SelectionContainer {
+                    Text(BuildConfig.GIT_HASH)
                 }
             }
             Column {

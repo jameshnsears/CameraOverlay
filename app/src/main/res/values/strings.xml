@@ -1,14 +1,14 @@
 <resources>
-    <string name="about_dialog">About</string>
+    <string name="about_dialog">About…</string>
     <string name="about_dialog_privacy_policy">Privacy Policy</string>
     <string name="about_dialog_ok">OK</string>
 
-    <string name="tag_line">Compare the past with the present…</string>
+    <string name="tag_line">Compare the past with the present!</string>
 
     <string name="main_screen_usage">Usage</string>
-    <string name="main_screen_usage_0">\u2022 Grant mandatory permissions</string>
+    <string name="main_screen_usage_0">\u2022 Grant permissions</string>
     <string name="main_screen_usage_1">\u2022 Select photo to use as overlay</string>
-    <string name="main_screen_usage_2">\u2022 Align overlay with Camera app image</string>
+    <string name="main_screen_usage_2">\u2022 Align overlay with image in Camera app</string>
 
     <string name="permissions">Permissions</string>
 
