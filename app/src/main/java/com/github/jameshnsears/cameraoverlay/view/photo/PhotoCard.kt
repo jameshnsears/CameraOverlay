@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Straighten
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,6 +53,9 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
 
     Card(
         shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        ),
         modifier = Modifier
             .height(128.dp)
             .padding(8.dp)

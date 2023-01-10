@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -109,7 +110,10 @@ fun Usage() {
     Card(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        )
     ) {
         Column(
             Modifier
@@ -150,7 +154,10 @@ fun Permissions(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(vertical = 16.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        )
     ) {
         Column(
             Modifier
