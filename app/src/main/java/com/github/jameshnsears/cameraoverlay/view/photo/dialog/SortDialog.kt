@@ -66,7 +66,7 @@ private fun WhenTakenRow() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 8.dp)
-            .padding(bottom = 16.dp),
+            .padding(bottom = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Icon(
@@ -98,7 +98,7 @@ private fun DistanceRow() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp),
+            .padding(top = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Icon(

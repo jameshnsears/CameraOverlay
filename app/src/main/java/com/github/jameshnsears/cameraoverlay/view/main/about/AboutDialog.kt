@@ -84,7 +84,9 @@ fun AboutDialogRow(context: Context) {
         ) {
             Column(Modifier.align(Alignment.CenterVertically)) {
                 SelectionContainer {
-                    Text(BuildConfig.VERSION_NAME)
+                    Text(BuildConfig.VERSION_NAME,
+                        modifier = Modifier
+                            .padding(bottom = 4.dp),)
                 }
                 SelectionContainer {
                     Text(BuildConfig.GIT_HASH)
@@ -93,7 +95,7 @@ fun AboutDialogRow(context: Context) {
             Column {
                 IconButton(
                     onClick = { linkToGitHub(context) },
-                    modifier = Modifier.width(70.dp)
+                    modifier = Modifier.width(100.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_github_logo),

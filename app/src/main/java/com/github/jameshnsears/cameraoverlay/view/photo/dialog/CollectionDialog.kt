@@ -22,9 +22,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
@@ -170,7 +170,7 @@ fun ButtonStorageAccessFrameworkFile(
             )
     }
 
-    Button(
+    OutlinedButton(
         onClick = { buttonState.value = true },
         modifier = Modifier
             .width(120.dp),
@@ -204,7 +204,7 @@ fun ButtonStorageAccessFrameworkFolder(
 
     //     android.content.ActivityNotFoundException: No Activity found to handle Intent { act=android.intent.action.OPEN_DOCUMENT_TREE cat=[android.intent.category.OPENABLE] (has extras) }
 
-    Button(
+    OutlinedButton(
         onClick = { buttonState.value = true },
         modifier = Modifier
             .width(120.dp),
