@@ -95,7 +95,7 @@ fun AboutDialogRow(context: Context) {
             Column {
                 IconButton(
                     onClick = { linkToGitHub(context) },
-                    modifier = Modifier.width(100.dp)
+                    modifier = Modifier.width(80.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_github_logo),

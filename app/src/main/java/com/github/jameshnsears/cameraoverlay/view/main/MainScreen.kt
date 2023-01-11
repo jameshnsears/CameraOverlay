@@ -213,7 +213,7 @@ fun SelectPhoto(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 4.dp, bottom = 4.dp),
+            .padding(top = 8.dp, bottom = 4.dp),
         horizontalAlignment = Alignment.End
     ) {
         OutlinedButton(
