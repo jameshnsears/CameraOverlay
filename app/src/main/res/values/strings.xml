@@ -6,20 +6,25 @@
     <string name="tag_line">Compare the past with the present!</string>
 
     <string name="main_screen_usage">Usage</string>
-    <string name="main_screen_usage_0">\u2022 Grant permissions</string>
-    <string name="main_screen_usage_1">\u2022 Select photo to use as overlay</string>
-    <string name="main_screen_usage_2">\u2022 Align overlay with image in Camera app</string>
+    <string name="main_screen_usage_0">\u2022 Allow permissions required by the App</string>
+    <string name="main_screen_usage_1">\u2022 Select a photo to use as an overlay</string>
+    <string name="main_screen_usage_2">\u2022 Open Camera App and align overlay with what you see</string>
 
     <string name="permissions">Permissions</string>
 
-    <string name="permissions_screen_files_and_media">Files and media</string>
+    <string name="permissions_screen_files_and_media">Access photos</string>
+    <!-- 24: ...to access photos, media, and files on your device  -->
     <string name="permissions_screen_mandatory">\u2022 Mandatory</string>
-    <string name="permissions_screen_choose_photo">\u2022 Choose Photo to use as Overlay</string>
+    <string name="permissions_screen_choose_photo">\u2022 Needed to allow browsing and selection of photo</string>
+
+    <string name="permissions_screen_overlay">Draw over other apps</string>
+    <!-- 24: Permit drawing over other apps -->
+    <string name="permissions_screen_overlay_display_photo">\u2022 Needed to let the app display selected photo as an overlay</string>
+
     <string name="permissions_screen_location">Location</string>
+    <!-- 24: ...to access this devices location -->
     <string name="permissions_screen_optional">\u2022 Optional</string>
-    <string name="permissions_screen_show_distance">\u2022 Distance from current location</string>
-    <string name="permissions_screen_overlay">Display over other apps</string>
-    <string name="permissions_screen_overlay_display_photo">\u2022 Display Photo in Overlay</string>
+    <string name="permissions_screen_show_distance">\u2022 Used to show distance between current location and that of your photos (if GPS info available)</string>
 
     <string name="error_missing_mandatory_permission">Please allow mandatory permissions</string>
 

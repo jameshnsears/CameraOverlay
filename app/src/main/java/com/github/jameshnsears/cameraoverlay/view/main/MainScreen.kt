@@ -71,7 +71,8 @@ fun MainScreen(
                     modifier = Modifier
                         .padding(top = 16.dp, bottom = 16.dp),
                     fontWeight = FontWeight.Bold,
-                    fontStyle = FontStyle.Italic
+                    fontStyle = FontStyle.Italic,
+                    fontSize = 20.sp
                 )
 
                 Usage()
@@ -198,8 +199,8 @@ fun PermissionButtons(
 
     Column {
         PermissionButtonStorage(viewModelPermission)
-        PermissionButtonLocation(viewModelPermission)
         PermissionButtonOverlay(viewModelPermission)
+        PermissionButtonLocation(viewModelPermission)
     }
 }
 

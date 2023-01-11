@@ -57,8 +57,8 @@ fun PermissionScreen(navController: NavController) {
                     .verticalScroll(rememberScrollState())
             ) {
                 FilesAndMedia()
-                Location()
                 DisplayOverOtherApps()
+                Location()
             }
         }
     }
@@ -148,7 +148,9 @@ fun Location() {
                     Text(
                         stringResource(R.string.permissions_screen_optional),
                         modifier = Modifier
-                            .padding(vertical = 6.dp)
+                            .padding(vertical = 6.dp),
+                        fontWeight = FontWeight.Bold,
+                        fontStyle = FontStyle.Italic
                     )
                     Text(
                         stringResource(R.string.permissions_screen_show_distance),
