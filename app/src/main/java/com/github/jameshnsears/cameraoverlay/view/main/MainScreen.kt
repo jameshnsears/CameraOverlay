@@ -219,7 +219,7 @@ fun SelectPhoto(
         OutlinedButton(
             onClick = { navController.navigate(Navigation.SCREEN_SELECT_PHOTO) },
             modifier = Modifier
-                .size(width = 180.dp, height = 45.dp),
+                .size(width = 160.dp, height = 45.dp),
             shape = RoundedCornerShape(16.dp),
             enabled = enableButtonSelectPhoto(viewModelPermission)
         ) {

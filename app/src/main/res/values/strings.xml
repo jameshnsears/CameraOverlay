@@ -15,7 +15,7 @@
     <string name="permissions_screen_files_and_media">Access photos</string>
     <!-- 24: ...to access photos, media, and files on your device  -->
     <string name="permissions_screen_mandatory">\u2022 Mandatory</string>
-    <string name="permissions_screen_choose_photo">\u2022 Needed to allow browsing and selection of the photo to be used as overlay</string>
+    <string name="permissions_screen_choose_photo">\u2022 Needed to allow browsing and selection of a photo to be used as the overlay</string>
 
     <string name="permissions_screen_overlay">Create an overlay</string>
     <!-- 24: Permit drawing over other apps -->
@@ -30,7 +30,7 @@
 
     <string name="select_photo">Select Photo</string>
     <string name="select_photo_filter">Filter</string>
-    <string name="select_photo_dialog_filter_jpeg">JPEG - can contain location</string>
+    <string name="select_photo_dialog_filter_jpeg">JPEG - can contain GPS info</string>
     <string name="select_photo_dialog_filter_png">PNG</string>
     <string name="select_photo_dialog_filter_webp">TIFF</string>
     <string name="select_photo_collections">Collection</string>
