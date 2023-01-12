@@ -5,12 +5,14 @@ package org.opencv.calib3d;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.opencv.calib3d.UsacParams;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDouble;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.MatOfPoint3f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.TermCriteria;
 import org.opencv.utils.Converters;
@@ -32,13 +34,25 @@ public class Calib3d {
             LMEDS = 4,
             RANSAC = 8,
             RHO = 16,
+            USAC_DEFAULT = 32,
+            USAC_PARALLEL = 33,
+            USAC_FM_8PTS = 34,
+            USAC_FAST = 35,
+            USAC_ACCURATE = 36,
+            USAC_PROSAC = 37,
+            USAC_MAGSAC = 38,
             CALIB_CB_ADAPTIVE_THRESH = 1,
             CALIB_CB_NORMALIZE_IMAGE = 2,
             CALIB_CB_FILTER_QUADS = 4,
             CALIB_CB_FAST_CHECK = 8,
+            CALIB_CB_EXHAUSTIVE = 16,
+            CALIB_CB_ACCURACY = 32,
+            CALIB_CB_LARGER = 64,
+            CALIB_CB_MARKER = 128,
             CALIB_CB_SYMMETRIC_GRID = 1,
             CALIB_CB_ASYMMETRIC_GRID = 2,
             CALIB_CB_CLUSTERING = 4,
+            CALIB_NINTRINSIC = 18,
             CALIB_USE_INTRINSIC_GUESS = 0x00001,
             CALIB_FIX_ASPECT_RATIO = 0x00002,
             CALIB_FIX_PRINCIPAL_POINT = 0x00004,
@@ -76,7 +90,8 @@ public class Calib3d {
             fisheye_CALIB_FIX_K4 = 1 << 7,
             fisheye_CALIB_FIX_INTRINSIC = 1 << 8,
             fisheye_CALIB_FIX_PRINCIPAL_POINT = 1 << 9,
-            fisheye_CALIB_ZERO_DISPARITY = 1 << 10;
+            fisheye_CALIB_ZERO_DISPARITY = 1 << 10,
+            fisheye_CALIB_FIX_FOCAL_LENGTH = 1 << 11;
 
 
     // C++: enum GridType (cv.CirclesGridFinderParameters.GridType)
@@ -94,6 +109,44 @@ public class Calib3d {
             CALIB_HAND_EYE_DANIILIDIS = 4;
 
 
+    // C++: enum LocalOptimMethod (cv.LocalOptimMethod)
+    public static final int
+            LOCAL_OPTIM_NULL = 0,
+            LOCAL_OPTIM_INNER_LO = 1,
+            LOCAL_OPTIM_INNER_AND_ITER_LO = 2,
+            LOCAL_OPTIM_GC = 3,
+            LOCAL_OPTIM_SIGMA = 4;
+
+
+    // C++: enum NeighborSearchMethod (cv.NeighborSearchMethod)
+    public static final int
+            NEIGH_FLANN_KNN = 0,
+            NEIGH_GRID = 1,
+            NEIGH_FLANN_RADIUS = 2;
+
+
+    // C++: enum RobotWorldHandEyeCalibrationMethod (cv.RobotWorldHandEyeCalibrationMethod)
+    public static final int
+            CALIB_ROBOT_WORLD_HAND_EYE_SHAH = 0,
+            CALIB_ROBOT_WORLD_HAND_EYE_LI = 1;
+
+
+    // C++: enum SamplingMethod (cv.SamplingMethod)
+    public static final int
+            SAMPLING_UNIFORM = 0,
+            SAMPLING_PROGRESSIVE_NAPSAC = 1,
+            SAMPLING_NAPSAC = 2,
+            SAMPLING_PROSAC = 3;
+
+
+    // C++: enum ScoreMethod (cv.ScoreMethod)
+    public static final int
+            SCORE_METHOD_RANSAC = 0,
+            SCORE_METHOD_MSAC = 1,
+            SCORE_METHOD_MAGSAC = 2,
+            SCORE_METHOD_LMEDS = 3;
+
+
     // C++: enum SolvePnPMethod (cv.SolvePnPMethod)
     public static final int
             SOLVEPNP_ITERATIVE = 0,
@@ -106,6 +159,12 @@ public class Calib3d {
             SOLVEPNP_IPPE_SQUARE = 7,
             SOLVEPNP_SQPNP = 8,
             SOLVEPNP_MAX_COUNT = 8+1;
+
+
+    // C++: enum UndistortTypes (cv.UndistortTypes)
+    public static final int
+            PROJ_SPHERICAL_ORTHO = 0,
+            PROJ_SPHERICAL_EQRECT = 1;
 
 
     //
@@ -224,7 +283,7 @@ public class Calib3d {
      *    REF: RHO - PROSAC-based robust method
      * @param ransacReprojThreshold Maximum allowed reprojection error to treat a point pair as an inlier
      * (used in the RANSAC and RHO methods only). That is, if
-     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} * \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
+     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} \cdot \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
      * then the point \(i\) is considered as an outlier. If srcPoints and dstPoints are measured in pixels,
      * it usually makes sense to set this parameter somewhere in the range of 1 to 10.
      * @param mask Optional output mask set by a robust method ( RANSAC or LMeDS ). Note that the input
@@ -301,7 +360,7 @@ public class Calib3d {
      *    REF: RHO - PROSAC-based robust method
      * @param ransacReprojThreshold Maximum allowed reprojection error to treat a point pair as an inlier
      * (used in the RANSAC and RHO methods only). That is, if
-     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} * \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
+     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} \cdot \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
      * then the point \(i\) is considered as an outlier. If srcPoints and dstPoints are measured in pixels,
      * it usually makes sense to set this parameter somewhere in the range of 1 to 10.
      * @param mask Optional output mask set by a robust method ( RANSAC or LMeDS ). Note that the input
@@ -377,7 +436,7 @@ public class Calib3d {
      *    REF: RHO - PROSAC-based robust method
      * @param ransacReprojThreshold Maximum allowed reprojection error to treat a point pair as an inlier
      * (used in the RANSAC and RHO methods only). That is, if
-     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} * \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
+     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} \cdot \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
      * then the point \(i\) is considered as an outlier. If srcPoints and dstPoints are measured in pixels,
      * it usually makes sense to set this parameter somewhere in the range of 1 to 10.
      * @param mask Optional output mask set by a robust method ( RANSAC or LMeDS ). Note that the input
@@ -452,7 +511,7 @@ public class Calib3d {
      *    REF: RHO - PROSAC-based robust method
      * @param ransacReprojThreshold Maximum allowed reprojection error to treat a point pair as an inlier
      * (used in the RANSAC and RHO methods only). That is, if
-     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} * \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
+     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} \cdot \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
      * then the point \(i\) is considered as an outlier. If srcPoints and dstPoints are measured in pixels,
      * it usually makes sense to set this parameter somewhere in the range of 1 to 10.
      * mask values are ignored.
@@ -525,7 +584,7 @@ public class Calib3d {
      *   <li>
      *    REF: RHO - PROSAC-based robust method
      * (used in the RANSAC and RHO methods only). That is, if
-     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} * \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
+     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} \cdot \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
      * then the point \(i\) is considered as an outlier. If srcPoints and dstPoints are measured in pixels,
      * it usually makes sense to set this parameter somewhere in the range of 1 to 10.
      * mask values are ignored.
@@ -597,7 +656,7 @@ public class Calib3d {
      *   <li>
      *    REF: RHO - PROSAC-based robust method
      * (used in the RANSAC and RHO methods only). That is, if
-     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} * \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
+     * \(\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} \cdot \texttt{srcPoints} _i) \|_2  &gt;  \texttt{ransacReprojThreshold}\)
      * then the point \(i\) is considered as an outlier. If srcPoints and dstPoints are measured in pixels,
      * it usually makes sense to set this parameter somewhere in the range of 1 to 10.
      * mask values are ignored.
@@ -651,6 +710,17 @@ public class Calib3d {
 
 
     //
+    // C++:  Mat cv::findHomography(vector_Point2f srcPoints, vector_Point2f dstPoints, Mat& mask, UsacParams params)
+    //
+
+    public static Mat findHomography(MatOfPoint2f srcPoints, MatOfPoint2f dstPoints, Mat mask, UsacParams params) {
+        Mat srcPoints_mat = srcPoints;
+        Mat dstPoints_mat = dstPoints;
+        return new Mat(findHomography_6(srcPoints_mat.nativeObj, dstPoints_mat.nativeObj, mask.nativeObj, params.nativeObj));
+    }
+
+
+    //
     // C++:  Vec3d cv::RQDecomp3x3(Mat src, Mat& mtxR, Mat& mtxQ, Mat& Qx = Mat(), Mat& Qy = Mat(), Mat& Qz = Mat())
     //
 
@@ -665,7 +735,7 @@ public class Calib3d {
      * @param Qz Optional output 3x3 rotation matrix around z-axis.
      *
      * The function computes a RQ decomposition using the given rotations. This function is used in
-     * decomposeProjectionMatrix to decompose the left 3x3 submatrix of a projection matrix into a camera
+     * #decomposeProjectionMatrix to decompose the left 3x3 submatrix of a projection matrix into a camera
      * and a rotation matrix.
      *
      * It optionally returns three rotation matrices, one for each axis, and the three Euler angles in
@@ -689,7 +759,7 @@ public class Calib3d {
      * @param Qy Optional output 3x3 rotation matrix around y-axis.
      *
      * The function computes a RQ decomposition using the given rotations. This function is used in
-     * decomposeProjectionMatrix to decompose the left 3x3 submatrix of a projection matrix into a camera
+     * #decomposeProjectionMatrix to decompose the left 3x3 submatrix of a projection matrix into a camera
      * and a rotation matrix.
      *
      * It optionally returns three rotation matrices, one for each axis, and the three Euler angles in
@@ -712,7 +782,7 @@ public class Calib3d {
      * @param Qx Optional output 3x3 rotation matrix around x-axis.
      *
      * The function computes a RQ decomposition using the given rotations. This function is used in
-     * decomposeProjectionMatrix to decompose the left 3x3 submatrix of a projection matrix into a camera
+     * #decomposeProjectionMatrix to decompose the left 3x3 submatrix of a projection matrix into a camera
      * and a rotation matrix.
      *
      * It optionally returns three rotation matrices, one for each axis, and the three Euler angles in
@@ -734,7 +804,7 @@ public class Calib3d {
      * @param mtxQ Output 3x3 orthogonal matrix.
      *
      * The function computes a RQ decomposition using the given rotations. This function is used in
-     * decomposeProjectionMatrix to decompose the left 3x3 submatrix of a projection matrix into a camera
+     * #decomposeProjectionMatrix to decompose the left 3x3 submatrix of a projection matrix into a camera
      * and a rotation matrix.
      *
      * It optionally returns three rotation matrices, one for each axis, and the three Euler angles in
@@ -774,7 +844,7 @@ public class Calib3d {
      * principal axes that results in the same orientation of an object, e.g. see CITE: Slabaugh . Returned
      * tree rotation matrices and corresponding three Euler angles are only one of the possible solutions.
      *
-     * The function is based on RQDecomp3x3 .
+     * The function is based on #RQDecomp3x3 .
      */
     public static void decomposeProjectionMatrix(Mat projMatrix, Mat cameraMatrix, Mat rotMatrix, Mat transVect, Mat rotMatrixX, Mat rotMatrixY, Mat rotMatrixZ, Mat eulerAngles) {
         decomposeProjectionMatrix_0(projMatrix.nativeObj, cameraMatrix.nativeObj, rotMatrix.nativeObj, transVect.nativeObj, rotMatrixX.nativeObj, rotMatrixY.nativeObj, rotMatrixZ.nativeObj, eulerAngles.nativeObj);
@@ -800,7 +870,7 @@ public class Calib3d {
      * principal axes that results in the same orientation of an object, e.g. see CITE: Slabaugh . Returned
      * tree rotation matrices and corresponding three Euler angles are only one of the possible solutions.
      *
-     * The function is based on RQDecomp3x3 .
+     * The function is based on #RQDecomp3x3 .
      */
     public static void decomposeProjectionMatrix(Mat projMatrix, Mat cameraMatrix, Mat rotMatrix, Mat transVect, Mat rotMatrixX, Mat rotMatrixY, Mat rotMatrixZ) {
         decomposeProjectionMatrix_1(projMatrix.nativeObj, cameraMatrix.nativeObj, rotMatrix.nativeObj, transVect.nativeObj, rotMatrixX.nativeObj, rotMatrixY.nativeObj, rotMatrixZ.nativeObj);
@@ -825,7 +895,7 @@ public class Calib3d {
      * principal axes that results in the same orientation of an object, e.g. see CITE: Slabaugh . Returned
      * tree rotation matrices and corresponding three Euler angles are only one of the possible solutions.
      *
-     * The function is based on RQDecomp3x3 .
+     * The function is based on #RQDecomp3x3 .
      */
     public static void decomposeProjectionMatrix(Mat projMatrix, Mat cameraMatrix, Mat rotMatrix, Mat transVect, Mat rotMatrixX, Mat rotMatrixY) {
         decomposeProjectionMatrix_2(projMatrix.nativeObj, cameraMatrix.nativeObj, rotMatrix.nativeObj, transVect.nativeObj, rotMatrixX.nativeObj, rotMatrixY.nativeObj);
@@ -849,7 +919,7 @@ public class Calib3d {
      * principal axes that results in the same orientation of an object, e.g. see CITE: Slabaugh . Returned
      * tree rotation matrices and corresponding three Euler angles are only one of the possible solutions.
      *
-     * The function is based on RQDecomp3x3 .
+     * The function is based on #RQDecomp3x3 .
      */
     public static void decomposeProjectionMatrix(Mat projMatrix, Mat cameraMatrix, Mat rotMatrix, Mat transVect, Mat rotMatrixX) {
         decomposeProjectionMatrix_3(projMatrix.nativeObj, cameraMatrix.nativeObj, rotMatrix.nativeObj, transVect.nativeObj, rotMatrixX.nativeObj);
@@ -872,7 +942,7 @@ public class Calib3d {
      * principal axes that results in the same orientation of an object, e.g. see CITE: Slabaugh . Returned
      * tree rotation matrices and corresponding three Euler angles are only one of the possible solutions.
      *
-     * The function is based on RQDecomp3x3 .
+     * The function is based on #RQDecomp3x3 .
      */
     public static void decomposeProjectionMatrix(Mat projMatrix, Mat cameraMatrix, Mat rotMatrix, Mat transVect) {
         decomposeProjectionMatrix_4(projMatrix.nativeObj, cameraMatrix.nativeObj, rotMatrix.nativeObj, transVect.nativeObj);
@@ -895,7 +965,7 @@ public class Calib3d {
      *
      * The function computes partial derivatives of the elements of the matrix product \(A*B\) with regard to
      * the elements of each of the two input matrices. The function is used to compute the Jacobian
-     * matrices in stereoCalibrate but can also be used in any other similar optimization function.
+     * matrices in #stereoCalibrate but can also be used in any other similar optimization function.
      */
     public static void matMulDeriv(Mat A, Mat B, Mat dABdA, Mat dABdB) {
         matMulDeriv_0(A.nativeObj, B.nativeObj, dABdA.nativeObj, dABdB.nativeObj);
@@ -929,10 +999,10 @@ public class Calib3d {
      * \(\begin{array}{l} \texttt{rvec3} =  \mathrm{rodrigues} ^{-1} \left ( \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \mathrm{rodrigues} ( \texttt{rvec1} ) \right )  \\ \texttt{tvec3} =  \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \texttt{tvec1} +  \texttt{tvec2} \end{array} ,\)
      *
      * where \(\mathrm{rodrigues}\) denotes a rotation vector to a rotation matrix transformation, and
-     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See Rodrigues for details.
+     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See #Rodrigues for details.
      *
      * Also, the functions can compute the derivatives of the output vectors with regards to the input
-     * vectors (see matMulDeriv ). The functions are used inside stereoCalibrate but can also be used in
+     * vectors (see #matMulDeriv ). The functions are used inside #stereoCalibrate but can also be used in
      * your own code where Levenberg-Marquardt or another gradient-based solver is used to optimize a
      * function that contains a matrix multiplication.
      */
@@ -962,10 +1032,10 @@ public class Calib3d {
      * \(\begin{array}{l} \texttt{rvec3} =  \mathrm{rodrigues} ^{-1} \left ( \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \mathrm{rodrigues} ( \texttt{rvec1} ) \right )  \\ \texttt{tvec3} =  \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \texttt{tvec1} +  \texttt{tvec2} \end{array} ,\)
      *
      * where \(\mathrm{rodrigues}\) denotes a rotation vector to a rotation matrix transformation, and
-     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See Rodrigues for details.
+     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See #Rodrigues for details.
      *
      * Also, the functions can compute the derivatives of the output vectors with regards to the input
-     * vectors (see matMulDeriv ). The functions are used inside stereoCalibrate but can also be used in
+     * vectors (see #matMulDeriv ). The functions are used inside #stereoCalibrate but can also be used in
      * your own code where Levenberg-Marquardt or another gradient-based solver is used to optimize a
      * function that contains a matrix multiplication.
      */
@@ -994,10 +1064,10 @@ public class Calib3d {
      * \(\begin{array}{l} \texttt{rvec3} =  \mathrm{rodrigues} ^{-1} \left ( \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \mathrm{rodrigues} ( \texttt{rvec1} ) \right )  \\ \texttt{tvec3} =  \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \texttt{tvec1} +  \texttt{tvec2} \end{array} ,\)
      *
      * where \(\mathrm{rodrigues}\) denotes a rotation vector to a rotation matrix transformation, and
-     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See Rodrigues for details.
+     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See #Rodrigues for details.
      *
      * Also, the functions can compute the derivatives of the output vectors with regards to the input
-     * vectors (see matMulDeriv ). The functions are used inside stereoCalibrate but can also be used in
+     * vectors (see #matMulDeriv ). The functions are used inside #stereoCalibrate but can also be used in
      * your own code where Levenberg-Marquardt or another gradient-based solver is used to optimize a
      * function that contains a matrix multiplication.
      */
@@ -1025,10 +1095,10 @@ public class Calib3d {
      * \(\begin{array}{l} \texttt{rvec3} =  \mathrm{rodrigues} ^{-1} \left ( \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \mathrm{rodrigues} ( \texttt{rvec1} ) \right )  \\ \texttt{tvec3} =  \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \texttt{tvec1} +  \texttt{tvec2} \end{array} ,\)
      *
      * where \(\mathrm{rodrigues}\) denotes a rotation vector to a rotation matrix transformation, and
-     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See Rodrigues for details.
+     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See #Rodrigues for details.
      *
      * Also, the functions can compute the derivatives of the output vectors with regards to the input
-     * vectors (see matMulDeriv ). The functions are used inside stereoCalibrate but can also be used in
+     * vectors (see #matMulDeriv ). The functions are used inside #stereoCalibrate but can also be used in
      * your own code where Levenberg-Marquardt or another gradient-based solver is used to optimize a
      * function that contains a matrix multiplication.
      */
@@ -1055,10 +1125,10 @@ public class Calib3d {
      * \(\begin{array}{l} \texttt{rvec3} =  \mathrm{rodrigues} ^{-1} \left ( \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \mathrm{rodrigues} ( \texttt{rvec1} ) \right )  \\ \texttt{tvec3} =  \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \texttt{tvec1} +  \texttt{tvec2} \end{array} ,\)
      *
      * where \(\mathrm{rodrigues}\) denotes a rotation vector to a rotation matrix transformation, and
-     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See Rodrigues for details.
+     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See #Rodrigues for details.
      *
      * Also, the functions can compute the derivatives of the output vectors with regards to the input
-     * vectors (see matMulDeriv ). The functions are used inside stereoCalibrate but can also be used in
+     * vectors (see #matMulDeriv ). The functions are used inside #stereoCalibrate but can also be used in
      * your own code where Levenberg-Marquardt or another gradient-based solver is used to optimize a
      * function that contains a matrix multiplication.
      */
@@ -1084,10 +1154,10 @@ public class Calib3d {
      * \(\begin{array}{l} \texttt{rvec3} =  \mathrm{rodrigues} ^{-1} \left ( \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \mathrm{rodrigues} ( \texttt{rvec1} ) \right )  \\ \texttt{tvec3} =  \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \texttt{tvec1} +  \texttt{tvec2} \end{array} ,\)
      *
      * where \(\mathrm{rodrigues}\) denotes a rotation vector to a rotation matrix transformation, and
-     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See Rodrigues for details.
+     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See #Rodrigues for details.
      *
      * Also, the functions can compute the derivatives of the output vectors with regards to the input
-     * vectors (see matMulDeriv ). The functions are used inside stereoCalibrate but can also be used in
+     * vectors (see #matMulDeriv ). The functions are used inside #stereoCalibrate but can also be used in
      * your own code where Levenberg-Marquardt or another gradient-based solver is used to optimize a
      * function that contains a matrix multiplication.
      */
@@ -1112,10 +1182,10 @@ public class Calib3d {
      * \(\begin{array}{l} \texttt{rvec3} =  \mathrm{rodrigues} ^{-1} \left ( \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \mathrm{rodrigues} ( \texttt{rvec1} ) \right )  \\ \texttt{tvec3} =  \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \texttt{tvec1} +  \texttt{tvec2} \end{array} ,\)
      *
      * where \(\mathrm{rodrigues}\) denotes a rotation vector to a rotation matrix transformation, and
-     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See Rodrigues for details.
+     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See #Rodrigues for details.
      *
      * Also, the functions can compute the derivatives of the output vectors with regards to the input
-     * vectors (see matMulDeriv ). The functions are used inside stereoCalibrate but can also be used in
+     * vectors (see #matMulDeriv ). The functions are used inside #stereoCalibrate but can also be used in
      * your own code where Levenberg-Marquardt or another gradient-based solver is used to optimize a
      * function that contains a matrix multiplication.
      */
@@ -1139,10 +1209,10 @@ public class Calib3d {
      * \(\begin{array}{l} \texttt{rvec3} =  \mathrm{rodrigues} ^{-1} \left ( \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \mathrm{rodrigues} ( \texttt{rvec1} ) \right )  \\ \texttt{tvec3} =  \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \texttt{tvec1} +  \texttt{tvec2} \end{array} ,\)
      *
      * where \(\mathrm{rodrigues}\) denotes a rotation vector to a rotation matrix transformation, and
-     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See Rodrigues for details.
+     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See #Rodrigues for details.
      *
      * Also, the functions can compute the derivatives of the output vectors with regards to the input
-     * vectors (see matMulDeriv ). The functions are used inside stereoCalibrate but can also be used in
+     * vectors (see #matMulDeriv ). The functions are used inside #stereoCalibrate but can also be used in
      * your own code where Levenberg-Marquardt or another gradient-based solver is used to optimize a
      * function that contains a matrix multiplication.
      */
@@ -1165,10 +1235,10 @@ public class Calib3d {
      * \(\begin{array}{l} \texttt{rvec3} =  \mathrm{rodrigues} ^{-1} \left ( \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \mathrm{rodrigues} ( \texttt{rvec1} ) \right )  \\ \texttt{tvec3} =  \mathrm{rodrigues} ( \texttt{rvec2} )  \cdot \texttt{tvec1} +  \texttt{tvec2} \end{array} ,\)
      *
      * where \(\mathrm{rodrigues}\) denotes a rotation vector to a rotation matrix transformation, and
-     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See Rodrigues for details.
+     * \(\mathrm{rodrigues}^{-1}\) denotes the inverse transformation. See #Rodrigues for details.
      *
      * Also, the functions can compute the derivatives of the output vectors with regards to the input
-     * vectors (see matMulDeriv ). The functions are used inside stereoCalibrate but can also be used in
+     * vectors (see #matMulDeriv ). The functions are used inside #stereoCalibrate but can also be used in
      * your own code where Levenberg-Marquardt or another gradient-based solver is used to optimize a
      * function that contains a matrix multiplication.
      */
@@ -1308,6 +1378,9 @@ public class Calib3d {
 
     /**
      * Finds an object pose from 3D-2D point correspondences.
+     *
+     * SEE: REF: calib3d_solvePnP
+     *
      * This function returns the rotation and the translation vectors that transform a 3D point expressed in the object
      * coordinate frame to the camera coordinate frame, using different methods:
      * <ul>
@@ -1353,162 +1426,9 @@ public class Calib3d {
      * @param useExtrinsicGuess Parameter used for #SOLVEPNP_ITERATIVE. If true (1), the function uses
      * the provided rvec and tvec values as initial approximations of the rotation and translation
      * vectors, respectively, and further optimizes them.
-     * @param flags Method for solving a PnP problem:
-     * <ul>
-     *   <li>
-     *    REF: SOLVEPNP_ITERATIVE Iterative method is based on a Levenberg-Marquardt optimization. In
-     * this case the function finds such a pose that minimizes reprojection error, that is the sum
-     * of squared distances between the observed projections imagePoints and the projected (using
-     * REF: projectPoints ) objectPoints .
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_P3P Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
-     * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_AP3P Method is based on the paper of T. Ke, S. Roumeliotis
-     * "An Efficient Algebraic Solution to the Perspective-Three-Point Problem" (CITE: Ke17).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_EPNP Method has been introduced by F. Moreno-Noguer, V. Lepetit and P. Fua in the
-     * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_DLS <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of J. Hesch and S. Roumeliotis.
-     * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_UPNP <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of A. Penate-Sanchez, J. Andrade-Cetto,
-     * F. Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
-     * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters \(f_x\) and \(f_y\)
-     * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
-     * focal length.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE Method is based on the paper of T. Collins and A. Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method requires coplanar object points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE_SQUARE Method is based on the paper of Toby Collins and Adrien Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method is suitable for marker pose estimation.
-     * It requires 4 coplanar object points defined in the following order:
-     *   <ul>
-     *     <li>
-     *    point 0: [-squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 1: [ squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 2: [ squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 3: [-squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *   </ul>
-     *   <li>
-     *    REF: SOLVEPNP_SQPNP Method is based on the paper "A Consistently Fast and Globally Optimal Solution to the
-     * Perspective-n-Point Problem" by G. Terzakis and M.Lourakis (CITE: Terzakis20). It requires 3 or more points.
-     *   </li>
-     * </ul>
+     * @param flags Method for solving a PnP problem: see REF: calib3d_solvePnP_flags
      *
-     *
-     * The function estimates the object pose given a set of object points, their corresponding image
-     * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
-     * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
-     * and the Z-axis forward).
-     *
-     * ![](pnp.jpg)
-     *
-     * Points expressed in the world frame \( \bf{X}_w \) are projected into the image plane \( \left[ u, v \right] \)
-     * using the perspective projection model \( \Pi \) and the camera intrinsic parameters matrix \( \bf{A} \):
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \bf{A} \hspace{0.1em} \Pi \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   f_x &amp; 0 &amp; c_x \\
-     *   0 &amp; f_y &amp; c_y \\
-     *   0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   1 &amp; 0 &amp; 0 &amp; 0 \\
-     *   0 &amp; 1 &amp; 0 &amp; 0 \\
-     *   0 &amp; 0 &amp; 1 &amp; 0
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
-     *
-     * The estimated pose is thus the rotation ({@code rvec}) and the translation ({@code tvec}) vectors that allow transforming
-     * a 3D point expressed in the world frame into the camera frame:
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
+     * More information about Perspective-n-Points is described in REF: calib3d_solvePnP
      *
      * <b>Note:</b>
      * <ul>
@@ -1526,7 +1446,7 @@ public class Calib3d {
      *     </li>
      *     <li>
      *          The P3P algorithm requires image points to be in an array of shape (N,1,2) due
-     *         to its calling of cv::undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
+     *         to its calling of #undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
      *         which requires 2-channel information.
      *     </li>
      *     <li>
@@ -1588,6 +1508,9 @@ public class Calib3d {
 
     /**
      * Finds an object pose from 3D-2D point correspondences.
+     *
+     * SEE: REF: calib3d_solvePnP
+     *
      * This function returns the rotation and the translation vectors that transform a 3D point expressed in the object
      * coordinate frame to the camera coordinate frame, using different methods:
      * <ul>
@@ -1633,161 +1556,8 @@ public class Calib3d {
      * @param useExtrinsicGuess Parameter used for #SOLVEPNP_ITERATIVE. If true (1), the function uses
      * the provided rvec and tvec values as initial approximations of the rotation and translation
      * vectors, respectively, and further optimizes them.
-     * <ul>
-     *   <li>
-     *    REF: SOLVEPNP_ITERATIVE Iterative method is based on a Levenberg-Marquardt optimization. In
-     * this case the function finds such a pose that minimizes reprojection error, that is the sum
-     * of squared distances between the observed projections imagePoints and the projected (using
-     * REF: projectPoints ) objectPoints .
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_P3P Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
-     * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_AP3P Method is based on the paper of T. Ke, S. Roumeliotis
-     * "An Efficient Algebraic Solution to the Perspective-Three-Point Problem" (CITE: Ke17).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_EPNP Method has been introduced by F. Moreno-Noguer, V. Lepetit and P. Fua in the
-     * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_DLS <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of J. Hesch and S. Roumeliotis.
-     * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_UPNP <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of A. Penate-Sanchez, J. Andrade-Cetto,
-     * F. Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
-     * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters \(f_x\) and \(f_y\)
-     * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
-     * focal length.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE Method is based on the paper of T. Collins and A. Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method requires coplanar object points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE_SQUARE Method is based on the paper of Toby Collins and Adrien Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method is suitable for marker pose estimation.
-     * It requires 4 coplanar object points defined in the following order:
-     *   <ul>
-     *     <li>
-     *    point 0: [-squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 1: [ squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 2: [ squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 3: [-squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *   </ul>
-     *   <li>
-     *    REF: SOLVEPNP_SQPNP Method is based on the paper "A Consistently Fast and Globally Optimal Solution to the
-     * Perspective-n-Point Problem" by G. Terzakis and M.Lourakis (CITE: Terzakis20). It requires 3 or more points.
-     *   </li>
-     * </ul>
      *
-     *
-     * The function estimates the object pose given a set of object points, their corresponding image
-     * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
-     * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
-     * and the Z-axis forward).
-     *
-     * ![](pnp.jpg)
-     *
-     * Points expressed in the world frame \( \bf{X}_w \) are projected into the image plane \( \left[ u, v \right] \)
-     * using the perspective projection model \( \Pi \) and the camera intrinsic parameters matrix \( \bf{A} \):
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \bf{A} \hspace{0.1em} \Pi \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   f_x &amp; 0 &amp; c_x \\
-     *   0 &amp; f_y &amp; c_y \\
-     *   0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   1 &amp; 0 &amp; 0 &amp; 0 \\
-     *   0 &amp; 1 &amp; 0 &amp; 0 \\
-     *   0 &amp; 0 &amp; 1 &amp; 0
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
-     *
-     * The estimated pose is thus the rotation ({@code rvec}) and the translation ({@code tvec}) vectors that allow transforming
-     * a 3D point expressed in the world frame into the camera frame:
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
+     * More information about Perspective-n-Points is described in REF: calib3d_solvePnP
      *
      * <b>Note:</b>
      * <ul>
@@ -1805,7 +1575,7 @@ public class Calib3d {
      *     </li>
      *     <li>
      *          The P3P algorithm requires image points to be in an array of shape (N,1,2) due
-     *         to its calling of cv::undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
+     *         to its calling of #undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
      *         which requires 2-channel information.
      *     </li>
      *     <li>
@@ -1867,6 +1637,9 @@ public class Calib3d {
 
     /**
      * Finds an object pose from 3D-2D point correspondences.
+     *
+     * SEE: REF: calib3d_solvePnP
+     *
      * This function returns the rotation and the translation vectors that transform a 3D point expressed in the object
      * coordinate frame to the camera coordinate frame, using different methods:
      * <ul>
@@ -1911,161 +1684,8 @@ public class Calib3d {
      * @param tvec Output translation vector.
      * the provided rvec and tvec values as initial approximations of the rotation and translation
      * vectors, respectively, and further optimizes them.
-     * <ul>
-     *   <li>
-     *    REF: SOLVEPNP_ITERATIVE Iterative method is based on a Levenberg-Marquardt optimization. In
-     * this case the function finds such a pose that minimizes reprojection error, that is the sum
-     * of squared distances between the observed projections imagePoints and the projected (using
-     * REF: projectPoints ) objectPoints .
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_P3P Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
-     * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_AP3P Method is based on the paper of T. Ke, S. Roumeliotis
-     * "An Efficient Algebraic Solution to the Perspective-Three-Point Problem" (CITE: Ke17).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_EPNP Method has been introduced by F. Moreno-Noguer, V. Lepetit and P. Fua in the
-     * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_DLS <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of J. Hesch and S. Roumeliotis.
-     * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_UPNP <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of A. Penate-Sanchez, J. Andrade-Cetto,
-     * F. Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
-     * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters \(f_x\) and \(f_y\)
-     * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
-     * focal length.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE Method is based on the paper of T. Collins and A. Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method requires coplanar object points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE_SQUARE Method is based on the paper of Toby Collins and Adrien Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method is suitable for marker pose estimation.
-     * It requires 4 coplanar object points defined in the following order:
-     *   <ul>
-     *     <li>
-     *    point 0: [-squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 1: [ squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 2: [ squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 3: [-squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *   </ul>
-     *   <li>
-     *    REF: SOLVEPNP_SQPNP Method is based on the paper "A Consistently Fast and Globally Optimal Solution to the
-     * Perspective-n-Point Problem" by G. Terzakis and M.Lourakis (CITE: Terzakis20). It requires 3 or more points.
-     *   </li>
-     * </ul>
      *
-     *
-     * The function estimates the object pose given a set of object points, their corresponding image
-     * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
-     * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
-     * and the Z-axis forward).
-     *
-     * ![](pnp.jpg)
-     *
-     * Points expressed in the world frame \( \bf{X}_w \) are projected into the image plane \( \left[ u, v \right] \)
-     * using the perspective projection model \( \Pi \) and the camera intrinsic parameters matrix \( \bf{A} \):
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \bf{A} \hspace{0.1em} \Pi \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   f_x &amp; 0 &amp; c_x \\
-     *   0 &amp; f_y &amp; c_y \\
-     *   0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   1 &amp; 0 &amp; 0 &amp; 0 \\
-     *   0 &amp; 1 &amp; 0 &amp; 0 \\
-     *   0 &amp; 0 &amp; 1 &amp; 0
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
-     *
-     * The estimated pose is thus the rotation ({@code rvec}) and the translation ({@code tvec}) vectors that allow transforming
-     * a 3D point expressed in the world frame into the camera frame:
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
+     * More information about Perspective-n-Points is described in REF: calib3d_solvePnP
      *
      * <b>Note:</b>
      * <ul>
@@ -2083,7 +1703,7 @@ public class Calib3d {
      *     </li>
      *     <li>
      *          The P3P algorithm requires image points to be in an array of shape (N,1,2) due
-     *         to its calling of cv::undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
+     *         to its calling of #undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
      *         which requires 2-channel information.
      *     </li>
      *     <li>
@@ -2151,6 +1771,8 @@ public class Calib3d {
     /**
      * Finds an object pose from 3D-2D point correspondences using the RANSAC scheme.
      *
+     * SEE: REF: calib3d_solvePnP
+     *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or
      * 1xN/Nx1 3-channel, where N is the number of points. vector&lt;Point3d&gt; can be also passed here.
      * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
@@ -2214,6 +1836,8 @@ public class Calib3d {
     /**
      * Finds an object pose from 3D-2D point correspondences using the RANSAC scheme.
      *
+     * SEE: REF: calib3d_solvePnP
+     *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or
      * 1xN/Nx1 3-channel, where N is the number of points. vector&lt;Point3d&gt; can be also passed here.
      * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
@@ -2276,6 +1900,8 @@ public class Calib3d {
     /**
      * Finds an object pose from 3D-2D point correspondences using the RANSAC scheme.
      *
+     * SEE: REF: calib3d_solvePnP
+     *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or
      * 1xN/Nx1 3-channel, where N is the number of points. vector&lt;Point3d&gt; can be also passed here.
      * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
@@ -2337,6 +1963,8 @@ public class Calib3d {
     /**
      * Finds an object pose from 3D-2D point correspondences using the RANSAC scheme.
      *
+     * SEE: REF: calib3d_solvePnP
+     *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or
      * 1xN/Nx1 3-channel, where N is the number of points. vector&lt;Point3d&gt; can be also passed here.
      * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
@@ -2397,6 +2025,8 @@ public class Calib3d {
     /**
      * Finds an object pose from 3D-2D point correspondences using the RANSAC scheme.
      *
+     * SEE: REF: calib3d_solvePnP
+     *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or
      * 1xN/Nx1 3-channel, where N is the number of points. vector&lt;Point3d&gt; can be also passed here.
      * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
@@ -2456,6 +2086,8 @@ public class Calib3d {
     /**
      * Finds an object pose from 3D-2D point correspondences using the RANSAC scheme.
      *
+     * SEE: REF: calib3d_solvePnP
+     *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or
      * 1xN/Nx1 3-channel, where N is the number of points. vector&lt;Point3d&gt; can be also passed here.
      * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
@@ -2514,6 +2146,8 @@ public class Calib3d {
     /**
      * Finds an object pose from 3D-2D point correspondences using the RANSAC scheme.
      *
+     * SEE: REF: calib3d_solvePnP
+     *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or
      * 1xN/Nx1 3-channel, where N is the number of points. vector&lt;Point3d&gt; can be also passed here.
      * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
@@ -2570,11 +2204,32 @@ public class Calib3d {
 
 
     //
+    // C++:  bool cv::solvePnPRansac(vector_Point3f objectPoints, vector_Point2f imagePoints, Mat& cameraMatrix, vector_double distCoeffs, Mat& rvec, Mat& tvec, Mat& inliers, UsacParams params = UsacParams())
+    //
+
+    public static boolean solvePnPRansac(MatOfPoint3f objectPoints, MatOfPoint2f imagePoints, Mat cameraMatrix, MatOfDouble distCoeffs, Mat rvec, Mat tvec, Mat inliers, UsacParams params) {
+        Mat objectPoints_mat = objectPoints;
+        Mat imagePoints_mat = imagePoints;
+        Mat distCoeffs_mat = distCoeffs;
+        return solvePnPRansac_7(objectPoints_mat.nativeObj, imagePoints_mat.nativeObj, cameraMatrix.nativeObj, distCoeffs_mat.nativeObj, rvec.nativeObj, tvec.nativeObj, inliers.nativeObj, params.nativeObj);
+    }
+
+    public static boolean solvePnPRansac(MatOfPoint3f objectPoints, MatOfPoint2f imagePoints, Mat cameraMatrix, MatOfDouble distCoeffs, Mat rvec, Mat tvec, Mat inliers) {
+        Mat objectPoints_mat = objectPoints;
+        Mat imagePoints_mat = imagePoints;
+        Mat distCoeffs_mat = distCoeffs;
+        return solvePnPRansac_8(objectPoints_mat.nativeObj, imagePoints_mat.nativeObj, cameraMatrix.nativeObj, distCoeffs_mat.nativeObj, rvec.nativeObj, tvec.nativeObj, inliers.nativeObj);
+    }
+
+
+    //
     // C++:  int cv::solveP3P(Mat objectPoints, Mat imagePoints, Mat cameraMatrix, Mat distCoeffs, vector_Mat& rvecs, vector_Mat& tvecs, int flags)
     //
 
     /**
      * Finds an object pose from 3 3D-2D point correspondences.
+     *
+     * SEE: REF: calib3d_solvePnP
      *
      * @param objectPoints Array of object points in the object coordinate space, 3x3 1-channel or
      * 1x3/3x1 3-channel. vector&lt;Point3f&gt; can be also passed here.
@@ -2626,6 +2281,8 @@ public class Calib3d {
      * Refine a pose (the translation and the rotation that transform a 3D point expressed in the object coordinate frame
      * to the camera coordinate frame) from a 3D-2D point correspondences and starting from an initial solution.
      *
+     * SEE: REF: calib3d_solvePnP
+     *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or 1xN/Nx1 3-channel,
      * where N is the number of points. vector&lt;Point3d&gt; can also be passed here.
      * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
@@ -2652,6 +2309,8 @@ public class Calib3d {
     /**
      * Refine a pose (the translation and the rotation that transform a 3D point expressed in the object coordinate frame
      * to the camera coordinate frame) from a 3D-2D point correspondences and starting from an initial solution.
+     *
+     * SEE: REF: calib3d_solvePnP
      *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or 1xN/Nx1 3-channel,
      * where N is the number of points. vector&lt;Point3d&gt; can also be passed here.
@@ -2684,6 +2343,8 @@ public class Calib3d {
      * Refine a pose (the translation and the rotation that transform a 3D point expressed in the object coordinate frame
      * to the camera coordinate frame) from a 3D-2D point correspondences and starting from an initial solution.
      *
+     * SEE: REF: calib3d_solvePnP
+     *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or 1xN/Nx1 3-channel,
      * where N is the number of points. vector&lt;Point3d&gt; can also be passed here.
      * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
@@ -2713,6 +2374,8 @@ public class Calib3d {
      * Refine a pose (the translation and the rotation that transform a 3D point expressed in the object coordinate frame
      * to the camera coordinate frame) from a 3D-2D point correspondences and starting from an initial solution.
      *
+     * SEE: REF: calib3d_solvePnP
+     *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or 1xN/Nx1 3-channel,
      * where N is the number of points. vector&lt;Point3d&gt; can also be passed here.
      * @param imagePoints Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel,
@@ -2740,6 +2403,8 @@ public class Calib3d {
     /**
      * Refine a pose (the translation and the rotation that transform a 3D point expressed in the object coordinate frame
      * to the camera coordinate frame) from a 3D-2D point correspondences and starting from an initial solution.
+     *
+     * SEE: REF: calib3d_solvePnP
      *
      * @param objectPoints Array of object points in the object coordinate space, Nx3 1-channel or 1xN/Nx1 3-channel,
      * where N is the number of points. vector&lt;Point3d&gt; can also be passed here.
@@ -2771,6 +2436,9 @@ public class Calib3d {
 
     /**
      * Finds an object pose from 3D-2D point correspondences.
+     *
+     * SEE: REF: calib3d_solvePnP
+     *
      * This function returns a list of all the possible solutions (a solution is a &lt;rotation vector, translation vector&gt;
      * couple), depending on the number of input points and the chosen method:
      * <ul>
@@ -2817,61 +2485,7 @@ public class Calib3d {
      * @param useExtrinsicGuess Parameter used for #SOLVEPNP_ITERATIVE. If true (1), the function uses
      * the provided rvec and tvec values as initial approximations of the rotation and translation
      * vectors, respectively, and further optimizes them.
-     * @param flags Method for solving a PnP problem:
-     * <ul>
-     *   <li>
-     *    REF: SOLVEPNP_ITERATIVE Iterative method is based on a Levenberg-Marquardt optimization. In
-     * this case the function finds such a pose that minimizes reprojection error, that is the sum
-     * of squared distances between the observed projections imagePoints and the projected (using
-     * projectPoints ) objectPoints .
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_P3P Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
-     * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_AP3P Method is based on the paper of T. Ke, S. Roumeliotis
-     * "An Efficient Algebraic Solution to the Perspective-Three-Point Problem" (CITE: Ke17).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_EPNP Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
-     * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_DLS <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
-     * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_UPNP <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
-     * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
-     * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters \(f_x\) and \(f_y\)
-     * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
-     * focal length.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE Method is based on the paper of T. Collins and A. Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method requires coplanar object points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE_SQUARE Method is based on the paper of Toby Collins and Adrien Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method is suitable for marker pose estimation.
-     * It requires 4 coplanar object points defined in the following order:
-     *   <ul>
-     *     <li>
-     *    point 0: [-squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 1: [ squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 2: [ squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 3: [-squareLength / 2, -squareLength / 2, 0]
+     * @param flags Method for solving a PnP problem: see REF: calib3d_solvePnP_flags
      * @param rvec Rotation vector used to initialize an iterative PnP refinement algorithm, when flag is REF: SOLVEPNP_ITERATIVE
      * and useExtrinsicGuess is set to true.
      * @param tvec Translation vector used to initialize an iterative PnP refinement algorithm, when flag is REF: SOLVEPNP_ITERATIVE
@@ -2879,103 +2493,8 @@ public class Calib3d {
      * @param reprojectionError Optional vector of reprojection error, that is the RMS error
      * (\( \text{RMSE} = \sqrt{\frac{\sum_{i}^{N} \left ( \hat{y_i} - y_i \right )^2}{N}} \)) between the input image points
      * and the 3D object points projected with the estimated pose.
-     *     </li>
-     *   </ul>
      *
-     * The function estimates the object pose given a set of object points, their corresponding image
-     * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
-     * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
-     * and the Z-axis forward).
-     *   </li>
-     * </ul>
-     *
-     * ![](pnp.jpg)
-     *
-     * Points expressed in the world frame \( \bf{X}_w \) are projected into the image plane \( \left[ u, v \right] \)
-     * using the perspective projection model \( \Pi \) and the camera intrinsic parameters matrix \( \bf{A} \):
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \bf{A} \hspace{0.1em} \Pi \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   f_x &amp; 0 &amp; c_x \\
-     *   0 &amp; f_y &amp; c_y \\
-     *   0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   1 &amp; 0 &amp; 0 &amp; 0 \\
-     *   0 &amp; 1 &amp; 0 &amp; 0 \\
-     *   0 &amp; 0 &amp; 1 &amp; 0
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
-     *
-     * The estimated pose is thus the rotation ({@code rvec}) and the translation ({@code tvec}) vectors that allow transforming
-     * a 3D point expressed in the world frame into the camera frame:
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
+     * More information is described in REF: calib3d_solvePnP
      *
      * <b>Note:</b>
      * <ul>
@@ -2993,7 +2512,7 @@ public class Calib3d {
      *     </li>
      *     <li>
      *          The P3P algorithm requires image points to be in an array of shape (N,1,2) due
-     *         to its calling of cv::undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
+     *         to its calling of #undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
      *         which requires 2-channel information.
      *     </li>
      *     <li>
@@ -3054,6 +2573,9 @@ public class Calib3d {
 
     /**
      * Finds an object pose from 3D-2D point correspondences.
+     *
+     * SEE: REF: calib3d_solvePnP
+     *
      * This function returns a list of all the possible solutions (a solution is a &lt;rotation vector, translation vector&gt;
      * couple), depending on the number of input points and the chosen method:
      * <ul>
@@ -3100,164 +2622,15 @@ public class Calib3d {
      * @param useExtrinsicGuess Parameter used for #SOLVEPNP_ITERATIVE. If true (1), the function uses
      * the provided rvec and tvec values as initial approximations of the rotation and translation
      * vectors, respectively, and further optimizes them.
-     * @param flags Method for solving a PnP problem:
-     * <ul>
-     *   <li>
-     *    REF: SOLVEPNP_ITERATIVE Iterative method is based on a Levenberg-Marquardt optimization. In
-     * this case the function finds such a pose that minimizes reprojection error, that is the sum
-     * of squared distances between the observed projections imagePoints and the projected (using
-     * projectPoints ) objectPoints .
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_P3P Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
-     * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_AP3P Method is based on the paper of T. Ke, S. Roumeliotis
-     * "An Efficient Algebraic Solution to the Perspective-Three-Point Problem" (CITE: Ke17).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_EPNP Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
-     * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_DLS <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
-     * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_UPNP <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
-     * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
-     * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters \(f_x\) and \(f_y\)
-     * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
-     * focal length.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE Method is based on the paper of T. Collins and A. Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method requires coplanar object points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE_SQUARE Method is based on the paper of Toby Collins and Adrien Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method is suitable for marker pose estimation.
-     * It requires 4 coplanar object points defined in the following order:
-     *   <ul>
-     *     <li>
-     *    point 0: [-squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 1: [ squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 2: [ squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 3: [-squareLength / 2, -squareLength / 2, 0]
+     * @param flags Method for solving a PnP problem: see REF: calib3d_solvePnP_flags
      * @param rvec Rotation vector used to initialize an iterative PnP refinement algorithm, when flag is REF: SOLVEPNP_ITERATIVE
      * and useExtrinsicGuess is set to true.
      * @param tvec Translation vector used to initialize an iterative PnP refinement algorithm, when flag is REF: SOLVEPNP_ITERATIVE
      * and useExtrinsicGuess is set to true.
      * (\( \text{RMSE} = \sqrt{\frac{\sum_{i}^{N} \left ( \hat{y_i} - y_i \right )^2}{N}} \)) between the input image points
      * and the 3D object points projected with the estimated pose.
-     *     </li>
-     *   </ul>
      *
-     * The function estimates the object pose given a set of object points, their corresponding image
-     * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
-     * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
-     * and the Z-axis forward).
-     *   </li>
-     * </ul>
-     *
-     * ![](pnp.jpg)
-     *
-     * Points expressed in the world frame \( \bf{X}_w \) are projected into the image plane \( \left[ u, v \right] \)
-     * using the perspective projection model \( \Pi \) and the camera intrinsic parameters matrix \( \bf{A} \):
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \bf{A} \hspace{0.1em} \Pi \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   f_x &amp; 0 &amp; c_x \\
-     *   0 &amp; f_y &amp; c_y \\
-     *   0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   1 &amp; 0 &amp; 0 &amp; 0 \\
-     *   0 &amp; 1 &amp; 0 &amp; 0 \\
-     *   0 &amp; 0 &amp; 1 &amp; 0
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
-     *
-     * The estimated pose is thus the rotation ({@code rvec}) and the translation ({@code tvec}) vectors that allow transforming
-     * a 3D point expressed in the world frame into the camera frame:
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
+     * More information is described in REF: calib3d_solvePnP
      *
      * <b>Note:</b>
      * <ul>
@@ -3275,7 +2648,7 @@ public class Calib3d {
      *     </li>
      *     <li>
      *          The P3P algorithm requires image points to be in an array of shape (N,1,2) due
-     *         to its calling of cv::undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
+     *         to its calling of #undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
      *         which requires 2-channel information.
      *     </li>
      *     <li>
@@ -3336,6 +2709,9 @@ public class Calib3d {
 
     /**
      * Finds an object pose from 3D-2D point correspondences.
+     *
+     * SEE: REF: calib3d_solvePnP
+     *
      * This function returns a list of all the possible solutions (a solution is a &lt;rotation vector, translation vector&gt;
      * couple), depending on the number of input points and the chosen method:
      * <ul>
@@ -3382,163 +2758,14 @@ public class Calib3d {
      * @param useExtrinsicGuess Parameter used for #SOLVEPNP_ITERATIVE. If true (1), the function uses
      * the provided rvec and tvec values as initial approximations of the rotation and translation
      * vectors, respectively, and further optimizes them.
-     * @param flags Method for solving a PnP problem:
-     * <ul>
-     *   <li>
-     *    REF: SOLVEPNP_ITERATIVE Iterative method is based on a Levenberg-Marquardt optimization. In
-     * this case the function finds such a pose that minimizes reprojection error, that is the sum
-     * of squared distances between the observed projections imagePoints and the projected (using
-     * projectPoints ) objectPoints .
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_P3P Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
-     * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_AP3P Method is based on the paper of T. Ke, S. Roumeliotis
-     * "An Efficient Algebraic Solution to the Perspective-Three-Point Problem" (CITE: Ke17).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_EPNP Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
-     * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_DLS <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
-     * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_UPNP <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
-     * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
-     * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters \(f_x\) and \(f_y\)
-     * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
-     * focal length.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE Method is based on the paper of T. Collins and A. Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method requires coplanar object points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE_SQUARE Method is based on the paper of Toby Collins and Adrien Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method is suitable for marker pose estimation.
-     * It requires 4 coplanar object points defined in the following order:
-     *   <ul>
-     *     <li>
-     *    point 0: [-squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 1: [ squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 2: [ squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 3: [-squareLength / 2, -squareLength / 2, 0]
+     * @param flags Method for solving a PnP problem: see REF: calib3d_solvePnP_flags
      * @param rvec Rotation vector used to initialize an iterative PnP refinement algorithm, when flag is REF: SOLVEPNP_ITERATIVE
      * and useExtrinsicGuess is set to true.
      * and useExtrinsicGuess is set to true.
      * (\( \text{RMSE} = \sqrt{\frac{\sum_{i}^{N} \left ( \hat{y_i} - y_i \right )^2}{N}} \)) between the input image points
      * and the 3D object points projected with the estimated pose.
-     *     </li>
-     *   </ul>
      *
-     * The function estimates the object pose given a set of object points, their corresponding image
-     * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
-     * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
-     * and the Z-axis forward).
-     *   </li>
-     * </ul>
-     *
-     * ![](pnp.jpg)
-     *
-     * Points expressed in the world frame \( \bf{X}_w \) are projected into the image plane \( \left[ u, v \right] \)
-     * using the perspective projection model \( \Pi \) and the camera intrinsic parameters matrix \( \bf{A} \):
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \bf{A} \hspace{0.1em} \Pi \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   f_x &amp; 0 &amp; c_x \\
-     *   0 &amp; f_y &amp; c_y \\
-     *   0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   1 &amp; 0 &amp; 0 &amp; 0 \\
-     *   0 &amp; 1 &amp; 0 &amp; 0 \\
-     *   0 &amp; 0 &amp; 1 &amp; 0
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
-     *
-     * The estimated pose is thus the rotation ({@code rvec}) and the translation ({@code tvec}) vectors that allow transforming
-     * a 3D point expressed in the world frame into the camera frame:
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
+     * More information is described in REF: calib3d_solvePnP
      *
      * <b>Note:</b>
      * <ul>
@@ -3556,7 +2783,7 @@ public class Calib3d {
      *     </li>
      *     <li>
      *          The P3P algorithm requires image points to be in an array of shape (N,1,2) due
-     *         to its calling of cv::undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
+     *         to its calling of #undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
      *         which requires 2-channel information.
      *     </li>
      *     <li>
@@ -3617,6 +2844,9 @@ public class Calib3d {
 
     /**
      * Finds an object pose from 3D-2D point correspondences.
+     *
+     * SEE: REF: calib3d_solvePnP
+     *
      * This function returns a list of all the possible solutions (a solution is a &lt;rotation vector, translation vector&gt;
      * couple), depending on the number of input points and the chosen method:
      * <ul>
@@ -3663,162 +2893,13 @@ public class Calib3d {
      * @param useExtrinsicGuess Parameter used for #SOLVEPNP_ITERATIVE. If true (1), the function uses
      * the provided rvec and tvec values as initial approximations of the rotation and translation
      * vectors, respectively, and further optimizes them.
-     * @param flags Method for solving a PnP problem:
-     * <ul>
-     *   <li>
-     *    REF: SOLVEPNP_ITERATIVE Iterative method is based on a Levenberg-Marquardt optimization. In
-     * this case the function finds such a pose that minimizes reprojection error, that is the sum
-     * of squared distances between the observed projections imagePoints and the projected (using
-     * projectPoints ) objectPoints .
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_P3P Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
-     * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_AP3P Method is based on the paper of T. Ke, S. Roumeliotis
-     * "An Efficient Algebraic Solution to the Perspective-Three-Point Problem" (CITE: Ke17).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_EPNP Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
-     * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_DLS <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
-     * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_UPNP <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
-     * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
-     * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters \(f_x\) and \(f_y\)
-     * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
-     * focal length.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE Method is based on the paper of T. Collins and A. Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method requires coplanar object points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE_SQUARE Method is based on the paper of Toby Collins and Adrien Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method is suitable for marker pose estimation.
-     * It requires 4 coplanar object points defined in the following order:
-     *   <ul>
-     *     <li>
-     *    point 0: [-squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 1: [ squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 2: [ squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 3: [-squareLength / 2, -squareLength / 2, 0]
+     * @param flags Method for solving a PnP problem: see REF: calib3d_solvePnP_flags
      * and useExtrinsicGuess is set to true.
      * and useExtrinsicGuess is set to true.
      * (\( \text{RMSE} = \sqrt{\frac{\sum_{i}^{N} \left ( \hat{y_i} - y_i \right )^2}{N}} \)) between the input image points
      * and the 3D object points projected with the estimated pose.
-     *     </li>
-     *   </ul>
      *
-     * The function estimates the object pose given a set of object points, their corresponding image
-     * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
-     * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
-     * and the Z-axis forward).
-     *   </li>
-     * </ul>
-     *
-     * ![](pnp.jpg)
-     *
-     * Points expressed in the world frame \( \bf{X}_w \) are projected into the image plane \( \left[ u, v \right] \)
-     * using the perspective projection model \( \Pi \) and the camera intrinsic parameters matrix \( \bf{A} \):
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \bf{A} \hspace{0.1em} \Pi \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   f_x &amp; 0 &amp; c_x \\
-     *   0 &amp; f_y &amp; c_y \\
-     *   0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   1 &amp; 0 &amp; 0 &amp; 0 \\
-     *   0 &amp; 1 &amp; 0 &amp; 0 \\
-     *   0 &amp; 0 &amp; 1 &amp; 0
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
-     *
-     * The estimated pose is thus the rotation ({@code rvec}) and the translation ({@code tvec}) vectors that allow transforming
-     * a 3D point expressed in the world frame into the camera frame:
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
+     * More information is described in REF: calib3d_solvePnP
      *
      * <b>Note:</b>
      * <ul>
@@ -3836,7 +2917,7 @@ public class Calib3d {
      *     </li>
      *     <li>
      *          The P3P algorithm requires image points to be in an array of shape (N,1,2) due
-     *         to its calling of cv::undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
+     *         to its calling of #undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
      *         which requires 2-channel information.
      *     </li>
      *     <li>
@@ -3897,6 +2978,9 @@ public class Calib3d {
 
     /**
      * Finds an object pose from 3D-2D point correspondences.
+     *
+     * SEE: REF: calib3d_solvePnP
+     *
      * This function returns a list of all the possible solutions (a solution is a &lt;rotation vector, translation vector&gt;
      * couple), depending on the number of input points and the chosen method:
      * <ul>
@@ -3943,161 +3027,12 @@ public class Calib3d {
      * @param useExtrinsicGuess Parameter used for #SOLVEPNP_ITERATIVE. If true (1), the function uses
      * the provided rvec and tvec values as initial approximations of the rotation and translation
      * vectors, respectively, and further optimizes them.
-     * <ul>
-     *   <li>
-     *    REF: SOLVEPNP_ITERATIVE Iterative method is based on a Levenberg-Marquardt optimization. In
-     * this case the function finds such a pose that minimizes reprojection error, that is the sum
-     * of squared distances between the observed projections imagePoints and the projected (using
-     * projectPoints ) objectPoints .
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_P3P Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
-     * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_AP3P Method is based on the paper of T. Ke, S. Roumeliotis
-     * "An Efficient Algebraic Solution to the Perspective-Three-Point Problem" (CITE: Ke17).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_EPNP Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
-     * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_DLS <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
-     * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_UPNP <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
-     * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
-     * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters \(f_x\) and \(f_y\)
-     * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
-     * focal length.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE Method is based on the paper of T. Collins and A. Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method requires coplanar object points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE_SQUARE Method is based on the paper of Toby Collins and Adrien Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method is suitable for marker pose estimation.
-     * It requires 4 coplanar object points defined in the following order:
-     *   <ul>
-     *     <li>
-     *    point 0: [-squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 1: [ squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 2: [ squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 3: [-squareLength / 2, -squareLength / 2, 0]
      * and useExtrinsicGuess is set to true.
      * and useExtrinsicGuess is set to true.
      * (\( \text{RMSE} = \sqrt{\frac{\sum_{i}^{N} \left ( \hat{y_i} - y_i \right )^2}{N}} \)) between the input image points
      * and the 3D object points projected with the estimated pose.
-     *     </li>
-     *   </ul>
      *
-     * The function estimates the object pose given a set of object points, their corresponding image
-     * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
-     * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
-     * and the Z-axis forward).
-     *   </li>
-     * </ul>
-     *
-     * ![](pnp.jpg)
-     *
-     * Points expressed in the world frame \( \bf{X}_w \) are projected into the image plane \( \left[ u, v \right] \)
-     * using the perspective projection model \( \Pi \) and the camera intrinsic parameters matrix \( \bf{A} \):
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \bf{A} \hspace{0.1em} \Pi \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   f_x &amp; 0 &amp; c_x \\
-     *   0 &amp; f_y &amp; c_y \\
-     *   0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   1 &amp; 0 &amp; 0 &amp; 0 \\
-     *   0 &amp; 1 &amp; 0 &amp; 0 \\
-     *   0 &amp; 0 &amp; 1 &amp; 0
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
-     *
-     * The estimated pose is thus the rotation ({@code rvec}) and the translation ({@code tvec}) vectors that allow transforming
-     * a 3D point expressed in the world frame into the camera frame:
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
+     * More information is described in REF: calib3d_solvePnP
      *
      * <b>Note:</b>
      * <ul>
@@ -4115,7 +3050,7 @@ public class Calib3d {
      *     </li>
      *     <li>
      *          The P3P algorithm requires image points to be in an array of shape (N,1,2) due
-     *         to its calling of cv::undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
+     *         to its calling of #undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
      *         which requires 2-channel information.
      *     </li>
      *     <li>
@@ -4176,6 +3111,9 @@ public class Calib3d {
 
     /**
      * Finds an object pose from 3D-2D point correspondences.
+     *
+     * SEE: REF: calib3d_solvePnP
+     *
      * This function returns a list of all the possible solutions (a solution is a &lt;rotation vector, translation vector&gt;
      * couple), depending on the number of input points and the chosen method:
      * <ul>
@@ -4221,161 +3159,12 @@ public class Calib3d {
      * @param tvecs Vector of output translation vectors.
      * the provided rvec and tvec values as initial approximations of the rotation and translation
      * vectors, respectively, and further optimizes them.
-     * <ul>
-     *   <li>
-     *    REF: SOLVEPNP_ITERATIVE Iterative method is based on a Levenberg-Marquardt optimization. In
-     * this case the function finds such a pose that minimizes reprojection error, that is the sum
-     * of squared distances between the observed projections imagePoints and the projected (using
-     * projectPoints ) objectPoints .
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_P3P Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang
-     * "Complete Solution Classification for the Perspective-Three-Point Problem" (CITE: gao2003complete).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_AP3P Method is based on the paper of T. Ke, S. Roumeliotis
-     * "An Efficient Algebraic Solution to the Perspective-Three-Point Problem" (CITE: Ke17).
-     * In this case the function requires exactly four object and image points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_EPNP Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the
-     * paper "EPnP: Efficient Perspective-n-Point Camera Pose Estimation" (CITE: lepetit2009epnp).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_DLS <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of Joel A. Hesch and Stergios I. Roumeliotis.
-     * "A Direct Least-Squares (DLS) Method for PnP" (CITE: hesch2011direct).
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_UPNP <b>Broken implementation. Using this flag will fallback to EPnP.</b> \n
-     * Method is based on the paper of A.Penate-Sanchez, J.Andrade-Cetto,
-     * F.Moreno-Noguer. "Exhaustive Linearization for Robust Camera Pose and Focal Length
-     * Estimation" (CITE: penate2013exhaustive). In this case the function also estimates the parameters \(f_x\) and \(f_y\)
-     * assuming that both have the same value. Then the cameraMatrix is updated with the estimated
-     * focal length.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE Method is based on the paper of T. Collins and A. Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method requires coplanar object points.
-     *   </li>
-     *   <li>
-     *    REF: SOLVEPNP_IPPE_SQUARE Method is based on the paper of Toby Collins and Adrien Bartoli.
-     * "Infinitesimal Plane-Based Pose Estimation" (CITE: Collins14). This method is suitable for marker pose estimation.
-     * It requires 4 coplanar object points defined in the following order:
-     *   <ul>
-     *     <li>
-     *    point 0: [-squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 1: [ squareLength / 2,  squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 2: [ squareLength / 2, -squareLength / 2, 0]
-     *     </li>
-     *     <li>
-     *    point 3: [-squareLength / 2, -squareLength / 2, 0]
      * and useExtrinsicGuess is set to true.
      * and useExtrinsicGuess is set to true.
      * (\( \text{RMSE} = \sqrt{\frac{\sum_{i}^{N} \left ( \hat{y_i} - y_i \right )^2}{N}} \)) between the input image points
      * and the 3D object points projected with the estimated pose.
-     *     </li>
-     *   </ul>
      *
-     * The function estimates the object pose given a set of object points, their corresponding image
-     * projections, as well as the camera intrinsic matrix and the distortion coefficients, see the figure below
-     * (more precisely, the X-axis of the camera frame is pointing to the right, the Y-axis downward
-     * and the Z-axis forward).
-     *   </li>
-     * </ul>
-     *
-     * ![](pnp.jpg)
-     *
-     * Points expressed in the world frame \( \bf{X}_w \) are projected into the image plane \( \left[ u, v \right] \)
-     * using the perspective projection model \( \Pi \) and the camera intrinsic parameters matrix \( \bf{A} \):
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \bf{A} \hspace{0.1em} \Pi \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   u \\
-     *   v \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   f_x &amp; 0 &amp; c_x \\
-     *   0 &amp; f_y &amp; c_y \\
-     *   0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   1 &amp; 0 &amp; 0 &amp; 0 \\
-     *   0 &amp; 1 &amp; 0 &amp; 0 \\
-     *   0 &amp; 0 &amp; 1 &amp; 0
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
-     *
-     * The estimated pose is thus the rotation ({@code rvec}) and the translation ({@code tvec}) vectors that allow transforming
-     * a 3D point expressed in the world frame into the camera frame:
-     *
-     * \(
-     *   \begin{align*}
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \hspace{0.2em} ^{c}\bf{T}_w
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix} \\
-     *   \begin{bmatrix}
-     *   X_c \\
-     *   Y_c \\
-     *   Z_c \\
-     *   1
-     *   \end{bmatrix} &amp;=
-     *   \begin{bmatrix}
-     *   r_{11} &amp; r_{12} &amp; r_{13} &amp; t_x \\
-     *   r_{21} &amp; r_{22} &amp; r_{23} &amp; t_y \\
-     *   r_{31} &amp; r_{32} &amp; r_{33} &amp; t_z \\
-     *   0 &amp; 0 &amp; 0 &amp; 1
-     *   \end{bmatrix}
-     *   \begin{bmatrix}
-     *   X_{w} \\
-     *   Y_{w} \\
-     *   Z_{w} \\
-     *   1
-     *   \end{bmatrix}
-     *   \end{align*}
-     * \)
+     * More information is described in REF: calib3d_solvePnP
      *
      * <b>Note:</b>
      * <ul>
@@ -4393,7 +3182,7 @@ public class Calib3d {
      *     </li>
      *     <li>
      *          The P3P algorithm requires image points to be in an array of shape (N,1,2) due
-     *         to its calling of cv::undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
+     *         to its calling of #undistortPoints (around line 75 of modules/calib3d/src/solvepnp.cpp version 2.4.9)
      *         which requires 2-channel information.
      *     </li>
      *     <li>
@@ -4462,12 +3251,12 @@ public class Calib3d {
      *
      * @param objectPoints Vector of vectors of the calibration pattern points in the calibration pattern
      * coordinate space. In the old interface all the per-view vectors are concatenated. See
-     * calibrateCamera for details.
+     * #calibrateCamera for details.
      * @param imagePoints Vector of vectors of the projections of the calibration pattern points. In the
      * old interface all the per-view vectors are concatenated.
      * @param imageSize Image size in pixels used to initialize the principal point.
      * @param aspectRatio If it is zero or negative, both \(f_x\) and \(f_y\) are estimated independently.
-     * Otherwise, \(f_x = f_y * \texttt{aspectRatio}\) .
+     * Otherwise, \(f_x = f_y \cdot \texttt{aspectRatio}\) .
      *
      * The function estimates and returns an initial camera intrinsic matrix for the camera calibration process.
      * Currently, the function only supports planar calibration patterns, which are patterns where each
@@ -4487,11 +3276,11 @@ public class Calib3d {
      *
      * @param objectPoints Vector of vectors of the calibration pattern points in the calibration pattern
      * coordinate space. In the old interface all the per-view vectors are concatenated. See
-     * calibrateCamera for details.
+     * #calibrateCamera for details.
      * @param imagePoints Vector of vectors of the projections of the calibration pattern points. In the
      * old interface all the per-view vectors are concatenated.
      * @param imageSize Image size in pixels used to initialize the principal point.
-     * Otherwise, \(f_x = f_y * \texttt{aspectRatio}\) .
+     * Otherwise, \(f_x = f_y \cdot \texttt{aspectRatio}\) .
      *
      * The function estimates and returns an initial camera intrinsic matrix for the camera calibration process.
      * Currently, the function only supports planar calibration patterns, which are patterns where each
@@ -4516,7 +3305,7 @@ public class Calib3d {
      *
      * @param image Source chessboard view. It must be an 8-bit grayscale or color image.
      * @param patternSize Number of inner corners per a chessboard row and column
-     * ( patternSize = cvSize(points_per_row,points_per_colum) = cvSize(columns,rows) ).
+     * ( patternSize = cv::Size(points_per_row,points_per_colum) = cv::Size(columns,rows) ).
      * @param corners Output array of detected corners.
      * @param flags Various operation flags that can be zero or a combination of the following values:
      * <ul>
@@ -4525,7 +3314,7 @@ public class Calib3d {
      * and white, rather than a fixed threshold level (computed from the average image brightness).
      *   </li>
      *   <li>
-     *    REF: CALIB_CB_NORMALIZE_IMAGE Normalize the image gamma with equalizeHist before
+     *    REF: CALIB_CB_NORMALIZE_IMAGE Normalize the image gamma with #equalizeHist before
      * applying fixed or adaptive thresholding.
      *   </li>
      *   <li>
@@ -4545,7 +3334,7 @@ public class Calib3d {
      * Otherwise, if the function fails to find all the corners or reorder them, it returns 0. For example,
      * a regular chessboard has 8 x 8 squares and 7 x 7 internal corners, that is, points where the black
      * squares touch each other. The detected coordinates are approximate, and to determine their positions
-     * more accurately, the function calls cornerSubPix. You also may use the function cornerSubPix with
+     * more accurately, the function calls #cornerSubPix. You also may use the function #cornerSubPix with
      * different parameters if returned coordinates are not accurate enough.
      *
      * Sample usage of detecting and drawing chessboard corners: :
@@ -4570,6 +3359,8 @@ public class Calib3d {
      * the board to make the detection more robust in various environments. Otherwise, if there is no
      * border and the background is dark, the outer black squares cannot be segmented properly and so the
      * square grouping and ordering algorithm fails.
+     *
+     * Use gen_pattern.py (REF: tutorial_camera_calibration_pattern) to create checkerboard.
      * @return automatically generated
      */
     public static boolean findChessboardCorners(Mat image, Size patternSize, MatOfPoint2f corners, int flags) {
@@ -4582,7 +3373,7 @@ public class Calib3d {
      *
      * @param image Source chessboard view. It must be an 8-bit grayscale or color image.
      * @param patternSize Number of inner corners per a chessboard row and column
-     * ( patternSize = cvSize(points_per_row,points_per_colum) = cvSize(columns,rows) ).
+     * ( patternSize = cv::Size(points_per_row,points_per_colum) = cv::Size(columns,rows) ).
      * @param corners Output array of detected corners.
      * <ul>
      *   <li>
@@ -4590,7 +3381,7 @@ public class Calib3d {
      * and white, rather than a fixed threshold level (computed from the average image brightness).
      *   </li>
      *   <li>
-     *    REF: CALIB_CB_NORMALIZE_IMAGE Normalize the image gamma with equalizeHist before
+     *    REF: CALIB_CB_NORMALIZE_IMAGE Normalize the image gamma with #equalizeHist before
      * applying fixed or adaptive thresholding.
      *   </li>
      *   <li>
@@ -4610,7 +3401,7 @@ public class Calib3d {
      * Otherwise, if the function fails to find all the corners or reorder them, it returns 0. For example,
      * a regular chessboard has 8 x 8 squares and 7 x 7 internal corners, that is, points where the black
      * squares touch each other. The detected coordinates are approximate, and to determine their positions
-     * more accurately, the function calls cornerSubPix. You also may use the function cornerSubPix with
+     * more accurately, the function calls #cornerSubPix. You also may use the function #cornerSubPix with
      * different parameters if returned coordinates are not accurate enough.
      *
      * Sample usage of detecting and drawing chessboard corners: :
@@ -4635,11 +3426,245 @@ public class Calib3d {
      * the board to make the detection more robust in various environments. Otherwise, if there is no
      * border and the background is dark, the outer black squares cannot be segmented properly and so the
      * square grouping and ordering algorithm fails.
+     *
+     * Use gen_pattern.py (REF: tutorial_camera_calibration_pattern) to create checkerboard.
      * @return automatically generated
      */
     public static boolean findChessboardCorners(Mat image, Size patternSize, MatOfPoint2f corners) {
         Mat corners_mat = corners;
         return findChessboardCorners_1(image.nativeObj, patternSize.width, patternSize.height, corners_mat.nativeObj);
+    }
+
+
+    //
+    // C++:  bool cv::checkChessboard(Mat img, Size size)
+    //
+
+    public static boolean checkChessboard(Mat img, Size size) {
+        return checkChessboard_0(img.nativeObj, size.width, size.height);
+    }
+
+
+    //
+    // C++:  bool cv::findChessboardCornersSB(Mat image, Size patternSize, Mat& corners, int flags, Mat& meta)
+    //
+
+    /**
+     * Finds the positions of internal corners of the chessboard using a sector based approach.
+     *
+     * @param image Source chessboard view. It must be an 8-bit grayscale or color image.
+     * @param patternSize Number of inner corners per a chessboard row and column
+     * ( patternSize = cv::Size(points_per_row,points_per_colum) = cv::Size(columns,rows) ).
+     * @param corners Output array of detected corners.
+     * @param flags Various operation flags that can be zero or a combination of the following values:
+     * <ul>
+     *   <li>
+     *    REF: CALIB_CB_NORMALIZE_IMAGE Normalize the image gamma with equalizeHist before detection.
+     *   </li>
+     *   <li>
+     *    REF: CALIB_CB_EXHAUSTIVE Run an exhaustive search to improve detection rate.
+     *   </li>
+     *   <li>
+     *    REF: CALIB_CB_ACCURACY Up sample input image to improve sub-pixel accuracy due to aliasing effects.
+     *   </li>
+     *   <li>
+     *    REF: CALIB_CB_LARGER The detected pattern is allowed to be larger than patternSize (see description).
+     *   </li>
+     *   <li>
+     *    REF: CALIB_CB_MARKER The detected pattern must have a marker (see description).
+     * This should be used if an accurate camera calibration is required.
+     * @param meta Optional output arrray of detected corners (CV_8UC1 and size = cv::Size(columns,rows)).
+     * Each entry stands for one corner of the pattern and can have one of the following values:
+     *   </li>
+     *   <li>
+     *    0 = no meta data attached
+     *   </li>
+     *   <li>
+     *    1 = left-top corner of a black cell
+     *   </li>
+     *   <li>
+     *    2 = left-top corner of a white cell
+     *   </li>
+     *   <li>
+     *    3 = left-top corner of a black cell with a white marker dot
+     *   </li>
+     *   <li>
+     *    4 = left-top corner of a white cell with a black marker dot (pattern origin in case of markers otherwise first corner)
+     *   </li>
+     * </ul>
+     *
+     * The function is analog to #findChessboardCorners but uses a localized radon
+     * transformation approximated by box filters being more robust to all sort of
+     * noise, faster on larger images and is able to directly return the sub-pixel
+     * position of the internal chessboard corners. The Method is based on the paper
+     * CITE: duda2018 "Accurate Detection and Localization of Checkerboard Corners for
+     * Calibration" demonstrating that the returned sub-pixel positions are more
+     * accurate than the one returned by cornerSubPix allowing a precise camera
+     * calibration for demanding applications.
+     *
+     * In the case, the flags REF: CALIB_CB_LARGER or REF: CALIB_CB_MARKER are given,
+     * the result can be recovered from the optional meta array. Both flags are
+     * helpful to use calibration patterns exceeding the field of view of the camera.
+     * These oversized patterns allow more accurate calibrations as corners can be
+     * utilized, which are as close as possible to the image borders.  For a
+     * consistent coordinate system across all images, the optional marker (see image
+     * below) can be used to move the origin of the board to the location where the
+     * black circle is located.
+     *
+     * <b>Note:</b> The function requires a white boarder with roughly the same width as one
+     * of the checkerboard fields around the whole board to improve the detection in
+     * various environments. In addition, because of the localized radon
+     * transformation it is beneficial to use round corners for the field corners
+     * which are located on the outside of the board. The following figure illustrates
+     * a sample checkerboard optimized for the detection. However, any other checkerboard
+     * can be used as well.
+     *
+     * Use gen_pattern.py (REF: tutorial_camera_calibration_pattern) to create checkerboard.
+     * ![Checkerboard](pics/checkerboard_radon.png)
+     * @return automatically generated
+     */
+    public static boolean findChessboardCornersSBWithMeta(Mat image, Size patternSize, Mat corners, int flags, Mat meta) {
+        return findChessboardCornersSBWithMeta_0(image.nativeObj, patternSize.width, patternSize.height, corners.nativeObj, flags, meta.nativeObj);
+    }
+
+
+    //
+    // C++:  bool cv::findChessboardCornersSB(Mat image, Size patternSize, Mat& corners, int flags = 0)
+    //
+
+    public static boolean findChessboardCornersSB(Mat image, Size patternSize, Mat corners, int flags) {
+        return findChessboardCornersSB_0(image.nativeObj, patternSize.width, patternSize.height, corners.nativeObj, flags);
+    }
+
+    public static boolean findChessboardCornersSB(Mat image, Size patternSize, Mat corners) {
+        return findChessboardCornersSB_1(image.nativeObj, patternSize.width, patternSize.height, corners.nativeObj);
+    }
+
+
+    //
+    // C++:  Scalar cv::estimateChessboardSharpness(Mat image, Size patternSize, Mat corners, float rise_distance = 0.8F, bool vertical = false, Mat& sharpness = Mat())
+    //
+
+    /**
+     * Estimates the sharpness of a detected chessboard.
+     *
+     * Image sharpness, as well as brightness, are a critical parameter for accuracte
+     * camera calibration. For accessing these parameters for filtering out
+     * problematic calibraiton images, this method calculates edge profiles by traveling from
+     * black to white chessboard cell centers. Based on this, the number of pixels is
+     * calculated required to transit from black to white. This width of the
+     * transition area is a good indication of how sharp the chessboard is imaged
+     * and should be below ~3.0 pixels.
+     *
+     * @param image Gray image used to find chessboard corners
+     * @param patternSize Size of a found chessboard pattern
+     * @param corners Corners found by #findChessboardCornersSB
+     * @param rise_distance Rise distance 0.8 means 10% ... 90% of the final signal strength
+     * @param vertical By default edge responses for horizontal lines are calculated
+     * @param sharpness Optional output array with a sharpness value for calculated edge responses (see description)
+     *
+     * The optional sharpness array is of type CV_32FC1 and has for each calculated
+     * profile one row with the following five entries:
+     * 0 = x coordinate of the underlying edge in the image
+     * 1 = y coordinate of the underlying edge in the image
+     * 2 = width of the transition area (sharpness)
+     * 3 = signal strength in the black cell (min brightness)
+     * 4 = signal strength in the white cell (max brightness)
+     *
+     * @return Scalar(average sharpness, average min brightness, average max brightness,0)
+     */
+    public static Scalar estimateChessboardSharpness(Mat image, Size patternSize, Mat corners, float rise_distance, boolean vertical, Mat sharpness) {
+        return new Scalar(estimateChessboardSharpness_0(image.nativeObj, patternSize.width, patternSize.height, corners.nativeObj, rise_distance, vertical, sharpness.nativeObj));
+    }
+
+    /**
+     * Estimates the sharpness of a detected chessboard.
+     *
+     * Image sharpness, as well as brightness, are a critical parameter for accuracte
+     * camera calibration. For accessing these parameters for filtering out
+     * problematic calibraiton images, this method calculates edge profiles by traveling from
+     * black to white chessboard cell centers. Based on this, the number of pixels is
+     * calculated required to transit from black to white. This width of the
+     * transition area is a good indication of how sharp the chessboard is imaged
+     * and should be below ~3.0 pixels.
+     *
+     * @param image Gray image used to find chessboard corners
+     * @param patternSize Size of a found chessboard pattern
+     * @param corners Corners found by #findChessboardCornersSB
+     * @param rise_distance Rise distance 0.8 means 10% ... 90% of the final signal strength
+     * @param vertical By default edge responses for horizontal lines are calculated
+     *
+     * The optional sharpness array is of type CV_32FC1 and has for each calculated
+     * profile one row with the following five entries:
+     * 0 = x coordinate of the underlying edge in the image
+     * 1 = y coordinate of the underlying edge in the image
+     * 2 = width of the transition area (sharpness)
+     * 3 = signal strength in the black cell (min brightness)
+     * 4 = signal strength in the white cell (max brightness)
+     *
+     * @return Scalar(average sharpness, average min brightness, average max brightness,0)
+     */
+    public static Scalar estimateChessboardSharpness(Mat image, Size patternSize, Mat corners, float rise_distance, boolean vertical) {
+        return new Scalar(estimateChessboardSharpness_1(image.nativeObj, patternSize.width, patternSize.height, corners.nativeObj, rise_distance, vertical));
+    }
+
+    /**
+     * Estimates the sharpness of a detected chessboard.
+     *
+     * Image sharpness, as well as brightness, are a critical parameter for accuracte
+     * camera calibration. For accessing these parameters for filtering out
+     * problematic calibraiton images, this method calculates edge profiles by traveling from
+     * black to white chessboard cell centers. Based on this, the number of pixels is
+     * calculated required to transit from black to white. This width of the
+     * transition area is a good indication of how sharp the chessboard is imaged
+     * and should be below ~3.0 pixels.
+     *
+     * @param image Gray image used to find chessboard corners
+     * @param patternSize Size of a found chessboard pattern
+     * @param corners Corners found by #findChessboardCornersSB
+     * @param rise_distance Rise distance 0.8 means 10% ... 90% of the final signal strength
+     *
+     * The optional sharpness array is of type CV_32FC1 and has for each calculated
+     * profile one row with the following five entries:
+     * 0 = x coordinate of the underlying edge in the image
+     * 1 = y coordinate of the underlying edge in the image
+     * 2 = width of the transition area (sharpness)
+     * 3 = signal strength in the black cell (min brightness)
+     * 4 = signal strength in the white cell (max brightness)
+     *
+     * @return Scalar(average sharpness, average min brightness, average max brightness,0)
+     */
+    public static Scalar estimateChessboardSharpness(Mat image, Size patternSize, Mat corners, float rise_distance) {
+        return new Scalar(estimateChessboardSharpness_2(image.nativeObj, patternSize.width, patternSize.height, corners.nativeObj, rise_distance));
+    }
+
+    /**
+     * Estimates the sharpness of a detected chessboard.
+     *
+     * Image sharpness, as well as brightness, are a critical parameter for accuracte
+     * camera calibration. For accessing these parameters for filtering out
+     * problematic calibraiton images, this method calculates edge profiles by traveling from
+     * black to white chessboard cell centers. Based on this, the number of pixels is
+     * calculated required to transit from black to white. This width of the
+     * transition area is a good indication of how sharp the chessboard is imaged
+     * and should be below ~3.0 pixels.
+     *
+     * @param image Gray image used to find chessboard corners
+     * @param patternSize Size of a found chessboard pattern
+     * @param corners Corners found by #findChessboardCornersSB
+     *
+     * The optional sharpness array is of type CV_32FC1 and has for each calculated
+     * profile one row with the following five entries:
+     * 0 = x coordinate of the underlying edge in the image
+     * 1 = y coordinate of the underlying edge in the image
+     * 2 = width of the transition area (sharpness)
+     * 3 = signal strength in the black cell (min brightness)
+     * 4 = signal strength in the white cell (max brightness)
+     *
+     * @return Scalar(average sharpness, average min brightness, average max brightness,0)
+     */
+    public static Scalar estimateChessboardSharpness(Mat image, Size patternSize, Mat corners) {
+        return new Scalar(estimateChessboardSharpness_3(image.nativeObj, patternSize.width, patternSize.height, corners.nativeObj));
     }
 
 
@@ -4662,9 +3687,9 @@ public class Calib3d {
      * @param image Destination image. It must be an 8-bit color image.
      * @param patternSize Number of inner corners per a chessboard row and column
      * (patternSize = cv::Size(points_per_row,points_per_column)).
-     * @param corners Array of detected corners, the output of findChessboardCorners.
+     * @param corners Array of detected corners, the output of #findChessboardCorners.
      * @param patternWasFound Parameter indicating whether the complete board was found or not. The
-     * return value of findChessboardCorners should be passed here.
+     * return value of #findChessboardCorners should be passed here.
      *
      * The function draws individual chessboard corners detected either as red circles if the board was not
      * found, or as colored corners connected with lines if the board was found.
@@ -4723,13 +3748,6 @@ public class Calib3d {
 
     //
     // C++:  bool cv::findCirclesGrid(Mat image, Size patternSize, Mat& centers, int flags, Ptr_FeatureDetector blobDetector, CirclesGridFinderParameters parameters)
-    //
-
-    // Unknown type 'Ptr_FeatureDetector' (I), skipping the function
-
-
-    //
-    // C++:  bool cv::findCirclesGrid2(Mat image, Size patternSize, Mat& centers, int flags, Ptr_FeatureDetector blobDetector, CirclesGridFinderParameters2 parameters)
     //
 
     // Unknown type 'Ptr_FeatureDetector' (I), skipping the function
@@ -4902,7 +3920,8 @@ public class Calib3d {
      *     instead of using patternSize=cvSize(cols,rows) in REF: findChessboardCorners.
      *
      * SEE:
-     *    findChessboardCorners, solvePnP, initCameraMatrix2D, stereoCalibrate, undistort
+     *    calibrateCameraRO, findChessboardCorners, solvePnP, initCameraMatrix2D, stereoCalibrate,
+     *    undistort
      */
     public static double calibrateCameraExtended(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, Mat stdDeviationsIntrinsics, Mat stdDeviationsExtrinsics, Mat perViewErrors, int flags, TermCriteria criteria) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
@@ -5066,7 +4085,8 @@ public class Calib3d {
      *     instead of using patternSize=cvSize(cols,rows) in REF: findChessboardCorners.
      *
      * SEE:
-     *    findChessboardCorners, solvePnP, initCameraMatrix2D, stereoCalibrate, undistort
+     *    calibrateCameraRO, findChessboardCorners, solvePnP, initCameraMatrix2D, stereoCalibrate,
+     *    undistort
      */
     public static double calibrateCameraExtended(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, Mat stdDeviationsIntrinsics, Mat stdDeviationsExtrinsics, Mat perViewErrors, int flags) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
@@ -5229,7 +4249,8 @@ public class Calib3d {
      *     instead of using patternSize=cvSize(cols,rows) in REF: findChessboardCorners.
      *
      * SEE:
-     *    findChessboardCorners, solvePnP, initCameraMatrix2D, stereoCalibrate, undistort
+     *    calibrateCameraRO, findChessboardCorners, solvePnP, initCameraMatrix2D, stereoCalibrate,
+     *    undistort
      */
     public static double calibrateCameraExtended(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, Mat stdDeviationsIntrinsics, Mat stdDeviationsExtrinsics, Mat perViewErrors) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
@@ -5249,25 +4270,6 @@ public class Calib3d {
     // C++:  double cv::calibrateCamera(vector_Mat objectPoints, vector_Mat imagePoints, Size imageSize, Mat& cameraMatrix, Mat& distCoeffs, vector_Mat& rvecs, vector_Mat& tvecs, int flags = 0, TermCriteria criteria = TermCriteria( TermCriteria::COUNT + TermCriteria::EPS, 30, DBL_EPSILON))
     //
 
-    /**
-     *  double calibrateCamera( InputArrayOfArrays objectPoints,
-     *                                      InputArrayOfArrays imagePoints, Size imageSize,
-     *                                      InputOutputArray cameraMatrix, InputOutputArray distCoeffs,
-     *                                      OutputArrayOfArrays rvecs, OutputArrayOfArrays tvecs,
-     *                                      OutputArray stdDeviations, OutputArray perViewErrors,
-     *                                      int flags = 0, TermCriteria criteria = TermCriteria(
-     *                                         TermCriteria::COUNT + TermCriteria::EPS, 30, DBL_EPSILON) )
-     * @param objectPoints automatically generated
-     * @param imagePoints automatically generated
-     * @param imageSize automatically generated
-     * @param cameraMatrix automatically generated
-     * @param distCoeffs automatically generated
-     * @param rvecs automatically generated
-     * @param tvecs automatically generated
-     * @param flags automatically generated
-     * @param criteria automatically generated
-     * @return automatically generated
-     */
     public static double calibrateCamera(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, int flags, TermCriteria criteria) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
         Mat imagePoints_mat = Converters.vector_Mat_to_Mat(imagePoints);
@@ -5281,24 +4283,6 @@ public class Calib3d {
         return retVal;
     }
 
-    /**
-     *  double calibrateCamera( InputArrayOfArrays objectPoints,
-     *                                      InputArrayOfArrays imagePoints, Size imageSize,
-     *                                      InputOutputArray cameraMatrix, InputOutputArray distCoeffs,
-     *                                      OutputArrayOfArrays rvecs, OutputArrayOfArrays tvecs,
-     *                                      OutputArray stdDeviations, OutputArray perViewErrors,
-     *                                      int flags = 0, TermCriteria criteria = TermCriteria(
-     *                                         TermCriteria::COUNT + TermCriteria::EPS, 30, DBL_EPSILON) )
-     * @param objectPoints automatically generated
-     * @param imagePoints automatically generated
-     * @param imageSize automatically generated
-     * @param cameraMatrix automatically generated
-     * @param distCoeffs automatically generated
-     * @param rvecs automatically generated
-     * @param tvecs automatically generated
-     * @param flags automatically generated
-     * @return automatically generated
-     */
     public static double calibrateCamera(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, int flags) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
         Mat imagePoints_mat = Converters.vector_Mat_to_Mat(imagePoints);
@@ -5312,23 +4296,6 @@ public class Calib3d {
         return retVal;
     }
 
-    /**
-     *  double calibrateCamera( InputArrayOfArrays objectPoints,
-     *                                      InputArrayOfArrays imagePoints, Size imageSize,
-     *                                      InputOutputArray cameraMatrix, InputOutputArray distCoeffs,
-     *                                      OutputArrayOfArrays rvecs, OutputArrayOfArrays tvecs,
-     *                                      OutputArray stdDeviations, OutputArray perViewErrors,
-     *                                      int flags = 0, TermCriteria criteria = TermCriteria(
-     *                                         TermCriteria::COUNT + TermCriteria::EPS, 30, DBL_EPSILON) )
-     * @param objectPoints automatically generated
-     * @param imagePoints automatically generated
-     * @param imageSize automatically generated
-     * @param cameraMatrix automatically generated
-     * @param distCoeffs automatically generated
-     * @param rvecs automatically generated
-     * @param tvecs automatically generated
-     * @return automatically generated
-     */
     public static double calibrateCamera(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
         Mat imagePoints_mat = Converters.vector_Mat_to_Mat(imagePoints);
@@ -5344,14 +4311,273 @@ public class Calib3d {
 
 
     //
+    // C++:  double cv::calibrateCameraRO(vector_Mat objectPoints, vector_Mat imagePoints, Size imageSize, int iFixedPoint, Mat& cameraMatrix, Mat& distCoeffs, vector_Mat& rvecs, vector_Mat& tvecs, Mat& newObjPoints, Mat& stdDeviationsIntrinsics, Mat& stdDeviationsExtrinsics, Mat& stdDeviationsObjPoints, Mat& perViewErrors, int flags = 0, TermCriteria criteria = TermCriteria( TermCriteria::COUNT + TermCriteria::EPS, 30, DBL_EPSILON))
+    //
+
+    /**
+     * Finds the camera intrinsic and extrinsic parameters from several views of a calibration pattern.
+     *
+     * This function is an extension of #calibrateCamera with the method of releasing object which was
+     * proposed in CITE: strobl2011iccv. In many common cases with inaccurate, unmeasured, roughly planar
+     * targets (calibration plates), this method can dramatically improve the precision of the estimated
+     * camera parameters. Both the object-releasing method and standard method are supported by this
+     * function. Use the parameter <b>iFixedPoint</b> for method selection. In the internal implementation,
+     * #calibrateCamera is a wrapper for this function.
+     *
+     * @param objectPoints Vector of vectors of calibration pattern points in the calibration pattern
+     * coordinate space. See #calibrateCamera for details. If the method of releasing object to be used,
+     * the identical calibration board must be used in each view and it must be fully visible, and all
+     * objectPoints[i] must be the same and all points should be roughly close to a plane. <b>The calibration
+     * target has to be rigid, or at least static if the camera (rather than the calibration target) is
+     * shifted for grabbing images.</b>
+     * @param imagePoints Vector of vectors of the projections of calibration pattern points. See
+     * #calibrateCamera for details.
+     * @param imageSize Size of the image used only to initialize the intrinsic camera matrix.
+     * @param iFixedPoint The index of the 3D object point in objectPoints[0] to be fixed. It also acts as
+     * a switch for calibration method selection. If object-releasing method to be used, pass in the
+     * parameter in the range of [1, objectPoints[0].size()-2], otherwise a value out of this range will
+     * make standard calibration method selected. Usually the top-right corner point of the calibration
+     * board grid is recommended to be fixed when object-releasing method being utilized. According to
+     * \cite strobl2011iccv, two other points are also fixed. In this implementation, objectPoints[0].front
+     * and objectPoints[0].back.z are used. With object-releasing method, accurate rvecs, tvecs and
+     * newObjPoints are only possible if coordinates of these three fixed points are accurate enough.
+     * @param cameraMatrix Output 3x3 floating-point camera matrix. See #calibrateCamera for details.
+     * @param distCoeffs Output vector of distortion coefficients. See #calibrateCamera for details.
+     * @param rvecs Output vector of rotation vectors estimated for each pattern view. See #calibrateCamera
+     * for details.
+     * @param tvecs Output vector of translation vectors estimated for each pattern view.
+     * @param newObjPoints The updated output vector of calibration pattern points. The coordinates might
+     * be scaled based on three fixed points. The returned coordinates are accurate only if the above
+     * mentioned three fixed points are accurate. If not needed, noArray() can be passed in. This parameter
+     * is ignored with standard calibration method.
+     * @param stdDeviationsIntrinsics Output vector of standard deviations estimated for intrinsic parameters.
+     * See #calibrateCamera for details.
+     * @param stdDeviationsExtrinsics Output vector of standard deviations estimated for extrinsic parameters.
+     * See #calibrateCamera for details.
+     * @param stdDeviationsObjPoints Output vector of standard deviations estimated for refined coordinates
+     * of calibration pattern points. It has the same size and order as objectPoints[0] vector. This
+     * parameter is ignored with standard calibration method.
+     *  @param perViewErrors Output vector of the RMS re-projection error estimated for each pattern view.
+     * @param flags Different flags that may be zero or a combination of some predefined values. See
+     * #calibrateCamera for details. If the method of releasing object is used, the calibration time may
+     * be much longer. CALIB_USE_QR or CALIB_USE_LU could be used for faster calibration with potentially
+     * less precise and less stable in some rare cases.
+     * @param criteria Termination criteria for the iterative optimization algorithm.
+     *
+     * @return the overall RMS re-projection error.
+     *
+     * The function estimates the intrinsic camera parameters and extrinsic parameters for each of the
+     * views. The algorithm is based on CITE: Zhang2000, CITE: BouguetMCT and CITE: strobl2011iccv. See
+     * #calibrateCamera for other detailed explanations.
+     * SEE:
+     *    calibrateCamera, findChessboardCorners, solvePnP, initCameraMatrix2D, stereoCalibrate, undistort
+     */
+    public static double calibrateCameraROExtended(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, int iFixedPoint, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, Mat newObjPoints, Mat stdDeviationsIntrinsics, Mat stdDeviationsExtrinsics, Mat stdDeviationsObjPoints, Mat perViewErrors, int flags, TermCriteria criteria) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints_mat = Converters.vector_Mat_to_Mat(imagePoints);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = calibrateCameraROExtended_0(objectPoints_mat.nativeObj, imagePoints_mat.nativeObj, imageSize.width, imageSize.height, iFixedPoint, cameraMatrix.nativeObj, distCoeffs.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, newObjPoints.nativeObj, stdDeviationsIntrinsics.nativeObj, stdDeviationsExtrinsics.nativeObj, stdDeviationsObjPoints.nativeObj, perViewErrors.nativeObj, flags, criteria.type, criteria.maxCount, criteria.epsilon);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
+    }
+
+    /**
+     * Finds the camera intrinsic and extrinsic parameters from several views of a calibration pattern.
+     *
+     * This function is an extension of #calibrateCamera with the method of releasing object which was
+     * proposed in CITE: strobl2011iccv. In many common cases with inaccurate, unmeasured, roughly planar
+     * targets (calibration plates), this method can dramatically improve the precision of the estimated
+     * camera parameters. Both the object-releasing method and standard method are supported by this
+     * function. Use the parameter <b>iFixedPoint</b> for method selection. In the internal implementation,
+     * #calibrateCamera is a wrapper for this function.
+     *
+     * @param objectPoints Vector of vectors of calibration pattern points in the calibration pattern
+     * coordinate space. See #calibrateCamera for details. If the method of releasing object to be used,
+     * the identical calibration board must be used in each view and it must be fully visible, and all
+     * objectPoints[i] must be the same and all points should be roughly close to a plane. <b>The calibration
+     * target has to be rigid, or at least static if the camera (rather than the calibration target) is
+     * shifted for grabbing images.</b>
+     * @param imagePoints Vector of vectors of the projections of calibration pattern points. See
+     * #calibrateCamera for details.
+     * @param imageSize Size of the image used only to initialize the intrinsic camera matrix.
+     * @param iFixedPoint The index of the 3D object point in objectPoints[0] to be fixed. It also acts as
+     * a switch for calibration method selection. If object-releasing method to be used, pass in the
+     * parameter in the range of [1, objectPoints[0].size()-2], otherwise a value out of this range will
+     * make standard calibration method selected. Usually the top-right corner point of the calibration
+     * board grid is recommended to be fixed when object-releasing method being utilized. According to
+     * \cite strobl2011iccv, two other points are also fixed. In this implementation, objectPoints[0].front
+     * and objectPoints[0].back.z are used. With object-releasing method, accurate rvecs, tvecs and
+     * newObjPoints are only possible if coordinates of these three fixed points are accurate enough.
+     * @param cameraMatrix Output 3x3 floating-point camera matrix. See #calibrateCamera for details.
+     * @param distCoeffs Output vector of distortion coefficients. See #calibrateCamera for details.
+     * @param rvecs Output vector of rotation vectors estimated for each pattern view. See #calibrateCamera
+     * for details.
+     * @param tvecs Output vector of translation vectors estimated for each pattern view.
+     * @param newObjPoints The updated output vector of calibration pattern points. The coordinates might
+     * be scaled based on three fixed points. The returned coordinates are accurate only if the above
+     * mentioned three fixed points are accurate. If not needed, noArray() can be passed in. This parameter
+     * is ignored with standard calibration method.
+     * @param stdDeviationsIntrinsics Output vector of standard deviations estimated for intrinsic parameters.
+     * See #calibrateCamera for details.
+     * @param stdDeviationsExtrinsics Output vector of standard deviations estimated for extrinsic parameters.
+     * See #calibrateCamera for details.
+     * @param stdDeviationsObjPoints Output vector of standard deviations estimated for refined coordinates
+     * of calibration pattern points. It has the same size and order as objectPoints[0] vector. This
+     * parameter is ignored with standard calibration method.
+     *  @param perViewErrors Output vector of the RMS re-projection error estimated for each pattern view.
+     * @param flags Different flags that may be zero or a combination of some predefined values. See
+     * #calibrateCamera for details. If the method of releasing object is used, the calibration time may
+     * be much longer. CALIB_USE_QR or CALIB_USE_LU could be used for faster calibration with potentially
+     * less precise and less stable in some rare cases.
+     *
+     * @return the overall RMS re-projection error.
+     *
+     * The function estimates the intrinsic camera parameters and extrinsic parameters for each of the
+     * views. The algorithm is based on CITE: Zhang2000, CITE: BouguetMCT and CITE: strobl2011iccv. See
+     * #calibrateCamera for other detailed explanations.
+     * SEE:
+     *    calibrateCamera, findChessboardCorners, solvePnP, initCameraMatrix2D, stereoCalibrate, undistort
+     */
+    public static double calibrateCameraROExtended(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, int iFixedPoint, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, Mat newObjPoints, Mat stdDeviationsIntrinsics, Mat stdDeviationsExtrinsics, Mat stdDeviationsObjPoints, Mat perViewErrors, int flags) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints_mat = Converters.vector_Mat_to_Mat(imagePoints);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = calibrateCameraROExtended_1(objectPoints_mat.nativeObj, imagePoints_mat.nativeObj, imageSize.width, imageSize.height, iFixedPoint, cameraMatrix.nativeObj, distCoeffs.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, newObjPoints.nativeObj, stdDeviationsIntrinsics.nativeObj, stdDeviationsExtrinsics.nativeObj, stdDeviationsObjPoints.nativeObj, perViewErrors.nativeObj, flags);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
+    }
+
+    /**
+     * Finds the camera intrinsic and extrinsic parameters from several views of a calibration pattern.
+     *
+     * This function is an extension of #calibrateCamera with the method of releasing object which was
+     * proposed in CITE: strobl2011iccv. In many common cases with inaccurate, unmeasured, roughly planar
+     * targets (calibration plates), this method can dramatically improve the precision of the estimated
+     * camera parameters. Both the object-releasing method and standard method are supported by this
+     * function. Use the parameter <b>iFixedPoint</b> for method selection. In the internal implementation,
+     * #calibrateCamera is a wrapper for this function.
+     *
+     * @param objectPoints Vector of vectors of calibration pattern points in the calibration pattern
+     * coordinate space. See #calibrateCamera for details. If the method of releasing object to be used,
+     * the identical calibration board must be used in each view and it must be fully visible, and all
+     * objectPoints[i] must be the same and all points should be roughly close to a plane. <b>The calibration
+     * target has to be rigid, or at least static if the camera (rather than the calibration target) is
+     * shifted for grabbing images.</b>
+     * @param imagePoints Vector of vectors of the projections of calibration pattern points. See
+     * #calibrateCamera for details.
+     * @param imageSize Size of the image used only to initialize the intrinsic camera matrix.
+     * @param iFixedPoint The index of the 3D object point in objectPoints[0] to be fixed. It also acts as
+     * a switch for calibration method selection. If object-releasing method to be used, pass in the
+     * parameter in the range of [1, objectPoints[0].size()-2], otherwise a value out of this range will
+     * make standard calibration method selected. Usually the top-right corner point of the calibration
+     * board grid is recommended to be fixed when object-releasing method being utilized. According to
+     * \cite strobl2011iccv, two other points are also fixed. In this implementation, objectPoints[0].front
+     * and objectPoints[0].back.z are used. With object-releasing method, accurate rvecs, tvecs and
+     * newObjPoints are only possible if coordinates of these three fixed points are accurate enough.
+     * @param cameraMatrix Output 3x3 floating-point camera matrix. See #calibrateCamera for details.
+     * @param distCoeffs Output vector of distortion coefficients. See #calibrateCamera for details.
+     * @param rvecs Output vector of rotation vectors estimated for each pattern view. See #calibrateCamera
+     * for details.
+     * @param tvecs Output vector of translation vectors estimated for each pattern view.
+     * @param newObjPoints The updated output vector of calibration pattern points. The coordinates might
+     * be scaled based on three fixed points. The returned coordinates are accurate only if the above
+     * mentioned three fixed points are accurate. If not needed, noArray() can be passed in. This parameter
+     * is ignored with standard calibration method.
+     * @param stdDeviationsIntrinsics Output vector of standard deviations estimated for intrinsic parameters.
+     * See #calibrateCamera for details.
+     * @param stdDeviationsExtrinsics Output vector of standard deviations estimated for extrinsic parameters.
+     * See #calibrateCamera for details.
+     * @param stdDeviationsObjPoints Output vector of standard deviations estimated for refined coordinates
+     * of calibration pattern points. It has the same size and order as objectPoints[0] vector. This
+     * parameter is ignored with standard calibration method.
+     *  @param perViewErrors Output vector of the RMS re-projection error estimated for each pattern view.
+     * #calibrateCamera for details. If the method of releasing object is used, the calibration time may
+     * be much longer. CALIB_USE_QR or CALIB_USE_LU could be used for faster calibration with potentially
+     * less precise and less stable in some rare cases.
+     *
+     * @return the overall RMS re-projection error.
+     *
+     * The function estimates the intrinsic camera parameters and extrinsic parameters for each of the
+     * views. The algorithm is based on CITE: Zhang2000, CITE: BouguetMCT and CITE: strobl2011iccv. See
+     * #calibrateCamera for other detailed explanations.
+     * SEE:
+     *    calibrateCamera, findChessboardCorners, solvePnP, initCameraMatrix2D, stereoCalibrate, undistort
+     */
+    public static double calibrateCameraROExtended(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, int iFixedPoint, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, Mat newObjPoints, Mat stdDeviationsIntrinsics, Mat stdDeviationsExtrinsics, Mat stdDeviationsObjPoints, Mat perViewErrors) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints_mat = Converters.vector_Mat_to_Mat(imagePoints);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = calibrateCameraROExtended_2(objectPoints_mat.nativeObj, imagePoints_mat.nativeObj, imageSize.width, imageSize.height, iFixedPoint, cameraMatrix.nativeObj, distCoeffs.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, newObjPoints.nativeObj, stdDeviationsIntrinsics.nativeObj, stdDeviationsExtrinsics.nativeObj, stdDeviationsObjPoints.nativeObj, perViewErrors.nativeObj);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
+    }
+
+
+    //
+    // C++:  double cv::calibrateCameraRO(vector_Mat objectPoints, vector_Mat imagePoints, Size imageSize, int iFixedPoint, Mat& cameraMatrix, Mat& distCoeffs, vector_Mat& rvecs, vector_Mat& tvecs, Mat& newObjPoints, int flags = 0, TermCriteria criteria = TermCriteria( TermCriteria::COUNT + TermCriteria::EPS, 30, DBL_EPSILON))
+    //
+
+    public static double calibrateCameraRO(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, int iFixedPoint, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, Mat newObjPoints, int flags, TermCriteria criteria) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints_mat = Converters.vector_Mat_to_Mat(imagePoints);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = calibrateCameraRO_0(objectPoints_mat.nativeObj, imagePoints_mat.nativeObj, imageSize.width, imageSize.height, iFixedPoint, cameraMatrix.nativeObj, distCoeffs.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, newObjPoints.nativeObj, flags, criteria.type, criteria.maxCount, criteria.epsilon);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
+    }
+
+    public static double calibrateCameraRO(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, int iFixedPoint, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, Mat newObjPoints, int flags) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints_mat = Converters.vector_Mat_to_Mat(imagePoints);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = calibrateCameraRO_1(objectPoints_mat.nativeObj, imagePoints_mat.nativeObj, imageSize.width, imageSize.height, iFixedPoint, cameraMatrix.nativeObj, distCoeffs.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, newObjPoints.nativeObj, flags);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
+    }
+
+    public static double calibrateCameraRO(List<Mat> objectPoints, List<Mat> imagePoints, Size imageSize, int iFixedPoint, Mat cameraMatrix, Mat distCoeffs, List<Mat> rvecs, List<Mat> tvecs, Mat newObjPoints) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints_mat = Converters.vector_Mat_to_Mat(imagePoints);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = calibrateCameraRO_2(objectPoints_mat.nativeObj, imagePoints_mat.nativeObj, imageSize.width, imageSize.height, iFixedPoint, cameraMatrix.nativeObj, distCoeffs.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, newObjPoints.nativeObj);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
+    }
+
+
+    //
     // C++:  void cv::calibrationMatrixValues(Mat cameraMatrix, Size imageSize, double apertureWidth, double apertureHeight, double& fovx, double& fovy, double& focalLength, Point2d& principalPoint, double& aspectRatio)
     //
 
     /**
      * Computes useful camera characteristics from the camera intrinsic matrix.
      *
-     * @param cameraMatrix Input camera intrinsic matrix that can be estimated by calibrateCamera or
-     * stereoCalibrate .
+     * @param cameraMatrix Input camera intrinsic matrix that can be estimated by #calibrateCamera or
+     * #stereoCalibrate .
      * @param imageSize Input image size in pixels.
      * @param apertureWidth Physical width in mm of the sensor.
      * @param apertureHeight Physical height in mm of the sensor.
@@ -5384,7 +4610,7 @@ public class Calib3d {
 
 
     //
-    // C++:  double cv::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& cameraMatrix1, Mat& distCoeffs1, Mat& cameraMatrix2, Mat& distCoeffs2, Size imageSize, Mat& R, Mat& T, Mat& E, Mat& F, Mat& perViewErrors, int flags = CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 1e-6))
+    // C++:  double cv::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& cameraMatrix1, Mat& distCoeffs1, Mat& cameraMatrix2, Mat& distCoeffs2, Size imageSize, Mat& R, Mat& T, Mat& E, Mat& F, vector_Mat& rvecs, vector_Mat& tvecs, Mat& perViewErrors, int flags = CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 1e-6))
     //
 
     /**
@@ -5418,6 +4644,15 @@ public class Calib3d {
      * @param T Output translation vector, see description above.
      * @param E Output essential matrix.
      * @param F Output fundamental matrix.
+     * @param rvecs Output vector of rotation vectors ( REF: Rodrigues ) estimated for each pattern view in the
+     * coordinate system of the first camera of the stereo pair (e.g. std::vector&lt;cv::Mat&gt;). More in detail, each
+     * i-th rotation vector together with the corresponding i-th translation vector (see the next output parameter
+     * description) brings the calibration pattern from the object coordinate space (in which object points are
+     * specified) to the camera coordinate space of the first camera of the stereo pair. In more technical terms,
+     * the tuple of the i-th rotation and translation vector performs a change of basis from object coordinate space
+     * to camera coordinate space of the first camera of the stereo pair.
+     * @param tvecs Output vector of translation vectors estimated for each pattern view, see parameter description
+     * of previous output parameter ( rvecs ).
      * @param perViewErrors Output vector of the RMS re-projection error estimated for each pattern view.
      * @param flags Different flags that may be zero or a combination of the following values:
      * <ul>
@@ -5530,22 +4765,29 @@ public class Calib3d {
      * the two cameras. However, due to the high dimensionality of the parameter space and noise in the
      * input data, the function can diverge from the correct solution. If the intrinsic parameters can be
      * estimated with high accuracy for each of the cameras individually (for example, using
-     * calibrateCamera ), you are recommended to do so and then pass REF: CALIB_FIX_INTRINSIC flag to the
+     * #calibrateCamera ), you are recommended to do so and then pass REF: CALIB_FIX_INTRINSIC flag to the
      * function along with the computed intrinsic parameters. Otherwise, if all the parameters are
      * estimated at once, it makes sense to restrict some parameters, for example, pass
      *  REF: CALIB_SAME_FOCAL_LENGTH and REF: CALIB_ZERO_TANGENT_DIST flags, which is usually a
      * reasonable assumption.
      *
-     * Similarly to calibrateCamera, the function minimizes the total re-projection error for all the
+     * Similarly to #calibrateCamera, the function minimizes the total re-projection error for all the
      * points in all the available views from both cameras. The function returns the final value of the
      * re-projection error.
      * @return automatically generated
      */
-    public static double stereoCalibrateExtended(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Size imageSize, Mat R, Mat T, Mat E, Mat F, Mat perViewErrors, int flags, TermCriteria criteria) {
+    public static double stereoCalibrateExtended(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Size imageSize, Mat R, Mat T, Mat E, Mat F, List<Mat> rvecs, List<Mat> tvecs, Mat perViewErrors, int flags, TermCriteria criteria) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
         Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
         Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
-        return stereoCalibrateExtended_0(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, E.nativeObj, F.nativeObj, perViewErrors.nativeObj, flags, criteria.type, criteria.maxCount, criteria.epsilon);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = stereoCalibrateExtended_0(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, E.nativeObj, F.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, perViewErrors.nativeObj, flags, criteria.type, criteria.maxCount, criteria.epsilon);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
     }
 
     /**
@@ -5579,6 +4821,15 @@ public class Calib3d {
      * @param T Output translation vector, see description above.
      * @param E Output essential matrix.
      * @param F Output fundamental matrix.
+     * @param rvecs Output vector of rotation vectors ( REF: Rodrigues ) estimated for each pattern view in the
+     * coordinate system of the first camera of the stereo pair (e.g. std::vector&lt;cv::Mat&gt;). More in detail, each
+     * i-th rotation vector together with the corresponding i-th translation vector (see the next output parameter
+     * description) brings the calibration pattern from the object coordinate space (in which object points are
+     * specified) to the camera coordinate space of the first camera of the stereo pair. In more technical terms,
+     * the tuple of the i-th rotation and translation vector performs a change of basis from object coordinate space
+     * to camera coordinate space of the first camera of the stereo pair.
+     * @param tvecs Output vector of translation vectors estimated for each pattern view, see parameter description
+     * of previous output parameter ( rvecs ).
      * @param perViewErrors Output vector of the RMS re-projection error estimated for each pattern view.
      * @param flags Different flags that may be zero or a combination of the following values:
      * <ul>
@@ -5690,22 +4941,29 @@ public class Calib3d {
      * the two cameras. However, due to the high dimensionality of the parameter space and noise in the
      * input data, the function can diverge from the correct solution. If the intrinsic parameters can be
      * estimated with high accuracy for each of the cameras individually (for example, using
-     * calibrateCamera ), you are recommended to do so and then pass REF: CALIB_FIX_INTRINSIC flag to the
+     * #calibrateCamera ), you are recommended to do so and then pass REF: CALIB_FIX_INTRINSIC flag to the
      * function along with the computed intrinsic parameters. Otherwise, if all the parameters are
      * estimated at once, it makes sense to restrict some parameters, for example, pass
      *  REF: CALIB_SAME_FOCAL_LENGTH and REF: CALIB_ZERO_TANGENT_DIST flags, which is usually a
      * reasonable assumption.
      *
-     * Similarly to calibrateCamera, the function minimizes the total re-projection error for all the
+     * Similarly to #calibrateCamera, the function minimizes the total re-projection error for all the
      * points in all the available views from both cameras. The function returns the final value of the
      * re-projection error.
      * @return automatically generated
      */
-    public static double stereoCalibrateExtended(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Size imageSize, Mat R, Mat T, Mat E, Mat F, Mat perViewErrors, int flags) {
+    public static double stereoCalibrateExtended(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Size imageSize, Mat R, Mat T, Mat E, Mat F, List<Mat> rvecs, List<Mat> tvecs, Mat perViewErrors, int flags) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
         Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
         Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
-        return stereoCalibrateExtended_1(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, E.nativeObj, F.nativeObj, perViewErrors.nativeObj, flags);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = stereoCalibrateExtended_1(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, E.nativeObj, F.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, perViewErrors.nativeObj, flags);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
     }
 
     /**
@@ -5739,6 +4997,15 @@ public class Calib3d {
      * @param T Output translation vector, see description above.
      * @param E Output essential matrix.
      * @param F Output fundamental matrix.
+     * @param rvecs Output vector of rotation vectors ( REF: Rodrigues ) estimated for each pattern view in the
+     * coordinate system of the first camera of the stereo pair (e.g. std::vector&lt;cv::Mat&gt;). More in detail, each
+     * i-th rotation vector together with the corresponding i-th translation vector (see the next output parameter
+     * description) brings the calibration pattern from the object coordinate space (in which object points are
+     * specified) to the camera coordinate space of the first camera of the stereo pair. In more technical terms,
+     * the tuple of the i-th rotation and translation vector performs a change of basis from object coordinate space
+     * to camera coordinate space of the first camera of the stereo pair.
+     * @param tvecs Output vector of translation vectors estimated for each pattern view, see parameter description
+     * of previous output parameter ( rvecs ).
      * @param perViewErrors Output vector of the RMS re-projection error estimated for each pattern view.
      * <ul>
      *   <li>
@@ -5849,22 +5116,29 @@ public class Calib3d {
      * the two cameras. However, due to the high dimensionality of the parameter space and noise in the
      * input data, the function can diverge from the correct solution. If the intrinsic parameters can be
      * estimated with high accuracy for each of the cameras individually (for example, using
-     * calibrateCamera ), you are recommended to do so and then pass REF: CALIB_FIX_INTRINSIC flag to the
+     * #calibrateCamera ), you are recommended to do so and then pass REF: CALIB_FIX_INTRINSIC flag to the
      * function along with the computed intrinsic parameters. Otherwise, if all the parameters are
      * estimated at once, it makes sense to restrict some parameters, for example, pass
      *  REF: CALIB_SAME_FOCAL_LENGTH and REF: CALIB_ZERO_TANGENT_DIST flags, which is usually a
      * reasonable assumption.
      *
-     * Similarly to calibrateCamera, the function minimizes the total re-projection error for all the
+     * Similarly to #calibrateCamera, the function minimizes the total re-projection error for all the
      * points in all the available views from both cameras. The function returns the final value of the
      * re-projection error.
      * @return automatically generated
      */
-    public static double stereoCalibrateExtended(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Size imageSize, Mat R, Mat T, Mat E, Mat F, Mat perViewErrors) {
+    public static double stereoCalibrateExtended(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Size imageSize, Mat R, Mat T, Mat E, Mat F, List<Mat> rvecs, List<Mat> tvecs, Mat perViewErrors) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
         Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
         Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
-        return stereoCalibrateExtended_2(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, E.nativeObj, F.nativeObj, perViewErrors.nativeObj);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = stereoCalibrateExtended_2(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, E.nativeObj, F.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, perViewErrors.nativeObj);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
     }
 
 
@@ -5891,6 +5165,32 @@ public class Calib3d {
         Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
         Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
         return stereoCalibrate_2(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, E.nativeObj, F.nativeObj);
+    }
+
+
+    //
+    // C++:  double cv::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& cameraMatrix1, Mat& distCoeffs1, Mat& cameraMatrix2, Mat& distCoeffs2, Size imageSize, Mat& R, Mat& T, Mat& E, Mat& F, Mat& perViewErrors, int flags = CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 1e-6))
+    //
+
+    public static double stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Size imageSize, Mat R, Mat T, Mat E, Mat F, Mat perViewErrors, int flags, TermCriteria criteria) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
+        Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
+        return stereoCalibrate_3(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, E.nativeObj, F.nativeObj, perViewErrors.nativeObj, flags, criteria.type, criteria.maxCount, criteria.epsilon);
+    }
+
+    public static double stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Size imageSize, Mat R, Mat T, Mat E, Mat F, Mat perViewErrors, int flags) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
+        Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
+        return stereoCalibrate_4(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, E.nativeObj, F.nativeObj, perViewErrors.nativeObj, flags);
+    }
+
+    public static double stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Size imageSize, Mat R, Mat T, Mat E, Mat F, Mat perViewErrors) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
+        Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
+        return stereoCalibrate_5(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, E.nativeObj, F.nativeObj, perViewErrors.nativeObj);
     }
 
 
@@ -5938,7 +5238,7 @@ public class Calib3d {
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
      * @param newImageSize New image resolution after rectification. The same size should be passed to
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * #initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * @param validPixROI1 Optional output rectangles inside the rectified images where all the pixels
@@ -5950,7 +5250,7 @@ public class Calib3d {
      *
      * The function computes the rotation matrices for each camera that (virtually) make both camera image
      * planes the same plane. Consequently, this makes all the epipolar lines parallel and thus simplifies
-     * the dense stereo correspondence problem. The function takes the matrices computed by stereoCalibrate
+     * the dense stereo correspondence problem. The function takes the matrices computed by #stereoCalibrate
      * as input. As output, it provides two rotation matrices and also two projection matrices in the new
      * coordinates. The function distinguishes the following two cases:
      *
@@ -5970,10 +5270,17 @@ public class Calib3d {
      *                      \end{bmatrix}\)
      *
      *     \(\texttt{P2} = \begin{bmatrix}
-     *                         f &amp; 0 &amp; cx_2 &amp; T_x*f \\
+     *                         f &amp; 0 &amp; cx_2 &amp; T_x \cdot f \\
      *                         0 &amp; f &amp; cy &amp; 0 \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix} ,\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx_1 \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_x} &amp; \frac{cx_1 - cx_2}{T_x}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_x\) is a horizontal shift between the cameras and \(cx_1=cx_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
@@ -5994,15 +5301,22 @@ public class Calib3d {
      *
      *     \(\texttt{P2} = \begin{bmatrix}
      *                         f &amp; 0 &amp; cx &amp; 0 \\
-     *                         0 &amp; f &amp; cy_2 &amp; T_y*f \\
+     *                         0 &amp; f &amp; cy_2 &amp; T_y \cdot f \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix},\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy_1 \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_y} &amp; \frac{cy_1 - cy_2}{T_y}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_y\) is a vertical shift between the cameras and \(cy_1=cy_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
      *
      * As you can see, the first three columns of P1 and P2 will effectively be the new "rectified" camera
-     * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
+     * matrices. The matrices, together with R1 and R2 , can then be passed to #initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
      * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
@@ -6060,7 +5374,7 @@ public class Calib3d {
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
      * @param newImageSize New image resolution after rectification. The same size should be passed to
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * #initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * @param validPixROI1 Optional output rectangles inside the rectified images where all the pixels
@@ -6071,7 +5385,7 @@ public class Calib3d {
      *
      * The function computes the rotation matrices for each camera that (virtually) make both camera image
      * planes the same plane. Consequently, this makes all the epipolar lines parallel and thus simplifies
-     * the dense stereo correspondence problem. The function takes the matrices computed by stereoCalibrate
+     * the dense stereo correspondence problem. The function takes the matrices computed by #stereoCalibrate
      * as input. As output, it provides two rotation matrices and also two projection matrices in the new
      * coordinates. The function distinguishes the following two cases:
      *
@@ -6091,10 +5405,17 @@ public class Calib3d {
      *                      \end{bmatrix}\)
      *
      *     \(\texttt{P2} = \begin{bmatrix}
-     *                         f &amp; 0 &amp; cx_2 &amp; T_x*f \\
+     *                         f &amp; 0 &amp; cx_2 &amp; T_x \cdot f \\
      *                         0 &amp; f &amp; cy &amp; 0 \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix} ,\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx_1 \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_x} &amp; \frac{cx_1 - cx_2}{T_x}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_x\) is a horizontal shift between the cameras and \(cx_1=cx_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
@@ -6115,15 +5436,22 @@ public class Calib3d {
      *
      *     \(\texttt{P2} = \begin{bmatrix}
      *                         f &amp; 0 &amp; cx &amp; 0 \\
-     *                         0 &amp; f &amp; cy_2 &amp; T_y*f \\
+     *                         0 &amp; f &amp; cy_2 &amp; T_y \cdot f \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix},\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy_1 \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_y} &amp; \frac{cy_1 - cy_2}{T_y}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_y\) is a vertical shift between the cameras and \(cy_1=cy_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
      *
      * As you can see, the first three columns of P1 and P2 will effectively be the new "rectified" camera
-     * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
+     * matrices. The matrices, together with R1 and R2 , can then be passed to #initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
      * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
@@ -6179,7 +5507,7 @@ public class Calib3d {
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
      * @param newImageSize New image resolution after rectification. The same size should be passed to
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * #initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * are valid. If alpha=0 , the ROIs cover the whole images. Otherwise, they are likely to be smaller
@@ -6189,7 +5517,7 @@ public class Calib3d {
      *
      * The function computes the rotation matrices for each camera that (virtually) make both camera image
      * planes the same plane. Consequently, this makes all the epipolar lines parallel and thus simplifies
-     * the dense stereo correspondence problem. The function takes the matrices computed by stereoCalibrate
+     * the dense stereo correspondence problem. The function takes the matrices computed by #stereoCalibrate
      * as input. As output, it provides two rotation matrices and also two projection matrices in the new
      * coordinates. The function distinguishes the following two cases:
      *
@@ -6209,10 +5537,17 @@ public class Calib3d {
      *                      \end{bmatrix}\)
      *
      *     \(\texttt{P2} = \begin{bmatrix}
-     *                         f &amp; 0 &amp; cx_2 &amp; T_x*f \\
+     *                         f &amp; 0 &amp; cx_2 &amp; T_x \cdot f \\
      *                         0 &amp; f &amp; cy &amp; 0 \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix} ,\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx_1 \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_x} &amp; \frac{cx_1 - cx_2}{T_x}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_x\) is a horizontal shift between the cameras and \(cx_1=cx_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
@@ -6233,15 +5568,22 @@ public class Calib3d {
      *
      *     \(\texttt{P2} = \begin{bmatrix}
      *                         f &amp; 0 &amp; cx &amp; 0 \\
-     *                         0 &amp; f &amp; cy_2 &amp; T_y*f \\
+     *                         0 &amp; f &amp; cy_2 &amp; T_y \cdot f \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix},\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy_1 \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_y} &amp; \frac{cy_1 - cy_2}{T_y}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_y\) is a vertical shift between the cameras and \(cy_1=cy_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
      *
      * As you can see, the first three columns of P1 and P2 will effectively be the new "rectified" camera
-     * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
+     * matrices. The matrices, together with R1 and R2 , can then be passed to #initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
      * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
@@ -6294,7 +5636,7 @@ public class Calib3d {
      * pixels from the original images from the cameras are retained in the rectified images (no source
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * #initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * are valid. If alpha=0 , the ROIs cover the whole images. Otherwise, they are likely to be smaller
@@ -6304,7 +5646,7 @@ public class Calib3d {
      *
      * The function computes the rotation matrices for each camera that (virtually) make both camera image
      * planes the same plane. Consequently, this makes all the epipolar lines parallel and thus simplifies
-     * the dense stereo correspondence problem. The function takes the matrices computed by stereoCalibrate
+     * the dense stereo correspondence problem. The function takes the matrices computed by #stereoCalibrate
      * as input. As output, it provides two rotation matrices and also two projection matrices in the new
      * coordinates. The function distinguishes the following two cases:
      *
@@ -6324,10 +5666,17 @@ public class Calib3d {
      *                      \end{bmatrix}\)
      *
      *     \(\texttt{P2} = \begin{bmatrix}
-     *                         f &amp; 0 &amp; cx_2 &amp; T_x*f \\
+     *                         f &amp; 0 &amp; cx_2 &amp; T_x \cdot f \\
      *                         0 &amp; f &amp; cy &amp; 0 \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix} ,\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx_1 \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_x} &amp; \frac{cx_1 - cx_2}{T_x}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_x\) is a horizontal shift between the cameras and \(cx_1=cx_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
@@ -6348,15 +5697,22 @@ public class Calib3d {
      *
      *     \(\texttt{P2} = \begin{bmatrix}
      *                         f &amp; 0 &amp; cx &amp; 0 \\
-     *                         0 &amp; f &amp; cy_2 &amp; T_y*f \\
+     *                         0 &amp; f &amp; cy_2 &amp; T_y \cdot f \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix},\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy_1 \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_y} &amp; \frac{cy_1 - cy_2}{T_y}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_y\) is a vertical shift between the cameras and \(cy_1=cy_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
      *
      * As you can see, the first three columns of P1 and P2 will effectively be the new "rectified" camera
-     * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
+     * matrices. The matrices, together with R1 and R2 , can then be passed to #initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
      * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
@@ -6408,7 +5764,7 @@ public class Calib3d {
      * pixels from the original images from the cameras are retained in the rectified images (no source
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * #initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * are valid. If alpha=0 , the ROIs cover the whole images. Otherwise, they are likely to be smaller
@@ -6418,7 +5774,7 @@ public class Calib3d {
      *
      * The function computes the rotation matrices for each camera that (virtually) make both camera image
      * planes the same plane. Consequently, this makes all the epipolar lines parallel and thus simplifies
-     * the dense stereo correspondence problem. The function takes the matrices computed by stereoCalibrate
+     * the dense stereo correspondence problem. The function takes the matrices computed by #stereoCalibrate
      * as input. As output, it provides two rotation matrices and also two projection matrices in the new
      * coordinates. The function distinguishes the following two cases:
      *
@@ -6438,10 +5794,17 @@ public class Calib3d {
      *                      \end{bmatrix}\)
      *
      *     \(\texttt{P2} = \begin{bmatrix}
-     *                         f &amp; 0 &amp; cx_2 &amp; T_x*f \\
+     *                         f &amp; 0 &amp; cx_2 &amp; T_x \cdot f \\
      *                         0 &amp; f &amp; cy &amp; 0 \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix} ,\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx_1 \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_x} &amp; \frac{cx_1 - cx_2}{T_x}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_x\) is a horizontal shift between the cameras and \(cx_1=cx_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
@@ -6462,15 +5825,22 @@ public class Calib3d {
      *
      *     \(\texttt{P2} = \begin{bmatrix}
      *                         f &amp; 0 &amp; cx &amp; 0 \\
-     *                         0 &amp; f &amp; cy_2 &amp; T_y*f \\
+     *                         0 &amp; f &amp; cy_2 &amp; T_y \cdot f \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix},\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy_1 \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_y} &amp; \frac{cy_1 - cy_2}{T_y}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_y\) is a vertical shift between the cameras and \(cy_1=cy_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
      *
      * As you can see, the first three columns of P1 and P2 will effectively be the new "rectified" camera
-     * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
+     * matrices. The matrices, together with R1 and R2 , can then be passed to #initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
      * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
@@ -6521,7 +5891,7 @@ public class Calib3d {
      * pixels from the original images from the cameras are retained in the rectified images (no source
      * image pixels are lost). Any intermediate value yields an intermediate result between
      * those two extreme cases.
-     * initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     * #initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
      * is passed (default), it is set to the original imageSize . Setting it to a larger value can help you
      * preserve details in the original image, especially when there is a big radial distortion.
      * are valid. If alpha=0 , the ROIs cover the whole images. Otherwise, they are likely to be smaller
@@ -6531,7 +5901,7 @@ public class Calib3d {
      *
      * The function computes the rotation matrices for each camera that (virtually) make both camera image
      * planes the same plane. Consequently, this makes all the epipolar lines parallel and thus simplifies
-     * the dense stereo correspondence problem. The function takes the matrices computed by stereoCalibrate
+     * the dense stereo correspondence problem. The function takes the matrices computed by #stereoCalibrate
      * as input. As output, it provides two rotation matrices and also two projection matrices in the new
      * coordinates. The function distinguishes the following two cases:
      *
@@ -6551,10 +5921,17 @@ public class Calib3d {
      *                      \end{bmatrix}\)
      *
      *     \(\texttt{P2} = \begin{bmatrix}
-     *                         f &amp; 0 &amp; cx_2 &amp; T_x*f \\
+     *                         f &amp; 0 &amp; cx_2 &amp; T_x \cdot f \\
      *                         0 &amp; f &amp; cy &amp; 0 \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix} ,\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx_1 \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_x} &amp; \frac{cx_1 - cx_2}{T_x}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_x\) is a horizontal shift between the cameras and \(cx_1=cx_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
@@ -6575,15 +5952,22 @@ public class Calib3d {
      *
      *     \(\texttt{P2} = \begin{bmatrix}
      *                         f &amp; 0 &amp; cx &amp; 0 \\
-     *                         0 &amp; f &amp; cy_2 &amp; T_y*f \\
+     *                         0 &amp; f &amp; cy_2 &amp; T_y \cdot f \\
      *                         0 &amp; 0 &amp; 1 &amp; 0
      *                      \end{bmatrix},\)
+     *
+     *     \(\texttt{Q} = \begin{bmatrix}
+     *                         1 &amp; 0 &amp; 0 &amp; -cx \\
+     *                         0 &amp; 1 &amp; 0 &amp; -cy_1 \\
+     *                         0 &amp; 0 &amp; 0 &amp; f \\
+     *                         0 &amp; 0 &amp; -\frac{1}{T_y} &amp; \frac{cy_1 - cy_2}{T_y}
+     *                     \end{bmatrix} \)
      *
      *     where \(T_y\) is a vertical shift between the cameras and \(cy_1=cy_2\) if
      *     REF: CALIB_ZERO_DISPARITY is set.
      *
      * As you can see, the first three columns of P1 and P2 will effectively be the new "rectified" camera
-     * matrices. The matrices, together with R1 and R2 , can then be passed to initUndistortRectifyMap to
+     * matrices. The matrices, together with R1 and R2 , can then be passed to #initUndistortRectifyMap to
      * initialize the rectification map for each camera.
      *
      * See below the screenshot from the stereo_calib.cpp sample. Some red horizontal lines pass through
@@ -6607,20 +5991,20 @@ public class Calib3d {
      *
      * @param points1 Array of feature points in the first image.
      * @param points2 The corresponding points in the second image. The same formats as in
-     * findFundamentalMat are supported.
+     * #findFundamentalMat are supported.
      * @param F Input fundamental matrix. It can be computed from the same set of point pairs using
-     * findFundamentalMat .
+     * #findFundamentalMat .
      * @param imgSize Size of the image.
      * @param H1 Output rectification homography matrix for the first image.
      * @param H2 Output rectification homography matrix for the second image.
      * @param threshold Optional threshold used to filter out the outliers. If the parameter is greater
      * than zero, all the point pairs that do not comply with the epipolar geometry (that is, the points
-     * for which \(|\texttt{points2[i]}^T*\texttt{F}*\texttt{points1[i]}|&gt;\texttt{threshold}\) ) are
-     * rejected prior to computing the homographies. Otherwise, all the points are considered inliers.
+     * for which \(|\texttt{points2[i]}^T \cdot \texttt{F} \cdot \texttt{points1[i]}|&gt;\texttt{threshold}\) )
+     * are rejected prior to computing the homographies. Otherwise, all the points are considered inliers.
      *
      * The function computes the rectification transformations without knowing intrinsic parameters of the
      * cameras and their relative position in the space, which explains the suffix "uncalibrated". Another
-     * related difference from stereoRectify is that the function outputs not the rectification
+     * related difference from #stereoRectify is that the function outputs not the rectification
      * transformations in the object (3D) space, but the planar perspective transformations encoded by the
      * homography matrices H1 and H2 . The function implements the algorithm CITE: Hartley99 .
      *
@@ -6629,8 +6013,8 @@ public class Calib3d {
      *     depends on the epipolar geometry. Therefore, if the camera lenses have a significant distortion,
      *     it would be better to correct it before computing the fundamental matrix and calling this
      *     function. For example, distortion coefficients can be estimated for each head of stereo camera
-     *     separately by using calibrateCamera . Then, the images can be corrected using undistort , or
-     *     just the point coordinates can be corrected with undistortPoints .
+     *     separately by using #calibrateCamera . Then, the images can be corrected using #undistort , or
+     *     just the point coordinates can be corrected with #undistortPoints .
      * @return automatically generated
      */
     public static boolean stereoRectifyUncalibrated(Mat points1, Mat points2, Mat F, Size imgSize, Mat H1, Mat H2, double threshold) {
@@ -6642,19 +6026,19 @@ public class Calib3d {
      *
      * @param points1 Array of feature points in the first image.
      * @param points2 The corresponding points in the second image. The same formats as in
-     * findFundamentalMat are supported.
+     * #findFundamentalMat are supported.
      * @param F Input fundamental matrix. It can be computed from the same set of point pairs using
-     * findFundamentalMat .
+     * #findFundamentalMat .
      * @param imgSize Size of the image.
      * @param H1 Output rectification homography matrix for the first image.
      * @param H2 Output rectification homography matrix for the second image.
      * than zero, all the point pairs that do not comply with the epipolar geometry (that is, the points
-     * for which \(|\texttt{points2[i]}^T*\texttt{F}*\texttt{points1[i]}|&gt;\texttt{threshold}\) ) are
-     * rejected prior to computing the homographies. Otherwise, all the points are considered inliers.
+     * for which \(|\texttt{points2[i]}^T \cdot \texttt{F} \cdot \texttt{points1[i]}|&gt;\texttt{threshold}\) )
+     * are rejected prior to computing the homographies. Otherwise, all the points are considered inliers.
      *
      * The function computes the rectification transformations without knowing intrinsic parameters of the
      * cameras and their relative position in the space, which explains the suffix "uncalibrated". Another
-     * related difference from stereoRectify is that the function outputs not the rectification
+     * related difference from #stereoRectify is that the function outputs not the rectification
      * transformations in the object (3D) space, but the planar perspective transformations encoded by the
      * homography matrices H1 and H2 . The function implements the algorithm CITE: Hartley99 .
      *
@@ -6663,8 +6047,8 @@ public class Calib3d {
      *     depends on the epipolar geometry. Therefore, if the camera lenses have a significant distortion,
      *     it would be better to correct it before computing the fundamental matrix and calling this
      *     function. For example, distortion coefficients can be estimated for each head of stereo camera
-     *     separately by using calibrateCamera . Then, the images can be corrected using undistort , or
-     *     just the point coordinates can be corrected with undistortPoints .
+     *     separately by using #calibrateCamera . Then, the images can be corrected using #undistort , or
+     *     just the point coordinates can be corrected with #undistortPoints .
      * @return automatically generated
      */
     public static boolean stereoRectifyUncalibrated(Mat points1, Mat points2, Mat F, Size imgSize, Mat H1, Mat H2) {
@@ -6702,10 +6086,10 @@ public class Calib3d {
      * @param imageSize Original image size.
      * @param alpha Free scaling parameter between 0 (when all the pixels in the undistorted image are
      * valid) and 1 (when all the source image pixels are retained in the undistorted image). See
-     * stereoRectify for details.
+     * #stereoRectify for details.
      * @param newImgSize Image size after rectification. By default, it is set to imageSize .
      * @param validPixROI Optional output rectangle that outlines all-good-pixels region in the
-     * undistorted image. See roi1, roi2 description in stereoRectify .
+     * undistorted image. See roi1, roi2 description in #stereoRectify .
      * @param centerPrincipalPoint Optional flag that indicates whether in the new camera intrinsic matrix the
      * principal point should be at the image center or not. By default, the principal point is chosen to
      * best fit a subset of the source image (determined by alpha) to the corrected image.
@@ -6717,7 +6101,7 @@ public class Calib3d {
      * When alpha&gt;0 , the undistorted result is likely to have some black pixels corresponding to
      * "virtual" pixels outside of the captured distorted image. The original camera intrinsic matrix, distortion
      * coefficients, the computed new camera intrinsic matrix, and newImageSize should be passed to
-     * initUndistortRectifyMap to produce the maps for remap .
+     * #initUndistortRectifyMap to produce the maps for #remap .
      */
     public static Mat getOptimalNewCameraMatrix(Mat cameraMatrix, Mat distCoeffs, Size imageSize, double alpha, Size newImgSize, Rect validPixROI, boolean centerPrincipalPoint) {
         double[] validPixROI_out = new double[4];
@@ -6736,10 +6120,10 @@ public class Calib3d {
      * @param imageSize Original image size.
      * @param alpha Free scaling parameter between 0 (when all the pixels in the undistorted image are
      * valid) and 1 (when all the source image pixels are retained in the undistorted image). See
-     * stereoRectify for details.
+     * #stereoRectify for details.
      * @param newImgSize Image size after rectification. By default, it is set to imageSize .
      * @param validPixROI Optional output rectangle that outlines all-good-pixels region in the
-     * undistorted image. See roi1, roi2 description in stereoRectify .
+     * undistorted image. See roi1, roi2 description in #stereoRectify .
      * principal point should be at the image center or not. By default, the principal point is chosen to
      * best fit a subset of the source image (determined by alpha) to the corrected image.
      * @return new_camera_matrix Output new camera intrinsic matrix.
@@ -6750,7 +6134,7 @@ public class Calib3d {
      * When alpha&gt;0 , the undistorted result is likely to have some black pixels corresponding to
      * "virtual" pixels outside of the captured distorted image. The original camera intrinsic matrix, distortion
      * coefficients, the computed new camera intrinsic matrix, and newImageSize should be passed to
-     * initUndistortRectifyMap to produce the maps for remap .
+     * #initUndistortRectifyMap to produce the maps for #remap .
      */
     public static Mat getOptimalNewCameraMatrix(Mat cameraMatrix, Mat distCoeffs, Size imageSize, double alpha, Size newImgSize, Rect validPixROI) {
         double[] validPixROI_out = new double[4];
@@ -6769,9 +6153,9 @@ public class Calib3d {
      * @param imageSize Original image size.
      * @param alpha Free scaling parameter between 0 (when all the pixels in the undistorted image are
      * valid) and 1 (when all the source image pixels are retained in the undistorted image). See
-     * stereoRectify for details.
+     * #stereoRectify for details.
      * @param newImgSize Image size after rectification. By default, it is set to imageSize .
-     * undistorted image. See roi1, roi2 description in stereoRectify .
+     * undistorted image. See roi1, roi2 description in #stereoRectify .
      * principal point should be at the image center or not. By default, the principal point is chosen to
      * best fit a subset of the source image (determined by alpha) to the corrected image.
      * @return new_camera_matrix Output new camera intrinsic matrix.
@@ -6782,7 +6166,7 @@ public class Calib3d {
      * When alpha&gt;0 , the undistorted result is likely to have some black pixels corresponding to
      * "virtual" pixels outside of the captured distorted image. The original camera intrinsic matrix, distortion
      * coefficients, the computed new camera intrinsic matrix, and newImageSize should be passed to
-     * initUndistortRectifyMap to produce the maps for remap .
+     * #initUndistortRectifyMap to produce the maps for #remap .
      */
     public static Mat getOptimalNewCameraMatrix(Mat cameraMatrix, Mat distCoeffs, Size imageSize, double alpha, Size newImgSize) {
         return new Mat(getOptimalNewCameraMatrix_2(cameraMatrix.nativeObj, distCoeffs.nativeObj, imageSize.width, imageSize.height, alpha, newImgSize.width, newImgSize.height));
@@ -6798,8 +6182,8 @@ public class Calib3d {
      * @param imageSize Original image size.
      * @param alpha Free scaling parameter between 0 (when all the pixels in the undistorted image are
      * valid) and 1 (when all the source image pixels are retained in the undistorted image). See
-     * stereoRectify for details.
-     * undistorted image. See roi1, roi2 description in stereoRectify .
+     * #stereoRectify for details.
+     * undistorted image. See roi1, roi2 description in #stereoRectify .
      * principal point should be at the image center or not. By default, the principal point is chosen to
      * best fit a subset of the source image (determined by alpha) to the corrected image.
      * @return new_camera_matrix Output new camera intrinsic matrix.
@@ -6810,7 +6194,7 @@ public class Calib3d {
      * When alpha&gt;0 , the undistorted result is likely to have some black pixels corresponding to
      * "virtual" pixels outside of the captured distorted image. The original camera intrinsic matrix, distortion
      * coefficients, the computed new camera intrinsic matrix, and newImageSize should be passed to
-     * initUndistortRectifyMap to produce the maps for remap .
+     * #initUndistortRectifyMap to produce the maps for #remap .
      */
     public static Mat getOptimalNewCameraMatrix(Mat cameraMatrix, Mat distCoeffs, Size imageSize, double alpha) {
         return new Mat(getOptimalNewCameraMatrix_3(cameraMatrix.nativeObj, distCoeffs.nativeObj, imageSize.width, imageSize.height, alpha));
@@ -6861,7 +6245,7 @@ public class Calib3d {
      * </ul>
      *
      * Another approach consists in estimating simultaneously the rotation and the translation (simultaneous solutions),
-     * with the following implemented method:
+     * with the following implemented methods:
      * <ul>
      *   <li>
      *    N. Andreff, R. Horaud, B. Espiau On-line Hand-Eye Calibration \cite Andreff99
@@ -6872,7 +6256,11 @@ public class Calib3d {
      * </ul>
      *
      * The following picture describes the Hand-Eye calibration problem where the transformation between a camera ("eye")
-     * mounted on a robot gripper ("hand") has to be estimated.
+     * mounted on a robot gripper ("hand") has to be estimated. This configuration is called eye-in-hand.
+     *
+     * The eye-to-hand configuration consists in a static camera observing a calibration pattern mounted on the robot
+     * end-effector. The transformation from the camera to the robot base frame can then be estimated by inputting
+     * the suitable transformations to the function, see below.
      *
      * ![](pics/hand-eye_figure.png)
      *
@@ -6955,13 +6343,35 @@ public class Calib3d {
      * \)
      *
      * This problem is also known as solving the \(\mathbf{A}\mathbf{X}=\mathbf{X}\mathbf{B}\) equation:
+     * <ul>
+     *   <li>
+     *    for an eye-in-hand configuration
      * \(
      *     \begin{align*}
      *     ^{b}{\textrm{T}_g}^{(1)} \hspace{0.2em} ^{g}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(1)} &amp;=
      *     \hspace{0.1em} ^{b}{\textrm{T}_g}^{(2)} \hspace{0.2em} ^{g}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} \\
+     *   </li>
+     * </ul>
      *
      *     (^{b}{\textrm{T}_g}^{(2)})^{-1} \hspace{0.2em} ^{b}{\textrm{T}_g}^{(1)} \hspace{0.2em} ^{g}\textrm{T}_c &amp;=
      *     \hspace{0.1em} ^{g}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} (^{c}{\textrm{T}_t}^{(1)})^{-1} \\
+     *
+     *     \textrm{A}_i \textrm{X} &amp;= \textrm{X} \textrm{B}_i \\
+     *     \end{align*}
+     * \)
+     *
+     * <ul>
+     *   <li>
+     *    for an eye-to-hand configuration
+     * \(
+     *     \begin{align*}
+     *     ^{g}{\textrm{T}_b}^{(1)} \hspace{0.2em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(1)} &amp;=
+     *     \hspace{0.1em} ^{g}{\textrm{T}_b}^{(2)} \hspace{0.2em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} \\
+     *   </li>
+     * </ul>
+     *
+     *     (^{g}{\textrm{T}_b}^{(2)})^{-1} \hspace{0.2em} ^{g}{\textrm{T}_b}^{(1)} \hspace{0.2em} ^{b}\textrm{T}_c &amp;=
+     *     \hspace{0.1em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} (^{c}{\textrm{T}_t}^{(1)})^{-1} \\
      *
      *     \textrm{A}_i \textrm{X} &amp;= \textrm{X} \textrm{B}_i \\
      *     \end{align*}
@@ -7020,7 +6430,7 @@ public class Calib3d {
      * </ul>
      *
      * Another approach consists in estimating simultaneously the rotation and the translation (simultaneous solutions),
-     * with the following implemented method:
+     * with the following implemented methods:
      * <ul>
      *   <li>
      *    N. Andreff, R. Horaud, B. Espiau On-line Hand-Eye Calibration \cite Andreff99
@@ -7031,7 +6441,11 @@ public class Calib3d {
      * </ul>
      *
      * The following picture describes the Hand-Eye calibration problem where the transformation between a camera ("eye")
-     * mounted on a robot gripper ("hand") has to be estimated.
+     * mounted on a robot gripper ("hand") has to be estimated. This configuration is called eye-in-hand.
+     *
+     * The eye-to-hand configuration consists in a static camera observing a calibration pattern mounted on the robot
+     * end-effector. The transformation from the camera to the robot base frame can then be estimated by inputting
+     * the suitable transformations to the function, see below.
      *
      * ![](pics/hand-eye_figure.png)
      *
@@ -7114,13 +6528,35 @@ public class Calib3d {
      * \)
      *
      * This problem is also known as solving the \(\mathbf{A}\mathbf{X}=\mathbf{X}\mathbf{B}\) equation:
+     * <ul>
+     *   <li>
+     *    for an eye-in-hand configuration
      * \(
      *     \begin{align*}
      *     ^{b}{\textrm{T}_g}^{(1)} \hspace{0.2em} ^{g}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(1)} &amp;=
      *     \hspace{0.1em} ^{b}{\textrm{T}_g}^{(2)} \hspace{0.2em} ^{g}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} \\
+     *   </li>
+     * </ul>
      *
      *     (^{b}{\textrm{T}_g}^{(2)})^{-1} \hspace{0.2em} ^{b}{\textrm{T}_g}^{(1)} \hspace{0.2em} ^{g}\textrm{T}_c &amp;=
      *     \hspace{0.1em} ^{g}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} (^{c}{\textrm{T}_t}^{(1)})^{-1} \\
+     *
+     *     \textrm{A}_i \textrm{X} &amp;= \textrm{X} \textrm{B}_i \\
+     *     \end{align*}
+     * \)
+     *
+     * <ul>
+     *   <li>
+     *    for an eye-to-hand configuration
+     * \(
+     *     \begin{align*}
+     *     ^{g}{\textrm{T}_b}^{(1)} \hspace{0.2em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(1)} &amp;=
+     *     \hspace{0.1em} ^{g}{\textrm{T}_b}^{(2)} \hspace{0.2em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} \\
+     *   </li>
+     * </ul>
+     *
+     *     (^{g}{\textrm{T}_b}^{(2)})^{-1} \hspace{0.2em} ^{g}{\textrm{T}_b}^{(1)} \hspace{0.2em} ^{b}\textrm{T}_c &amp;=
+     *     \hspace{0.1em} ^{b}\textrm{T}_c \hspace{0.2em} ^{c}{\textrm{T}_t}^{(2)} (^{c}{\textrm{T}_t}^{(1)})^{-1} \\
      *
      *     \textrm{A}_i \textrm{X} &amp;= \textrm{X} \textrm{B}_i \\
      *     \end{align*}
@@ -7138,6 +6574,358 @@ public class Calib3d {
         Mat R_target2cam_mat = Converters.vector_Mat_to_Mat(R_target2cam);
         Mat t_target2cam_mat = Converters.vector_Mat_to_Mat(t_target2cam);
         calibrateHandEye_1(R_gripper2base_mat.nativeObj, t_gripper2base_mat.nativeObj, R_target2cam_mat.nativeObj, t_target2cam_mat.nativeObj, R_cam2gripper.nativeObj, t_cam2gripper.nativeObj);
+    }
+
+
+    //
+    // C++:  void cv::calibrateRobotWorldHandEye(vector_Mat R_world2cam, vector_Mat t_world2cam, vector_Mat R_base2gripper, vector_Mat t_base2gripper, Mat& R_base2world, Mat& t_base2world, Mat& R_gripper2cam, Mat& t_gripper2cam, RobotWorldHandEyeCalibrationMethod method = CALIB_ROBOT_WORLD_HAND_EYE_SHAH)
+    //
+
+    /**
+     * Computes Robot-World/Hand-Eye calibration: \(_{}^{w}\textrm{T}_b\) and \(_{}^{c}\textrm{T}_g\)
+     *
+     * @param R_world2cam Rotation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the world frame to the camera frame (\(_{}^{c}\textrm{T}_w\)).
+     * This is a vector ({@code vector&lt;Mat&gt;}) that contains the rotation, {@code (3x3)} rotation matrices or {@code (3x1)} rotation vectors,
+     * for all the transformations from world frame to the camera frame.
+     * @param t_world2cam Translation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the world frame to the camera frame (\(_{}^{c}\textrm{T}_w\)).
+     * This is a vector ({@code vector&lt;Mat&gt;}) that contains the {@code (3x1)} translation vectors for all the transformations
+     * from world frame to the camera frame.
+     * @param R_base2gripper Rotation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the robot base frame to the gripper frame (\(_{}^{g}\textrm{T}_b\)).
+     * This is a vector ({@code vector&lt;Mat&gt;}) that contains the rotation, {@code (3x3)} rotation matrices or {@code (3x1)} rotation vectors,
+     * for all the transformations from robot base frame to the gripper frame.
+     * @param t_base2gripper Rotation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the robot base frame to the gripper frame (\(_{}^{g}\textrm{T}_b\)).
+     * This is a vector ({@code vector&lt;Mat&gt;}) that contains the {@code (3x1)} translation vectors for all the transformations
+     * from robot base frame to the gripper frame.
+     * @param R_base2world Estimated {@code (3x3)} rotation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the robot base frame to the world frame (\(_{}^{w}\textrm{T}_b\)).
+     * @param t_base2world Estimated {@code (3x1)} translation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the robot base frame to the world frame (\(_{}^{w}\textrm{T}_b\)).
+     * @param R_gripper2cam Estimated {@code (3x3)} rotation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the gripper frame to the camera frame (\(_{}^{c}\textrm{T}_g\)).
+     * @param t_gripper2cam Estimated {@code (3x1)} translation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the gripper frame to the camera frame (\(_{}^{c}\textrm{T}_g\)).
+     * @param method One of the implemented Robot-World/Hand-Eye calibration method, see cv::RobotWorldHandEyeCalibrationMethod
+     *
+     * The function performs the Robot-World/Hand-Eye calibration using various methods. One approach consists in estimating the
+     * rotation then the translation (separable solutions):
+     * <ul>
+     *   <li>
+     *    M. Shah, Solving the robot-world/hand-eye calibration problem using the kronecker product \cite Shah2013SolvingTR
+     *   </li>
+     * </ul>
+     *
+     * Another approach consists in estimating simultaneously the rotation and the translation (simultaneous solutions),
+     * with the following implemented method:
+     * <ul>
+     *   <li>
+     *    A. Li, L. Wang, and D. Wu, Simultaneous robot-world and hand-eye calibration using dual-quaternions and kronecker product \cite Li2010SimultaneousRA
+     *   </li>
+     * </ul>
+     *
+     * The following picture describes the Robot-World/Hand-Eye calibration problem where the transformations between a robot and a world frame
+     * and between a robot gripper ("hand") and a camera ("eye") mounted at the robot end-effector have to be estimated.
+     *
+     * ![](pics/robot-world_hand-eye_figure.png)
+     *
+     * The calibration procedure is the following:
+     * <ul>
+     *   <li>
+     *    a static calibration pattern is used to estimate the transformation between the target frame
+     *   and the camera frame
+     *   </li>
+     *   <li>
+     *    the robot gripper is moved in order to acquire several poses
+     *   </li>
+     *   <li>
+     *    for each pose, the homogeneous transformation between the gripper frame and the robot base frame is recorded using for
+     *   instance the robot kinematics
+     * \(
+     *     \begin{bmatrix}
+     *     X_g\\
+     *     Y_g\\
+     *     Z_g\\
+     *     1
+     *     \end{bmatrix}
+     *     =
+     *     \begin{bmatrix}
+     *     _{}^{g}\textrm{R}_b &amp; _{}^{g}\textrm{t}_b \\
+     *     0_{1 \times 3} &amp; 1
+     *     \end{bmatrix}
+     *     \begin{bmatrix}
+     *     X_b\\
+     *     Y_b\\
+     *     Z_b\\
+     *     1
+     *     \end{bmatrix}
+     * \)
+     *   </li>
+     *   <li>
+     *    for each pose, the homogeneous transformation between the calibration target frame (the world frame) and the camera frame is recorded using
+     *   for instance a pose estimation method (PnP) from 2D-3D point correspondences
+     * \(
+     *     \begin{bmatrix}
+     *     X_c\\
+     *     Y_c\\
+     *     Z_c\\
+     *     1
+     *     \end{bmatrix}
+     *     =
+     *     \begin{bmatrix}
+     *     _{}^{c}\textrm{R}_w &amp; _{}^{c}\textrm{t}_w \\
+     *     0_{1 \times 3} &amp; 1
+     *     \end{bmatrix}
+     *     \begin{bmatrix}
+     *     X_w\\
+     *     Y_w\\
+     *     Z_w\\
+     *     1
+     *     \end{bmatrix}
+     * \)
+     *   </li>
+     * </ul>
+     *
+     * The Robot-World/Hand-Eye calibration procedure returns the following homogeneous transformations
+     * \(
+     *     \begin{bmatrix}
+     *     X_w\\
+     *     Y_w\\
+     *     Z_w\\
+     *     1
+     *     \end{bmatrix}
+     *     =
+     *     \begin{bmatrix}
+     *     _{}^{w}\textrm{R}_b &amp; _{}^{w}\textrm{t}_b \\
+     *     0_{1 \times 3} &amp; 1
+     *     \end{bmatrix}
+     *     \begin{bmatrix}
+     *     X_b\\
+     *     Y_b\\
+     *     Z_b\\
+     *     1
+     *     \end{bmatrix}
+     * \)
+     * \(
+     *     \begin{bmatrix}
+     *     X_c\\
+     *     Y_c\\
+     *     Z_c\\
+     *     1
+     *     \end{bmatrix}
+     *     =
+     *     \begin{bmatrix}
+     *     _{}^{c}\textrm{R}_g &amp; _{}^{c}\textrm{t}_g \\
+     *     0_{1 \times 3} &amp; 1
+     *     \end{bmatrix}
+     *     \begin{bmatrix}
+     *     X_g\\
+     *     Y_g\\
+     *     Z_g\\
+     *     1
+     *     \end{bmatrix}
+     * \)
+     *
+     * This problem is also known as solving the \(\mathbf{A}\mathbf{X}=\mathbf{Z}\mathbf{B}\) equation, with:
+     * <ul>
+     *   <li>
+     *    \(\mathbf{A} \Leftrightarrow \hspace{0.1em} _{}^{c}\textrm{T}_w\)
+     *   </li>
+     *   <li>
+     *    \(\mathbf{X} \Leftrightarrow \hspace{0.1em} _{}^{w}\textrm{T}_b\)
+     *   </li>
+     *   <li>
+     *    \(\mathbf{Z} \Leftrightarrow \hspace{0.1em} _{}^{c}\textrm{T}_g\)
+     *   </li>
+     *   <li>
+     *    \(\mathbf{B} \Leftrightarrow \hspace{0.1em} _{}^{g}\textrm{T}_b\)
+     *   </li>
+     * </ul>
+     *
+     * \note
+     * At least 3 measurements are required (input vectors size must be greater or equal to 3).
+     */
+    public static void calibrateRobotWorldHandEye(List<Mat> R_world2cam, List<Mat> t_world2cam, List<Mat> R_base2gripper, List<Mat> t_base2gripper, Mat R_base2world, Mat t_base2world, Mat R_gripper2cam, Mat t_gripper2cam, int method) {
+        Mat R_world2cam_mat = Converters.vector_Mat_to_Mat(R_world2cam);
+        Mat t_world2cam_mat = Converters.vector_Mat_to_Mat(t_world2cam);
+        Mat R_base2gripper_mat = Converters.vector_Mat_to_Mat(R_base2gripper);
+        Mat t_base2gripper_mat = Converters.vector_Mat_to_Mat(t_base2gripper);
+        calibrateRobotWorldHandEye_0(R_world2cam_mat.nativeObj, t_world2cam_mat.nativeObj, R_base2gripper_mat.nativeObj, t_base2gripper_mat.nativeObj, R_base2world.nativeObj, t_base2world.nativeObj, R_gripper2cam.nativeObj, t_gripper2cam.nativeObj, method);
+    }
+
+    /**
+     * Computes Robot-World/Hand-Eye calibration: \(_{}^{w}\textrm{T}_b\) and \(_{}^{c}\textrm{T}_g\)
+     *
+     * @param R_world2cam Rotation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the world frame to the camera frame (\(_{}^{c}\textrm{T}_w\)).
+     * This is a vector ({@code vector&lt;Mat&gt;}) that contains the rotation, {@code (3x3)} rotation matrices or {@code (3x1)} rotation vectors,
+     * for all the transformations from world frame to the camera frame.
+     * @param t_world2cam Translation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the world frame to the camera frame (\(_{}^{c}\textrm{T}_w\)).
+     * This is a vector ({@code vector&lt;Mat&gt;}) that contains the {@code (3x1)} translation vectors for all the transformations
+     * from world frame to the camera frame.
+     * @param R_base2gripper Rotation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the robot base frame to the gripper frame (\(_{}^{g}\textrm{T}_b\)).
+     * This is a vector ({@code vector&lt;Mat&gt;}) that contains the rotation, {@code (3x3)} rotation matrices or {@code (3x1)} rotation vectors,
+     * for all the transformations from robot base frame to the gripper frame.
+     * @param t_base2gripper Rotation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the robot base frame to the gripper frame (\(_{}^{g}\textrm{T}_b\)).
+     * This is a vector ({@code vector&lt;Mat&gt;}) that contains the {@code (3x1)} translation vectors for all the transformations
+     * from robot base frame to the gripper frame.
+     * @param R_base2world Estimated {@code (3x3)} rotation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the robot base frame to the world frame (\(_{}^{w}\textrm{T}_b\)).
+     * @param t_base2world Estimated {@code (3x1)} translation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the robot base frame to the world frame (\(_{}^{w}\textrm{T}_b\)).
+     * @param R_gripper2cam Estimated {@code (3x3)} rotation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the gripper frame to the camera frame (\(_{}^{c}\textrm{T}_g\)).
+     * @param t_gripper2cam Estimated {@code (3x1)} translation part extracted from the homogeneous matrix that transforms a point
+     * expressed in the gripper frame to the camera frame (\(_{}^{c}\textrm{T}_g\)).
+     *
+     * The function performs the Robot-World/Hand-Eye calibration using various methods. One approach consists in estimating the
+     * rotation then the translation (separable solutions):
+     * <ul>
+     *   <li>
+     *    M. Shah, Solving the robot-world/hand-eye calibration problem using the kronecker product \cite Shah2013SolvingTR
+     *   </li>
+     * </ul>
+     *
+     * Another approach consists in estimating simultaneously the rotation and the translation (simultaneous solutions),
+     * with the following implemented method:
+     * <ul>
+     *   <li>
+     *    A. Li, L. Wang, and D. Wu, Simultaneous robot-world and hand-eye calibration using dual-quaternions and kronecker product \cite Li2010SimultaneousRA
+     *   </li>
+     * </ul>
+     *
+     * The following picture describes the Robot-World/Hand-Eye calibration problem where the transformations between a robot and a world frame
+     * and between a robot gripper ("hand") and a camera ("eye") mounted at the robot end-effector have to be estimated.
+     *
+     * ![](pics/robot-world_hand-eye_figure.png)
+     *
+     * The calibration procedure is the following:
+     * <ul>
+     *   <li>
+     *    a static calibration pattern is used to estimate the transformation between the target frame
+     *   and the camera frame
+     *   </li>
+     *   <li>
+     *    the robot gripper is moved in order to acquire several poses
+     *   </li>
+     *   <li>
+     *    for each pose, the homogeneous transformation between the gripper frame and the robot base frame is recorded using for
+     *   instance the robot kinematics
+     * \(
+     *     \begin{bmatrix}
+     *     X_g\\
+     *     Y_g\\
+     *     Z_g\\
+     *     1
+     *     \end{bmatrix}
+     *     =
+     *     \begin{bmatrix}
+     *     _{}^{g}\textrm{R}_b &amp; _{}^{g}\textrm{t}_b \\
+     *     0_{1 \times 3} &amp; 1
+     *     \end{bmatrix}
+     *     \begin{bmatrix}
+     *     X_b\\
+     *     Y_b\\
+     *     Z_b\\
+     *     1
+     *     \end{bmatrix}
+     * \)
+     *   </li>
+     *   <li>
+     *    for each pose, the homogeneous transformation between the calibration target frame (the world frame) and the camera frame is recorded using
+     *   for instance a pose estimation method (PnP) from 2D-3D point correspondences
+     * \(
+     *     \begin{bmatrix}
+     *     X_c\\
+     *     Y_c\\
+     *     Z_c\\
+     *     1
+     *     \end{bmatrix}
+     *     =
+     *     \begin{bmatrix}
+     *     _{}^{c}\textrm{R}_w &amp; _{}^{c}\textrm{t}_w \\
+     *     0_{1 \times 3} &amp; 1
+     *     \end{bmatrix}
+     *     \begin{bmatrix}
+     *     X_w\\
+     *     Y_w\\
+     *     Z_w\\
+     *     1
+     *     \end{bmatrix}
+     * \)
+     *   </li>
+     * </ul>
+     *
+     * The Robot-World/Hand-Eye calibration procedure returns the following homogeneous transformations
+     * \(
+     *     \begin{bmatrix}
+     *     X_w\\
+     *     Y_w\\
+     *     Z_w\\
+     *     1
+     *     \end{bmatrix}
+     *     =
+     *     \begin{bmatrix}
+     *     _{}^{w}\textrm{R}_b &amp; _{}^{w}\textrm{t}_b \\
+     *     0_{1 \times 3} &amp; 1
+     *     \end{bmatrix}
+     *     \begin{bmatrix}
+     *     X_b\\
+     *     Y_b\\
+     *     Z_b\\
+     *     1
+     *     \end{bmatrix}
+     * \)
+     * \(
+     *     \begin{bmatrix}
+     *     X_c\\
+     *     Y_c\\
+     *     Z_c\\
+     *     1
+     *     \end{bmatrix}
+     *     =
+     *     \begin{bmatrix}
+     *     _{}^{c}\textrm{R}_g &amp; _{}^{c}\textrm{t}_g \\
+     *     0_{1 \times 3} &amp; 1
+     *     \end{bmatrix}
+     *     \begin{bmatrix}
+     *     X_g\\
+     *     Y_g\\
+     *     Z_g\\
+     *     1
+     *     \end{bmatrix}
+     * \)
+     *
+     * This problem is also known as solving the \(\mathbf{A}\mathbf{X}=\mathbf{Z}\mathbf{B}\) equation, with:
+     * <ul>
+     *   <li>
+     *    \(\mathbf{A} \Leftrightarrow \hspace{0.1em} _{}^{c}\textrm{T}_w\)
+     *   </li>
+     *   <li>
+     *    \(\mathbf{X} \Leftrightarrow \hspace{0.1em} _{}^{w}\textrm{T}_b\)
+     *   </li>
+     *   <li>
+     *    \(\mathbf{Z} \Leftrightarrow \hspace{0.1em} _{}^{c}\textrm{T}_g\)
+     *   </li>
+     *   <li>
+     *    \(\mathbf{B} \Leftrightarrow \hspace{0.1em} _{}^{g}\textrm{T}_b\)
+     *   </li>
+     * </ul>
+     *
+     * \note
+     * At least 3 measurements are required (input vectors size must be greater or equal to 3).
+     */
+    public static void calibrateRobotWorldHandEye(List<Mat> R_world2cam, List<Mat> t_world2cam, List<Mat> R_base2gripper, List<Mat> t_base2gripper, Mat R_base2world, Mat t_base2world, Mat R_gripper2cam, Mat t_gripper2cam) {
+        Mat R_world2cam_mat = Converters.vector_Mat_to_Mat(R_world2cam);
+        Mat t_world2cam_mat = Converters.vector_Mat_to_Mat(t_world2cam);
+        Mat R_base2gripper_mat = Converters.vector_Mat_to_Mat(R_base2gripper);
+        Mat t_base2gripper_mat = Converters.vector_Mat_to_Mat(t_base2gripper);
+        calibrateRobotWorldHandEye_1(R_world2cam_mat.nativeObj, t_world2cam_mat.nativeObj, R_base2gripper_mat.nativeObj, t_base2gripper_mat.nativeObj, R_base2world.nativeObj, t_base2world.nativeObj, R_gripper2cam.nativeObj, t_gripper2cam.nativeObj);
     }
 
 
@@ -7224,9 +7012,9 @@ public class Calib3d {
      * algorithm, the function may return up to 3 solutions ( \(9 \times 3\) matrix that stores all 3
      * matrices sequentially).
      *
-     * The calculated fundamental matrix may be passed further to computeCorrespondEpilines that finds the
+     * The calculated fundamental matrix may be passed further to #computeCorrespondEpilines that finds the
      * epipolar lines corresponding to the specified points. It can also be passed to
-     * stereoRectifyUncalibrated to compute the rectification transformation. :
+     * #stereoRectifyUncalibrated to compute the rectification transformation. :
      * <code>
      *     // Example. Estimation of fundamental matrix using the RANSAC algorithm
      *     int point_count = 100;
@@ -7292,9 +7080,9 @@ public class Calib3d {
      * algorithm, the function may return up to 3 solutions ( \(9 \times 3\) matrix that stores all 3
      * matrices sequentially).
      *
-     * The calculated fundamental matrix may be passed further to computeCorrespondEpilines that finds the
+     * The calculated fundamental matrix may be passed further to #computeCorrespondEpilines that finds the
      * epipolar lines corresponding to the specified points. It can also be passed to
-     * stereoRectifyUncalibrated to compute the rectification transformation. :
+     * #stereoRectifyUncalibrated to compute the rectification transformation. :
      * <code>
      *     // Example. Estimation of fundamental matrix using the RANSAC algorithm
      *     int point_count = 100;
@@ -7356,7 +7144,18 @@ public class Calib3d {
 
 
     //
-    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method, double prob, double threshold, int maxIters, Mat& mask = Mat())
+    // C++:  Mat cv::findFundamentalMat(vector_Point2f points1, vector_Point2f points2, Mat& mask, UsacParams params)
+    //
+
+    public static Mat findFundamentalMat(MatOfPoint2f points1, MatOfPoint2f points2, Mat mask, UsacParams params) {
+        Mat points1_mat = points1;
+        Mat points2_mat = points2;
+        return new Mat(findFundamentalMat_7(points1_mat.nativeObj, points2_mat.nativeObj, mask.nativeObj, params.nativeObj));
+    }
+
+
+    //
+    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method = RANSAC, double prob = 0.999, double threshold = 1.0, int maxIters = 1000, Mat& mask = Mat())
     //
 
     /**
@@ -7368,7 +7167,7 @@ public class Calib3d {
      * @param cameraMatrix Camera intrinsic matrix \(\cameramatrix{A}\) .
      * Note that this function assumes that points1 and points2 are feature points from cameras with the
      * same camera intrinsic matrix. If this assumption does not hold for your use case, use
-     * {@code undistortPoints()} with {@code P = cv::NoArray()} for both cameras to transform image points
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
      * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
      * passing these coordinates, pass the identity matrix for this parameter.
      * @param method Method for computing an essential matrix.
@@ -7397,7 +7196,7 @@ public class Calib3d {
      *
      * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
      * second images, respectively. The result of this function may be passed further to
-     * decomposeEssentialMat or recoverPose to recover the relative pose between cameras.
+     * #decomposeEssentialMat or #recoverPose to recover the relative pose between cameras.
      * @return automatically generated
      */
     public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method, double prob, double threshold, int maxIters, Mat mask) {
@@ -7413,7 +7212,7 @@ public class Calib3d {
      * @param cameraMatrix Camera intrinsic matrix \(\cameramatrix{A}\) .
      * Note that this function assumes that points1 and points2 are feature points from cameras with the
      * same camera intrinsic matrix. If this assumption does not hold for your use case, use
-     * {@code undistortPoints()} with {@code P = cv::NoArray()} for both cameras to transform image points
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
      * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
      * passing these coordinates, pass the identity matrix for this parameter.
      * @param method Method for computing an essential matrix.
@@ -7441,41 +7240,182 @@ public class Calib3d {
      *
      * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
      * second images, respectively. The result of this function may be passed further to
-     * decomposeEssentialMat or recoverPose to recover the relative pose between cameras.
+     * #decomposeEssentialMat or #recoverPose to recover the relative pose between cameras.
      * @return automatically generated
      */
     public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method, double prob, double threshold, int maxIters) {
         return new Mat(findEssentialMat_1(points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, method, prob, threshold, maxIters));
     }
 
-
-    //
-    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method = RANSAC, double prob = 0.999, double threshold = 1.0, Mat& mask = Mat())
-    //
-
-    public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method, double prob, double threshold, Mat mask) {
-        return new Mat(findEssentialMat_2(points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, method, prob, threshold, mask.nativeObj));
-    }
-
+    /**
+     * Calculates an essential matrix from the corresponding points in two images.
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix Camera intrinsic matrix \(\cameramatrix{A}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera intrinsic matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
+     * confidence (probability) that the estimated matrix is correct.
+     * @param threshold Parameter used for RANSAC. It is the maximum distance from a point to an epipolar
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
+     * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
+     *
+     * \([p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0\)
+     *
+     * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
+     * second images, respectively. The result of this function may be passed further to
+     * #decomposeEssentialMat or #recoverPose to recover the relative pose between cameras.
+     * @return automatically generated
+     */
     public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method, double prob, double threshold) {
-        return new Mat(findEssentialMat_3(points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, method, prob, threshold));
+        return new Mat(findEssentialMat_2(points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, method, prob, threshold));
     }
 
+    /**
+     * Calculates an essential matrix from the corresponding points in two images.
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix Camera intrinsic matrix \(\cameramatrix{A}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera intrinsic matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
+     * confidence (probability) that the estimated matrix is correct.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
+     * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
+     *
+     * \([p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0\)
+     *
+     * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
+     * second images, respectively. The result of this function may be passed further to
+     * #decomposeEssentialMat or #recoverPose to recover the relative pose between cameras.
+     * @return automatically generated
+     */
     public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method, double prob) {
-        return new Mat(findEssentialMat_4(points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, method, prob));
+        return new Mat(findEssentialMat_3(points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, method, prob));
     }
 
+    /**
+     * Calculates an essential matrix from the corresponding points in two images.
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix Camera intrinsic matrix \(\cameramatrix{A}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera intrinsic matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * confidence (probability) that the estimated matrix is correct.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
+     * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
+     *
+     * \([p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0\)
+     *
+     * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
+     * second images, respectively. The result of this function may be passed further to
+     * #decomposeEssentialMat or #recoverPose to recover the relative pose between cameras.
+     * @return automatically generated
+     */
     public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method) {
-        return new Mat(findEssentialMat_5(points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, method));
+        return new Mat(findEssentialMat_4(points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, method));
     }
 
+    /**
+     * Calculates an essential matrix from the corresponding points in two images.
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix Camera intrinsic matrix \(\cameramatrix{A}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera intrinsic matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera intrinsic matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * confidence (probability) that the estimated matrix is correct.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
+     * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
+     *
+     * \([p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0\)
+     *
+     * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
+     * second images, respectively. The result of this function may be passed further to
+     * #decomposeEssentialMat or #recoverPose to recover the relative pose between cameras.
+     * @return automatically generated
+     */
     public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix) {
-        return new Mat(findEssentialMat_6(points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj));
+        return new Mat(findEssentialMat_5(points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj));
     }
 
 
     //
-    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, double focal, Point2d pp, int method, double prob, double threshold, int maxIters, Mat& mask = Mat())
+    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, double focal = 1.0, Point2d pp = Point2d(0, 0), int method = RANSAC, double prob = 0.999, double threshold = 1.0, int maxIters = 1000, Mat& mask = Mat())
     //
 
     /**
@@ -7517,7 +7457,7 @@ public class Calib3d {
      * @return automatically generated
      */
     public static Mat findEssentialMat(Mat points1, Mat points2, double focal, Point pp, int method, double prob, double threshold, int maxIters, Mat mask) {
-        return new Mat(findEssentialMat_7(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method, prob, threshold, maxIters, mask.nativeObj));
+        return new Mat(findEssentialMat_6(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method, prob, threshold, maxIters, mask.nativeObj));
     }
 
     /**
@@ -7558,40 +7498,516 @@ public class Calib3d {
      * @return automatically generated
      */
     public static Mat findEssentialMat(Mat points1, Mat points2, double focal, Point pp, int method, double prob, double threshold, int maxIters) {
-        return new Mat(findEssentialMat_8(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method, prob, threshold, maxIters));
+        return new Mat(findEssentialMat_7(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method, prob, threshold, maxIters));
     }
 
-
-    //
-    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, double focal = 1.0, Point2d pp = Point2d(0, 0), int method = RANSAC, double prob = 0.999, double threshold = 1.0, Mat& mask = Mat())
-    //
-
-    public static Mat findEssentialMat(Mat points1, Mat points2, double focal, Point pp, int method, double prob, double threshold, Mat mask) {
-        return new Mat(findEssentialMat_9(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method, prob, threshold, mask.nativeObj));
-    }
-
+    /**
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param focal focal length of the camera. Note that this function assumes that points1 and points2
+     * are feature points from cameras with same focal length and principal point.
+     * @param pp principal point of the camera.
+     * @param method Method for computing a fundamental matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * @param threshold Parameter used for RANSAC. It is the maximum distance from a point to an epipolar
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
+     * confidence (probability) that the estimated matrix is correct.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+     * principal point:
+     *
+     * \(A =
+     * \begin{bmatrix}
+     * f &amp; 0 &amp; x_{pp}  \\
+     * 0 &amp; f &amp; y_{pp}  \\
+     * 0 &amp; 0 &amp; 1
+     * \end{bmatrix}\)
+     * @return automatically generated
+     */
     public static Mat findEssentialMat(Mat points1, Mat points2, double focal, Point pp, int method, double prob, double threshold) {
-        return new Mat(findEssentialMat_10(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method, prob, threshold));
+        return new Mat(findEssentialMat_8(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method, prob, threshold));
     }
 
+    /**
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param focal focal length of the camera. Note that this function assumes that points1 and points2
+     * are feature points from cameras with same focal length and principal point.
+     * @param pp principal point of the camera.
+     * @param method Method for computing a fundamental matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
+     * confidence (probability) that the estimated matrix is correct.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+     * principal point:
+     *
+     * \(A =
+     * \begin{bmatrix}
+     * f &amp; 0 &amp; x_{pp}  \\
+     * 0 &amp; f &amp; y_{pp}  \\
+     * 0 &amp; 0 &amp; 1
+     * \end{bmatrix}\)
+     * @return automatically generated
+     */
     public static Mat findEssentialMat(Mat points1, Mat points2, double focal, Point pp, int method, double prob) {
-        return new Mat(findEssentialMat_11(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method, prob));
+        return new Mat(findEssentialMat_9(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method, prob));
     }
 
+    /**
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param focal focal length of the camera. Note that this function assumes that points1 and points2
+     * are feature points from cameras with same focal length and principal point.
+     * @param pp principal point of the camera.
+     * @param method Method for computing a fundamental matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * confidence (probability) that the estimated matrix is correct.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+     * principal point:
+     *
+     * \(A =
+     * \begin{bmatrix}
+     * f &amp; 0 &amp; x_{pp}  \\
+     * 0 &amp; f &amp; y_{pp}  \\
+     * 0 &amp; 0 &amp; 1
+     * \end{bmatrix}\)
+     * @return automatically generated
+     */
     public static Mat findEssentialMat(Mat points1, Mat points2, double focal, Point pp, int method) {
-        return new Mat(findEssentialMat_12(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method));
+        return new Mat(findEssentialMat_10(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y, method));
     }
 
+    /**
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param focal focal length of the camera. Note that this function assumes that points1 and points2
+     * are feature points from cameras with same focal length and principal point.
+     * @param pp principal point of the camera.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * confidence (probability) that the estimated matrix is correct.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+     * principal point:
+     *
+     * \(A =
+     * \begin{bmatrix}
+     * f &amp; 0 &amp; x_{pp}  \\
+     * 0 &amp; f &amp; y_{pp}  \\
+     * 0 &amp; 0 &amp; 1
+     * \end{bmatrix}\)
+     * @return automatically generated
+     */
     public static Mat findEssentialMat(Mat points1, Mat points2, double focal, Point pp) {
-        return new Mat(findEssentialMat_13(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y));
+        return new Mat(findEssentialMat_11(points1.nativeObj, points2.nativeObj, focal, pp.x, pp.y));
     }
 
+    /**
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param focal focal length of the camera. Note that this function assumes that points1 and points2
+     * are feature points from cameras with same focal length and principal point.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * confidence (probability) that the estimated matrix is correct.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+     * principal point:
+     *
+     * \(A =
+     * \begin{bmatrix}
+     * f &amp; 0 &amp; x_{pp}  \\
+     * 0 &amp; f &amp; y_{pp}  \\
+     * 0 &amp; 0 &amp; 1
+     * \end{bmatrix}\)
+     * @return automatically generated
+     */
     public static Mat findEssentialMat(Mat points1, Mat points2, double focal) {
-        return new Mat(findEssentialMat_14(points1.nativeObj, points2.nativeObj, focal));
+        return new Mat(findEssentialMat_12(points1.nativeObj, points2.nativeObj, focal));
     }
 
+    /**
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * are feature points from cameras with same focal length and principal point.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * confidence (probability) that the estimated matrix is correct.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function differs from the one above that it computes camera intrinsic matrix from focal length and
+     * principal point:
+     *
+     * \(A =
+     * \begin{bmatrix}
+     * f &amp; 0 &amp; x_{pp}  \\
+     * 0 &amp; f &amp; y_{pp}  \\
+     * 0 &amp; 0 &amp; 1
+     * \end{bmatrix}\)
+     * @return automatically generated
+     */
     public static Mat findEssentialMat(Mat points1, Mat points2) {
-        return new Mat(findEssentialMat_15(points1.nativeObj, points2.nativeObj));
+        return new Mat(findEssentialMat_13(points1.nativeObj, points2.nativeObj));
+    }
+
+
+    //
+    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, int method = RANSAC, double prob = 0.999, double threshold = 1.0, Mat& mask = Mat())
+    //
+
+    /**
+     * Calculates an essential matrix from the corresponding points in two images from potentially two different cameras.
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix1 Camera matrix \(K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param cameraMatrix2 Camera matrix \(K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param distCoeffs1 Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param distCoeffs2 Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
+     * confidence (probability) that the estimated matrix is correct.
+     * @param threshold Parameter used for RANSAC. It is the maximum distance from a point to an epipolar
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * @param mask Output array of N elements, every element of which is set to 0 for outliers and to 1
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
+     * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
+     *
+     * \([p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0\)
+     *
+     * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
+     * second images, respectively. The result of this function may be passed further to
+     * #decomposeEssentialMat or  #recoverPose to recover the relative pose between cameras.
+     * @return automatically generated
+     */
+    public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, int method, double prob, double threshold, Mat mask) {
+        return new Mat(findEssentialMat_14(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, method, prob, threshold, mask.nativeObj));
+    }
+
+    /**
+     * Calculates an essential matrix from the corresponding points in two images from potentially two different cameras.
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix1 Camera matrix \(K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param cameraMatrix2 Camera matrix \(K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param distCoeffs1 Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param distCoeffs2 Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
+     * confidence (probability) that the estimated matrix is correct.
+     * @param threshold Parameter used for RANSAC. It is the maximum distance from a point to an epipolar
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
+     * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
+     *
+     * \([p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0\)
+     *
+     * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
+     * second images, respectively. The result of this function may be passed further to
+     * #decomposeEssentialMat or  #recoverPose to recover the relative pose between cameras.
+     * @return automatically generated
+     */
+    public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, int method, double prob, double threshold) {
+        return new Mat(findEssentialMat_15(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, method, prob, threshold));
+    }
+
+    /**
+     * Calculates an essential matrix from the corresponding points in two images from potentially two different cameras.
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix1 Camera matrix \(K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param cameraMatrix2 Camera matrix \(K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param distCoeffs1 Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param distCoeffs2 Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
+     * confidence (probability) that the estimated matrix is correct.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
+     * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
+     *
+     * \([p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0\)
+     *
+     * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
+     * second images, respectively. The result of this function may be passed further to
+     * #decomposeEssentialMat or  #recoverPose to recover the relative pose between cameras.
+     * @return automatically generated
+     */
+    public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, int method, double prob) {
+        return new Mat(findEssentialMat_16(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, method, prob));
+    }
+
+    /**
+     * Calculates an essential matrix from the corresponding points in two images from potentially two different cameras.
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix1 Camera matrix \(K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param cameraMatrix2 Camera matrix \(K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param distCoeffs1 Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param distCoeffs2 Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * confidence (probability) that the estimated matrix is correct.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
+     * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
+     *
+     * \([p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0\)
+     *
+     * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
+     * second images, respectively. The result of this function may be passed further to
+     * #decomposeEssentialMat or  #recoverPose to recover the relative pose between cameras.
+     * @return automatically generated
+     */
+    public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, int method) {
+        return new Mat(findEssentialMat_17(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, method));
+    }
+
+    /**
+     * Calculates an essential matrix from the corresponding points in two images from potentially two different cameras.
+     *
+     * @param points1 Array of N (N &gt;= 5) 2D points from the first image. The point coordinates should
+     * be floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix1 Camera matrix \(K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param cameraMatrix2 Camera matrix \(K = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * Note that this function assumes that points1 and points2 are feature points from cameras with the
+     * same camera matrix. If this assumption does not hold for your use case, use
+     * #undistortPoints with {@code P = cv::NoArray()} for both cameras to transform image points
+     * to normalized image coordinates, which are valid for the identity camera matrix. When
+     * passing these coordinates, pass the identity matrix for this parameter.
+     * @param distCoeffs1 Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param distCoeffs2 Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * confidence (probability) that the estimated matrix is correct.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * for the other points. The array is computed only in the RANSAC and LMedS methods.
+     *   </li>
+     * </ul>
+     *
+     * This function estimates essential matrix based on the five-point algorithm solver in CITE: Nister03 .
+     * CITE: SteweniusCFS is also a related. The epipolar geometry is described by the following equation:
+     *
+     * \([p_2; 1]^T K^{-T} E K^{-1} [p_1; 1] = 0\)
+     *
+     * where \(E\) is an essential matrix, \(p_1\) and \(p_2\) are corresponding points in the first and the
+     * second images, respectively. The result of this function may be passed further to
+     * #decomposeEssentialMat or  #recoverPose to recover the relative pose between cameras.
+     * @return automatically generated
+     */
+    public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2) {
+        return new Mat(findEssentialMat_18(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj));
+    }
+
+
+    //
+    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat cameraMatrix2, Mat dist_coeff1, Mat dist_coeff2, Mat& mask, UsacParams params)
+    //
+
+    public static Mat findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat cameraMatrix2, Mat dist_coeff1, Mat dist_coeff2, Mat mask, UsacParams params) {
+        return new Mat(findEssentialMat_19(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, cameraMatrix2.nativeObj, dist_coeff1.nativeObj, dist_coeff2.nativeObj, mask.nativeObj, params.nativeObj));
     }
 
 
@@ -7624,12 +8040,382 @@ public class Calib3d {
 
 
     //
+    // C++:  int cv::recoverPose(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Mat& E, Mat& R, Mat& t, int method = cv::RANSAC, double prob = 0.999, double threshold = 1.0, Mat& mask = Mat())
+    //
+
+    /**
+     * Recovers the relative camera rotation and the translation from corresponding points in two images from two different cameras, using cheirality check. Returns the number of
+     * inliers that pass the check.
+     *
+     * @param points1 Array of N 2D points from the first image. The point coordinates should be
+     * floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix1 Input/output camera matrix for the first camera, the same as in
+     * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
+     * @param distCoeffs1 Input/output vector of distortion coefficients, the same as in
+     * REF: calibrateCamera.
+     * @param cameraMatrix2 Input/output camera matrix for the first camera, the same as in
+     * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
+     * @param distCoeffs2 Input/output vector of distortion coefficients, the same as in
+     * REF: calibrateCamera.
+     * @param E The output essential matrix.
+     * @param R Output rotation matrix. Together with the translation vector, this matrix makes up a tuple
+     * that performs a change of basis from the first camera's coordinate system to the second camera's
+     * coordinate system. Note that, in general, t can not be used for this tuple, see the parameter
+     * described below.
+     * @param t Output translation vector. This vector is obtained by REF: decomposeEssentialMat and
+     * therefore is only known up to scale, i.e. t is the direction of the translation vector and has unit
+     * length.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
+     * confidence (probability) that the estimated matrix is correct.
+     * @param threshold Parameter used for RANSAC. It is the maximum distance from a point to an epipolar
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * @param mask Input/output mask for inliers in points1 and points2. If it is not empty, then it marks
+     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the cheirality check.
+     *   </li>
+     * </ul>
+     *
+     * This function decomposes an essential matrix using REF: decomposeEssentialMat and then verifies
+     * possible pose hypotheses by doing cheirality check. The cheirality check means that the
+     * triangulated 3D points should have positive depth. Some details can be found in CITE: Nister03.
+     *
+     * This function can be used to process the output E and mask from REF: findEssentialMat. In this
+     * scenario, points1 and points2 are the same input for findEssentialMat.:
+     * <code>
+     *     // Example. Estimation of fundamental matrix using the RANSAC algorithm
+     *     int point_count = 100;
+     *     vector&lt;Point2f&gt; points1(point_count);
+     *     vector&lt;Point2f&gt; points2(point_count);
+     *
+     *     // initialize the points here ...
+     *     for( int i = 0; i &lt; point_count; i++ )
+     *     {
+     *         points1[i] = ...;
+     *         points2[i] = ...;
+     *     }
+     *
+     *     // Input: camera calibration of both cameras, for example using intrinsic chessboard calibration.
+     *     Mat cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2;
+     *
+     *     // Output: Essential matrix, relative rotation and relative translation.
+     *     Mat E, R, t, mask;
+     *
+     *     recoverPose(points1, points2, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, E, R, t, mask);
+     * </code>
+     * @return automatically generated
+     */
+    public static int recoverPose(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Mat E, Mat R, Mat t, int method, double prob, double threshold, Mat mask) {
+        return recoverPose_0(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, E.nativeObj, R.nativeObj, t.nativeObj, method, prob, threshold, mask.nativeObj);
+    }
+
+    /**
+     * Recovers the relative camera rotation and the translation from corresponding points in two images from two different cameras, using cheirality check. Returns the number of
+     * inliers that pass the check.
+     *
+     * @param points1 Array of N 2D points from the first image. The point coordinates should be
+     * floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix1 Input/output camera matrix for the first camera, the same as in
+     * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
+     * @param distCoeffs1 Input/output vector of distortion coefficients, the same as in
+     * REF: calibrateCamera.
+     * @param cameraMatrix2 Input/output camera matrix for the first camera, the same as in
+     * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
+     * @param distCoeffs2 Input/output vector of distortion coefficients, the same as in
+     * REF: calibrateCamera.
+     * @param E The output essential matrix.
+     * @param R Output rotation matrix. Together with the translation vector, this matrix makes up a tuple
+     * that performs a change of basis from the first camera's coordinate system to the second camera's
+     * coordinate system. Note that, in general, t can not be used for this tuple, see the parameter
+     * described below.
+     * @param t Output translation vector. This vector is obtained by REF: decomposeEssentialMat and
+     * therefore is only known up to scale, i.e. t is the direction of the translation vector and has unit
+     * length.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
+     * confidence (probability) that the estimated matrix is correct.
+     * @param threshold Parameter used for RANSAC. It is the maximum distance from a point to an epipolar
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the cheirality check.
+     *   </li>
+     * </ul>
+     *
+     * This function decomposes an essential matrix using REF: decomposeEssentialMat and then verifies
+     * possible pose hypotheses by doing cheirality check. The cheirality check means that the
+     * triangulated 3D points should have positive depth. Some details can be found in CITE: Nister03.
+     *
+     * This function can be used to process the output E and mask from REF: findEssentialMat. In this
+     * scenario, points1 and points2 are the same input for findEssentialMat.:
+     * <code>
+     *     // Example. Estimation of fundamental matrix using the RANSAC algorithm
+     *     int point_count = 100;
+     *     vector&lt;Point2f&gt; points1(point_count);
+     *     vector&lt;Point2f&gt; points2(point_count);
+     *
+     *     // initialize the points here ...
+     *     for( int i = 0; i &lt; point_count; i++ )
+     *     {
+     *         points1[i] = ...;
+     *         points2[i] = ...;
+     *     }
+     *
+     *     // Input: camera calibration of both cameras, for example using intrinsic chessboard calibration.
+     *     Mat cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2;
+     *
+     *     // Output: Essential matrix, relative rotation and relative translation.
+     *     Mat E, R, t, mask;
+     *
+     *     recoverPose(points1, points2, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, E, R, t, mask);
+     * </code>
+     * @return automatically generated
+     */
+    public static int recoverPose(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Mat E, Mat R, Mat t, int method, double prob, double threshold) {
+        return recoverPose_1(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, E.nativeObj, R.nativeObj, t.nativeObj, method, prob, threshold);
+    }
+
+    /**
+     * Recovers the relative camera rotation and the translation from corresponding points in two images from two different cameras, using cheirality check. Returns the number of
+     * inliers that pass the check.
+     *
+     * @param points1 Array of N 2D points from the first image. The point coordinates should be
+     * floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix1 Input/output camera matrix for the first camera, the same as in
+     * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
+     * @param distCoeffs1 Input/output vector of distortion coefficients, the same as in
+     * REF: calibrateCamera.
+     * @param cameraMatrix2 Input/output camera matrix for the first camera, the same as in
+     * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
+     * @param distCoeffs2 Input/output vector of distortion coefficients, the same as in
+     * REF: calibrateCamera.
+     * @param E The output essential matrix.
+     * @param R Output rotation matrix. Together with the translation vector, this matrix makes up a tuple
+     * that performs a change of basis from the first camera's coordinate system to the second camera's
+     * coordinate system. Note that, in general, t can not be used for this tuple, see the parameter
+     * described below.
+     * @param t Output translation vector. This vector is obtained by REF: decomposeEssentialMat and
+     * therefore is only known up to scale, i.e. t is the direction of the translation vector and has unit
+     * length.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * @param prob Parameter used for the RANSAC or LMedS methods only. It specifies a desirable level of
+     * confidence (probability) that the estimated matrix is correct.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the cheirality check.
+     *   </li>
+     * </ul>
+     *
+     * This function decomposes an essential matrix using REF: decomposeEssentialMat and then verifies
+     * possible pose hypotheses by doing cheirality check. The cheirality check means that the
+     * triangulated 3D points should have positive depth. Some details can be found in CITE: Nister03.
+     *
+     * This function can be used to process the output E and mask from REF: findEssentialMat. In this
+     * scenario, points1 and points2 are the same input for findEssentialMat.:
+     * <code>
+     *     // Example. Estimation of fundamental matrix using the RANSAC algorithm
+     *     int point_count = 100;
+     *     vector&lt;Point2f&gt; points1(point_count);
+     *     vector&lt;Point2f&gt; points2(point_count);
+     *
+     *     // initialize the points here ...
+     *     for( int i = 0; i &lt; point_count; i++ )
+     *     {
+     *         points1[i] = ...;
+     *         points2[i] = ...;
+     *     }
+     *
+     *     // Input: camera calibration of both cameras, for example using intrinsic chessboard calibration.
+     *     Mat cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2;
+     *
+     *     // Output: Essential matrix, relative rotation and relative translation.
+     *     Mat E, R, t, mask;
+     *
+     *     recoverPose(points1, points2, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, E, R, t, mask);
+     * </code>
+     * @return automatically generated
+     */
+    public static int recoverPose(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Mat E, Mat R, Mat t, int method, double prob) {
+        return recoverPose_2(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, E.nativeObj, R.nativeObj, t.nativeObj, method, prob);
+    }
+
+    /**
+     * Recovers the relative camera rotation and the translation from corresponding points in two images from two different cameras, using cheirality check. Returns the number of
+     * inliers that pass the check.
+     *
+     * @param points1 Array of N 2D points from the first image. The point coordinates should be
+     * floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix1 Input/output camera matrix for the first camera, the same as in
+     * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
+     * @param distCoeffs1 Input/output vector of distortion coefficients, the same as in
+     * REF: calibrateCamera.
+     * @param cameraMatrix2 Input/output camera matrix for the first camera, the same as in
+     * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
+     * @param distCoeffs2 Input/output vector of distortion coefficients, the same as in
+     * REF: calibrateCamera.
+     * @param E The output essential matrix.
+     * @param R Output rotation matrix. Together with the translation vector, this matrix makes up a tuple
+     * that performs a change of basis from the first camera's coordinate system to the second camera's
+     * coordinate system. Note that, in general, t can not be used for this tuple, see the parameter
+     * described below.
+     * @param t Output translation vector. This vector is obtained by REF: decomposeEssentialMat and
+     * therefore is only known up to scale, i.e. t is the direction of the translation vector and has unit
+     * length.
+     * @param method Method for computing an essential matrix.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * confidence (probability) that the estimated matrix is correct.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the cheirality check.
+     *   </li>
+     * </ul>
+     *
+     * This function decomposes an essential matrix using REF: decomposeEssentialMat and then verifies
+     * possible pose hypotheses by doing cheirality check. The cheirality check means that the
+     * triangulated 3D points should have positive depth. Some details can be found in CITE: Nister03.
+     *
+     * This function can be used to process the output E and mask from REF: findEssentialMat. In this
+     * scenario, points1 and points2 are the same input for findEssentialMat.:
+     * <code>
+     *     // Example. Estimation of fundamental matrix using the RANSAC algorithm
+     *     int point_count = 100;
+     *     vector&lt;Point2f&gt; points1(point_count);
+     *     vector&lt;Point2f&gt; points2(point_count);
+     *
+     *     // initialize the points here ...
+     *     for( int i = 0; i &lt; point_count; i++ )
+     *     {
+     *         points1[i] = ...;
+     *         points2[i] = ...;
+     *     }
+     *
+     *     // Input: camera calibration of both cameras, for example using intrinsic chessboard calibration.
+     *     Mat cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2;
+     *
+     *     // Output: Essential matrix, relative rotation and relative translation.
+     *     Mat E, R, t, mask;
+     *
+     *     recoverPose(points1, points2, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, E, R, t, mask);
+     * </code>
+     * @return automatically generated
+     */
+    public static int recoverPose(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Mat E, Mat R, Mat t, int method) {
+        return recoverPose_3(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, E.nativeObj, R.nativeObj, t.nativeObj, method);
+    }
+
+    /**
+     * Recovers the relative camera rotation and the translation from corresponding points in two images from two different cameras, using cheirality check. Returns the number of
+     * inliers that pass the check.
+     *
+     * @param points1 Array of N 2D points from the first image. The point coordinates should be
+     * floating-point (single or double precision).
+     * @param points2 Array of the second image points of the same size and format as points1 .
+     * @param cameraMatrix1 Input/output camera matrix for the first camera, the same as in
+     * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
+     * @param distCoeffs1 Input/output vector of distortion coefficients, the same as in
+     * REF: calibrateCamera.
+     * @param cameraMatrix2 Input/output camera matrix for the first camera, the same as in
+     * REF: calibrateCamera. Furthermore, for the stereo case, additional flags may be used, see below.
+     * @param distCoeffs2 Input/output vector of distortion coefficients, the same as in
+     * REF: calibrateCamera.
+     * @param E The output essential matrix.
+     * @param R Output rotation matrix. Together with the translation vector, this matrix makes up a tuple
+     * that performs a change of basis from the first camera's coordinate system to the second camera's
+     * coordinate system. Note that, in general, t can not be used for this tuple, see the parameter
+     * described below.
+     * @param t Output translation vector. This vector is obtained by REF: decomposeEssentialMat and
+     * therefore is only known up to scale, i.e. t is the direction of the translation vector and has unit
+     * length.
+     * <ul>
+     *   <li>
+     *    REF: RANSAC for the RANSAC algorithm.
+     *   </li>
+     *   <li>
+     *    REF: LMEDS for the LMedS algorithm.
+     * confidence (probability) that the estimated matrix is correct.
+     * line in pixels, beyond which the point is considered an outlier and is not used for computing the
+     * final fundamental matrix. It can be set to something like 1-3, depending on the accuracy of the
+     * point localization, image resolution, and the image noise.
+     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the cheirality check.
+     *   </li>
+     * </ul>
+     *
+     * This function decomposes an essential matrix using REF: decomposeEssentialMat and then verifies
+     * possible pose hypotheses by doing cheirality check. The cheirality check means that the
+     * triangulated 3D points should have positive depth. Some details can be found in CITE: Nister03.
+     *
+     * This function can be used to process the output E and mask from REF: findEssentialMat. In this
+     * scenario, points1 and points2 are the same input for findEssentialMat.:
+     * <code>
+     *     // Example. Estimation of fundamental matrix using the RANSAC algorithm
+     *     int point_count = 100;
+     *     vector&lt;Point2f&gt; points1(point_count);
+     *     vector&lt;Point2f&gt; points2(point_count);
+     *
+     *     // initialize the points here ...
+     *     for( int i = 0; i &lt; point_count; i++ )
+     *     {
+     *         points1[i] = ...;
+     *         points2[i] = ...;
+     *     }
+     *
+     *     // Input: camera calibration of both cameras, for example using intrinsic chessboard calibration.
+     *     Mat cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2;
+     *
+     *     // Output: Essential matrix, relative rotation and relative translation.
+     *     Mat E, R, t, mask;
+     *
+     *     recoverPose(points1, points2, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, E, R, t, mask);
+     * </code>
+     * @return automatically generated
+     */
+    public static int recoverPose(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Mat E, Mat R, Mat t) {
+        return recoverPose_4(points1.nativeObj, points2.nativeObj, cameraMatrix1.nativeObj, distCoeffs1.nativeObj, cameraMatrix2.nativeObj, distCoeffs2.nativeObj, E.nativeObj, R.nativeObj, t.nativeObj);
+    }
+
+
+    //
     // C++:  int cv::recoverPose(Mat E, Mat points1, Mat points2, Mat cameraMatrix, Mat& R, Mat& t, Mat& mask = Mat())
     //
 
     /**
      * Recovers the relative camera rotation and the translation from an estimated essential
-     * matrix and the corresponding points in two images, using cheirality check. Returns the number of
+     * matrix and the corresponding points in two images, using chirality check. Returns the number of
      * inliers that pass the check.
      *
      * @param E The input essential matrix.
@@ -7647,15 +8433,15 @@ public class Calib3d {
      * therefore is only known up to scale, i.e. t is the direction of the translation vector and has unit
      * length.
      * @param mask Input/output mask for inliers in points1 and points2. If it is not empty, then it marks
-     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
-     * recover pose. In the output mask only inliers which pass the cheirality check.
+     * inliers in points1 and points2 for the given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the chirality check.
      *
      * This function decomposes an essential matrix using REF: decomposeEssentialMat and then verifies
-     * possible pose hypotheses by doing cheirality check. The cheirality check means that the
+     * possible pose hypotheses by doing chirality check. The chirality check means that the
      * triangulated 3D points should have positive depth. Some details can be found in CITE: Nister03.
      *
      * This function can be used to process the output E and mask from REF: findEssentialMat. In this
-     * scenario, points1 and points2 are the same input for findEssentialMat.:
+     * scenario, points1 and points2 are the same input for #findEssentialMat :
      * <code>
      *     // Example. Estimation of fundamental matrix using the RANSAC algorithm
      *     int point_count = 100;
@@ -7680,12 +8466,12 @@ public class Calib3d {
      * @return automatically generated
      */
     public static int recoverPose(Mat E, Mat points1, Mat points2, Mat cameraMatrix, Mat R, Mat t, Mat mask) {
-        return recoverPose_0(E.nativeObj, points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, R.nativeObj, t.nativeObj, mask.nativeObj);
+        return recoverPose_5(E.nativeObj, points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, R.nativeObj, t.nativeObj, mask.nativeObj);
     }
 
     /**
      * Recovers the relative camera rotation and the translation from an estimated essential
-     * matrix and the corresponding points in two images, using cheirality check. Returns the number of
+     * matrix and the corresponding points in two images, using chirality check. Returns the number of
      * inliers that pass the check.
      *
      * @param E The input essential matrix.
@@ -7702,15 +8488,15 @@ public class Calib3d {
      * @param t Output translation vector. This vector is obtained by REF: decomposeEssentialMat and
      * therefore is only known up to scale, i.e. t is the direction of the translation vector and has unit
      * length.
-     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
-     * recover pose. In the output mask only inliers which pass the cheirality check.
+     * inliers in points1 and points2 for the given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the chirality check.
      *
      * This function decomposes an essential matrix using REF: decomposeEssentialMat and then verifies
-     * possible pose hypotheses by doing cheirality check. The cheirality check means that the
+     * possible pose hypotheses by doing chirality check. The chirality check means that the
      * triangulated 3D points should have positive depth. Some details can be found in CITE: Nister03.
      *
      * This function can be used to process the output E and mask from REF: findEssentialMat. In this
-     * scenario, points1 and points2 are the same input for findEssentialMat.:
+     * scenario, points1 and points2 are the same input for #findEssentialMat :
      * <code>
      *     // Example. Estimation of fundamental matrix using the RANSAC algorithm
      *     int point_count = 100;
@@ -7735,7 +8521,7 @@ public class Calib3d {
      * @return automatically generated
      */
     public static int recoverPose(Mat E, Mat points1, Mat points2, Mat cameraMatrix, Mat R, Mat t) {
-        return recoverPose_1(E.nativeObj, points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, R.nativeObj, t.nativeObj);
+        return recoverPose_6(E.nativeObj, points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, R.nativeObj, t.nativeObj);
     }
 
 
@@ -7760,8 +8546,8 @@ public class Calib3d {
      * are feature points from cameras with same focal length and principal point.
      * @param pp principal point of the camera.
      * @param mask Input/output mask for inliers in points1 and points2. If it is not empty, then it marks
-     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
-     * recover pose. In the output mask only inliers which pass the cheirality check.
+     * inliers in points1 and points2 for the given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the chirality check.
      *
      * This function differs from the one above that it computes camera intrinsic matrix from focal length and
      * principal point:
@@ -7775,7 +8561,7 @@ public class Calib3d {
      * @return automatically generated
      */
     public static int recoverPose(Mat E, Mat points1, Mat points2, Mat R, Mat t, double focal, Point pp, Mat mask) {
-        return recoverPose_2(E.nativeObj, points1.nativeObj, points2.nativeObj, R.nativeObj, t.nativeObj, focal, pp.x, pp.y, mask.nativeObj);
+        return recoverPose_7(E.nativeObj, points1.nativeObj, points2.nativeObj, R.nativeObj, t.nativeObj, focal, pp.x, pp.y, mask.nativeObj);
     }
 
     /**
@@ -7794,8 +8580,8 @@ public class Calib3d {
      * @param focal Focal length of the camera. Note that this function assumes that points1 and points2
      * are feature points from cameras with same focal length and principal point.
      * @param pp principal point of the camera.
-     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
-     * recover pose. In the output mask only inliers which pass the cheirality check.
+     * inliers in points1 and points2 for the given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the chirality check.
      *
      * This function differs from the one above that it computes camera intrinsic matrix from focal length and
      * principal point:
@@ -7809,7 +8595,7 @@ public class Calib3d {
      * @return automatically generated
      */
     public static int recoverPose(Mat E, Mat points1, Mat points2, Mat R, Mat t, double focal, Point pp) {
-        return recoverPose_3(E.nativeObj, points1.nativeObj, points2.nativeObj, R.nativeObj, t.nativeObj, focal, pp.x, pp.y);
+        return recoverPose_8(E.nativeObj, points1.nativeObj, points2.nativeObj, R.nativeObj, t.nativeObj, focal, pp.x, pp.y);
     }
 
     /**
@@ -7827,8 +8613,8 @@ public class Calib3d {
      * length.
      * @param focal Focal length of the camera. Note that this function assumes that points1 and points2
      * are feature points from cameras with same focal length and principal point.
-     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
-     * recover pose. In the output mask only inliers which pass the cheirality check.
+     * inliers in points1 and points2 for the given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the chirality check.
      *
      * This function differs from the one above that it computes camera intrinsic matrix from focal length and
      * principal point:
@@ -7842,7 +8628,7 @@ public class Calib3d {
      * @return automatically generated
      */
     public static int recoverPose(Mat E, Mat points1, Mat points2, Mat R, Mat t, double focal) {
-        return recoverPose_4(E.nativeObj, points1.nativeObj, points2.nativeObj, R.nativeObj, t.nativeObj, focal);
+        return recoverPose_9(E.nativeObj, points1.nativeObj, points2.nativeObj, R.nativeObj, t.nativeObj, focal);
     }
 
     /**
@@ -7859,8 +8645,8 @@ public class Calib3d {
      * therefore is only known up to scale, i.e. t is the direction of the translation vector and has unit
      * length.
      * are feature points from cameras with same focal length and principal point.
-     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
-     * recover pose. In the output mask only inliers which pass the cheirality check.
+     * inliers in points1 and points2 for the given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the chirality check.
      *
      * This function differs from the one above that it computes camera intrinsic matrix from focal length and
      * principal point:
@@ -7874,7 +8660,7 @@ public class Calib3d {
      * @return automatically generated
      */
     public static int recoverPose(Mat E, Mat points1, Mat points2, Mat R, Mat t) {
-        return recoverPose_5(E.nativeObj, points1.nativeObj, points2.nativeObj, R.nativeObj, t.nativeObj);
+        return recoverPose_10(E.nativeObj, points1.nativeObj, points2.nativeObj, R.nativeObj, t.nativeObj);
     }
 
 
@@ -7901,16 +8687,16 @@ public class Calib3d {
      * @param distanceThresh threshold distance which is used to filter out far away points (i.e. infinite
      * points).
      * @param mask Input/output mask for inliers in points1 and points2. If it is not empty, then it marks
-     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
-     * recover pose. In the output mask only inliers which pass the cheirality check.
+     * inliers in points1 and points2 for the given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the chirality check.
      * @param triangulatedPoints 3D points which were reconstructed by triangulation.
      *
      * This function differs from the one above that it outputs the triangulated 3D point that are used for
-     * the cheirality check.
+     * the chirality check.
      * @return automatically generated
      */
     public static int recoverPose(Mat E, Mat points1, Mat points2, Mat cameraMatrix, Mat R, Mat t, double distanceThresh, Mat mask, Mat triangulatedPoints) {
-        return recoverPose_6(E.nativeObj, points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, R.nativeObj, t.nativeObj, distanceThresh, mask.nativeObj, triangulatedPoints.nativeObj);
+        return recoverPose_11(E.nativeObj, points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, R.nativeObj, t.nativeObj, distanceThresh, mask.nativeObj, triangulatedPoints.nativeObj);
     }
 
     /**
@@ -7932,15 +8718,15 @@ public class Calib3d {
      * @param distanceThresh threshold distance which is used to filter out far away points (i.e. infinite
      * points).
      * @param mask Input/output mask for inliers in points1 and points2. If it is not empty, then it marks
-     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
-     * recover pose. In the output mask only inliers which pass the cheirality check.
+     * inliers in points1 and points2 for the given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the chirality check.
      *
      * This function differs from the one above that it outputs the triangulated 3D point that are used for
-     * the cheirality check.
+     * the chirality check.
      * @return automatically generated
      */
     public static int recoverPose(Mat E, Mat points1, Mat points2, Mat cameraMatrix, Mat R, Mat t, double distanceThresh, Mat mask) {
-        return recoverPose_7(E.nativeObj, points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, R.nativeObj, t.nativeObj, distanceThresh, mask.nativeObj);
+        return recoverPose_12(E.nativeObj, points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, R.nativeObj, t.nativeObj, distanceThresh, mask.nativeObj);
     }
 
     /**
@@ -7961,15 +8747,15 @@ public class Calib3d {
      * length.
      * @param distanceThresh threshold distance which is used to filter out far away points (i.e. infinite
      * points).
-     * inliers in points1 and points2 for then given essential matrix E. Only these inliers will be used to
-     * recover pose. In the output mask only inliers which pass the cheirality check.
+     * inliers in points1 and points2 for the given essential matrix E. Only these inliers will be used to
+     * recover pose. In the output mask only inliers which pass the chirality check.
      *
      * This function differs from the one above that it outputs the triangulated 3D point that are used for
-     * the cheirality check.
+     * the chirality check.
      * @return automatically generated
      */
     public static int recoverPose(Mat E, Mat points1, Mat points2, Mat cameraMatrix, Mat R, Mat t, double distanceThresh) {
-        return recoverPose_8(E.nativeObj, points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, R.nativeObj, t.nativeObj, distanceThresh);
+        return recoverPose_13(E.nativeObj, points1.nativeObj, points2.nativeObj, cameraMatrix.nativeObj, R.nativeObj, t.nativeObj, distanceThresh);
     }
 
 
@@ -7983,14 +8769,14 @@ public class Calib3d {
      * @param points Input points. \(N \times 1\) or \(1 \times N\) matrix of type CV_32FC2 or
      * vector&lt;Point2f&gt; .
      * @param whichImage Index of the image (1 or 2) that contains the points .
-     * @param F Fundamental matrix that can be estimated using findFundamentalMat or stereoRectify .
+     * @param F Fundamental matrix that can be estimated using #findFundamentalMat or #stereoRectify .
      * @param lines Output vector of the epipolar lines corresponding to the points in the other image.
      * Each line \(ax + by + c=0\) is encoded by 3 numbers \((a, b, c)\) .
      *
      * For every point in one of the two images of a stereo pair, the function finds the equation of the
      * corresponding epipolar line in the other image.
      *
-     * From the fundamental matrix definition (see findFundamentalMat ), line \(l^{(2)}_i\) in the second
+     * From the fundamental matrix definition (see #findFundamentalMat ), line \(l^{(2)}_i\) in the second
      * image for the point \(p^{(1)}_i\) in the first image (when whichImage=1 ) is computed as:
      *
      * \(l^{(2)}_i = F p^{(1)}_i\)
@@ -8053,12 +8839,12 @@ public class Calib3d {
      * @param newPoints1 The optimized points1.
      * @param newPoints2 The optimized points2.
      *
-     * The function implements the Optimal Triangulation Method (see Multiple View Geometry for details).
+     * The function implements the Optimal Triangulation Method (see Multiple View Geometry CITE: HartleyZ00 for details).
      * For each given point correspondence points1[i] &lt;-&gt; points2[i], and a fundamental matrix F, it
      * computes the corrected correspondences newPoints1[i] &lt;-&gt; newPoints2[i] that minimize the geometric
      * error \(d(points1[i], newPoints1[i])^2 + d(points2[i],newPoints2[i])^2\) (where \(d(a,b)\) is the
      * geometric distance between points \(a\) and \(b\) ) subject to the epipolar constraint
-     * \(newPoints2^T * F * newPoints1 = 0\) .
+     * \(newPoints2^T \cdot F \cdot newPoints1 = 0\) .
      */
     public static void correctMatches(Mat F, Mat points1, Mat points2, Mat newPoints1, Mat newPoints2) {
         correctMatches_0(F.nativeObj, points1.nativeObj, points2.nativeObj, newPoints1.nativeObj, newPoints2.nativeObj);
@@ -8275,7 +9061,7 @@ public class Calib3d {
      * ((\texttt{F}^t \cdot \texttt{pt2})(0))^2 +
      * ((\texttt{F}^t \cdot \texttt{pt2})(1))^2}
      * \)
-     * The fundamental matrix may be calculated using the cv::findFundamentalMat function. See CITE: HartleyZ00 11.4.3 for details.
+     * The fundamental matrix may be calculated using the #findFundamentalMat function. See CITE: HartleyZ00 11.4.3 for details.
      * @param pt1 first homogeneous 2d point
      * @param pt2 second homogeneous 2d point
      * @param F fundamental matrix
@@ -8447,6 +9233,250 @@ public class Calib3d {
      */
     public static int estimateAffine3D(Mat src, Mat dst, Mat out, Mat inliers) {
         return estimateAffine3D_2(src.nativeObj, dst.nativeObj, out.nativeObj, inliers.nativeObj);
+    }
+
+
+    //
+    // C++:  Mat cv::estimateAffine3D(Mat src, Mat dst, double* scale = nullptr, bool force_rotation = true)
+    //
+
+    /**
+     * Computes an optimal affine transformation between two 3D point sets.
+     *
+     * It computes \(R,s,t\) minimizing \(\sum{i} dst_i - c \cdot R \cdot src_i \)
+     * where \(R\) is a 3x3 rotation matrix, \(t\) is a 3x1 translation vector and \(s\) is a
+     * scalar size value. This is an implementation of the algorithm by Umeyama \cite umeyama1991least .
+     * The estimated affine transform has a homogeneous scale which is a subclass of affine
+     * transformations with 7 degrees of freedom. The paired point sets need to comprise at least 3
+     * points each.
+     *
+     * @param src First input 3D point set.
+     * @param dst Second input 3D point set.
+     * @param scale If null is passed, the scale parameter c will be assumed to be 1.0.
+     * Else the pointed-to variable will be set to the optimal scale.
+     * @param force_rotation If true, the returned rotation will never be a reflection.
+     * This might be unwanted, e.g. when optimizing a transform between a right- and a
+     * left-handed coordinate system.
+     * @return 3D affine transformation matrix \(3 \times 4\) of the form
+     * \(T =
+     * \begin{bmatrix}
+     * R &amp; t\\
+     * \end{bmatrix}
+     * \)
+     */
+    public static Mat estimateAffine3D(Mat src, Mat dst, double[] scale, boolean force_rotation) {
+        double[] scale_out = new double[1];
+        Mat retVal = new Mat(estimateAffine3D_3(src.nativeObj, dst.nativeObj, scale_out, force_rotation));
+        if(scale!=null) scale[0] = (double)scale_out[0];
+        return retVal;
+    }
+
+    /**
+     * Computes an optimal affine transformation between two 3D point sets.
+     *
+     * It computes \(R,s,t\) minimizing \(\sum{i} dst_i - c \cdot R \cdot src_i \)
+     * where \(R\) is a 3x3 rotation matrix, \(t\) is a 3x1 translation vector and \(s\) is a
+     * scalar size value. This is an implementation of the algorithm by Umeyama \cite umeyama1991least .
+     * The estimated affine transform has a homogeneous scale which is a subclass of affine
+     * transformations with 7 degrees of freedom. The paired point sets need to comprise at least 3
+     * points each.
+     *
+     * @param src First input 3D point set.
+     * @param dst Second input 3D point set.
+     * @param scale If null is passed, the scale parameter c will be assumed to be 1.0.
+     * Else the pointed-to variable will be set to the optimal scale.
+     * This might be unwanted, e.g. when optimizing a transform between a right- and a
+     * left-handed coordinate system.
+     * @return 3D affine transformation matrix \(3 \times 4\) of the form
+     * \(T =
+     * \begin{bmatrix}
+     * R &amp; t\\
+     * \end{bmatrix}
+     * \)
+     */
+    public static Mat estimateAffine3D(Mat src, Mat dst, double[] scale) {
+        double[] scale_out = new double[1];
+        Mat retVal = new Mat(estimateAffine3D_4(src.nativeObj, dst.nativeObj, scale_out));
+        if(scale!=null) scale[0] = (double)scale_out[0];
+        return retVal;
+    }
+
+    /**
+     * Computes an optimal affine transformation between two 3D point sets.
+     *
+     * It computes \(R,s,t\) minimizing \(\sum{i} dst_i - c \cdot R \cdot src_i \)
+     * where \(R\) is a 3x3 rotation matrix, \(t\) is a 3x1 translation vector and \(s\) is a
+     * scalar size value. This is an implementation of the algorithm by Umeyama \cite umeyama1991least .
+     * The estimated affine transform has a homogeneous scale which is a subclass of affine
+     * transformations with 7 degrees of freedom. The paired point sets need to comprise at least 3
+     * points each.
+     *
+     * @param src First input 3D point set.
+     * @param dst Second input 3D point set.
+     * Else the pointed-to variable will be set to the optimal scale.
+     * This might be unwanted, e.g. when optimizing a transform between a right- and a
+     * left-handed coordinate system.
+     * @return 3D affine transformation matrix \(3 \times 4\) of the form
+     * \(T =
+     * \begin{bmatrix}
+     * R &amp; t\\
+     * \end{bmatrix}
+     * \)
+     */
+    public static Mat estimateAffine3D(Mat src, Mat dst) {
+        return new Mat(estimateAffine3D_5(src.nativeObj, dst.nativeObj));
+    }
+
+
+    //
+    // C++:  int cv::estimateTranslation3D(Mat src, Mat dst, Mat& out, Mat& inliers, double ransacThreshold = 3, double confidence = 0.99)
+    //
+
+    /**
+     * Computes an optimal translation between two 3D point sets.
+     *
+     * It computes
+     * \(
+     * \begin{bmatrix}
+     * x\\
+     * y\\
+     * z\\
+     * \end{bmatrix}
+     * =
+     * \begin{bmatrix}
+     * X\\
+     * Y\\
+     * Z\\
+     * \end{bmatrix}
+     * +
+     * \begin{bmatrix}
+     * b_1\\
+     * b_2\\
+     * b_3\\
+     * \end{bmatrix}
+     * \)
+     *
+     * @param src First input 3D point set containing \((X,Y,Z)\).
+     * @param dst Second input 3D point set containing \((x,y,z)\).
+     * @param out Output 3D translation vector \(3 \times 1\) of the form
+     * \(
+     * \begin{bmatrix}
+     * b_1 \\
+     * b_2 \\
+     * b_3 \\
+     * \end{bmatrix}
+     * \)
+     * @param inliers Output vector indicating which points are inliers (1-inlier, 0-outlier).
+     * @param ransacThreshold Maximum reprojection error in the RANSAC algorithm to consider a point as
+     * an inlier.
+     * @param confidence Confidence level, between 0 and 1, for the estimated transformation. Anything
+     * between 0.95 and 0.99 is usually good enough. Values too close to 1 can slow down the estimation
+     * significantly. Values lower than 0.8-0.9 can result in an incorrectly estimated transformation.
+     *
+     * The function estimates an optimal 3D translation between two 3D point sets using the
+     * RANSAC algorithm.
+     *
+     * @return automatically generated
+     */
+    public static int estimateTranslation3D(Mat src, Mat dst, Mat out, Mat inliers, double ransacThreshold, double confidence) {
+        return estimateTranslation3D_0(src.nativeObj, dst.nativeObj, out.nativeObj, inliers.nativeObj, ransacThreshold, confidence);
+    }
+
+    /**
+     * Computes an optimal translation between two 3D point sets.
+     *
+     * It computes
+     * \(
+     * \begin{bmatrix}
+     * x\\
+     * y\\
+     * z\\
+     * \end{bmatrix}
+     * =
+     * \begin{bmatrix}
+     * X\\
+     * Y\\
+     * Z\\
+     * \end{bmatrix}
+     * +
+     * \begin{bmatrix}
+     * b_1\\
+     * b_2\\
+     * b_3\\
+     * \end{bmatrix}
+     * \)
+     *
+     * @param src First input 3D point set containing \((X,Y,Z)\).
+     * @param dst Second input 3D point set containing \((x,y,z)\).
+     * @param out Output 3D translation vector \(3 \times 1\) of the form
+     * \(
+     * \begin{bmatrix}
+     * b_1 \\
+     * b_2 \\
+     * b_3 \\
+     * \end{bmatrix}
+     * \)
+     * @param inliers Output vector indicating which points are inliers (1-inlier, 0-outlier).
+     * @param ransacThreshold Maximum reprojection error in the RANSAC algorithm to consider a point as
+     * an inlier.
+     * between 0.95 and 0.99 is usually good enough. Values too close to 1 can slow down the estimation
+     * significantly. Values lower than 0.8-0.9 can result in an incorrectly estimated transformation.
+     *
+     * The function estimates an optimal 3D translation between two 3D point sets using the
+     * RANSAC algorithm.
+     *
+     * @return automatically generated
+     */
+    public static int estimateTranslation3D(Mat src, Mat dst, Mat out, Mat inliers, double ransacThreshold) {
+        return estimateTranslation3D_1(src.nativeObj, dst.nativeObj, out.nativeObj, inliers.nativeObj, ransacThreshold);
+    }
+
+    /**
+     * Computes an optimal translation between two 3D point sets.
+     *
+     * It computes
+     * \(
+     * \begin{bmatrix}
+     * x\\
+     * y\\
+     * z\\
+     * \end{bmatrix}
+     * =
+     * \begin{bmatrix}
+     * X\\
+     * Y\\
+     * Z\\
+     * \end{bmatrix}
+     * +
+     * \begin{bmatrix}
+     * b_1\\
+     * b_2\\
+     * b_3\\
+     * \end{bmatrix}
+     * \)
+     *
+     * @param src First input 3D point set containing \((X,Y,Z)\).
+     * @param dst Second input 3D point set containing \((x,y,z)\).
+     * @param out Output 3D translation vector \(3 \times 1\) of the form
+     * \(
+     * \begin{bmatrix}
+     * b_1 \\
+     * b_2 \\
+     * b_3 \\
+     * \end{bmatrix}
+     * \)
+     * @param inliers Output vector indicating which points are inliers (1-inlier, 0-outlier).
+     * an inlier.
+     * between 0.95 and 0.99 is usually good enough. Values too close to 1 can slow down the estimation
+     * significantly. Values lower than 0.8-0.9 can result in an incorrectly estimated transformation.
+     *
+     * The function estimates an optimal 3D translation between two 3D point sets using the
+     * RANSAC algorithm.
+     *
+     * @return automatically generated
+     */
+    public static int estimateTranslation3D(Mat src, Mat dst, Mat out, Mat inliers) {
+        return estimateTranslation3D_2(src.nativeObj, dst.nativeObj, out.nativeObj, inliers.nativeObj);
     }
 
 
@@ -8946,6 +9976,15 @@ public class Calib3d {
 
 
     //
+    // C++:  Mat cv::estimateAffine2D(Mat pts1, Mat pts2, Mat& inliers, UsacParams params)
+    //
+
+    public static Mat estimateAffine2D(Mat pts1, Mat pts2, Mat inliers, UsacParams params) {
+        return new Mat(estimateAffine2D_7(pts1.nativeObj, pts2.nativeObj, inliers.nativeObj, params.nativeObj));
+    }
+
+
+    //
     // C++:  Mat cv::estimateAffinePartial2D(Mat from, Mat to, Mat& inliers = Mat(), int method = RANSAC, double ransacReprojThreshold = 3, size_t maxIters = 2000, double confidence = 0.99, size_t refineIters = 10)
     //
 
@@ -9322,7 +10361,7 @@ public class Calib3d {
      *
      * This function extracts relative camera motion between two views of a planar object and returns up to
      * four mathematical solution tuples of rotation, translation, and plane normal. The decomposition of
-     * the homography matrix H is described in detail in CITE: Malis.
+     * the homography matrix H is described in detail in CITE: Malis2007.
      *
      * If the homography H, induced by the plane, gives the constraint
      * \(s_i \vecthree{x'_i}{y'_i}{1} \sim H \vecthree{x_i}{y_i}{1}\) on the source image points
@@ -9362,10 +10401,10 @@ public class Calib3d {
      * @param beforePoints Vector of (rectified) visible reference points before the homography is applied
      * @param afterPoints Vector of (rectified) visible reference points after the homography is applied
      * @param possibleSolutions Vector of int indices representing the viable solution set after filtering
-     * @param pointsMask optional Mat/Vector of 8u type representing the mask for the inliers as given by the findHomography function
+     * @param pointsMask optional Mat/Vector of 8u type representing the mask for the inliers as given by the #findHomography function
      *
-     * This function is intended to filter the output of the decomposeHomographyMat based on additional
-     * information as described in CITE: Malis . The summary of the method: the decomposeHomographyMat function
+     * This function is intended to filter the output of the #decomposeHomographyMat based on additional
+     * information as described in CITE: Malis2007 . The summary of the method: the #decomposeHomographyMat function
      * returns 2 unique solutions and their "opposites" for a total of 4 solutions. If we have access to the
      * sets of points visible in the camera frame before and after the homography transformation is applied,
      * we can determine which are the true potential solutions and which are the opposites by verifying which
@@ -9387,8 +10426,8 @@ public class Calib3d {
      * @param afterPoints Vector of (rectified) visible reference points after the homography is applied
      * @param possibleSolutions Vector of int indices representing the viable solution set after filtering
      *
-     * This function is intended to filter the output of the decomposeHomographyMat based on additional
-     * information as described in CITE: Malis . The summary of the method: the decomposeHomographyMat function
+     * This function is intended to filter the output of the #decomposeHomographyMat based on additional
+     * information as described in CITE: Malis2007 . The summary of the method: the #decomposeHomographyMat function
      * returns 2 unique solutions and their "opposites" for a total of 4 solutions. If we have access to the
      * sets of points visible in the camera frame before and after the homography transformation is applied,
      * we can determine which are the true potential solutions and which are the opposites by verifying which
@@ -9399,6 +10438,507 @@ public class Calib3d {
         Mat rotations_mat = Converters.vector_Mat_to_Mat(rotations);
         Mat normals_mat = Converters.vector_Mat_to_Mat(normals);
         filterHomographyDecompByVisibleRefpoints_1(rotations_mat.nativeObj, normals_mat.nativeObj, beforePoints.nativeObj, afterPoints.nativeObj, possibleSolutions.nativeObj);
+    }
+
+
+    //
+    // C++:  void cv::undistort(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, Mat newCameraMatrix = Mat())
+    //
+
+    /**
+     * Transforms an image to compensate for lens distortion.
+     *
+     * The function transforms an image to compensate radial and tangential lens distortion.
+     *
+     * The function is simply a combination of #initUndistortRectifyMap (with unity R ) and #remap
+     * (with bilinear interpolation). See the former function for details of the transformation being
+     * performed.
+     *
+     * Those pixels in the destination image, for which there is no correspondent pixels in the source
+     * image, are filled with zeros (black color).
+     *
+     * A particular subset of the source image that will be visible in the corrected image can be regulated
+     * by newCameraMatrix. You can use #getOptimalNewCameraMatrix to compute the appropriate
+     * newCameraMatrix depending on your requirements.
+     *
+     * The camera matrix and the distortion parameters can be determined using #calibrateCamera. If
+     * the resolution of images is different from the resolution used at the calibration stage, \(f_x,
+     * f_y, c_x\) and \(c_y\) need to be scaled accordingly, while the distortion coefficients remain
+     * the same.
+     *
+     * @param src Input (distorted) image.
+     * @param dst Output (corrected) image that has the same size and type as src .
+     * @param cameraMatrix Input camera matrix \(A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * @param distCoeffs Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param newCameraMatrix Camera matrix of the distorted image. By default, it is the same as
+     * cameraMatrix but you may additionally scale and shift the result by using a different matrix.
+     */
+    public static void undistort(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs, Mat newCameraMatrix) {
+        undistort_0(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj, newCameraMatrix.nativeObj);
+    }
+
+    /**
+     * Transforms an image to compensate for lens distortion.
+     *
+     * The function transforms an image to compensate radial and tangential lens distortion.
+     *
+     * The function is simply a combination of #initUndistortRectifyMap (with unity R ) and #remap
+     * (with bilinear interpolation). See the former function for details of the transformation being
+     * performed.
+     *
+     * Those pixels in the destination image, for which there is no correspondent pixels in the source
+     * image, are filled with zeros (black color).
+     *
+     * A particular subset of the source image that will be visible in the corrected image can be regulated
+     * by newCameraMatrix. You can use #getOptimalNewCameraMatrix to compute the appropriate
+     * newCameraMatrix depending on your requirements.
+     *
+     * The camera matrix and the distortion parameters can be determined using #calibrateCamera. If
+     * the resolution of images is different from the resolution used at the calibration stage, \(f_x,
+     * f_y, c_x\) and \(c_y\) need to be scaled accordingly, while the distortion coefficients remain
+     * the same.
+     *
+     * @param src Input (distorted) image.
+     * @param dst Output (corrected) image that has the same size and type as src .
+     * @param cameraMatrix Input camera matrix \(A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * @param distCoeffs Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * cameraMatrix but you may additionally scale and shift the result by using a different matrix.
+     */
+    public static void undistort(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs) {
+        undistort_1(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj);
+    }
+
+
+    //
+    // C++:  void cv::initUndistortRectifyMap(Mat cameraMatrix, Mat distCoeffs, Mat R, Mat newCameraMatrix, Size size, int m1type, Mat& map1, Mat& map2)
+    //
+
+    /**
+     * Computes the undistortion and rectification transformation map.
+     *
+     * The function computes the joint undistortion and rectification transformation and represents the
+     * result in the form of maps for #remap. The undistorted image looks like original, as if it is
+     * captured with a camera using the camera matrix =newCameraMatrix and zero distortion. In case of a
+     * monocular camera, newCameraMatrix is usually equal to cameraMatrix, or it can be computed by
+     * #getOptimalNewCameraMatrix for a better control over scaling. In case of a stereo camera,
+     * newCameraMatrix is normally set to P1 or P2 computed by #stereoRectify .
+     *
+     * Also, this new camera is oriented differently in the coordinate space, according to R. That, for
+     * example, helps to align two heads of a stereo camera so that the epipolar lines on both images
+     * become horizontal and have the same y- coordinate (in case of a horizontally aligned stereo camera).
+     *
+     * The function actually builds the maps for the inverse mapping algorithm that is used by #remap. That
+     * is, for each pixel \((u, v)\) in the destination (corrected and rectified) image, the function
+     * computes the corresponding coordinates in the source image (that is, in the original image from
+     * camera). The following process is applied:
+     * \(
+     * \begin{array}{l}
+     * x  \leftarrow (u - {c'}_x)/{f'}_x  \\
+     * y  \leftarrow (v - {c'}_y)/{f'}_y  \\
+     * {[X\,Y\,W]} ^T  \leftarrow R^{-1}*[x \, y \, 1]^T  \\
+     * x'  \leftarrow X/W  \\
+     * y'  \leftarrow Y/W  \\
+     * r^2  \leftarrow x'^2 + y'^2 \\
+     * x''  \leftarrow x' \frac{1 + k_1 r^2 + k_2 r^4 + k_3 r^6}{1 + k_4 r^2 + k_5 r^4 + k_6 r^6}
+     * + 2p_1 x' y' + p_2(r^2 + 2 x'^2)  + s_1 r^2 + s_2 r^4\\
+     * y''  \leftarrow y' \frac{1 + k_1 r^2 + k_2 r^4 + k_3 r^6}{1 + k_4 r^2 + k_5 r^4 + k_6 r^6}
+     * + p_1 (r^2 + 2 y'^2) + 2 p_2 x' y' + s_3 r^2 + s_4 r^4 \\
+     * s\vecthree{x'''}{y'''}{1} =
+     * \vecthreethree{R_{33}(\tau_x, \tau_y)}{0}{-R_{13}((\tau_x, \tau_y)}
+     * {0}{R_{33}(\tau_x, \tau_y)}{-R_{23}(\tau_x, \tau_y)}
+     * {0}{0}{1} R(\tau_x, \tau_y) \vecthree{x''}{y''}{1}\\
+     * map_x(u,v)  \leftarrow x''' f_x + c_x  \\
+     * map_y(u,v)  \leftarrow y''' f_y + c_y
+     * \end{array}
+     * \)
+     * where \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * are the distortion coefficients.
+     *
+     * In case of a stereo camera, this function is called twice: once for each camera head, after
+     * #stereoRectify, which in its turn is called after #stereoCalibrate. But if the stereo camera
+     * was not calibrated, it is still possible to compute the rectification transformations directly from
+     * the fundamental matrix using #stereoRectifyUncalibrated. For each camera, the function computes
+     * homography H as the rectification transformation in a pixel domain, not a rotation matrix R in 3D
+     * space. R can be computed from H as
+     * \(\texttt{R} = \texttt{cameraMatrix} ^{-1} \cdot \texttt{H} \cdot \texttt{cameraMatrix}\)
+     * where cameraMatrix can be chosen arbitrarily.
+     *
+     * @param cameraMatrix Input camera matrix \(A=\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * @param distCoeffs Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param R Optional rectification transformation in the object space (3x3 matrix). R1 or R2 ,
+     * computed by #stereoRectify can be passed here. If the matrix is empty, the identity transformation
+     * is assumed. In #initUndistortRectifyMap R assumed to be an identity matrix.
+     * @param newCameraMatrix New camera matrix \(A'=\vecthreethree{f_x'}{0}{c_x'}{0}{f_y'}{c_y'}{0}{0}{1}\).
+     * @param size Undistorted image size.
+     * @param m1type Type of the first output map that can be CV_32FC1, CV_32FC2 or CV_16SC2, see #convertMaps
+     * @param map1 The first output map.
+     * @param map2 The second output map.
+     */
+    public static void initUndistortRectifyMap(Mat cameraMatrix, Mat distCoeffs, Mat R, Mat newCameraMatrix, Size size, int m1type, Mat map1, Mat map2) {
+        initUndistortRectifyMap_0(cameraMatrix.nativeObj, distCoeffs.nativeObj, R.nativeObj, newCameraMatrix.nativeObj, size.width, size.height, m1type, map1.nativeObj, map2.nativeObj);
+    }
+
+
+    //
+    // C++:  void cv::initInverseRectificationMap(Mat cameraMatrix, Mat distCoeffs, Mat R, Mat newCameraMatrix, Size size, int m1type, Mat& map1, Mat& map2)
+    //
+
+    /**
+     * Computes the projection and inverse-rectification transformation map. In essense, this is the inverse of
+     * #initUndistortRectifyMap to accomodate stereo-rectification of projectors ('inverse-cameras') in projector-camera pairs.
+     *
+     * The function computes the joint projection and inverse rectification transformation and represents the
+     * result in the form of maps for #remap. The projected image looks like a distorted version of the original which,
+     * once projected by a projector, should visually match the original. In case of a monocular camera, newCameraMatrix
+     * is usually equal to cameraMatrix, or it can be computed by
+     * #getOptimalNewCameraMatrix for a better control over scaling. In case of a projector-camera pair,
+     * newCameraMatrix is normally set to P1 or P2 computed by #stereoRectify .
+     *
+     * The projector is oriented differently in the coordinate space, according to R. In case of projector-camera pairs,
+     * this helps align the projector (in the same manner as #initUndistortRectifyMap for the camera) to create a stereo-rectified pair. This
+     * allows epipolar lines on both images to become horizontal and have the same y-coordinate (in case of a horizontally aligned projector-camera pair).
+     *
+     * The function builds the maps for the inverse mapping algorithm that is used by #remap. That
+     * is, for each pixel \((u, v)\) in the destination (projected and inverse-rectified) image, the function
+     * computes the corresponding coordinates in the source image (that is, in the original digital image). The following process is applied:
+     *
+     * \(
+     * \begin{array}{l}
+     * \text{newCameraMatrix}\\
+     * x  \leftarrow (u - {c'}_x)/{f'}_x  \\
+     * y  \leftarrow (v - {c'}_y)/{f'}_y  \\
+     *
+     * \\\text{Undistortion}
+     * \\\scriptsize{\textit{though equation shown is for radial undistortion, function implements cv::undistortPoints()}}\\
+     * r^2  \leftarrow x^2 + y^2 \\
+     * \theta \leftarrow \frac{1 + k_1 r^2 + k_2 r^4 + k_3 r^6}{1 + k_4 r^2 + k_5 r^4 + k_6 r^6}\\
+     * x' \leftarrow \frac{x}{\theta} \\
+     * y'  \leftarrow \frac{y}{\theta} \\
+     *
+     * \\\text{Rectification}\\
+     * {[X\,Y\,W]} ^T  \leftarrow R*[x' \, y' \, 1]^T  \\
+     * x''  \leftarrow X/W  \\
+     * y''  \leftarrow Y/W  \\
+     *
+     * \\\text{cameraMatrix}\\
+     * map_x(u,v)  \leftarrow x'' f_x + c_x  \\
+     * map_y(u,v)  \leftarrow y'' f_y + c_y
+     * \end{array}
+     * \)
+     * where \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * are the distortion coefficients vector distCoeffs.
+     *
+     * In case of a stereo-rectified projector-camera pair, this function is called for the projector while #initUndistortRectifyMap is called for the camera head.
+     * This is done after #stereoRectify, which in turn is called after #stereoCalibrate. If the projector-camera pair
+     * is not calibrated, it is still possible to compute the rectification transformations directly from
+     * the fundamental matrix using #stereoRectifyUncalibrated. For the projector and camera, the function computes
+     * homography H as the rectification transformation in a pixel domain, not a rotation matrix R in 3D
+     * space. R can be computed from H as
+     * \(\texttt{R} = \texttt{cameraMatrix} ^{-1} \cdot \texttt{H} \cdot \texttt{cameraMatrix}\)
+     * where cameraMatrix can be chosen arbitrarily.
+     *
+     * @param cameraMatrix Input camera matrix \(A=\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * @param distCoeffs Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param R Optional rectification transformation in the object space (3x3 matrix). R1 or R2,
+     * computed by #stereoRectify can be passed here. If the matrix is empty, the identity transformation
+     * is assumed.
+     * @param newCameraMatrix New camera matrix \(A'=\vecthreethree{f_x'}{0}{c_x'}{0}{f_y'}{c_y'}{0}{0}{1}\).
+     * @param size Distorted image size.
+     * @param m1type Type of the first output map. Can be CV_32FC1, CV_32FC2 or CV_16SC2, see #convertMaps
+     * @param map1 The first output map for #remap.
+     * @param map2 The second output map for #remap.
+     */
+    public static void initInverseRectificationMap(Mat cameraMatrix, Mat distCoeffs, Mat R, Mat newCameraMatrix, Size size, int m1type, Mat map1, Mat map2) {
+        initInverseRectificationMap_0(cameraMatrix.nativeObj, distCoeffs.nativeObj, R.nativeObj, newCameraMatrix.nativeObj, size.width, size.height, m1type, map1.nativeObj, map2.nativeObj);
+    }
+
+
+    //
+    // C++:  Mat cv::getDefaultNewCameraMatrix(Mat cameraMatrix, Size imgsize = Size(), bool centerPrincipalPoint = false)
+    //
+
+    /**
+     * Returns the default new camera matrix.
+     *
+     * The function returns the camera matrix that is either an exact copy of the input cameraMatrix (when
+     * centerPrinicipalPoint=false ), or the modified one (when centerPrincipalPoint=true).
+     *
+     * In the latter case, the new camera matrix will be:
+     *
+     * \(\begin{bmatrix} f_x &amp;&amp; 0 &amp;&amp; ( \texttt{imgSize.width} -1)*0.5  \\ 0 &amp;&amp; f_y &amp;&amp; ( \texttt{imgSize.height} -1)*0.5  \\ 0 &amp;&amp; 0 &amp;&amp; 1 \end{bmatrix} ,\)
+     *
+     * where \(f_x\) and \(f_y\) are \((0,0)\) and \((1,1)\) elements of cameraMatrix, respectively.
+     *
+     * By default, the undistortion functions in OpenCV (see #initUndistortRectifyMap, #undistort) do not
+     * move the principal point. However, when you work with stereo, it is important to move the principal
+     * points in both views to the same y-coordinate (which is required by most of stereo correspondence
+     * algorithms), and may be to the same x-coordinate too. So, you can form the new camera matrix for
+     * each view where the principal points are located at the center.
+     *
+     * @param cameraMatrix Input camera matrix.
+     * @param imgsize Camera view image size in pixels.
+     * @param centerPrincipalPoint Location of the principal point in the new camera matrix. The
+     * parameter indicates whether this location should be at the image center or not.
+     * @return automatically generated
+     */
+    public static Mat getDefaultNewCameraMatrix(Mat cameraMatrix, Size imgsize, boolean centerPrincipalPoint) {
+        return new Mat(getDefaultNewCameraMatrix_0(cameraMatrix.nativeObj, imgsize.width, imgsize.height, centerPrincipalPoint));
+    }
+
+    /**
+     * Returns the default new camera matrix.
+     *
+     * The function returns the camera matrix that is either an exact copy of the input cameraMatrix (when
+     * centerPrinicipalPoint=false ), or the modified one (when centerPrincipalPoint=true).
+     *
+     * In the latter case, the new camera matrix will be:
+     *
+     * \(\begin{bmatrix} f_x &amp;&amp; 0 &amp;&amp; ( \texttt{imgSize.width} -1)*0.5  \\ 0 &amp;&amp; f_y &amp;&amp; ( \texttt{imgSize.height} -1)*0.5  \\ 0 &amp;&amp; 0 &amp;&amp; 1 \end{bmatrix} ,\)
+     *
+     * where \(f_x\) and \(f_y\) are \((0,0)\) and \((1,1)\) elements of cameraMatrix, respectively.
+     *
+     * By default, the undistortion functions in OpenCV (see #initUndistortRectifyMap, #undistort) do not
+     * move the principal point. However, when you work with stereo, it is important to move the principal
+     * points in both views to the same y-coordinate (which is required by most of stereo correspondence
+     * algorithms), and may be to the same x-coordinate too. So, you can form the new camera matrix for
+     * each view where the principal points are located at the center.
+     *
+     * @param cameraMatrix Input camera matrix.
+     * @param imgsize Camera view image size in pixels.
+     * parameter indicates whether this location should be at the image center or not.
+     * @return automatically generated
+     */
+    public static Mat getDefaultNewCameraMatrix(Mat cameraMatrix, Size imgsize) {
+        return new Mat(getDefaultNewCameraMatrix_1(cameraMatrix.nativeObj, imgsize.width, imgsize.height));
+    }
+
+    /**
+     * Returns the default new camera matrix.
+     *
+     * The function returns the camera matrix that is either an exact copy of the input cameraMatrix (when
+     * centerPrinicipalPoint=false ), or the modified one (when centerPrincipalPoint=true).
+     *
+     * In the latter case, the new camera matrix will be:
+     *
+     * \(\begin{bmatrix} f_x &amp;&amp; 0 &amp;&amp; ( \texttt{imgSize.width} -1)*0.5  \\ 0 &amp;&amp; f_y &amp;&amp; ( \texttt{imgSize.height} -1)*0.5  \\ 0 &amp;&amp; 0 &amp;&amp; 1 \end{bmatrix} ,\)
+     *
+     * where \(f_x\) and \(f_y\) are \((0,0)\) and \((1,1)\) elements of cameraMatrix, respectively.
+     *
+     * By default, the undistortion functions in OpenCV (see #initUndistortRectifyMap, #undistort) do not
+     * move the principal point. However, when you work with stereo, it is important to move the principal
+     * points in both views to the same y-coordinate (which is required by most of stereo correspondence
+     * algorithms), and may be to the same x-coordinate too. So, you can form the new camera matrix for
+     * each view where the principal points are located at the center.
+     *
+     * @param cameraMatrix Input camera matrix.
+     * parameter indicates whether this location should be at the image center or not.
+     * @return automatically generated
+     */
+    public static Mat getDefaultNewCameraMatrix(Mat cameraMatrix) {
+        return new Mat(getDefaultNewCameraMatrix_2(cameraMatrix.nativeObj));
+    }
+
+
+    //
+    // C++:  void cv::undistortPoints(vector_Point2f src, vector_Point2f& dst, Mat cameraMatrix, Mat distCoeffs, Mat R = Mat(), Mat P = Mat())
+    //
+
+    /**
+     * Computes the ideal point coordinates from the observed point coordinates.
+     *
+     * The function is similar to #undistort and #initUndistortRectifyMap but it operates on a
+     * sparse set of points instead of a raster image. Also the function performs a reverse transformation
+     * to  #projectPoints. In case of a 3D object, it does not reconstruct its 3D coordinates, but for a
+     * planar object, it does, up to a translation vector, if the proper R is specified.
+     *
+     * For each observed point coordinate \((u, v)\) the function computes:
+     * \(
+     * \begin{array}{l}
+     * x^{"}  \leftarrow (u - c_x)/f_x  \\
+     * y^{"}  \leftarrow (v - c_y)/f_y  \\
+     * (x',y') = undistort(x^{"},y^{"}, \texttt{distCoeffs}) \\
+     * {[X\,Y\,W]} ^T  \leftarrow R*[x' \, y' \, 1]^T  \\
+     * x  \leftarrow X/W  \\
+     * y  \leftarrow Y/W  \\
+     * \text{only performed if P is specified:} \\
+     * u'  \leftarrow x {f'}_x + {c'}_x  \\
+     * v'  \leftarrow y {f'}_y + {c'}_y
+     * \end{array}
+     * \)
+     *
+     * where *undistort* is an approximate iterative algorithm that estimates the normalized original
+     * point coordinates out of the normalized distorted point coordinates ("normalized" means that the
+     * coordinates do not depend on the camera matrix).
+     *
+     * The function can be used for both a stereo camera head or a monocular camera (when R is empty).
+     * @param src Observed point coordinates, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel (CV_32FC2 or CV_64FC2) (or
+     * vector&lt;Point2f&gt; ).
+     * @param dst Output ideal point coordinates (1xN/Nx1 2-channel or vector&lt;Point2f&gt; ) after undistortion and reverse perspective
+     * transformation. If matrix P is identity or omitted, dst will contain normalized point coordinates.
+     * @param cameraMatrix Camera matrix \(\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * @param distCoeffs Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param R Rectification transformation in the object space (3x3 matrix). R1 or R2 computed by
+     * #stereoRectify can be passed here. If the matrix is empty, the identity transformation is used.
+     * @param P New camera matrix (3x3) or new projection matrix (3x4) \(\begin{bmatrix} {f'}_x &amp; 0 &amp; {c'}_x &amp; t_x \\ 0 &amp; {f'}_y &amp; {c'}_y &amp; t_y \\ 0 &amp; 0 &amp; 1 &amp; t_z \end{bmatrix}\). P1 or P2 computed by
+     * #stereoRectify can be passed here. If the matrix is empty, the identity new camera matrix is used.
+     */
+    public static void undistortPoints(MatOfPoint2f src, MatOfPoint2f dst, Mat cameraMatrix, Mat distCoeffs, Mat R, Mat P) {
+        Mat src_mat = src;
+        Mat dst_mat = dst;
+        undistortPoints_0(src_mat.nativeObj, dst_mat.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj, R.nativeObj, P.nativeObj);
+    }
+
+    /**
+     * Computes the ideal point coordinates from the observed point coordinates.
+     *
+     * The function is similar to #undistort and #initUndistortRectifyMap but it operates on a
+     * sparse set of points instead of a raster image. Also the function performs a reverse transformation
+     * to  #projectPoints. In case of a 3D object, it does not reconstruct its 3D coordinates, but for a
+     * planar object, it does, up to a translation vector, if the proper R is specified.
+     *
+     * For each observed point coordinate \((u, v)\) the function computes:
+     * \(
+     * \begin{array}{l}
+     * x^{"}  \leftarrow (u - c_x)/f_x  \\
+     * y^{"}  \leftarrow (v - c_y)/f_y  \\
+     * (x',y') = undistort(x^{"},y^{"}, \texttt{distCoeffs}) \\
+     * {[X\,Y\,W]} ^T  \leftarrow R*[x' \, y' \, 1]^T  \\
+     * x  \leftarrow X/W  \\
+     * y  \leftarrow Y/W  \\
+     * \text{only performed if P is specified:} \\
+     * u'  \leftarrow x {f'}_x + {c'}_x  \\
+     * v'  \leftarrow y {f'}_y + {c'}_y
+     * \end{array}
+     * \)
+     *
+     * where *undistort* is an approximate iterative algorithm that estimates the normalized original
+     * point coordinates out of the normalized distorted point coordinates ("normalized" means that the
+     * coordinates do not depend on the camera matrix).
+     *
+     * The function can be used for both a stereo camera head or a monocular camera (when R is empty).
+     * @param src Observed point coordinates, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel (CV_32FC2 or CV_64FC2) (or
+     * vector&lt;Point2f&gt; ).
+     * @param dst Output ideal point coordinates (1xN/Nx1 2-channel or vector&lt;Point2f&gt; ) after undistortion and reverse perspective
+     * transformation. If matrix P is identity or omitted, dst will contain normalized point coordinates.
+     * @param cameraMatrix Camera matrix \(\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * @param distCoeffs Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * @param R Rectification transformation in the object space (3x3 matrix). R1 or R2 computed by
+     * #stereoRectify can be passed here. If the matrix is empty, the identity transformation is used.
+     * #stereoRectify can be passed here. If the matrix is empty, the identity new camera matrix is used.
+     */
+    public static void undistortPoints(MatOfPoint2f src, MatOfPoint2f dst, Mat cameraMatrix, Mat distCoeffs, Mat R) {
+        Mat src_mat = src;
+        Mat dst_mat = dst;
+        undistortPoints_1(src_mat.nativeObj, dst_mat.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj, R.nativeObj);
+    }
+
+    /**
+     * Computes the ideal point coordinates from the observed point coordinates.
+     *
+     * The function is similar to #undistort and #initUndistortRectifyMap but it operates on a
+     * sparse set of points instead of a raster image. Also the function performs a reverse transformation
+     * to  #projectPoints. In case of a 3D object, it does not reconstruct its 3D coordinates, but for a
+     * planar object, it does, up to a translation vector, if the proper R is specified.
+     *
+     * For each observed point coordinate \((u, v)\) the function computes:
+     * \(
+     * \begin{array}{l}
+     * x^{"}  \leftarrow (u - c_x)/f_x  \\
+     * y^{"}  \leftarrow (v - c_y)/f_y  \\
+     * (x',y') = undistort(x^{"},y^{"}, \texttt{distCoeffs}) \\
+     * {[X\,Y\,W]} ^T  \leftarrow R*[x' \, y' \, 1]^T  \\
+     * x  \leftarrow X/W  \\
+     * y  \leftarrow Y/W  \\
+     * \text{only performed if P is specified:} \\
+     * u'  \leftarrow x {f'}_x + {c'}_x  \\
+     * v'  \leftarrow y {f'}_y + {c'}_y
+     * \end{array}
+     * \)
+     *
+     * where *undistort* is an approximate iterative algorithm that estimates the normalized original
+     * point coordinates out of the normalized distorted point coordinates ("normalized" means that the
+     * coordinates do not depend on the camera matrix).
+     *
+     * The function can be used for both a stereo camera head or a monocular camera (when R is empty).
+     * @param src Observed point coordinates, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel (CV_32FC2 or CV_64FC2) (or
+     * vector&lt;Point2f&gt; ).
+     * @param dst Output ideal point coordinates (1xN/Nx1 2-channel or vector&lt;Point2f&gt; ) after undistortion and reverse perspective
+     * transformation. If matrix P is identity or omitted, dst will contain normalized point coordinates.
+     * @param cameraMatrix Camera matrix \(\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * @param distCoeffs Input vector of distortion coefficients
+     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
+     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+     * #stereoRectify can be passed here. If the matrix is empty, the identity transformation is used.
+     * #stereoRectify can be passed here. If the matrix is empty, the identity new camera matrix is used.
+     */
+    public static void undistortPoints(MatOfPoint2f src, MatOfPoint2f dst, Mat cameraMatrix, Mat distCoeffs) {
+        Mat src_mat = src;
+        Mat dst_mat = dst;
+        undistortPoints_2(src_mat.nativeObj, dst_mat.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj);
+    }
+
+
+    //
+    // C++:  void cv::undistortPoints(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, Mat R, Mat P, TermCriteria criteria)
+    //
+
+    /**
+     *
+     *     <b>Note:</b> Default version of #undistortPoints does 5 iterations to compute undistorted points.
+     * @param src automatically generated
+     * @param dst automatically generated
+     * @param cameraMatrix automatically generated
+     * @param distCoeffs automatically generated
+     * @param R automatically generated
+     * @param P automatically generated
+     * @param criteria automatically generated
+     */
+    public static void undistortPointsIter(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs, Mat R, Mat P, TermCriteria criteria) {
+        undistortPointsIter_0(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj, R.nativeObj, P.nativeObj, criteria.type, criteria.maxCount, criteria.epsilon);
+    }
+
+
+    //
+    // C++:  void cv::undistortImagePoints(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, TermCriteria arg1 = TermCriteria(TermCriteria::MAX_ITER + TermCriteria::EPS, 5, 0.01))
+    //
+
+    /**
+     * Compute undistorted image points position
+     *
+     * @param src Observed points position, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel (CV_32FC2 or
+     * CV_64FC2) (or vector&lt;Point2f&gt; ).
+     * @param dst Output undistorted points position (1xN/Nx1 2-channel or vector&lt;Point2f&gt; ).
+     * @param cameraMatrix Camera matrix \(\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * @param distCoeffs Distortion coefficients
+     * @param arg1 automatically generated
+     */
+    public static void undistortImagePoints(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs, TermCriteria arg1) {
+        undistortImagePoints_0(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj, arg1.type, arg1.maxCount, arg1.epsilon);
+    }
+
+    /**
+     * Compute undistorted image points position
+     *
+     * @param src Observed points position, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel (CV_32FC2 or
+     * CV_64FC2) (or vector&lt;Point2f&gt; ).
+     * @param dst Output undistorted points position (1xN/Nx1 2-channel or vector&lt;Point2f&gt; ).
+     * @param cameraMatrix Camera matrix \(\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
+     * @param distCoeffs Distortion coefficients
+     */
+    public static void undistortImagePoints(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs) {
+        undistortImagePoints_1(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj);
     }
 
 
@@ -9434,8 +10974,7 @@ public class Calib3d {
      *     @param distorted Output array of image points, 1xN/Nx1 2-channel, or vector&lt;Point2f&gt; .
      *
      *     Note that the function assumes the camera intrinsic matrix of the undistorted points to be identity.
-     *     This means if you want to transform back points undistorted with undistortPoints() you have to
-     *     multiply them with \(P^{-1}\).
+     *     This means if you want to distort image points you have to multiply them with \(K^{-1}\).
      */
     public static void fisheye_distortPoints(Mat undistorted, Mat distorted, Mat K, Mat D, double alpha) {
         fisheye_distortPoints_0(undistorted.nativeObj, distorted.nativeObj, K.nativeObj, D.nativeObj, alpha);
@@ -9451,8 +10990,7 @@ public class Calib3d {
      *     @param distorted Output array of image points, 1xN/Nx1 2-channel, or vector&lt;Point2f&gt; .
      *
      *     Note that the function assumes the camera intrinsic matrix of the undistorted points to be identity.
-     *     This means if you want to transform back points undistorted with undistortPoints() you have to
-     *     multiply them with \(P^{-1}\).
+     *     This means if you want to distort image points you have to multiply them with \(K^{-1}\).
      */
     public static void fisheye_distortPoints(Mat undistorted, Mat distorted, Mat K, Mat D) {
         fisheye_distortPoints_1(undistorted.nativeObj, distorted.nativeObj, K.nativeObj, D.nativeObj);
@@ -9460,8 +10998,25 @@ public class Calib3d {
 
 
     //
-    // C++:  void cv::fisheye::undistortPoints(Mat distorted, Mat& undistorted, Mat K, Mat D, Mat R = Mat(), Mat P = Mat())
+    // C++:  void cv::fisheye::undistortPoints(Mat distorted, Mat& undistorted, Mat K, Mat D, Mat R = Mat(), Mat P = Mat(), TermCriteria criteria = TermCriteria(TermCriteria::MAX_ITER + TermCriteria::EPS, 10, 1e-8))
     //
+
+    /**
+     * Undistorts 2D points using fisheye model
+     *
+     *     @param distorted Array of object points, 1xN/Nx1 2-channel (or vector&lt;Point2f&gt; ), where N is the
+     *     number of points in the view.
+     *     @param K Camera intrinsic matrix \(cameramatrix{K}\).
+     *     @param D Input vector of distortion coefficients \(\distcoeffsfisheye\).
+     *     @param R Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3
+     *     1-channel or 1x1 3-channel
+     *     @param P New camera intrinsic matrix (3x3) or new projection matrix (3x4)
+     *     @param criteria Termination criteria
+     *     @param undistorted Output array of image points, 1xN/Nx1 2-channel, or vector&lt;Point2f&gt; .
+     */
+    public static void fisheye_undistortPoints(Mat distorted, Mat undistorted, Mat K, Mat D, Mat R, Mat P, TermCriteria criteria) {
+        fisheye_undistortPoints_0(distorted.nativeObj, undistorted.nativeObj, K.nativeObj, D.nativeObj, R.nativeObj, P.nativeObj, criteria.type, criteria.maxCount, criteria.epsilon);
+    }
 
     /**
      * Undistorts 2D points using fisheye model
@@ -9476,7 +11031,7 @@ public class Calib3d {
      *     @param undistorted Output array of image points, 1xN/Nx1 2-channel, or vector&lt;Point2f&gt; .
      */
     public static void fisheye_undistortPoints(Mat distorted, Mat undistorted, Mat K, Mat D, Mat R, Mat P) {
-        fisheye_undistortPoints_0(distorted.nativeObj, undistorted.nativeObj, K.nativeObj, D.nativeObj, R.nativeObj, P.nativeObj);
+        fisheye_undistortPoints_1(distorted.nativeObj, undistorted.nativeObj, K.nativeObj, D.nativeObj, R.nativeObj, P.nativeObj);
     }
 
     /**
@@ -9491,7 +11046,7 @@ public class Calib3d {
      *     @param undistorted Output array of image points, 1xN/Nx1 2-channel, or vector&lt;Point2f&gt; .
      */
     public static void fisheye_undistortPoints(Mat distorted, Mat undistorted, Mat K, Mat D, Mat R) {
-        fisheye_undistortPoints_1(distorted.nativeObj, undistorted.nativeObj, K.nativeObj, D.nativeObj, R.nativeObj);
+        fisheye_undistortPoints_2(distorted.nativeObj, undistorted.nativeObj, K.nativeObj, D.nativeObj, R.nativeObj);
     }
 
     /**
@@ -9505,7 +11060,7 @@ public class Calib3d {
      *     @param undistorted Output array of image points, 1xN/Nx1 2-channel, or vector&lt;Point2f&gt; .
      */
     public static void fisheye_undistortPoints(Mat distorted, Mat undistorted, Mat K, Mat D) {
-        fisheye_undistortPoints_2(distorted.nativeObj, undistorted.nativeObj, K.nativeObj, D.nativeObj);
+        fisheye_undistortPoints_3(distorted.nativeObj, undistorted.nativeObj, K.nativeObj, D.nativeObj);
     }
 
 
@@ -9514,7 +11069,7 @@ public class Calib3d {
     //
 
     /**
-     * Computes undistortion and rectification maps for image transform by cv::remap(). If D is empty zero
+     * Computes undistortion and rectification maps for image transform by #remap. If D is empty zero
      *     distortion is used, if R or P is empty identity matrixes are used.
      *
      *     @param K Camera intrinsic matrix \(cameramatrix{K}\).
@@ -9523,7 +11078,7 @@ public class Calib3d {
      *     1-channel or 1x1 3-channel
      *     @param P New camera intrinsic matrix (3x3) or new projection matrix (3x4)
      *     @param size Undistorted image size.
-     *     @param m1type Type of the first output map that can be CV_32FC1 or CV_16SC2 . See convertMaps()
+     *     @param m1type Type of the first output map that can be CV_32FC1 or CV_16SC2 . See #convertMaps
      *     for details.
      *     @param map1 The first output map.
      *     @param map2 The second output map.
@@ -9550,7 +11105,7 @@ public class Calib3d {
      *
      *     The function transforms an image to compensate radial and tangential lens distortion.
      *
-     *     The function is simply a combination of fisheye::initUndistortRectifyMap (with unity R ) and remap
+     *     The function is simply a combination of #fisheye::initUndistortRectifyMap (with unity R ) and #remap
      *     (with bilinear interpolation). See the former function for details of the transformation being
      *     performed.
      *
@@ -9561,7 +11116,7 @@ public class Calib3d {
      *             k_4, k_5, k_6) of distortion were optimized under calibration)
      *   <ul>
      *     <li>
-     *            b\) result of fisheye::undistortImage of fisheye camera model (all possible coefficients (k_1, k_2,
+     *            b\) result of #fisheye::undistortImage of fisheye camera model (all possible coefficients (k_1, k_2,
      *             k_3, k_4) of fisheye distortion were optimized under calibration)
      *     </li>
      *     <li>
@@ -9592,7 +11147,7 @@ public class Calib3d {
      *
      *     The function transforms an image to compensate radial and tangential lens distortion.
      *
-     *     The function is simply a combination of fisheye::initUndistortRectifyMap (with unity R ) and remap
+     *     The function is simply a combination of #fisheye::initUndistortRectifyMap (with unity R ) and #remap
      *     (with bilinear interpolation). See the former function for details of the transformation being
      *     performed.
      *
@@ -9603,7 +11158,7 @@ public class Calib3d {
      *             k_4, k_5, k_6) of distortion were optimized under calibration)
      *   <ul>
      *     <li>
-     *            b\) result of fisheye::undistortImage of fisheye camera model (all possible coefficients (k_1, k_2,
+     *            b\) result of #fisheye::undistortImage of fisheye camera model (all possible coefficients (k_1, k_2,
      *             k_3, k_4) of fisheye distortion were optimized under calibration)
      *     </li>
      *     <li>
@@ -9633,7 +11188,7 @@ public class Calib3d {
      *
      *     The function transforms an image to compensate radial and tangential lens distortion.
      *
-     *     The function is simply a combination of fisheye::initUndistortRectifyMap (with unity R ) and remap
+     *     The function is simply a combination of #fisheye::initUndistortRectifyMap (with unity R ) and #remap
      *     (with bilinear interpolation). See the former function for details of the transformation being
      *     performed.
      *
@@ -9644,7 +11199,7 @@ public class Calib3d {
      *             k_4, k_5, k_6) of distortion were optimized under calibration)
      *   <ul>
      *     <li>
-     *            b\) result of fisheye::undistortImage of fisheye camera model (all possible coefficients (k_1, k_2,
+     *            b\) result of #fisheye::undistortImage of fisheye camera model (all possible coefficients (k_1, k_2,
      *             k_3, k_4) of fisheye distortion were optimized under calibration)
      *     </li>
      *     <li>
@@ -9740,7 +11295,7 @@ public class Calib3d {
     //
 
     /**
-     * Performs camera calibaration
+     * Performs camera calibration
      *
      *     @param objectPoints vector of vectors of calibration pattern points in the calibration pattern
      *     coordinate space.
@@ -9783,6 +11338,10 @@ public class Calib3d {
      *   <li>
      *         REF: fisheye::CALIB_FIX_PRINCIPAL_POINT  The principal point is not changed during the global
      * optimization. It stays at the center or at a different location specified when REF: fisheye::CALIB_USE_INTRINSIC_GUESS is set too.
+     *   </li>
+     *   <li>
+     *         REF: fisheye::CALIB_FIX_FOCAL_LENGTH The focal length is not changed during the global
+     * optimization. It is the \(max(width,height)/\pi\) or the provided \(f_x\), \(f_y\) when REF: fisheye::CALIB_USE_INTRINSIC_GUESS is set too.
      *     @param criteria Termination criteria for the iterative optimization algorithm.
      *   </li>
      * </ul>
@@ -9802,7 +11361,7 @@ public class Calib3d {
     }
 
     /**
-     * Performs camera calibaration
+     * Performs camera calibration
      *
      *     @param objectPoints vector of vectors of calibration pattern points in the calibration pattern
      *     coordinate space.
@@ -9846,6 +11405,10 @@ public class Calib3d {
      *         REF: fisheye::CALIB_FIX_PRINCIPAL_POINT  The principal point is not changed during the global
      * optimization. It stays at the center or at a different location specified when REF: fisheye::CALIB_USE_INTRINSIC_GUESS is set too.
      *   </li>
+     *   <li>
+     *         REF: fisheye::CALIB_FIX_FOCAL_LENGTH The focal length is not changed during the global
+     * optimization. It is the \(max(width,height)/\pi\) or the provided \(f_x\), \(f_y\) when REF: fisheye::CALIB_USE_INTRINSIC_GUESS is set too.
+     *   </li>
      * </ul>
      * @return automatically generated
      */
@@ -9863,7 +11426,7 @@ public class Calib3d {
     }
 
     /**
-     * Performs camera calibaration
+     * Performs camera calibration
      *
      *     @param objectPoints vector of vectors of calibration pattern points in the calibration pattern
      *     coordinate space.
@@ -9905,6 +11468,10 @@ public class Calib3d {
      *   <li>
      *         REF: fisheye::CALIB_FIX_PRINCIPAL_POINT  The principal point is not changed during the global
      * optimization. It stays at the center or at a different location specified when REF: fisheye::CALIB_USE_INTRINSIC_GUESS is set too.
+     *   </li>
+     *   <li>
+     *         REF: fisheye::CALIB_FIX_FOCAL_LENGTH The focal length is not changed during the global
+     * optimization. It is the \(max(width,height)/\pi\) or the provided \(f_x\), \(f_y\) when REF: fisheye::CALIB_USE_INTRINSIC_GUESS is set too.
      *   </li>
      * </ul>
      * @return automatically generated
@@ -9944,14 +11511,14 @@ public class Calib3d {
      *     camera.
      *     @param P2 Output 3x4 projection matrix in the new (rectified) coordinate systems for the second
      *     camera.
-     *     @param Q Output \(4 \times 4\) disparity-to-depth mapping matrix (see reprojectImageTo3D ).
+     *     @param Q Output \(4 \times 4\) disparity-to-depth mapping matrix (see #reprojectImageTo3D ).
      *     @param flags Operation flags that may be zero or REF: fisheye::CALIB_ZERO_DISPARITY . If the flag is set,
      *     the function makes the principal points of each camera have the same pixel coordinates in the
      *     rectified views. And if the flag is not set, the function may still shift the images in the
      *     horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the
      *     useful image area.
      *     @param newImageSize New image resolution after rectification. The same size should be passed to
-     *     initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     *     #initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
      *     is passed (default), it is set to the original imageSize . Setting it to larger value can help you
      *     preserve details in the original image, especially when there is a big radial distortion.
      *     @param balance Sets the new focal length in range between the min focal length and the max focal
@@ -9979,14 +11546,14 @@ public class Calib3d {
      *     camera.
      *     @param P2 Output 3x4 projection matrix in the new (rectified) coordinate systems for the second
      *     camera.
-     *     @param Q Output \(4 \times 4\) disparity-to-depth mapping matrix (see reprojectImageTo3D ).
+     *     @param Q Output \(4 \times 4\) disparity-to-depth mapping matrix (see #reprojectImageTo3D ).
      *     @param flags Operation flags that may be zero or REF: fisheye::CALIB_ZERO_DISPARITY . If the flag is set,
      *     the function makes the principal points of each camera have the same pixel coordinates in the
      *     rectified views. And if the flag is not set, the function may still shift the images in the
      *     horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the
      *     useful image area.
      *     @param newImageSize New image resolution after rectification. The same size should be passed to
-     *     initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     *     #initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
      *     is passed (default), it is set to the original imageSize . Setting it to larger value can help you
      *     preserve details in the original image, especially when there is a big radial distortion.
      *     @param balance Sets the new focal length in range between the min focal length and the max focal
@@ -10013,14 +11580,14 @@ public class Calib3d {
      *     camera.
      *     @param P2 Output 3x4 projection matrix in the new (rectified) coordinate systems for the second
      *     camera.
-     *     @param Q Output \(4 \times 4\) disparity-to-depth mapping matrix (see reprojectImageTo3D ).
+     *     @param Q Output \(4 \times 4\) disparity-to-depth mapping matrix (see #reprojectImageTo3D ).
      *     @param flags Operation flags that may be zero or REF: fisheye::CALIB_ZERO_DISPARITY . If the flag is set,
      *     the function makes the principal points of each camera have the same pixel coordinates in the
      *     rectified views. And if the flag is not set, the function may still shift the images in the
      *     horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the
      *     useful image area.
      *     @param newImageSize New image resolution after rectification. The same size should be passed to
-     *     initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     *     #initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
      *     is passed (default), it is set to the original imageSize . Setting it to larger value can help you
      *     preserve details in the original image, especially when there is a big radial distortion.
      *     length. Balance is in range of [0, 1].
@@ -10046,13 +11613,13 @@ public class Calib3d {
      *     camera.
      *     @param P2 Output 3x4 projection matrix in the new (rectified) coordinate systems for the second
      *     camera.
-     *     @param Q Output \(4 \times 4\) disparity-to-depth mapping matrix (see reprojectImageTo3D ).
+     *     @param Q Output \(4 \times 4\) disparity-to-depth mapping matrix (see #reprojectImageTo3D ).
      *     @param flags Operation flags that may be zero or REF: fisheye::CALIB_ZERO_DISPARITY . If the flag is set,
      *     the function makes the principal points of each camera have the same pixel coordinates in the
      *     rectified views. And if the flag is not set, the function may still shift the images in the
      *     horizontal or vertical direction (depending on the orientation of epipolar lines) to maximize the
      *     useful image area.
-     *     initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
+     *     #initUndistortRectifyMap (see the stereo_calib.cpp sample in OpenCV samples directory). When (0,0)
      *     is passed (default), it is set to the original imageSize . Setting it to larger value can help you
      *     preserve details in the original image, especially when there is a big radial distortion.
      *     length. Balance is in range of [0, 1].
@@ -10063,7 +11630,7 @@ public class Calib3d {
 
 
     //
-    // C++:  double cv::fisheye::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& K1, Mat& D1, Mat& K2, Mat& D2, Size imageSize, Mat& R, Mat& T, int flags = fisheye::CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT + TermCriteria::EPS, 100, DBL_EPSILON))
+    // C++:  double cv::fisheye::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& K1, Mat& D1, Mat& K2, Mat& D2, Size imageSize, Mat& R, Mat& T, vector_Mat& rvecs, vector_Mat& tvecs, int flags = fisheye::CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT + TermCriteria::EPS, 100, DBL_EPSILON))
     //
 
     /**
@@ -10085,6 +11652,15 @@ public class Calib3d {
      *     @param imageSize Size of the image used only to initialize camera intrinsic matrix.
      *     @param R Output rotation matrix between the 1st and the 2nd camera coordinate systems.
      *     @param T Output translation vector between the coordinate systems of the cameras.
+     *     @param rvecs Output vector of rotation vectors ( REF: Rodrigues ) estimated for each pattern view in the
+     *     coordinate system of the first camera of the stereo pair (e.g. std::vector&lt;cv::Mat&gt;). More in detail, each
+     *     i-th rotation vector together with the corresponding i-th translation vector (see the next output parameter
+     *     description) brings the calibration pattern from the object coordinate space (in which object points are
+     *     specified) to the camera coordinate space of the first camera of the stereo pair. In more technical terms,
+     *     the tuple of the i-th rotation and translation vector performs a change of basis from object coordinate space
+     *     to camera coordinate space of the first camera of the stereo pair.
+     *     @param tvecs Output vector of translation vectors estimated for each pattern view, see parameter description
+     *     of previous output parameter ( rvecs ).
      *     @param flags Different flags that may be zero or a combination of the following values:
      * <ul>
      *   <li>
@@ -10114,11 +11690,18 @@ public class Calib3d {
      * </ul>
      * @return automatically generated
      */
-    public static double fisheye_stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat K1, Mat D1, Mat K2, Mat D2, Size imageSize, Mat R, Mat T, int flags, TermCriteria criteria) {
+    public static double fisheye_stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat K1, Mat D1, Mat K2, Mat D2, Size imageSize, Mat R, Mat T, List<Mat> rvecs, List<Mat> tvecs, int flags, TermCriteria criteria) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
         Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
         Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
-        return fisheye_stereoCalibrate_0(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, K1.nativeObj, D1.nativeObj, K2.nativeObj, D2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, flags, criteria.type, criteria.maxCount, criteria.epsilon);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = fisheye_stereoCalibrate_0(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, K1.nativeObj, D1.nativeObj, K2.nativeObj, D2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, flags, criteria.type, criteria.maxCount, criteria.epsilon);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
     }
 
     /**
@@ -10140,6 +11723,15 @@ public class Calib3d {
      *     @param imageSize Size of the image used only to initialize camera intrinsic matrix.
      *     @param R Output rotation matrix between the 1st and the 2nd camera coordinate systems.
      *     @param T Output translation vector between the coordinate systems of the cameras.
+     *     @param rvecs Output vector of rotation vectors ( REF: Rodrigues ) estimated for each pattern view in the
+     *     coordinate system of the first camera of the stereo pair (e.g. std::vector&lt;cv::Mat&gt;). More in detail, each
+     *     i-th rotation vector together with the corresponding i-th translation vector (see the next output parameter
+     *     description) brings the calibration pattern from the object coordinate space (in which object points are
+     *     specified) to the camera coordinate space of the first camera of the stereo pair. In more technical terms,
+     *     the tuple of the i-th rotation and translation vector performs a change of basis from object coordinate space
+     *     to camera coordinate space of the first camera of the stereo pair.
+     *     @param tvecs Output vector of translation vectors estimated for each pattern view, see parameter description
+     *     of previous output parameter ( rvecs ).
      *     @param flags Different flags that may be zero or a combination of the following values:
      * <ul>
      *   <li>
@@ -10168,11 +11760,18 @@ public class Calib3d {
      * </ul>
      * @return automatically generated
      */
-    public static double fisheye_stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat K1, Mat D1, Mat K2, Mat D2, Size imageSize, Mat R, Mat T, int flags) {
+    public static double fisheye_stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat K1, Mat D1, Mat K2, Mat D2, Size imageSize, Mat R, Mat T, List<Mat> rvecs, List<Mat> tvecs, int flags) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
         Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
         Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
-        return fisheye_stereoCalibrate_1(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, K1.nativeObj, D1.nativeObj, K2.nativeObj, D2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, flags);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = fisheye_stereoCalibrate_1(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, K1.nativeObj, D1.nativeObj, K2.nativeObj, D2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj, flags);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
     }
 
     /**
@@ -10194,6 +11793,15 @@ public class Calib3d {
      *     @param imageSize Size of the image used only to initialize camera intrinsic matrix.
      *     @param R Output rotation matrix between the 1st and the 2nd camera coordinate systems.
      *     @param T Output translation vector between the coordinate systems of the cameras.
+     *     @param rvecs Output vector of rotation vectors ( REF: Rodrigues ) estimated for each pattern view in the
+     *     coordinate system of the first camera of the stereo pair (e.g. std::vector&lt;cv::Mat&gt;). More in detail, each
+     *     i-th rotation vector together with the corresponding i-th translation vector (see the next output parameter
+     *     description) brings the calibration pattern from the object coordinate space (in which object points are
+     *     specified) to the camera coordinate space of the first camera of the stereo pair. In more technical terms,
+     *     the tuple of the i-th rotation and translation vector performs a change of basis from object coordinate space
+     *     to camera coordinate space of the first camera of the stereo pair.
+     *     @param tvecs Output vector of translation vectors estimated for each pattern view, see parameter description
+     *     of previous output parameter ( rvecs ).
      * <ul>
      *   <li>
      *         REF: fisheye::CALIB_FIX_INTRINSIC  Fix K1, K2? and D1, D2? so that only R, T matrices
@@ -10221,11 +11829,44 @@ public class Calib3d {
      * </ul>
      * @return automatically generated
      */
+    public static double fisheye_stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat K1, Mat D1, Mat K2, Mat D2, Size imageSize, Mat R, Mat T, List<Mat> rvecs, List<Mat> tvecs) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
+        Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
+        Mat rvecs_mat = new Mat();
+        Mat tvecs_mat = new Mat();
+        double retVal = fisheye_stereoCalibrate_2(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, K1.nativeObj, D1.nativeObj, K2.nativeObj, D2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, rvecs_mat.nativeObj, tvecs_mat.nativeObj);
+        Converters.Mat_to_vector_Mat(rvecs_mat, rvecs);
+        rvecs_mat.release();
+        Converters.Mat_to_vector_Mat(tvecs_mat, tvecs);
+        tvecs_mat.release();
+        return retVal;
+    }
+
+
+    //
+    // C++:  double cv::fisheye::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& K1, Mat& D1, Mat& K2, Mat& D2, Size imageSize, Mat& R, Mat& T, int flags = fisheye::CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT + TermCriteria::EPS, 100, DBL_EPSILON))
+    //
+
+    public static double fisheye_stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat K1, Mat D1, Mat K2, Mat D2, Size imageSize, Mat R, Mat T, int flags, TermCriteria criteria) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
+        Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
+        return fisheye_stereoCalibrate_3(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, K1.nativeObj, D1.nativeObj, K2.nativeObj, D2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, flags, criteria.type, criteria.maxCount, criteria.epsilon);
+    }
+
+    public static double fisheye_stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat K1, Mat D1, Mat K2, Mat D2, Size imageSize, Mat R, Mat T, int flags) {
+        Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
+        Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
+        Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
+        return fisheye_stereoCalibrate_4(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, K1.nativeObj, D1.nativeObj, K2.nativeObj, D2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj, flags);
+    }
+
     public static double fisheye_stereoCalibrate(List<Mat> objectPoints, List<Mat> imagePoints1, List<Mat> imagePoints2, Mat K1, Mat D1, Mat K2, Mat D2, Size imageSize, Mat R, Mat T) {
         Mat objectPoints_mat = Converters.vector_Mat_to_Mat(objectPoints);
         Mat imagePoints1_mat = Converters.vector_Mat_to_Mat(imagePoints1);
         Mat imagePoints2_mat = Converters.vector_Mat_to_Mat(imagePoints2);
-        return fisheye_stereoCalibrate_2(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, K1.nativeObj, D1.nativeObj, K2.nativeObj, D2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj);
+        return fisheye_stereoCalibrate_5(objectPoints_mat.nativeObj, imagePoints1_mat.nativeObj, imagePoints2_mat.nativeObj, K1.nativeObj, D1.nativeObj, K2.nativeObj, D2.nativeObj, imageSize.width, imageSize.height, R.nativeObj, T.nativeObj);
     }
 
 
@@ -10242,6 +11883,9 @@ public class Calib3d {
     private static native long findHomography_3(long srcPoints_mat_nativeObj, long dstPoints_mat_nativeObj, int method, double ransacReprojThreshold);
     private static native long findHomography_4(long srcPoints_mat_nativeObj, long dstPoints_mat_nativeObj, int method);
     private static native long findHomography_5(long srcPoints_mat_nativeObj, long dstPoints_mat_nativeObj);
+
+    // C++:  Mat cv::findHomography(vector_Point2f srcPoints, vector_Point2f dstPoints, Mat& mask, UsacParams params)
+    private static native long findHomography_6(long srcPoints_mat_nativeObj, long dstPoints_mat_nativeObj, long mask_nativeObj, long params_nativeObj);
 
     // C++:  Vec3d cv::RQDecomp3x3(Mat src, Mat& mtxR, Mat& mtxQ, Mat& Qx = Mat(), Mat& Qy = Mat(), Mat& Qz = Mat())
     private static native double[] RQDecomp3x3_0(long src_nativeObj, long mtxR_nativeObj, long mtxQ_nativeObj, long Qx_nativeObj, long Qy_nativeObj, long Qz_nativeObj);
@@ -10289,6 +11933,10 @@ public class Calib3d {
     private static native boolean solvePnPRansac_5(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_mat_nativeObj, long rvec_nativeObj, long tvec_nativeObj, boolean useExtrinsicGuess);
     private static native boolean solvePnPRansac_6(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_mat_nativeObj, long rvec_nativeObj, long tvec_nativeObj);
 
+    // C++:  bool cv::solvePnPRansac(vector_Point3f objectPoints, vector_Point2f imagePoints, Mat& cameraMatrix, vector_double distCoeffs, Mat& rvec, Mat& tvec, Mat& inliers, UsacParams params = UsacParams())
+    private static native boolean solvePnPRansac_7(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_mat_nativeObj, long rvec_nativeObj, long tvec_nativeObj, long inliers_nativeObj, long params_nativeObj);
+    private static native boolean solvePnPRansac_8(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_mat_nativeObj, long rvec_nativeObj, long tvec_nativeObj, long inliers_nativeObj);
+
     // C++:  int cv::solveP3P(Mat objectPoints, Mat imagePoints, Mat cameraMatrix, Mat distCoeffs, vector_Mat& rvecs, vector_Mat& tvecs, int flags)
     private static native int solveP3P_0(long objectPoints_nativeObj, long imagePoints_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, int flags);
 
@@ -10317,6 +11965,22 @@ public class Calib3d {
     private static native boolean findChessboardCorners_0(long image_nativeObj, double patternSize_width, double patternSize_height, long corners_mat_nativeObj, int flags);
     private static native boolean findChessboardCorners_1(long image_nativeObj, double patternSize_width, double patternSize_height, long corners_mat_nativeObj);
 
+    // C++:  bool cv::checkChessboard(Mat img, Size size)
+    private static native boolean checkChessboard_0(long img_nativeObj, double size_width, double size_height);
+
+    // C++:  bool cv::findChessboardCornersSB(Mat image, Size patternSize, Mat& corners, int flags, Mat& meta)
+    private static native boolean findChessboardCornersSBWithMeta_0(long image_nativeObj, double patternSize_width, double patternSize_height, long corners_nativeObj, int flags, long meta_nativeObj);
+
+    // C++:  bool cv::findChessboardCornersSB(Mat image, Size patternSize, Mat& corners, int flags = 0)
+    private static native boolean findChessboardCornersSB_0(long image_nativeObj, double patternSize_width, double patternSize_height, long corners_nativeObj, int flags);
+    private static native boolean findChessboardCornersSB_1(long image_nativeObj, double patternSize_width, double patternSize_height, long corners_nativeObj);
+
+    // C++:  Scalar cv::estimateChessboardSharpness(Mat image, Size patternSize, Mat corners, float rise_distance = 0.8F, bool vertical = false, Mat& sharpness = Mat())
+    private static native double[] estimateChessboardSharpness_0(long image_nativeObj, double patternSize_width, double patternSize_height, long corners_nativeObj, float rise_distance, boolean vertical, long sharpness_nativeObj);
+    private static native double[] estimateChessboardSharpness_1(long image_nativeObj, double patternSize_width, double patternSize_height, long corners_nativeObj, float rise_distance, boolean vertical);
+    private static native double[] estimateChessboardSharpness_2(long image_nativeObj, double patternSize_width, double patternSize_height, long corners_nativeObj, float rise_distance);
+    private static native double[] estimateChessboardSharpness_3(long image_nativeObj, double patternSize_width, double patternSize_height, long corners_nativeObj);
+
     // C++:  bool cv::find4QuadCornerSubpix(Mat img, Mat& corners, Size region_size)
     private static native boolean find4QuadCornerSubpix_0(long img_nativeObj, long corners_nativeObj, double region_size_width, double region_size_height);
 
@@ -10341,18 +12005,33 @@ public class Calib3d {
     private static native double calibrateCamera_1(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, double imageSize_width, double imageSize_height, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, int flags);
     private static native double calibrateCamera_2(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, double imageSize_width, double imageSize_height, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj);
 
+    // C++:  double cv::calibrateCameraRO(vector_Mat objectPoints, vector_Mat imagePoints, Size imageSize, int iFixedPoint, Mat& cameraMatrix, Mat& distCoeffs, vector_Mat& rvecs, vector_Mat& tvecs, Mat& newObjPoints, Mat& stdDeviationsIntrinsics, Mat& stdDeviationsExtrinsics, Mat& stdDeviationsObjPoints, Mat& perViewErrors, int flags = 0, TermCriteria criteria = TermCriteria( TermCriteria::COUNT + TermCriteria::EPS, 30, DBL_EPSILON))
+    private static native double calibrateCameraROExtended_0(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, double imageSize_width, double imageSize_height, int iFixedPoint, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, long newObjPoints_nativeObj, long stdDeviationsIntrinsics_nativeObj, long stdDeviationsExtrinsics_nativeObj, long stdDeviationsObjPoints_nativeObj, long perViewErrors_nativeObj, int flags, int criteria_type, int criteria_maxCount, double criteria_epsilon);
+    private static native double calibrateCameraROExtended_1(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, double imageSize_width, double imageSize_height, int iFixedPoint, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, long newObjPoints_nativeObj, long stdDeviationsIntrinsics_nativeObj, long stdDeviationsExtrinsics_nativeObj, long stdDeviationsObjPoints_nativeObj, long perViewErrors_nativeObj, int flags);
+    private static native double calibrateCameraROExtended_2(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, double imageSize_width, double imageSize_height, int iFixedPoint, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, long newObjPoints_nativeObj, long stdDeviationsIntrinsics_nativeObj, long stdDeviationsExtrinsics_nativeObj, long stdDeviationsObjPoints_nativeObj, long perViewErrors_nativeObj);
+
+    // C++:  double cv::calibrateCameraRO(vector_Mat objectPoints, vector_Mat imagePoints, Size imageSize, int iFixedPoint, Mat& cameraMatrix, Mat& distCoeffs, vector_Mat& rvecs, vector_Mat& tvecs, Mat& newObjPoints, int flags = 0, TermCriteria criteria = TermCriteria( TermCriteria::COUNT + TermCriteria::EPS, 30, DBL_EPSILON))
+    private static native double calibrateCameraRO_0(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, double imageSize_width, double imageSize_height, int iFixedPoint, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, long newObjPoints_nativeObj, int flags, int criteria_type, int criteria_maxCount, double criteria_epsilon);
+    private static native double calibrateCameraRO_1(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, double imageSize_width, double imageSize_height, int iFixedPoint, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, long newObjPoints_nativeObj, int flags);
+    private static native double calibrateCameraRO_2(long objectPoints_mat_nativeObj, long imagePoints_mat_nativeObj, double imageSize_width, double imageSize_height, int iFixedPoint, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, long newObjPoints_nativeObj);
+
     // C++:  void cv::calibrationMatrixValues(Mat cameraMatrix, Size imageSize, double apertureWidth, double apertureHeight, double& fovx, double& fovy, double& focalLength, Point2d& principalPoint, double& aspectRatio)
     private static native void calibrationMatrixValues_0(long cameraMatrix_nativeObj, double imageSize_width, double imageSize_height, double apertureWidth, double apertureHeight, double[] fovx_out, double[] fovy_out, double[] focalLength_out, double[] principalPoint_out, double[] aspectRatio_out);
 
-    // C++:  double cv::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& cameraMatrix1, Mat& distCoeffs1, Mat& cameraMatrix2, Mat& distCoeffs2, Size imageSize, Mat& R, Mat& T, Mat& E, Mat& F, Mat& perViewErrors, int flags = CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 1e-6))
-    private static native double stereoCalibrateExtended_0(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, long perViewErrors_nativeObj, int flags, int criteria_type, int criteria_maxCount, double criteria_epsilon);
-    private static native double stereoCalibrateExtended_1(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, long perViewErrors_nativeObj, int flags);
-    private static native double stereoCalibrateExtended_2(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, long perViewErrors_nativeObj);
+    // C++:  double cv::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& cameraMatrix1, Mat& distCoeffs1, Mat& cameraMatrix2, Mat& distCoeffs2, Size imageSize, Mat& R, Mat& T, Mat& E, Mat& F, vector_Mat& rvecs, vector_Mat& tvecs, Mat& perViewErrors, int flags = CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 1e-6))
+    private static native double stereoCalibrateExtended_0(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, long perViewErrors_nativeObj, int flags, int criteria_type, int criteria_maxCount, double criteria_epsilon);
+    private static native double stereoCalibrateExtended_1(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, long perViewErrors_nativeObj, int flags);
+    private static native double stereoCalibrateExtended_2(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, long perViewErrors_nativeObj);
 
     // C++:  double cv::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& cameraMatrix1, Mat& distCoeffs1, Mat& cameraMatrix2, Mat& distCoeffs2, Size imageSize, Mat& R, Mat& T, Mat& E, Mat& F, int flags = CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 1e-6))
     private static native double stereoCalibrate_0(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, int flags, int criteria_type, int criteria_maxCount, double criteria_epsilon);
     private static native double stereoCalibrate_1(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, int flags);
     private static native double stereoCalibrate_2(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj);
+
+    // C++:  double cv::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& cameraMatrix1, Mat& distCoeffs1, Mat& cameraMatrix2, Mat& distCoeffs2, Size imageSize, Mat& R, Mat& T, Mat& E, Mat& F, Mat& perViewErrors, int flags = CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 1e-6))
+    private static native double stereoCalibrate_3(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, long perViewErrors_nativeObj, int flags, int criteria_type, int criteria_maxCount, double criteria_epsilon);
+    private static native double stereoCalibrate_4(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, long perViewErrors_nativeObj, int flags);
+    private static native double stereoCalibrate_5(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long E_nativeObj, long F_nativeObj, long perViewErrors_nativeObj);
 
     // C++:  void cv::stereoRectify(Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Size imageSize, Mat R, Mat T, Mat& R1, Mat& R2, Mat& P1, Mat& P2, Mat& Q, int flags = CALIB_ZERO_DISPARITY, double alpha = -1, Size newImageSize = Size(), Rect* validPixROI1 = 0, Rect* validPixROI2 = 0)
     private static native void stereoRectify_0(long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long R1_nativeObj, long R2_nativeObj, long P1_nativeObj, long P2_nativeObj, long Q_nativeObj, int flags, double alpha, double newImageSize_width, double newImageSize_height, double[] validPixROI1_out, double[] validPixROI2_out);
@@ -10379,6 +12058,10 @@ public class Calib3d {
     private static native void calibrateHandEye_0(long R_gripper2base_mat_nativeObj, long t_gripper2base_mat_nativeObj, long R_target2cam_mat_nativeObj, long t_target2cam_mat_nativeObj, long R_cam2gripper_nativeObj, long t_cam2gripper_nativeObj, int method);
     private static native void calibrateHandEye_1(long R_gripper2base_mat_nativeObj, long t_gripper2base_mat_nativeObj, long R_target2cam_mat_nativeObj, long t_target2cam_mat_nativeObj, long R_cam2gripper_nativeObj, long t_cam2gripper_nativeObj);
 
+    // C++:  void cv::calibrateRobotWorldHandEye(vector_Mat R_world2cam, vector_Mat t_world2cam, vector_Mat R_base2gripper, vector_Mat t_base2gripper, Mat& R_base2world, Mat& t_base2world, Mat& R_gripper2cam, Mat& t_gripper2cam, RobotWorldHandEyeCalibrationMethod method = CALIB_ROBOT_WORLD_HAND_EYE_SHAH)
+    private static native void calibrateRobotWorldHandEye_0(long R_world2cam_mat_nativeObj, long t_world2cam_mat_nativeObj, long R_base2gripper_mat_nativeObj, long t_base2gripper_mat_nativeObj, long R_base2world_nativeObj, long t_base2world_nativeObj, long R_gripper2cam_nativeObj, long t_gripper2cam_nativeObj, int method);
+    private static native void calibrateRobotWorldHandEye_1(long R_world2cam_mat_nativeObj, long t_world2cam_mat_nativeObj, long R_base2gripper_mat_nativeObj, long t_base2gripper_mat_nativeObj, long R_base2world_nativeObj, long t_base2world_nativeObj, long R_gripper2cam_nativeObj, long t_gripper2cam_nativeObj);
+
     // C++:  void cv::convertPointsToHomogeneous(Mat src, Mat& dst)
     private static native void convertPointsToHomogeneous_0(long src_nativeObj, long dst_nativeObj);
 
@@ -10396,47 +12079,61 @@ public class Calib3d {
     private static native long findFundamentalMat_5(long points1_mat_nativeObj, long points2_mat_nativeObj, int method);
     private static native long findFundamentalMat_6(long points1_mat_nativeObj, long points2_mat_nativeObj);
 
-    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method, double prob, double threshold, int maxIters, Mat& mask = Mat())
+    // C++:  Mat cv::findFundamentalMat(vector_Point2f points1, vector_Point2f points2, Mat& mask, UsacParams params)
+    private static native long findFundamentalMat_7(long points1_mat_nativeObj, long points2_mat_nativeObj, long mask_nativeObj, long params_nativeObj);
+
+    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method = RANSAC, double prob = 0.999, double threshold = 1.0, int maxIters = 1000, Mat& mask = Mat())
     private static native long findEssentialMat_0(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, int method, double prob, double threshold, int maxIters, long mask_nativeObj);
     private static native long findEssentialMat_1(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, int method, double prob, double threshold, int maxIters);
+    private static native long findEssentialMat_2(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, int method, double prob, double threshold);
+    private static native long findEssentialMat_3(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, int method, double prob);
+    private static native long findEssentialMat_4(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, int method);
+    private static native long findEssentialMat_5(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj);
 
-    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix, int method = RANSAC, double prob = 0.999, double threshold = 1.0, Mat& mask = Mat())
-    private static native long findEssentialMat_2(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, int method, double prob, double threshold, long mask_nativeObj);
-    private static native long findEssentialMat_3(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, int method, double prob, double threshold);
-    private static native long findEssentialMat_4(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, int method, double prob);
-    private static native long findEssentialMat_5(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, int method);
-    private static native long findEssentialMat_6(long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj);
+    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, double focal = 1.0, Point2d pp = Point2d(0, 0), int method = RANSAC, double prob = 0.999, double threshold = 1.0, int maxIters = 1000, Mat& mask = Mat())
+    private static native long findEssentialMat_6(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method, double prob, double threshold, int maxIters, long mask_nativeObj);
+    private static native long findEssentialMat_7(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method, double prob, double threshold, int maxIters);
+    private static native long findEssentialMat_8(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method, double prob, double threshold);
+    private static native long findEssentialMat_9(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method, double prob);
+    private static native long findEssentialMat_10(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method);
+    private static native long findEssentialMat_11(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y);
+    private static native long findEssentialMat_12(long points1_nativeObj, long points2_nativeObj, double focal);
+    private static native long findEssentialMat_13(long points1_nativeObj, long points2_nativeObj);
 
-    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, double focal, Point2d pp, int method, double prob, double threshold, int maxIters, Mat& mask = Mat())
-    private static native long findEssentialMat_7(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method, double prob, double threshold, int maxIters, long mask_nativeObj);
-    private static native long findEssentialMat_8(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method, double prob, double threshold, int maxIters);
+    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, int method = RANSAC, double prob = 0.999, double threshold = 1.0, Mat& mask = Mat())
+    private static native long findEssentialMat_14(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, int method, double prob, double threshold, long mask_nativeObj);
+    private static native long findEssentialMat_15(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, int method, double prob, double threshold);
+    private static native long findEssentialMat_16(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, int method, double prob);
+    private static native long findEssentialMat_17(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, int method);
+    private static native long findEssentialMat_18(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj);
 
-    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, double focal = 1.0, Point2d pp = Point2d(0, 0), int method = RANSAC, double prob = 0.999, double threshold = 1.0, Mat& mask = Mat())
-    private static native long findEssentialMat_9(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method, double prob, double threshold, long mask_nativeObj);
-    private static native long findEssentialMat_10(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method, double prob, double threshold);
-    private static native long findEssentialMat_11(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method, double prob);
-    private static native long findEssentialMat_12(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y, int method);
-    private static native long findEssentialMat_13(long points1_nativeObj, long points2_nativeObj, double focal, double pp_x, double pp_y);
-    private static native long findEssentialMat_14(long points1_nativeObj, long points2_nativeObj, double focal);
-    private static native long findEssentialMat_15(long points1_nativeObj, long points2_nativeObj);
+    // C++:  Mat cv::findEssentialMat(Mat points1, Mat points2, Mat cameraMatrix1, Mat cameraMatrix2, Mat dist_coeff1, Mat dist_coeff2, Mat& mask, UsacParams params)
+    private static native long findEssentialMat_19(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long cameraMatrix2_nativeObj, long dist_coeff1_nativeObj, long dist_coeff2_nativeObj, long mask_nativeObj, long params_nativeObj);
 
     // C++:  void cv::decomposeEssentialMat(Mat E, Mat& R1, Mat& R2, Mat& t)
     private static native void decomposeEssentialMat_0(long E_nativeObj, long R1_nativeObj, long R2_nativeObj, long t_nativeObj);
 
+    // C++:  int cv::recoverPose(Mat points1, Mat points2, Mat cameraMatrix1, Mat distCoeffs1, Mat cameraMatrix2, Mat distCoeffs2, Mat& E, Mat& R, Mat& t, int method = cv::RANSAC, double prob = 0.999, double threshold = 1.0, Mat& mask = Mat())
+    private static native int recoverPose_0(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, long E_nativeObj, long R_nativeObj, long t_nativeObj, int method, double prob, double threshold, long mask_nativeObj);
+    private static native int recoverPose_1(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, long E_nativeObj, long R_nativeObj, long t_nativeObj, int method, double prob, double threshold);
+    private static native int recoverPose_2(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, long E_nativeObj, long R_nativeObj, long t_nativeObj, int method, double prob);
+    private static native int recoverPose_3(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, long E_nativeObj, long R_nativeObj, long t_nativeObj, int method);
+    private static native int recoverPose_4(long points1_nativeObj, long points2_nativeObj, long cameraMatrix1_nativeObj, long distCoeffs1_nativeObj, long cameraMatrix2_nativeObj, long distCoeffs2_nativeObj, long E_nativeObj, long R_nativeObj, long t_nativeObj);
+
     // C++:  int cv::recoverPose(Mat E, Mat points1, Mat points2, Mat cameraMatrix, Mat& R, Mat& t, Mat& mask = Mat())
-    private static native int recoverPose_0(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, long R_nativeObj, long t_nativeObj, long mask_nativeObj);
-    private static native int recoverPose_1(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, long R_nativeObj, long t_nativeObj);
+    private static native int recoverPose_5(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, long R_nativeObj, long t_nativeObj, long mask_nativeObj);
+    private static native int recoverPose_6(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, long R_nativeObj, long t_nativeObj);
 
     // C++:  int cv::recoverPose(Mat E, Mat points1, Mat points2, Mat& R, Mat& t, double focal = 1.0, Point2d pp = Point2d(0, 0), Mat& mask = Mat())
-    private static native int recoverPose_2(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long R_nativeObj, long t_nativeObj, double focal, double pp_x, double pp_y, long mask_nativeObj);
-    private static native int recoverPose_3(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long R_nativeObj, long t_nativeObj, double focal, double pp_x, double pp_y);
-    private static native int recoverPose_4(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long R_nativeObj, long t_nativeObj, double focal);
-    private static native int recoverPose_5(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long R_nativeObj, long t_nativeObj);
+    private static native int recoverPose_7(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long R_nativeObj, long t_nativeObj, double focal, double pp_x, double pp_y, long mask_nativeObj);
+    private static native int recoverPose_8(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long R_nativeObj, long t_nativeObj, double focal, double pp_x, double pp_y);
+    private static native int recoverPose_9(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long R_nativeObj, long t_nativeObj, double focal);
+    private static native int recoverPose_10(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long R_nativeObj, long t_nativeObj);
 
     // C++:  int cv::recoverPose(Mat E, Mat points1, Mat points2, Mat cameraMatrix, Mat& R, Mat& t, double distanceThresh, Mat& mask = Mat(), Mat& triangulatedPoints = Mat())
-    private static native int recoverPose_6(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, long R_nativeObj, long t_nativeObj, double distanceThresh, long mask_nativeObj, long triangulatedPoints_nativeObj);
-    private static native int recoverPose_7(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, long R_nativeObj, long t_nativeObj, double distanceThresh, long mask_nativeObj);
-    private static native int recoverPose_8(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, long R_nativeObj, long t_nativeObj, double distanceThresh);
+    private static native int recoverPose_11(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, long R_nativeObj, long t_nativeObj, double distanceThresh, long mask_nativeObj, long triangulatedPoints_nativeObj);
+    private static native int recoverPose_12(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, long R_nativeObj, long t_nativeObj, double distanceThresh, long mask_nativeObj);
+    private static native int recoverPose_13(long E_nativeObj, long points1_nativeObj, long points2_nativeObj, long cameraMatrix_nativeObj, long R_nativeObj, long t_nativeObj, double distanceThresh);
 
     // C++:  void cv::computeCorrespondEpilines(Mat points, int whichImage, Mat F, Mat& lines)
     private static native void computeCorrespondEpilines_0(long points_nativeObj, int whichImage, long F_nativeObj, long lines_nativeObj);
@@ -10471,6 +12168,16 @@ public class Calib3d {
     private static native int estimateAffine3D_1(long src_nativeObj, long dst_nativeObj, long out_nativeObj, long inliers_nativeObj, double ransacThreshold);
     private static native int estimateAffine3D_2(long src_nativeObj, long dst_nativeObj, long out_nativeObj, long inliers_nativeObj);
 
+    // C++:  Mat cv::estimateAffine3D(Mat src, Mat dst, double* scale = nullptr, bool force_rotation = true)
+    private static native long estimateAffine3D_3(long src_nativeObj, long dst_nativeObj, double[] scale_out, boolean force_rotation);
+    private static native long estimateAffine3D_4(long src_nativeObj, long dst_nativeObj, double[] scale_out);
+    private static native long estimateAffine3D_5(long src_nativeObj, long dst_nativeObj);
+
+    // C++:  int cv::estimateTranslation3D(Mat src, Mat dst, Mat& out, Mat& inliers, double ransacThreshold = 3, double confidence = 0.99)
+    private static native int estimateTranslation3D_0(long src_nativeObj, long dst_nativeObj, long out_nativeObj, long inliers_nativeObj, double ransacThreshold, double confidence);
+    private static native int estimateTranslation3D_1(long src_nativeObj, long dst_nativeObj, long out_nativeObj, long inliers_nativeObj, double ransacThreshold);
+    private static native int estimateTranslation3D_2(long src_nativeObj, long dst_nativeObj, long out_nativeObj, long inliers_nativeObj);
+
     // C++:  Mat cv::estimateAffine2D(Mat from, Mat to, Mat& inliers = Mat(), int method = RANSAC, double ransacReprojThreshold = 3, size_t maxIters = 2000, double confidence = 0.99, size_t refineIters = 10)
     private static native long estimateAffine2D_0(long from_nativeObj, long to_nativeObj, long inliers_nativeObj, int method, double ransacReprojThreshold, long maxIters, double confidence, long refineIters);
     private static native long estimateAffine2D_1(long from_nativeObj, long to_nativeObj, long inliers_nativeObj, int method, double ransacReprojThreshold, long maxIters, double confidence);
@@ -10479,6 +12186,9 @@ public class Calib3d {
     private static native long estimateAffine2D_4(long from_nativeObj, long to_nativeObj, long inliers_nativeObj, int method);
     private static native long estimateAffine2D_5(long from_nativeObj, long to_nativeObj, long inliers_nativeObj);
     private static native long estimateAffine2D_6(long from_nativeObj, long to_nativeObj);
+
+    // C++:  Mat cv::estimateAffine2D(Mat pts1, Mat pts2, Mat& inliers, UsacParams params)
+    private static native long estimateAffine2D_7(long pts1_nativeObj, long pts2_nativeObj, long inliers_nativeObj, long params_nativeObj);
 
     // C++:  Mat cv::estimateAffinePartial2D(Mat from, Mat to, Mat& inliers = Mat(), int method = RANSAC, double ransacReprojThreshold = 3, size_t maxIters = 2000, double confidence = 0.99, size_t refineIters = 10)
     private static native long estimateAffinePartial2D_0(long from_nativeObj, long to_nativeObj, long inliers_nativeObj, int method, double ransacReprojThreshold, long maxIters, double confidence, long refineIters);
@@ -10496,6 +12206,33 @@ public class Calib3d {
     private static native void filterHomographyDecompByVisibleRefpoints_0(long rotations_mat_nativeObj, long normals_mat_nativeObj, long beforePoints_nativeObj, long afterPoints_nativeObj, long possibleSolutions_nativeObj, long pointsMask_nativeObj);
     private static native void filterHomographyDecompByVisibleRefpoints_1(long rotations_mat_nativeObj, long normals_mat_nativeObj, long beforePoints_nativeObj, long afterPoints_nativeObj, long possibleSolutions_nativeObj);
 
+    // C++:  void cv::undistort(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, Mat newCameraMatrix = Mat())
+    private static native void undistort_0(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long newCameraMatrix_nativeObj);
+    private static native void undistort_1(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj);
+
+    // C++:  void cv::initUndistortRectifyMap(Mat cameraMatrix, Mat distCoeffs, Mat R, Mat newCameraMatrix, Size size, int m1type, Mat& map1, Mat& map2)
+    private static native void initUndistortRectifyMap_0(long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long R_nativeObj, long newCameraMatrix_nativeObj, double size_width, double size_height, int m1type, long map1_nativeObj, long map2_nativeObj);
+
+    // C++:  void cv::initInverseRectificationMap(Mat cameraMatrix, Mat distCoeffs, Mat R, Mat newCameraMatrix, Size size, int m1type, Mat& map1, Mat& map2)
+    private static native void initInverseRectificationMap_0(long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long R_nativeObj, long newCameraMatrix_nativeObj, double size_width, double size_height, int m1type, long map1_nativeObj, long map2_nativeObj);
+
+    // C++:  Mat cv::getDefaultNewCameraMatrix(Mat cameraMatrix, Size imgsize = Size(), bool centerPrincipalPoint = false)
+    private static native long getDefaultNewCameraMatrix_0(long cameraMatrix_nativeObj, double imgsize_width, double imgsize_height, boolean centerPrincipalPoint);
+    private static native long getDefaultNewCameraMatrix_1(long cameraMatrix_nativeObj, double imgsize_width, double imgsize_height);
+    private static native long getDefaultNewCameraMatrix_2(long cameraMatrix_nativeObj);
+
+    // C++:  void cv::undistortPoints(vector_Point2f src, vector_Point2f& dst, Mat cameraMatrix, Mat distCoeffs, Mat R = Mat(), Mat P = Mat())
+    private static native void undistortPoints_0(long src_mat_nativeObj, long dst_mat_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long R_nativeObj, long P_nativeObj);
+    private static native void undistortPoints_1(long src_mat_nativeObj, long dst_mat_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long R_nativeObj);
+    private static native void undistortPoints_2(long src_mat_nativeObj, long dst_mat_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj);
+
+    // C++:  void cv::undistortPoints(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, Mat R, Mat P, TermCriteria criteria)
+    private static native void undistortPointsIter_0(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long R_nativeObj, long P_nativeObj, int criteria_type, int criteria_maxCount, double criteria_epsilon);
+
+    // C++:  void cv::undistortImagePoints(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, TermCriteria arg1 = TermCriteria(TermCriteria::MAX_ITER + TermCriteria::EPS, 5, 0.01))
+    private static native void undistortImagePoints_0(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, int arg1_type, int arg1_maxCount, double arg1_epsilon);
+    private static native void undistortImagePoints_1(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj);
+
     // C++:  void cv::fisheye::projectPoints(Mat objectPoints, Mat& imagePoints, Mat rvec, Mat tvec, Mat K, Mat D, double alpha = 0, Mat& jacobian = Mat())
     private static native void fisheye_projectPoints_0(long objectPoints_nativeObj, long imagePoints_nativeObj, long rvec_nativeObj, long tvec_nativeObj, long K_nativeObj, long D_nativeObj, double alpha, long jacobian_nativeObj);
     private static native void fisheye_projectPoints_1(long objectPoints_nativeObj, long imagePoints_nativeObj, long rvec_nativeObj, long tvec_nativeObj, long K_nativeObj, long D_nativeObj, double alpha);
@@ -10505,10 +12242,11 @@ public class Calib3d {
     private static native void fisheye_distortPoints_0(long undistorted_nativeObj, long distorted_nativeObj, long K_nativeObj, long D_nativeObj, double alpha);
     private static native void fisheye_distortPoints_1(long undistorted_nativeObj, long distorted_nativeObj, long K_nativeObj, long D_nativeObj);
 
-    // C++:  void cv::fisheye::undistortPoints(Mat distorted, Mat& undistorted, Mat K, Mat D, Mat R = Mat(), Mat P = Mat())
-    private static native void fisheye_undistortPoints_0(long distorted_nativeObj, long undistorted_nativeObj, long K_nativeObj, long D_nativeObj, long R_nativeObj, long P_nativeObj);
-    private static native void fisheye_undistortPoints_1(long distorted_nativeObj, long undistorted_nativeObj, long K_nativeObj, long D_nativeObj, long R_nativeObj);
-    private static native void fisheye_undistortPoints_2(long distorted_nativeObj, long undistorted_nativeObj, long K_nativeObj, long D_nativeObj);
+    // C++:  void cv::fisheye::undistortPoints(Mat distorted, Mat& undistorted, Mat K, Mat D, Mat R = Mat(), Mat P = Mat(), TermCriteria criteria = TermCriteria(TermCriteria::MAX_ITER + TermCriteria::EPS, 10, 1e-8))
+    private static native void fisheye_undistortPoints_0(long distorted_nativeObj, long undistorted_nativeObj, long K_nativeObj, long D_nativeObj, long R_nativeObj, long P_nativeObj, int criteria_type, int criteria_maxCount, double criteria_epsilon);
+    private static native void fisheye_undistortPoints_1(long distorted_nativeObj, long undistorted_nativeObj, long K_nativeObj, long D_nativeObj, long R_nativeObj, long P_nativeObj);
+    private static native void fisheye_undistortPoints_2(long distorted_nativeObj, long undistorted_nativeObj, long K_nativeObj, long D_nativeObj, long R_nativeObj);
+    private static native void fisheye_undistortPoints_3(long distorted_nativeObj, long undistorted_nativeObj, long K_nativeObj, long D_nativeObj);
 
     // C++:  void cv::fisheye::initUndistortRectifyMap(Mat K, Mat D, Mat R, Mat P, Size size, int m1type, Mat& map1, Mat& map2)
     private static native void fisheye_initUndistortRectifyMap_0(long K_nativeObj, long D_nativeObj, long R_nativeObj, long P_nativeObj, double size_width, double size_height, int m1type, long map1_nativeObj, long map2_nativeObj);
@@ -10535,9 +12273,14 @@ public class Calib3d {
     private static native void fisheye_stereoRectify_2(long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long tvec_nativeObj, long R1_nativeObj, long R2_nativeObj, long P1_nativeObj, long P2_nativeObj, long Q_nativeObj, int flags, double newImageSize_width, double newImageSize_height);
     private static native void fisheye_stereoRectify_3(long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long tvec_nativeObj, long R1_nativeObj, long R2_nativeObj, long P1_nativeObj, long P2_nativeObj, long Q_nativeObj, int flags);
 
+    // C++:  double cv::fisheye::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& K1, Mat& D1, Mat& K2, Mat& D2, Size imageSize, Mat& R, Mat& T, vector_Mat& rvecs, vector_Mat& tvecs, int flags = fisheye::CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT + TermCriteria::EPS, 100, DBL_EPSILON))
+    private static native double fisheye_stereoCalibrate_0(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, int flags, int criteria_type, int criteria_maxCount, double criteria_epsilon);
+    private static native double fisheye_stereoCalibrate_1(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj, int flags);
+    private static native double fisheye_stereoCalibrate_2(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, long rvecs_mat_nativeObj, long tvecs_mat_nativeObj);
+
     // C++:  double cv::fisheye::stereoCalibrate(vector_Mat objectPoints, vector_Mat imagePoints1, vector_Mat imagePoints2, Mat& K1, Mat& D1, Mat& K2, Mat& D2, Size imageSize, Mat& R, Mat& T, int flags = fisheye::CALIB_FIX_INTRINSIC, TermCriteria criteria = TermCriteria(TermCriteria::COUNT + TermCriteria::EPS, 100, DBL_EPSILON))
-    private static native double fisheye_stereoCalibrate_0(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, int flags, int criteria_type, int criteria_maxCount, double criteria_epsilon);
-    private static native double fisheye_stereoCalibrate_1(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, int flags);
-    private static native double fisheye_stereoCalibrate_2(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj);
+    private static native double fisheye_stereoCalibrate_3(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, int flags, int criteria_type, int criteria_maxCount, double criteria_epsilon);
+    private static native double fisheye_stereoCalibrate_4(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj, int flags);
+    private static native double fisheye_stereoCalibrate_5(long objectPoints_mat_nativeObj, long imagePoints1_mat_nativeObj, long imagePoints2_mat_nativeObj, long K1_nativeObj, long D1_nativeObj, long K2_nativeObj, long D2_nativeObj, double imageSize_width, double imageSize_height, long R_nativeObj, long T_nativeObj);
 
 }

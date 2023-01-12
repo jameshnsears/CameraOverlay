@@ -19,16 +19,20 @@ public class FastFeatureDetector extends Feature2D {
 
     // C++: enum <unnamed>
     public static final int
-            TYPE_5_8 = 0,
-            TYPE_7_12 = 1,
-            TYPE_9_16 = 2,
             THRESHOLD = 10000,
             NONMAX_SUPPRESSION = 10001,
             FAST_N = 10002;
 
 
+    // C++: enum DetectorType (cv.FastFeatureDetector.DetectorType)
+    public static final int
+            TYPE_5_8 = 0,
+            TYPE_7_12 = 1,
+            TYPE_9_16 = 2;
+
+
     //
-    // C++: static Ptr_FastFeatureDetector cv::FastFeatureDetector::create(int threshold = 10, bool nonmaxSuppression = true, int type = FastFeatureDetector::TYPE_9_16)
+    // C++: static Ptr_FastFeatureDetector cv::FastFeatureDetector::create(int threshold = 10, bool nonmaxSuppression = true, FastFeatureDetector_DetectorType type = FastFeatureDetector::TYPE_9_16)
     //
 
     public static FastFeatureDetector create(int threshold, boolean nonmaxSuppression, int type) {
@@ -85,7 +89,7 @@ public class FastFeatureDetector extends Feature2D {
 
 
     //
-    // C++:  void cv::FastFeatureDetector::setType(int type)
+    // C++:  void cv::FastFeatureDetector::setType(FastFeatureDetector_DetectorType type)
     //
 
     public void setType(int type) {
@@ -94,7 +98,7 @@ public class FastFeatureDetector extends Feature2D {
 
 
     //
-    // C++:  int cv::FastFeatureDetector::getType()
+    // C++:  FastFeatureDetector_DetectorType cv::FastFeatureDetector::getType()
     //
 
     public int getType() {
@@ -118,7 +122,7 @@ public class FastFeatureDetector extends Feature2D {
 
 
 
-    // C++: static Ptr_FastFeatureDetector cv::FastFeatureDetector::create(int threshold = 10, bool nonmaxSuppression = true, int type = FastFeatureDetector::TYPE_9_16)
+    // C++: static Ptr_FastFeatureDetector cv::FastFeatureDetector::create(int threshold = 10, bool nonmaxSuppression = true, FastFeatureDetector_DetectorType type = FastFeatureDetector::TYPE_9_16)
     private static native long create_0(int threshold, boolean nonmaxSuppression, int type);
     private static native long create_1(int threshold, boolean nonmaxSuppression);
     private static native long create_2(int threshold);
@@ -136,10 +140,10 @@ public class FastFeatureDetector extends Feature2D {
     // C++:  bool cv::FastFeatureDetector::getNonmaxSuppression()
     private static native boolean getNonmaxSuppression_0(long nativeObj);
 
-    // C++:  void cv::FastFeatureDetector::setType(int type)
+    // C++:  void cv::FastFeatureDetector::setType(FastFeatureDetector_DetectorType type)
     private static native void setType_0(long nativeObj, int type);
 
-    // C++:  int cv::FastFeatureDetector::getType()
+    // C++:  FastFeatureDetector_DetectorType cv::FastFeatureDetector::getType()
     private static native int getType_0(long nativeObj);
 
     // C++:  String cv::FastFeatureDetector::getDefaultName()

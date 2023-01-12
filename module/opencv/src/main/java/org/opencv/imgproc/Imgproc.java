@@ -67,9 +67,6 @@ public class Imgproc {
 
     // C++: enum <unnamed>
     public static final int
-            LINE_AA = 16,
-            LINE_8 = 8,
-            LINE_4 = 4,
             CV_GAUSSIAN_5x5 = 7,
             CV_SCHARR = -1,
             CV_MAX_SOBEL_KSIZE = 7,
@@ -89,7 +86,7 @@ public class Imgproc {
             CV_COMP_CHISQR = 1,
             CV_COMP_INTERSECT = 2,
             CV_COMP_BHATTACHARYYA = 3,
-            CV_COMP_HELLINGER = 3,
+            CV_COMP_HELLINGER = CV_COMP_BHATTACHARYYA,
             CV_COMP_CHISQR_ALT = 4,
             CV_COMP_KL_DIV = 5,
             CV_DIST_MASK_3 = 3,
@@ -138,23 +135,23 @@ public class Imgproc {
     // C++: enum ColorConversionCodes (cv.ColorConversionCodes)
     public static final int
             COLOR_BGR2BGRA = 0,
-            COLOR_RGB2RGBA = 0,
+            COLOR_RGB2RGBA = COLOR_BGR2BGRA,
             COLOR_BGRA2BGR = 1,
-            COLOR_RGBA2RGB = 1,
+            COLOR_RGBA2RGB = COLOR_BGRA2BGR,
             COLOR_BGR2RGBA = 2,
-            COLOR_RGB2BGRA = 2,
+            COLOR_RGB2BGRA = COLOR_BGR2RGBA,
             COLOR_RGBA2BGR = 3,
-            COLOR_BGRA2RGB = 3,
+            COLOR_BGRA2RGB = COLOR_RGBA2BGR,
             COLOR_BGR2RGB = 4,
-            COLOR_RGB2BGR = 4,
+            COLOR_RGB2BGR = COLOR_BGR2RGB,
             COLOR_BGRA2RGBA = 5,
-            COLOR_RGBA2BGRA = 5,
+            COLOR_RGBA2BGRA = COLOR_BGRA2RGBA,
             COLOR_BGR2GRAY = 6,
             COLOR_RGB2GRAY = 7,
             COLOR_GRAY2BGR = 8,
-            COLOR_GRAY2RGB = 8,
+            COLOR_GRAY2RGB = COLOR_GRAY2BGR,
             COLOR_GRAY2BGRA = 9,
-            COLOR_GRAY2RGBA = 9,
+            COLOR_GRAY2RGBA = COLOR_GRAY2BGRA,
             COLOR_BGRA2GRAY = 10,
             COLOR_RGBA2GRAY = 11,
             COLOR_BGR2BGR565 = 12,
@@ -225,83 +222,83 @@ public class Imgproc {
             COLOR_YUV2BGR_NV12 = 91,
             COLOR_YUV2RGB_NV21 = 92,
             COLOR_YUV2BGR_NV21 = 93,
-            COLOR_YUV420sp2RGB = 92,
-            COLOR_YUV420sp2BGR = 93,
+            COLOR_YUV420sp2RGB = COLOR_YUV2RGB_NV21,
+            COLOR_YUV420sp2BGR = COLOR_YUV2BGR_NV21,
             COLOR_YUV2RGBA_NV12 = 94,
             COLOR_YUV2BGRA_NV12 = 95,
             COLOR_YUV2RGBA_NV21 = 96,
             COLOR_YUV2BGRA_NV21 = 97,
-            COLOR_YUV420sp2RGBA = 96,
-            COLOR_YUV420sp2BGRA = 97,
+            COLOR_YUV420sp2RGBA = COLOR_YUV2RGBA_NV21,
+            COLOR_YUV420sp2BGRA = COLOR_YUV2BGRA_NV21,
             COLOR_YUV2RGB_YV12 = 98,
             COLOR_YUV2BGR_YV12 = 99,
             COLOR_YUV2RGB_IYUV = 100,
             COLOR_YUV2BGR_IYUV = 101,
-            COLOR_YUV2RGB_I420 = 100,
-            COLOR_YUV2BGR_I420 = 101,
-            COLOR_YUV420p2RGB = 98,
-            COLOR_YUV420p2BGR = 99,
+            COLOR_YUV2RGB_I420 = COLOR_YUV2RGB_IYUV,
+            COLOR_YUV2BGR_I420 = COLOR_YUV2BGR_IYUV,
+            COLOR_YUV420p2RGB = COLOR_YUV2RGB_YV12,
+            COLOR_YUV420p2BGR = COLOR_YUV2BGR_YV12,
             COLOR_YUV2RGBA_YV12 = 102,
             COLOR_YUV2BGRA_YV12 = 103,
             COLOR_YUV2RGBA_IYUV = 104,
             COLOR_YUV2BGRA_IYUV = 105,
-            COLOR_YUV2RGBA_I420 = 104,
-            COLOR_YUV2BGRA_I420 = 105,
-            COLOR_YUV420p2RGBA = 102,
-            COLOR_YUV420p2BGRA = 103,
+            COLOR_YUV2RGBA_I420 = COLOR_YUV2RGBA_IYUV,
+            COLOR_YUV2BGRA_I420 = COLOR_YUV2BGRA_IYUV,
+            COLOR_YUV420p2RGBA = COLOR_YUV2RGBA_YV12,
+            COLOR_YUV420p2BGRA = COLOR_YUV2BGRA_YV12,
             COLOR_YUV2GRAY_420 = 106,
-            COLOR_YUV2GRAY_NV21 = 106,
-            COLOR_YUV2GRAY_NV12 = 106,
-            COLOR_YUV2GRAY_YV12 = 106,
-            COLOR_YUV2GRAY_IYUV = 106,
-            COLOR_YUV2GRAY_I420 = 106,
-            COLOR_YUV420sp2GRAY = 106,
-            COLOR_YUV420p2GRAY = 106,
+            COLOR_YUV2GRAY_NV21 = COLOR_YUV2GRAY_420,
+            COLOR_YUV2GRAY_NV12 = COLOR_YUV2GRAY_420,
+            COLOR_YUV2GRAY_YV12 = COLOR_YUV2GRAY_420,
+            COLOR_YUV2GRAY_IYUV = COLOR_YUV2GRAY_420,
+            COLOR_YUV2GRAY_I420 = COLOR_YUV2GRAY_420,
+            COLOR_YUV420sp2GRAY = COLOR_YUV2GRAY_420,
+            COLOR_YUV420p2GRAY = COLOR_YUV2GRAY_420,
             COLOR_YUV2RGB_UYVY = 107,
             COLOR_YUV2BGR_UYVY = 108,
-            COLOR_YUV2RGB_Y422 = 107,
-            COLOR_YUV2BGR_Y422 = 108,
-            COLOR_YUV2RGB_UYNV = 107,
-            COLOR_YUV2BGR_UYNV = 108,
+            COLOR_YUV2RGB_Y422 = COLOR_YUV2RGB_UYVY,
+            COLOR_YUV2BGR_Y422 = COLOR_YUV2BGR_UYVY,
+            COLOR_YUV2RGB_UYNV = COLOR_YUV2RGB_UYVY,
+            COLOR_YUV2BGR_UYNV = COLOR_YUV2BGR_UYVY,
             COLOR_YUV2RGBA_UYVY = 111,
             COLOR_YUV2BGRA_UYVY = 112,
-            COLOR_YUV2RGBA_Y422 = 111,
-            COLOR_YUV2BGRA_Y422 = 112,
-            COLOR_YUV2RGBA_UYNV = 111,
-            COLOR_YUV2BGRA_UYNV = 112,
+            COLOR_YUV2RGBA_Y422 = COLOR_YUV2RGBA_UYVY,
+            COLOR_YUV2BGRA_Y422 = COLOR_YUV2BGRA_UYVY,
+            COLOR_YUV2RGBA_UYNV = COLOR_YUV2RGBA_UYVY,
+            COLOR_YUV2BGRA_UYNV = COLOR_YUV2BGRA_UYVY,
             COLOR_YUV2RGB_YUY2 = 115,
             COLOR_YUV2BGR_YUY2 = 116,
             COLOR_YUV2RGB_YVYU = 117,
             COLOR_YUV2BGR_YVYU = 118,
-            COLOR_YUV2RGB_YUYV = 115,
-            COLOR_YUV2BGR_YUYV = 116,
-            COLOR_YUV2RGB_YUNV = 115,
-            COLOR_YUV2BGR_YUNV = 116,
+            COLOR_YUV2RGB_YUYV = COLOR_YUV2RGB_YUY2,
+            COLOR_YUV2BGR_YUYV = COLOR_YUV2BGR_YUY2,
+            COLOR_YUV2RGB_YUNV = COLOR_YUV2RGB_YUY2,
+            COLOR_YUV2BGR_YUNV = COLOR_YUV2BGR_YUY2,
             COLOR_YUV2RGBA_YUY2 = 119,
             COLOR_YUV2BGRA_YUY2 = 120,
             COLOR_YUV2RGBA_YVYU = 121,
             COLOR_YUV2BGRA_YVYU = 122,
-            COLOR_YUV2RGBA_YUYV = 119,
-            COLOR_YUV2BGRA_YUYV = 120,
-            COLOR_YUV2RGBA_YUNV = 119,
-            COLOR_YUV2BGRA_YUNV = 120,
+            COLOR_YUV2RGBA_YUYV = COLOR_YUV2RGBA_YUY2,
+            COLOR_YUV2BGRA_YUYV = COLOR_YUV2BGRA_YUY2,
+            COLOR_YUV2RGBA_YUNV = COLOR_YUV2RGBA_YUY2,
+            COLOR_YUV2BGRA_YUNV = COLOR_YUV2BGRA_YUY2,
             COLOR_YUV2GRAY_UYVY = 123,
             COLOR_YUV2GRAY_YUY2 = 124,
-            COLOR_YUV2GRAY_Y422 = 123,
-            COLOR_YUV2GRAY_UYNV = 123,
-            COLOR_YUV2GRAY_YVYU = 124,
-            COLOR_YUV2GRAY_YUYV = 124,
-            COLOR_YUV2GRAY_YUNV = 124,
+            COLOR_YUV2GRAY_Y422 = COLOR_YUV2GRAY_UYVY,
+            COLOR_YUV2GRAY_UYNV = COLOR_YUV2GRAY_UYVY,
+            COLOR_YUV2GRAY_YVYU = COLOR_YUV2GRAY_YUY2,
+            COLOR_YUV2GRAY_YUYV = COLOR_YUV2GRAY_YUY2,
+            COLOR_YUV2GRAY_YUNV = COLOR_YUV2GRAY_YUY2,
             COLOR_RGBA2mRGBA = 125,
             COLOR_mRGBA2RGBA = 126,
             COLOR_RGB2YUV_I420 = 127,
             COLOR_BGR2YUV_I420 = 128,
-            COLOR_RGB2YUV_IYUV = 127,
-            COLOR_BGR2YUV_IYUV = 128,
+            COLOR_RGB2YUV_IYUV = COLOR_RGB2YUV_I420,
+            COLOR_BGR2YUV_IYUV = COLOR_BGR2YUV_I420,
             COLOR_RGBA2YUV_I420 = 129,
             COLOR_BGRA2YUV_I420 = 130,
-            COLOR_RGBA2YUV_IYUV = 129,
-            COLOR_BGRA2YUV_IYUV = 130,
+            COLOR_RGBA2YUV_IYUV = COLOR_RGBA2YUV_I420,
+            COLOR_BGRA2YUV_IYUV = COLOR_BGRA2YUV_I420,
             COLOR_RGB2YUV_YV12 = 131,
             COLOR_BGR2YUV_YV12 = 132,
             COLOR_RGBA2YUV_YV12 = 133,
@@ -310,38 +307,74 @@ public class Imgproc {
             COLOR_BayerGB2BGR = 47,
             COLOR_BayerRG2BGR = 48,
             COLOR_BayerGR2BGR = 49,
-            COLOR_BayerBG2RGB = 48,
-            COLOR_BayerGB2RGB = 49,
-            COLOR_BayerRG2RGB = 46,
-            COLOR_BayerGR2RGB = 47,
+            COLOR_BayerRGGB2BGR = COLOR_BayerBG2BGR,
+            COLOR_BayerGRBG2BGR = COLOR_BayerGB2BGR,
+            COLOR_BayerBGGR2BGR = COLOR_BayerRG2BGR,
+            COLOR_BayerGBRG2BGR = COLOR_BayerGR2BGR,
+            COLOR_BayerRGGB2RGB = COLOR_BayerBGGR2BGR,
+            COLOR_BayerGRBG2RGB = COLOR_BayerGBRG2BGR,
+            COLOR_BayerBGGR2RGB = COLOR_BayerRGGB2BGR,
+            COLOR_BayerGBRG2RGB = COLOR_BayerGRBG2BGR,
+            COLOR_BayerBG2RGB = COLOR_BayerRG2BGR,
+            COLOR_BayerGB2RGB = COLOR_BayerGR2BGR,
+            COLOR_BayerRG2RGB = COLOR_BayerBG2BGR,
+            COLOR_BayerGR2RGB = COLOR_BayerGB2BGR,
             COLOR_BayerBG2GRAY = 86,
             COLOR_BayerGB2GRAY = 87,
             COLOR_BayerRG2GRAY = 88,
             COLOR_BayerGR2GRAY = 89,
+            COLOR_BayerRGGB2GRAY = COLOR_BayerBG2GRAY,
+            COLOR_BayerGRBG2GRAY = COLOR_BayerGB2GRAY,
+            COLOR_BayerBGGR2GRAY = COLOR_BayerRG2GRAY,
+            COLOR_BayerGBRG2GRAY = COLOR_BayerGR2GRAY,
             COLOR_BayerBG2BGR_VNG = 62,
             COLOR_BayerGB2BGR_VNG = 63,
             COLOR_BayerRG2BGR_VNG = 64,
             COLOR_BayerGR2BGR_VNG = 65,
-            COLOR_BayerBG2RGB_VNG = 64,
-            COLOR_BayerGB2RGB_VNG = 65,
-            COLOR_BayerRG2RGB_VNG = 62,
-            COLOR_BayerGR2RGB_VNG = 63,
+            COLOR_BayerRGGB2BGR_VNG = COLOR_BayerBG2BGR_VNG,
+            COLOR_BayerGRBG2BGR_VNG = COLOR_BayerGB2BGR_VNG,
+            COLOR_BayerBGGR2BGR_VNG = COLOR_BayerRG2BGR_VNG,
+            COLOR_BayerGBRG2BGR_VNG = COLOR_BayerGR2BGR_VNG,
+            COLOR_BayerRGGB2RGB_VNG = COLOR_BayerBGGR2BGR_VNG,
+            COLOR_BayerGRBG2RGB_VNG = COLOR_BayerGBRG2BGR_VNG,
+            COLOR_BayerBGGR2RGB_VNG = COLOR_BayerRGGB2BGR_VNG,
+            COLOR_BayerGBRG2RGB_VNG = COLOR_BayerGRBG2BGR_VNG,
+            COLOR_BayerBG2RGB_VNG = COLOR_BayerRG2BGR_VNG,
+            COLOR_BayerGB2RGB_VNG = COLOR_BayerGR2BGR_VNG,
+            COLOR_BayerRG2RGB_VNG = COLOR_BayerBG2BGR_VNG,
+            COLOR_BayerGR2RGB_VNG = COLOR_BayerGB2BGR_VNG,
             COLOR_BayerBG2BGR_EA = 135,
             COLOR_BayerGB2BGR_EA = 136,
             COLOR_BayerRG2BGR_EA = 137,
             COLOR_BayerGR2BGR_EA = 138,
-            COLOR_BayerBG2RGB_EA = 137,
-            COLOR_BayerGB2RGB_EA = 138,
-            COLOR_BayerRG2RGB_EA = 135,
-            COLOR_BayerGR2RGB_EA = 136,
+            COLOR_BayerRGGB2BGR_EA = COLOR_BayerBG2BGR_EA,
+            COLOR_BayerGRBG2BGR_EA = COLOR_BayerGB2BGR_EA,
+            COLOR_BayerBGGR2BGR_EA = COLOR_BayerRG2BGR_EA,
+            COLOR_BayerGBRG2BGR_EA = COLOR_BayerGR2BGR_EA,
+            COLOR_BayerRGGB2RGB_EA = COLOR_BayerBGGR2BGR_EA,
+            COLOR_BayerGRBG2RGB_EA = COLOR_BayerGBRG2BGR_EA,
+            COLOR_BayerBGGR2RGB_EA = COLOR_BayerRGGB2BGR_EA,
+            COLOR_BayerGBRG2RGB_EA = COLOR_BayerGRBG2BGR_EA,
+            COLOR_BayerBG2RGB_EA = COLOR_BayerRG2BGR_EA,
+            COLOR_BayerGB2RGB_EA = COLOR_BayerGR2BGR_EA,
+            COLOR_BayerRG2RGB_EA = COLOR_BayerBG2BGR_EA,
+            COLOR_BayerGR2RGB_EA = COLOR_BayerGB2BGR_EA,
             COLOR_BayerBG2BGRA = 139,
             COLOR_BayerGB2BGRA = 140,
             COLOR_BayerRG2BGRA = 141,
             COLOR_BayerGR2BGRA = 142,
-            COLOR_BayerBG2RGBA = 141,
-            COLOR_BayerGB2RGBA = 142,
-            COLOR_BayerRG2RGBA = 139,
-            COLOR_BayerGR2RGBA = 140,
+            COLOR_BayerRGGB2BGRA = COLOR_BayerBG2BGRA,
+            COLOR_BayerGRBG2BGRA = COLOR_BayerGB2BGRA,
+            COLOR_BayerBGGR2BGRA = COLOR_BayerRG2BGRA,
+            COLOR_BayerGBRG2BGRA = COLOR_BayerGR2BGRA,
+            COLOR_BayerRGGB2RGBA = COLOR_BayerBGGR2BGRA,
+            COLOR_BayerGRBG2RGBA = COLOR_BayerGBRG2BGRA,
+            COLOR_BayerBGGR2RGBA = COLOR_BayerRGGB2BGRA,
+            COLOR_BayerGBRG2RGBA = COLOR_BayerGRBG2BGRA,
+            COLOR_BayerBG2RGBA = COLOR_BayerRG2BGRA,
+            COLOR_BayerGB2RGBA = COLOR_BayerGR2BGRA,
+            COLOR_BayerRG2RGBA = COLOR_BayerBG2BGRA,
+            COLOR_BayerGR2RGBA = COLOR_BayerGB2BGRA,
             COLOR_COLORCVT_MAX = 143;
 
 
@@ -447,13 +480,26 @@ public class Imgproc {
             GC_EVAL_FREEZE_MODEL = 3;
 
 
+    // C++: enum HersheyFonts (cv.HersheyFonts)
+    public static final int
+            FONT_HERSHEY_SIMPLEX = 0,
+            FONT_HERSHEY_PLAIN = 1,
+            FONT_HERSHEY_DUPLEX = 2,
+            FONT_HERSHEY_COMPLEX = 3,
+            FONT_HERSHEY_TRIPLEX = 4,
+            FONT_HERSHEY_COMPLEX_SMALL = 5,
+            FONT_HERSHEY_SCRIPT_SIMPLEX = 6,
+            FONT_HERSHEY_SCRIPT_COMPLEX = 7,
+            FONT_ITALIC = 16;
+
+
     // C++: enum HistCompMethods (cv.HistCompMethods)
     public static final int
             HISTCMP_CORREL = 0,
             HISTCMP_CHISQR = 1,
             HISTCMP_INTERSECT = 2,
             HISTCMP_BHATTACHARYYA = 3,
-            HISTCMP_HELLINGER = 3,
+            HISTCMP_HELLINGER = HISTCMP_BHATTACHARYYA,
             HISTCMP_CHISQR_ALT = 4,
             HISTCMP_KL_DIV = 5;
 
@@ -463,7 +509,8 @@ public class Imgproc {
             HOUGH_STANDARD = 0,
             HOUGH_PROBABILISTIC = 1,
             HOUGH_MULTI_SCALE = 2,
-            HOUGH_GRADIENT = 3;
+            HOUGH_GRADIENT = 3,
+            HOUGH_GRADIENT_ALT = 4;
 
 
     // C++: enum InterpolationFlags (cv.InterpolationFlags)
@@ -493,6 +540,14 @@ public class Imgproc {
             LSD_REFINE_NONE = 0,
             LSD_REFINE_STD = 1,
             LSD_REFINE_ADV = 2;
+
+
+    // C++: enum LineTypes (cv.LineTypes)
+    public static final int
+            FILLED = -1,
+            LINE_4 = 4,
+            LINE_8 = 8,
+            LINE_AA = 16;
 
 
     // C++: enum MarkerTypes (cv.MarkerTypes)
@@ -548,6 +603,11 @@ public class Imgproc {
             CONTOURS_MATCH_I3 = 3;
 
 
+    // C++: enum SpecialFilter (cv.SpecialFilter)
+    public static final int
+            FILTER_SCHARR = -1;
+
+
     // C++: enum TemplateMatchModes (cv.TemplateMatchModes)
     public static final int
             TM_SQDIFF = 0,
@@ -568,12 +628,6 @@ public class Imgproc {
             THRESH_MASK = 7,
             THRESH_OTSU = 8,
             THRESH_TRIANGLE = 16;
-
-
-    // C++: enum UndistortTypes (cv.UndistortTypes)
-    public static final int
-            PROJ_SPHERICAL_ORTHO = 0,
-            PROJ_SPHERICAL_EQRECT = 1;
 
 
     // C++: enum WarpPolarMode (cv.WarpPolarMode)
@@ -600,8 +654,6 @@ public class Imgproc {
      * @param log_eps Detection threshold: -log10(NFA) &gt; log_eps. Used only when advance refinement is chosen.
      * @param density_th Minimal density of aligned region points in the enclosing rectangle.
      * @param n_bins Number of bins in pseudo-ordering of gradient modulus.
-     *
-     * <b>Note:</b> Implementation has been removed due original code license conflict
      * @return automatically generated
      */
     public static LineSegmentDetector createLineSegmentDetector(int refine, double scale, double sigma_scale, double quant, double ang_th, double log_eps, double density_th, int n_bins) {
@@ -621,8 +673,6 @@ public class Imgproc {
      * @param ang_th Gradient angle tolerance in degrees.
      * @param log_eps Detection threshold: -log10(NFA) &gt; log_eps. Used only when advance refinement is chosen.
      * @param density_th Minimal density of aligned region points in the enclosing rectangle.
-     *
-     * <b>Note:</b> Implementation has been removed due original code license conflict
      * @return automatically generated
      */
     public static LineSegmentDetector createLineSegmentDetector(int refine, double scale, double sigma_scale, double quant, double ang_th, double log_eps, double density_th) {
@@ -641,8 +691,6 @@ public class Imgproc {
      * @param quant Bound to the quantization error on the gradient norm.
      * @param ang_th Gradient angle tolerance in degrees.
      * @param log_eps Detection threshold: -log10(NFA) &gt; log_eps. Used only when advance refinement is chosen.
-     *
-     * <b>Note:</b> Implementation has been removed due original code license conflict
      * @return automatically generated
      */
     public static LineSegmentDetector createLineSegmentDetector(int refine, double scale, double sigma_scale, double quant, double ang_th, double log_eps) {
@@ -660,8 +708,6 @@ public class Imgproc {
      * @param sigma_scale Sigma for Gaussian filter. It is computed as sigma = sigma_scale/scale.
      * @param quant Bound to the quantization error on the gradient norm.
      * @param ang_th Gradient angle tolerance in degrees.
-     *
-     * <b>Note:</b> Implementation has been removed due original code license conflict
      * @return automatically generated
      */
     public static LineSegmentDetector createLineSegmentDetector(int refine, double scale, double sigma_scale, double quant, double ang_th) {
@@ -678,8 +724,6 @@ public class Imgproc {
      * @param scale The scale of the image that will be used to find the lines. Range (0..1].
      * @param sigma_scale Sigma for Gaussian filter. It is computed as sigma = sigma_scale/scale.
      * @param quant Bound to the quantization error on the gradient norm.
-     *
-     * <b>Note:</b> Implementation has been removed due original code license conflict
      * @return automatically generated
      */
     public static LineSegmentDetector createLineSegmentDetector(int refine, double scale, double sigma_scale, double quant) {
@@ -695,8 +739,6 @@ public class Imgproc {
      * @param refine The way found lines will be refined, see #LineSegmentDetectorModes
      * @param scale The scale of the image that will be used to find the lines. Range (0..1].
      * @param sigma_scale Sigma for Gaussian filter. It is computed as sigma = sigma_scale/scale.
-     *
-     * <b>Note:</b> Implementation has been removed due original code license conflict
      * @return automatically generated
      */
     public static LineSegmentDetector createLineSegmentDetector(int refine, double scale, double sigma_scale) {
@@ -711,8 +753,6 @@ public class Imgproc {
      *
      * @param refine The way found lines will be refined, see #LineSegmentDetectorModes
      * @param scale The scale of the image that will be used to find the lines. Range (0..1].
-     *
-     * <b>Note:</b> Implementation has been removed due original code license conflict
      * @return automatically generated
      */
     public static LineSegmentDetector createLineSegmentDetector(int refine, double scale) {
@@ -726,8 +766,6 @@ public class Imgproc {
      * to edit those, as to tailor it for their own application.
      *
      * @param refine The way found lines will be refined, see #LineSegmentDetectorModes
-     *
-     * <b>Note:</b> Implementation has been removed due original code license conflict
      * @return automatically generated
      */
     public static LineSegmentDetector createLineSegmentDetector(int refine) {
@@ -740,8 +778,6 @@ public class Imgproc {
      * The LineSegmentDetector algorithm is defined using the standard values. Only advanced users may want
      * to edit those, as to tailor it for their own application.
      *
-     *
-     * <b>Note:</b> Implementation has been removed due original code license conflict
      * @return automatically generated
      */
     public static LineSegmentDetector createLineSegmentDetector() {
@@ -809,14 +845,14 @@ public class Imgproc {
      * Returns filter coefficients for computing spatial image derivatives.
      *
      * The function computes and returns the filter coefficients for spatial image derivatives. When
-     * {@code ksize=CV_SCHARR}, the Scharr \(3 \times 3\) kernels are generated (see #Scharr). Otherwise, Sobel
+     * {@code ksize=FILTER_SCHARR}, the Scharr \(3 \times 3\) kernels are generated (see #Scharr). Otherwise, Sobel
      * kernels are generated (see #Sobel). The filters are normally passed to #sepFilter2D or to
      *
      * @param kx Output matrix of row filter coefficients. It has the type ktype .
      * @param ky Output matrix of column filter coefficients. It has the type ktype .
      * @param dx Derivative order in respect of x.
      * @param dy Derivative order in respect of y.
-     * @param ksize Aperture size. It can be CV_SCHARR, 1, 3, 5, or 7.
+     * @param ksize Aperture size. It can be FILTER_SCHARR, 1, 3, 5, or 7.
      * @param normalize Flag indicating whether to normalize (scale down) the filter coefficients or not.
      * Theoretically, the coefficients should have the denominator \(=2^{ksize*2-dx-dy-2}\). If you are
      * going to filter floating-point images, you are likely to use the normalized kernels. But if you
@@ -832,14 +868,14 @@ public class Imgproc {
      * Returns filter coefficients for computing spatial image derivatives.
      *
      * The function computes and returns the filter coefficients for spatial image derivatives. When
-     * {@code ksize=CV_SCHARR}, the Scharr \(3 \times 3\) kernels are generated (see #Scharr). Otherwise, Sobel
+     * {@code ksize=FILTER_SCHARR}, the Scharr \(3 \times 3\) kernels are generated (see #Scharr). Otherwise, Sobel
      * kernels are generated (see #Sobel). The filters are normally passed to #sepFilter2D or to
      *
      * @param kx Output matrix of row filter coefficients. It has the type ktype .
      * @param ky Output matrix of column filter coefficients. It has the type ktype .
      * @param dx Derivative order in respect of x.
      * @param dy Derivative order in respect of y.
-     * @param ksize Aperture size. It can be CV_SCHARR, 1, 3, 5, or 7.
+     * @param ksize Aperture size. It can be FILTER_SCHARR, 1, 3, 5, or 7.
      * @param normalize Flag indicating whether to normalize (scale down) the filter coefficients or not.
      * Theoretically, the coefficients should have the denominator \(=2^{ksize*2-dx-dy-2}\). If you are
      * going to filter floating-point images, you are likely to use the normalized kernels. But if you
@@ -854,14 +890,14 @@ public class Imgproc {
      * Returns filter coefficients for computing spatial image derivatives.
      *
      * The function computes and returns the filter coefficients for spatial image derivatives. When
-     * {@code ksize=CV_SCHARR}, the Scharr \(3 \times 3\) kernels are generated (see #Scharr). Otherwise, Sobel
+     * {@code ksize=FILTER_SCHARR}, the Scharr \(3 \times 3\) kernels are generated (see #Scharr). Otherwise, Sobel
      * kernels are generated (see #Sobel). The filters are normally passed to #sepFilter2D or to
      *
      * @param kx Output matrix of row filter coefficients. It has the type ktype .
      * @param ky Output matrix of column filter coefficients. It has the type ktype .
      * @param dx Derivative order in respect of x.
      * @param dy Derivative order in respect of y.
-     * @param ksize Aperture size. It can be CV_SCHARR, 1, 3, 5, or 7.
+     * @param ksize Aperture size. It can be FILTER_SCHARR, 1, 3, 5, or 7.
      * Theoretically, the coefficients should have the denominator \(=2^{ksize*2-dx-dy-2}\). If you are
      * going to filter floating-point images, you are likely to use the normalized kernels. But if you
      * compute derivatives of an 8-bit image, store the results in a 16-bit image, and wish to preserve
@@ -1269,7 +1305,7 @@ public class Imgproc {
      * For every pixel \( (x, y) \) in the source image, the function calculates the sum of squares of those neighboring
      * pixel values which overlap the filter placed over the pixel \( (x, y) \).
      *
-     * The unnormalized square box filter can be useful in computing local image statistics such as the the local
+     * The unnormalized square box filter can be useful in computing local image statistics such as the local
      * variance and standard deviation around the neighborhood of a pixel.
      *
      * @param src input image
@@ -1292,7 +1328,7 @@ public class Imgproc {
      * For every pixel \( (x, y) \) in the source image, the function calculates the sum of squares of those neighboring
      * pixel values which overlap the filter placed over the pixel \( (x, y) \).
      *
-     * The unnormalized square box filter can be useful in computing local image statistics such as the the local
+     * The unnormalized square box filter can be useful in computing local image statistics such as the local
      * variance and standard deviation around the neighborhood of a pixel.
      *
      * @param src input image
@@ -1314,7 +1350,7 @@ public class Imgproc {
      * For every pixel \( (x, y) \) in the source image, the function calculates the sum of squares of those neighboring
      * pixel values which overlap the filter placed over the pixel \( (x, y) \).
      *
-     * The unnormalized square box filter can be useful in computing local image statistics such as the the local
+     * The unnormalized square box filter can be useful in computing local image statistics such as the local
      * variance and standard deviation around the neighborhood of a pixel.
      *
      * @param src input image
@@ -1335,7 +1371,7 @@ public class Imgproc {
      * For every pixel \( (x, y) \) in the source image, the function calculates the sum of squares of those neighboring
      * pixel values which overlap the filter placed over the pixel \( (x, y) \).
      *
-     * The unnormalized square box filter can be useful in computing local image statistics such as the the local
+     * The unnormalized square box filter can be useful in computing local image statistics such as the local
      * variance and standard deviation around the neighborhood of a pixel.
      *
      * @param src input image
@@ -1418,6 +1454,31 @@ public class Imgproc {
      */
     public static void blur(Mat src, Mat dst, Size ksize) {
         blur_2(src.nativeObj, dst.nativeObj, ksize.width, ksize.height);
+    }
+
+
+    //
+    // C++:  void cv::stackBlur(Mat src, Mat& dst, Size ksize)
+    //
+
+    /**
+     * Blurs an image using the stackBlur.
+     *
+     * The function applies and stackBlur to an image.
+     * stackBlur can generate similar results as Gaussian blur, and the time consumption does not increase with the increase of kernel size.
+     * It creates a kind of moving stack of colors whilst scanning through the image. Thereby it just has to add one new block of color to the right side
+     * of the stack and remove the leftmost color. The remaining colors on the topmost layer of the stack are either added on or reduced by one,
+     * depending on if they are on the right or on the left side of the stack. The only supported borderType is BORDER_REPLICATE.
+     * Original paper was proposed by Mario Klingemann, which can be found http://underdestruction.com/2004/02/25/stackblur-2004.
+     *
+     * @param src input image. The number of channels can be arbitrary, but the depth should be one of
+     * CV_8U, CV_16U, CV_16S or CV_32F.
+     * @param dst output image of the same size and type as src.
+     * @param ksize stack-blurring kernel size. The ksize.width and ksize.height can differ but they both must be
+     * positive and odd.
+     */
+    public static void stackBlur(Mat src, Mat dst, Size ksize) {
+        stackBlur_0(src.nativeObj, dst.nativeObj, ksize.width, ksize.height);
     }
 
 
@@ -1659,7 +1720,7 @@ public class Imgproc {
      * kernel is used (that is, no Gaussian smoothing is done). {@code ksize = 1} can only be used for the first
      * or the second x- or y- derivatives.
      *
-     * There is also the special value {@code ksize = #CV_SCHARR (-1)} that corresponds to the \(3\times3\) Scharr
+     * There is also the special value {@code ksize = #FILTER_SCHARR (-1)} that corresponds to the \(3\times3\) Scharr
      * filter that may give more accurate results than the \(3\times3\) Sobel. The Scharr aperture is
      *
      * \(\vecthreethree{-3}{0}{3}{-10}{0}{10}{-3}{0}{3}\)
@@ -1706,7 +1767,7 @@ public class Imgproc {
      * kernel is used (that is, no Gaussian smoothing is done). {@code ksize = 1} can only be used for the first
      * or the second x- or y- derivatives.
      *
-     * There is also the special value {@code ksize = #CV_SCHARR (-1)} that corresponds to the \(3\times3\) Scharr
+     * There is also the special value {@code ksize = #FILTER_SCHARR (-1)} that corresponds to the \(3\times3\) Scharr
      * filter that may give more accurate results than the \(3\times3\) Sobel. The Scharr aperture is
      *
      * \(\vecthreethree{-3}{0}{3}{-10}{0}{10}{-3}{0}{3}\)
@@ -1752,7 +1813,7 @@ public class Imgproc {
      * kernel is used (that is, no Gaussian smoothing is done). {@code ksize = 1} can only be used for the first
      * or the second x- or y- derivatives.
      *
-     * There is also the special value {@code ksize = #CV_SCHARR (-1)} that corresponds to the \(3\times3\) Scharr
+     * There is also the special value {@code ksize = #FILTER_SCHARR (-1)} that corresponds to the \(3\times3\) Scharr
      * filter that may give more accurate results than the \(3\times3\) Sobel. The Scharr aperture is
      *
      * \(\vecthreethree{-3}{0}{3}{-10}{0}{10}{-3}{0}{3}\)
@@ -1797,7 +1858,7 @@ public class Imgproc {
      * kernel is used (that is, no Gaussian smoothing is done). {@code ksize = 1} can only be used for the first
      * or the second x- or y- derivatives.
      *
-     * There is also the special value {@code ksize = #CV_SCHARR (-1)} that corresponds to the \(3\times3\) Scharr
+     * There is also the special value {@code ksize = #FILTER_SCHARR (-1)} that corresponds to the \(3\times3\) Scharr
      * filter that may give more accurate results than the \(3\times3\) Sobel. The Scharr aperture is
      *
      * \(\vecthreethree{-3}{0}{3}{-10}{0}{10}{-3}{0}{3}\)
@@ -1841,7 +1902,7 @@ public class Imgproc {
      * kernel is used (that is, no Gaussian smoothing is done). {@code ksize = 1} can only be used for the first
      * or the second x- or y- derivatives.
      *
-     * There is also the special value {@code ksize = #CV_SCHARR (-1)} that corresponds to the \(3\times3\) Scharr
+     * There is also the special value {@code ksize = #FILTER_SCHARR (-1)} that corresponds to the \(3\times3\) Scharr
      * filter that may give more accurate results than the \(3\times3\) Sobel. The Scharr aperture is
      *
      * \(\vecthreethree{-3}{0}{3}{-10}{0}{10}{-3}{0}{3}\)
@@ -1962,7 +2023,7 @@ public class Imgproc {
      *
      * is equivalent to
      *
-     * \(\texttt{Sobel(src, dst, ddepth, dx, dy, CV_SCHARR, scale, delta, borderType)} .\)
+     * \(\texttt{Sobel(src, dst, ddepth, dx, dy, FILTER_SCHARR, scale, delta, borderType)} .\)
      *
      * @param src input image.
      * @param dst output image of the same size and the same number of channels as src.
@@ -1989,7 +2050,7 @@ public class Imgproc {
      *
      * is equivalent to
      *
-     * \(\texttt{Sobel(src, dst, ddepth, dx, dy, CV_SCHARR, scale, delta, borderType)} .\)
+     * \(\texttt{Sobel(src, dst, ddepth, dx, dy, FILTER_SCHARR, scale, delta, borderType)} .\)
      *
      * @param src input image.
      * @param dst output image of the same size and the same number of channels as src.
@@ -2015,7 +2076,7 @@ public class Imgproc {
      *
      * is equivalent to
      *
-     * \(\texttt{Sobel(src, dst, ddepth, dx, dy, CV_SCHARR, scale, delta, borderType)} .\)
+     * \(\texttt{Sobel(src, dst, ddepth, dx, dy, FILTER_SCHARR, scale, delta, borderType)} .\)
      *
      * @param src input image.
      * @param dst output image of the same size and the same number of channels as src.
@@ -2040,7 +2101,7 @@ public class Imgproc {
      *
      * is equivalent to
      *
-     * \(\texttt{Sobel(src, dst, ddepth, dx, dy, CV_SCHARR, scale, delta, borderType)} .\)
+     * \(\texttt{Sobel(src, dst, ddepth, dx, dy, FILTER_SCHARR, scale, delta, borderType)} .\)
      *
      * @param src input image.
      * @param dst output image of the same size and the same number of channels as src.
@@ -2074,7 +2135,7 @@ public class Imgproc {
      *
      * @param src Source image.
      * @param dst Destination image of the same size and the same number of channels as src .
-     * @param ddepth Desired depth of the destination image.
+     * @param ddepth Desired depth of the destination image, see REF: filter_depths "combinations".
      * @param ksize Aperture size used to compute the second-derivative filters. See #getDerivKernels for
      * details. The size must be positive and odd.
      * @param scale Optional scale factor for the computed Laplacian values. By default, no scaling is
@@ -2102,7 +2163,7 @@ public class Imgproc {
      *
      * @param src Source image.
      * @param dst Destination image of the same size and the same number of channels as src .
-     * @param ddepth Desired depth of the destination image.
+     * @param ddepth Desired depth of the destination image, see REF: filter_depths "combinations".
      * @param ksize Aperture size used to compute the second-derivative filters. See #getDerivKernels for
      * details. The size must be positive and odd.
      * @param scale Optional scale factor for the computed Laplacian values. By default, no scaling is
@@ -2129,7 +2190,7 @@ public class Imgproc {
      *
      * @param src Source image.
      * @param dst Destination image of the same size and the same number of channels as src .
-     * @param ddepth Desired depth of the destination image.
+     * @param ddepth Desired depth of the destination image, see REF: filter_depths "combinations".
      * @param ksize Aperture size used to compute the second-derivative filters. See #getDerivKernels for
      * details. The size must be positive and odd.
      * @param scale Optional scale factor for the computed Laplacian values. By default, no scaling is
@@ -2155,7 +2216,7 @@ public class Imgproc {
      *
      * @param src Source image.
      * @param dst Destination image of the same size and the same number of channels as src .
-     * @param ddepth Desired depth of the destination image.
+     * @param ddepth Desired depth of the destination image, see REF: filter_depths "combinations".
      * @param ksize Aperture size used to compute the second-derivative filters. See #getDerivKernels for
      * details. The size must be positive and odd.
      * applied. See #getDerivKernels for details.
@@ -2180,7 +2241,7 @@ public class Imgproc {
      *
      * @param src Source image.
      * @param dst Destination image of the same size and the same number of channels as src .
-     * @param ddepth Desired depth of the destination image.
+     * @param ddepth Desired depth of the destination image, see REF: filter_depths "combinations".
      * details. The size must be positive and odd.
      * applied. See #getDerivKernels for details.
      * SEE:  Sobel, Scharr
@@ -2921,6 +2982,151 @@ public class Imgproc {
 
 
     //
+    // C++:  void cv::goodFeaturesToTrack(Mat image, Mat& corners, int maxCorners, double qualityLevel, double minDistance, Mat mask, Mat& cornersQuality, int blockSize = 3, int gradientSize = 3, bool useHarrisDetector = false, double k = 0.04)
+    //
+
+    /**
+     * Same as above, but returns also quality measure of the detected corners.
+     *
+     * @param image Input 8-bit or floating-point 32-bit, single-channel image.
+     * @param corners Output vector of detected corners.
+     * @param maxCorners Maximum number of corners to return. If there are more corners than are found,
+     * the strongest of them is returned. {@code maxCorners &lt;= 0} implies that no limit on the maximum is set
+     * and all detected corners are returned.
+     * @param qualityLevel Parameter characterizing the minimal accepted quality of image corners. The
+     * parameter value is multiplied by the best corner quality measure, which is the minimal eigenvalue
+     * (see #cornerMinEigenVal ) or the Harris function response (see #cornerHarris ). The corners with the
+     * quality measure less than the product are rejected. For example, if the best corner has the
+     * quality measure = 1500, and the qualityLevel=0.01 , then all the corners with the quality measure
+     * less than 15 are rejected.
+     * @param minDistance Minimum possible Euclidean distance between the returned corners.
+     * @param mask Region of interest. If the image is not empty (it needs to have the type
+     * CV_8UC1 and the same size as image ), it specifies the region in which the corners are detected.
+     * @param cornersQuality Output vector of quality measure of the detected corners.
+     * @param blockSize Size of an average block for computing a derivative covariation matrix over each
+     * pixel neighborhood. See cornerEigenValsAndVecs .
+     * @param gradientSize Aperture parameter for the Sobel operator used for derivatives computation.
+     * See cornerEigenValsAndVecs .
+     * @param useHarrisDetector Parameter indicating whether to use a Harris detector (see #cornerHarris)
+     * or #cornerMinEigenVal.
+     * @param k Free parameter of the Harris detector.
+     */
+    public static void goodFeaturesToTrackWithQuality(Mat image, Mat corners, int maxCorners, double qualityLevel, double minDistance, Mat mask, Mat cornersQuality, int blockSize, int gradientSize, boolean useHarrisDetector, double k) {
+        goodFeaturesToTrackWithQuality_0(image.nativeObj, corners.nativeObj, maxCorners, qualityLevel, minDistance, mask.nativeObj, cornersQuality.nativeObj, blockSize, gradientSize, useHarrisDetector, k);
+    }
+
+    /**
+     * Same as above, but returns also quality measure of the detected corners.
+     *
+     * @param image Input 8-bit or floating-point 32-bit, single-channel image.
+     * @param corners Output vector of detected corners.
+     * @param maxCorners Maximum number of corners to return. If there are more corners than are found,
+     * the strongest of them is returned. {@code maxCorners &lt;= 0} implies that no limit on the maximum is set
+     * and all detected corners are returned.
+     * @param qualityLevel Parameter characterizing the minimal accepted quality of image corners. The
+     * parameter value is multiplied by the best corner quality measure, which is the minimal eigenvalue
+     * (see #cornerMinEigenVal ) or the Harris function response (see #cornerHarris ). The corners with the
+     * quality measure less than the product are rejected. For example, if the best corner has the
+     * quality measure = 1500, and the qualityLevel=0.01 , then all the corners with the quality measure
+     * less than 15 are rejected.
+     * @param minDistance Minimum possible Euclidean distance between the returned corners.
+     * @param mask Region of interest. If the image is not empty (it needs to have the type
+     * CV_8UC1 and the same size as image ), it specifies the region in which the corners are detected.
+     * @param cornersQuality Output vector of quality measure of the detected corners.
+     * @param blockSize Size of an average block for computing a derivative covariation matrix over each
+     * pixel neighborhood. See cornerEigenValsAndVecs .
+     * @param gradientSize Aperture parameter for the Sobel operator used for derivatives computation.
+     * See cornerEigenValsAndVecs .
+     * @param useHarrisDetector Parameter indicating whether to use a Harris detector (see #cornerHarris)
+     * or #cornerMinEigenVal.
+     */
+    public static void goodFeaturesToTrackWithQuality(Mat image, Mat corners, int maxCorners, double qualityLevel, double minDistance, Mat mask, Mat cornersQuality, int blockSize, int gradientSize, boolean useHarrisDetector) {
+        goodFeaturesToTrackWithQuality_1(image.nativeObj, corners.nativeObj, maxCorners, qualityLevel, minDistance, mask.nativeObj, cornersQuality.nativeObj, blockSize, gradientSize, useHarrisDetector);
+    }
+
+    /**
+     * Same as above, but returns also quality measure of the detected corners.
+     *
+     * @param image Input 8-bit or floating-point 32-bit, single-channel image.
+     * @param corners Output vector of detected corners.
+     * @param maxCorners Maximum number of corners to return. If there are more corners than are found,
+     * the strongest of them is returned. {@code maxCorners &lt;= 0} implies that no limit on the maximum is set
+     * and all detected corners are returned.
+     * @param qualityLevel Parameter characterizing the minimal accepted quality of image corners. The
+     * parameter value is multiplied by the best corner quality measure, which is the minimal eigenvalue
+     * (see #cornerMinEigenVal ) or the Harris function response (see #cornerHarris ). The corners with the
+     * quality measure less than the product are rejected. For example, if the best corner has the
+     * quality measure = 1500, and the qualityLevel=0.01 , then all the corners with the quality measure
+     * less than 15 are rejected.
+     * @param minDistance Minimum possible Euclidean distance between the returned corners.
+     * @param mask Region of interest. If the image is not empty (it needs to have the type
+     * CV_8UC1 and the same size as image ), it specifies the region in which the corners are detected.
+     * @param cornersQuality Output vector of quality measure of the detected corners.
+     * @param blockSize Size of an average block for computing a derivative covariation matrix over each
+     * pixel neighborhood. See cornerEigenValsAndVecs .
+     * @param gradientSize Aperture parameter for the Sobel operator used for derivatives computation.
+     * See cornerEigenValsAndVecs .
+     * or #cornerMinEigenVal.
+     */
+    public static void goodFeaturesToTrackWithQuality(Mat image, Mat corners, int maxCorners, double qualityLevel, double minDistance, Mat mask, Mat cornersQuality, int blockSize, int gradientSize) {
+        goodFeaturesToTrackWithQuality_2(image.nativeObj, corners.nativeObj, maxCorners, qualityLevel, minDistance, mask.nativeObj, cornersQuality.nativeObj, blockSize, gradientSize);
+    }
+
+    /**
+     * Same as above, but returns also quality measure of the detected corners.
+     *
+     * @param image Input 8-bit or floating-point 32-bit, single-channel image.
+     * @param corners Output vector of detected corners.
+     * @param maxCorners Maximum number of corners to return. If there are more corners than are found,
+     * the strongest of them is returned. {@code maxCorners &lt;= 0} implies that no limit on the maximum is set
+     * and all detected corners are returned.
+     * @param qualityLevel Parameter characterizing the minimal accepted quality of image corners. The
+     * parameter value is multiplied by the best corner quality measure, which is the minimal eigenvalue
+     * (see #cornerMinEigenVal ) or the Harris function response (see #cornerHarris ). The corners with the
+     * quality measure less than the product are rejected. For example, if the best corner has the
+     * quality measure = 1500, and the qualityLevel=0.01 , then all the corners with the quality measure
+     * less than 15 are rejected.
+     * @param minDistance Minimum possible Euclidean distance between the returned corners.
+     * @param mask Region of interest. If the image is not empty (it needs to have the type
+     * CV_8UC1 and the same size as image ), it specifies the region in which the corners are detected.
+     * @param cornersQuality Output vector of quality measure of the detected corners.
+     * @param blockSize Size of an average block for computing a derivative covariation matrix over each
+     * pixel neighborhood. See cornerEigenValsAndVecs .
+     * See cornerEigenValsAndVecs .
+     * or #cornerMinEigenVal.
+     */
+    public static void goodFeaturesToTrackWithQuality(Mat image, Mat corners, int maxCorners, double qualityLevel, double minDistance, Mat mask, Mat cornersQuality, int blockSize) {
+        goodFeaturesToTrackWithQuality_3(image.nativeObj, corners.nativeObj, maxCorners, qualityLevel, minDistance, mask.nativeObj, cornersQuality.nativeObj, blockSize);
+    }
+
+    /**
+     * Same as above, but returns also quality measure of the detected corners.
+     *
+     * @param image Input 8-bit or floating-point 32-bit, single-channel image.
+     * @param corners Output vector of detected corners.
+     * @param maxCorners Maximum number of corners to return. If there are more corners than are found,
+     * the strongest of them is returned. {@code maxCorners &lt;= 0} implies that no limit on the maximum is set
+     * and all detected corners are returned.
+     * @param qualityLevel Parameter characterizing the minimal accepted quality of image corners. The
+     * parameter value is multiplied by the best corner quality measure, which is the minimal eigenvalue
+     * (see #cornerMinEigenVal ) or the Harris function response (see #cornerHarris ). The corners with the
+     * quality measure less than the product are rejected. For example, if the best corner has the
+     * quality measure = 1500, and the qualityLevel=0.01 , then all the corners with the quality measure
+     * less than 15 are rejected.
+     * @param minDistance Minimum possible Euclidean distance between the returned corners.
+     * @param mask Region of interest. If the image is not empty (it needs to have the type
+     * CV_8UC1 and the same size as image ), it specifies the region in which the corners are detected.
+     * @param cornersQuality Output vector of quality measure of the detected corners.
+     * pixel neighborhood. See cornerEigenValsAndVecs .
+     * See cornerEigenValsAndVecs .
+     * or #cornerMinEigenVal.
+     */
+    public static void goodFeaturesToTrackWithQuality(Mat image, Mat corners, int maxCorners, double qualityLevel, double minDistance, Mat mask, Mat cornersQuality) {
+        goodFeaturesToTrackWithQuality_4(image.nativeObj, corners.nativeObj, maxCorners, qualityLevel, minDistance, mask.nativeObj, cornersQuality.nativeObj);
+    }
+
+
+    //
     // C++:  void cv::HoughLines(Mat image, Mat& lines, double rho, double theta, int threshold, double srn = 0, double stn = 0, double min_theta = 0, double max_theta = CV_PI)
     //
 
@@ -2933,23 +3139,24 @@ public class Imgproc {
      *
      * @param image 8-bit, single-channel binary source image. The image may be modified by the function.
      * @param lines Output vector of lines. Each line is represented by a 2 or 3 element vector
-     * \((\rho, \theta)\) or \((\rho, \theta, \textrm{votes})\) . \(\rho\) is the distance from the coordinate origin \((0,0)\) (top-left corner of
-     * the image). \(\theta\) is the line rotation angle in radians (
-     * \(0 \sim \textrm{vertical line}, \pi/2 \sim \textrm{horizontal line}\) ).
+     * \((\rho, \theta)\) or \((\rho, \theta, \textrm{votes})\), where \(\rho\) is the distance from
+     * the coordinate origin \((0,0)\) (top-left corner of the image), \(\theta\) is the line rotation
+     * angle in radians ( \(0 \sim \textrm{vertical line}, \pi/2 \sim \textrm{horizontal line}\) ), and
      * \(\textrm{votes}\) is the value of accumulator.
      * @param rho Distance resolution of the accumulator in pixels.
      * @param theta Angle resolution of the accumulator in radians.
-     * @param threshold Accumulator threshold parameter. Only those lines are returned that get enough
+     * @param threshold %Accumulator threshold parameter. Only those lines are returned that get enough
      * votes ( \(&gt;\texttt{threshold}\) ).
-     * @param srn For the multi-scale Hough transform, it is a divisor for the distance resolution rho .
+     * @param srn For the multi-scale Hough transform, it is a divisor for the distance resolution rho.
      * The coarse accumulator distance resolution is rho and the accurate accumulator resolution is
-     * rho/srn . If both srn=0 and stn=0 , the classical Hough transform is used. Otherwise, both these
+     * rho/srn. If both srn=0 and stn=0, the classical Hough transform is used. Otherwise, both these
      * parameters should be positive.
      * @param stn For the multi-scale Hough transform, it is a divisor for the distance resolution theta.
      * @param min_theta For standard and multi-scale Hough transform, minimum angle to check for lines.
      * Must fall between 0 and max_theta.
-     * @param max_theta For standard and multi-scale Hough transform, maximum angle to check for lines.
-     * Must fall between min_theta and CV_PI.
+     * @param max_theta For standard and multi-scale Hough transform, an upper bound for the angle.
+     * Must fall between min_theta and CV_PI. The actual maximum angle in the accumulator may be slightly
+     * less than max_theta, depending on the parameters min_theta and theta.
      */
     public static void HoughLines(Mat image, Mat lines, double rho, double theta, int threshold, double srn, double stn, double min_theta, double max_theta) {
         HoughLines_0(image.nativeObj, lines.nativeObj, rho, theta, threshold, srn, stn, min_theta, max_theta);
@@ -2964,22 +3171,23 @@ public class Imgproc {
      *
      * @param image 8-bit, single-channel binary source image. The image may be modified by the function.
      * @param lines Output vector of lines. Each line is represented by a 2 or 3 element vector
-     * \((\rho, \theta)\) or \((\rho, \theta, \textrm{votes})\) . \(\rho\) is the distance from the coordinate origin \((0,0)\) (top-left corner of
-     * the image). \(\theta\) is the line rotation angle in radians (
-     * \(0 \sim \textrm{vertical line}, \pi/2 \sim \textrm{horizontal line}\) ).
+     * \((\rho, \theta)\) or \((\rho, \theta, \textrm{votes})\), where \(\rho\) is the distance from
+     * the coordinate origin \((0,0)\) (top-left corner of the image), \(\theta\) is the line rotation
+     * angle in radians ( \(0 \sim \textrm{vertical line}, \pi/2 \sim \textrm{horizontal line}\) ), and
      * \(\textrm{votes}\) is the value of accumulator.
      * @param rho Distance resolution of the accumulator in pixels.
      * @param theta Angle resolution of the accumulator in radians.
-     * @param threshold Accumulator threshold parameter. Only those lines are returned that get enough
+     * @param threshold %Accumulator threshold parameter. Only those lines are returned that get enough
      * votes ( \(&gt;\texttt{threshold}\) ).
-     * @param srn For the multi-scale Hough transform, it is a divisor for the distance resolution rho .
+     * @param srn For the multi-scale Hough transform, it is a divisor for the distance resolution rho.
      * The coarse accumulator distance resolution is rho and the accurate accumulator resolution is
-     * rho/srn . If both srn=0 and stn=0 , the classical Hough transform is used. Otherwise, both these
+     * rho/srn. If both srn=0 and stn=0, the classical Hough transform is used. Otherwise, both these
      * parameters should be positive.
      * @param stn For the multi-scale Hough transform, it is a divisor for the distance resolution theta.
      * @param min_theta For standard and multi-scale Hough transform, minimum angle to check for lines.
      * Must fall between 0 and max_theta.
-     * Must fall between min_theta and CV_PI.
+     * Must fall between min_theta and CV_PI. The actual maximum angle in the accumulator may be slightly
+     * less than max_theta, depending on the parameters min_theta and theta.
      */
     public static void HoughLines(Mat image, Mat lines, double rho, double theta, int threshold, double srn, double stn, double min_theta) {
         HoughLines_1(image.nativeObj, lines.nativeObj, rho, theta, threshold, srn, stn, min_theta);
@@ -2994,21 +3202,22 @@ public class Imgproc {
      *
      * @param image 8-bit, single-channel binary source image. The image may be modified by the function.
      * @param lines Output vector of lines. Each line is represented by a 2 or 3 element vector
-     * \((\rho, \theta)\) or \((\rho, \theta, \textrm{votes})\) . \(\rho\) is the distance from the coordinate origin \((0,0)\) (top-left corner of
-     * the image). \(\theta\) is the line rotation angle in radians (
-     * \(0 \sim \textrm{vertical line}, \pi/2 \sim \textrm{horizontal line}\) ).
+     * \((\rho, \theta)\) or \((\rho, \theta, \textrm{votes})\), where \(\rho\) is the distance from
+     * the coordinate origin \((0,0)\) (top-left corner of the image), \(\theta\) is the line rotation
+     * angle in radians ( \(0 \sim \textrm{vertical line}, \pi/2 \sim \textrm{horizontal line}\) ), and
      * \(\textrm{votes}\) is the value of accumulator.
      * @param rho Distance resolution of the accumulator in pixels.
      * @param theta Angle resolution of the accumulator in radians.
-     * @param threshold Accumulator threshold parameter. Only those lines are returned that get enough
+     * @param threshold %Accumulator threshold parameter. Only those lines are returned that get enough
      * votes ( \(&gt;\texttt{threshold}\) ).
-     * @param srn For the multi-scale Hough transform, it is a divisor for the distance resolution rho .
+     * @param srn For the multi-scale Hough transform, it is a divisor for the distance resolution rho.
      * The coarse accumulator distance resolution is rho and the accurate accumulator resolution is
-     * rho/srn . If both srn=0 and stn=0 , the classical Hough transform is used. Otherwise, both these
+     * rho/srn. If both srn=0 and stn=0, the classical Hough transform is used. Otherwise, both these
      * parameters should be positive.
      * @param stn For the multi-scale Hough transform, it is a divisor for the distance resolution theta.
      * Must fall between 0 and max_theta.
-     * Must fall between min_theta and CV_PI.
+     * Must fall between min_theta and CV_PI. The actual maximum angle in the accumulator may be slightly
+     * less than max_theta, depending on the parameters min_theta and theta.
      */
     public static void HoughLines(Mat image, Mat lines, double rho, double theta, int threshold, double srn, double stn) {
         HoughLines_2(image.nativeObj, lines.nativeObj, rho, theta, threshold, srn, stn);
@@ -3023,20 +3232,21 @@ public class Imgproc {
      *
      * @param image 8-bit, single-channel binary source image. The image may be modified by the function.
      * @param lines Output vector of lines. Each line is represented by a 2 or 3 element vector
-     * \((\rho, \theta)\) or \((\rho, \theta, \textrm{votes})\) . \(\rho\) is the distance from the coordinate origin \((0,0)\) (top-left corner of
-     * the image). \(\theta\) is the line rotation angle in radians (
-     * \(0 \sim \textrm{vertical line}, \pi/2 \sim \textrm{horizontal line}\) ).
+     * \((\rho, \theta)\) or \((\rho, \theta, \textrm{votes})\), where \(\rho\) is the distance from
+     * the coordinate origin \((0,0)\) (top-left corner of the image), \(\theta\) is the line rotation
+     * angle in radians ( \(0 \sim \textrm{vertical line}, \pi/2 \sim \textrm{horizontal line}\) ), and
      * \(\textrm{votes}\) is the value of accumulator.
      * @param rho Distance resolution of the accumulator in pixels.
      * @param theta Angle resolution of the accumulator in radians.
-     * @param threshold Accumulator threshold parameter. Only those lines are returned that get enough
+     * @param threshold %Accumulator threshold parameter. Only those lines are returned that get enough
      * votes ( \(&gt;\texttt{threshold}\) ).
-     * @param srn For the multi-scale Hough transform, it is a divisor for the distance resolution rho .
+     * @param srn For the multi-scale Hough transform, it is a divisor for the distance resolution rho.
      * The coarse accumulator distance resolution is rho and the accurate accumulator resolution is
-     * rho/srn . If both srn=0 and stn=0 , the classical Hough transform is used. Otherwise, both these
+     * rho/srn. If both srn=0 and stn=0, the classical Hough transform is used. Otherwise, both these
      * parameters should be positive.
      * Must fall between 0 and max_theta.
-     * Must fall between min_theta and CV_PI.
+     * Must fall between min_theta and CV_PI. The actual maximum angle in the accumulator may be slightly
+     * less than max_theta, depending on the parameters min_theta and theta.
      */
     public static void HoughLines(Mat image, Mat lines, double rho, double theta, int threshold, double srn) {
         HoughLines_3(image.nativeObj, lines.nativeObj, rho, theta, threshold, srn);
@@ -3051,19 +3261,20 @@ public class Imgproc {
      *
      * @param image 8-bit, single-channel binary source image. The image may be modified by the function.
      * @param lines Output vector of lines. Each line is represented by a 2 or 3 element vector
-     * \((\rho, \theta)\) or \((\rho, \theta, \textrm{votes})\) . \(\rho\) is the distance from the coordinate origin \((0,0)\) (top-left corner of
-     * the image). \(\theta\) is the line rotation angle in radians (
-     * \(0 \sim \textrm{vertical line}, \pi/2 \sim \textrm{horizontal line}\) ).
+     * \((\rho, \theta)\) or \((\rho, \theta, \textrm{votes})\), where \(\rho\) is the distance from
+     * the coordinate origin \((0,0)\) (top-left corner of the image), \(\theta\) is the line rotation
+     * angle in radians ( \(0 \sim \textrm{vertical line}, \pi/2 \sim \textrm{horizontal line}\) ), and
      * \(\textrm{votes}\) is the value of accumulator.
      * @param rho Distance resolution of the accumulator in pixels.
      * @param theta Angle resolution of the accumulator in radians.
-     * @param threshold Accumulator threshold parameter. Only those lines are returned that get enough
+     * @param threshold %Accumulator threshold parameter. Only those lines are returned that get enough
      * votes ( \(&gt;\texttt{threshold}\) ).
      * The coarse accumulator distance resolution is rho and the accurate accumulator resolution is
-     * rho/srn . If both srn=0 and stn=0 , the classical Hough transform is used. Otherwise, both these
+     * rho/srn. If both srn=0 and stn=0, the classical Hough transform is used. Otherwise, both these
      * parameters should be positive.
      * Must fall between 0 and max_theta.
-     * Must fall between min_theta and CV_PI.
+     * Must fall between min_theta and CV_PI. The actual maximum angle in the accumulator may be slightly
+     * less than max_theta, depending on the parameters min_theta and theta.
      */
     public static void HoughLines(Mat image, Mat lines, double rho, double theta, int threshold) {
         HoughLines_4(image.nativeObj, lines.nativeObj, rho, theta, threshold);
@@ -3096,7 +3307,7 @@ public class Imgproc {
      * line segment.
      * @param rho Distance resolution of the accumulator in pixels.
      * @param theta Angle resolution of the accumulator in radians.
-     * @param threshold Accumulator threshold parameter. Only those lines are returned that get enough
+     * @param threshold %Accumulator threshold parameter. Only those lines are returned that get enough
      * votes ( \(&gt;\texttt{threshold}\) ).
      * @param minLineLength Minimum line length. Line segments shorter than that are rejected.
      * @param maxLineGap Maximum allowed gap between points on the same line to link them.
@@ -3129,7 +3340,7 @@ public class Imgproc {
      * line segment.
      * @param rho Distance resolution of the accumulator in pixels.
      * @param theta Angle resolution of the accumulator in radians.
-     * @param threshold Accumulator threshold parameter. Only those lines are returned that get enough
+     * @param threshold %Accumulator threshold parameter. Only those lines are returned that get enough
      * votes ( \(&gt;\texttt{threshold}\) ).
      * @param minLineLength Minimum line length. Line segments shorter than that are rejected.
      *
@@ -3161,7 +3372,7 @@ public class Imgproc {
      * line segment.
      * @param rho Distance resolution of the accumulator in pixels.
      * @param theta Angle resolution of the accumulator in radians.
-     * @param threshold Accumulator threshold parameter. Only those lines are returned that get enough
+     * @param threshold %Accumulator threshold parameter. Only those lines are returned that get enough
      * votes ( \(&gt;\texttt{threshold}\) ).
      *
      * SEE: LineSegmentDetector
@@ -3183,14 +3394,15 @@ public class Imgproc {
      * @param point Input vector of points. Each vector must be encoded as a Point vector \((x,y)\). Type must be CV_32FC2 or CV_32SC2.
      * @param lines Output vector of found lines. Each vector is encoded as a vector&lt;Vec3d&gt; \((votes, rho, theta)\).
      * The larger the value of 'votes', the higher the reliability of the Hough line.
-     * @param lines_max Max count of hough lines.
-     * @param threshold Accumulator threshold parameter. Only those lines are returned that get enough
-     * votes ( \(&gt;\texttt{threshold}\) )
-     * @param min_rho Minimum Distance value of the accumulator in pixels.
-     * @param max_rho Maximum Distance value of the accumulator in pixels.
-     * @param rho_step Distance resolution of the accumulator in pixels.
+     * @param lines_max Max count of Hough lines.
+     * @param threshold %Accumulator threshold parameter. Only those lines are returned that get enough
+     * votes ( \(&gt;\texttt{threshold}\) ).
+     * @param min_rho Minimum value for \(\rho\) for the accumulator (Note: \(\rho\) can be negative. The absolute value \(|\rho|\) is the distance of a line to the origin.).
+     * @param max_rho Maximum value for \(\rho\) for the accumulator.
+     * @param rho_step Distance resolution of the accumulator.
      * @param min_theta Minimum angle value of the accumulator in radians.
-     * @param max_theta Maximum angle value of the accumulator in radians.
+     * @param max_theta Upper bound for the angle value of the accumulator in radians. The actual maximum
+     * angle may be slightly less than max_theta, depending on the parameters min_theta and theta_step.
      * @param theta_step Angle resolution of the accumulator in radians.
      */
     public static void HoughLinesPointSet(Mat point, Mat lines, int lines_max, int threshold, double min_rho, double max_rho, double rho_step, double min_theta, double max_theta, double theta_step) {
@@ -3212,28 +3424,37 @@ public class Imgproc {
      *
      * <b>Note:</b> Usually the function detects the centers of circles well. However, it may fail to find correct
      * radii. You can assist to the function by specifying the radius range ( minRadius and maxRadius ) if
-     * you know it. Or, you may set maxRadius to a negative number to return centers only without radius
-     * search, and find the correct radius using an additional procedure.
+     * you know it. Or, in the case of #HOUGH_GRADIENT method you may set maxRadius to a negative number
+     * to return centers only without radius search, and find the correct radius using an additional procedure.
+     *
+     * It also helps to smooth image a bit unless it's already soft. For example,
+     * GaussianBlur() with 7x7 kernel and 1.5x1.5 sigma or similar blurring may help.
      *
      * @param image 8-bit, single-channel, grayscale input image.
      * @param circles Output vector of found circles. Each vector is encoded as  3 or 4 element
      * floating-point vector \((x, y, radius)\) or \((x, y, radius, votes)\) .
-     * @param method Detection method, see #HoughModes. Currently, the only implemented method is #HOUGH_GRADIENT
+     * @param method Detection method, see #HoughModes. The available methods are #HOUGH_GRADIENT and #HOUGH_GRADIENT_ALT.
      * @param dp Inverse ratio of the accumulator resolution to the image resolution. For example, if
      * dp=1 , the accumulator has the same resolution as the input image. If dp=2 , the accumulator has
-     * half as big width and height.
+     * half as big width and height. For #HOUGH_GRADIENT_ALT the recommended value is dp=1.5,
+     * unless some small very circles need to be detected.
      * @param minDist Minimum distance between the centers of the detected circles. If the parameter is
      * too small, multiple neighbor circles may be falsely detected in addition to a true one. If it is
      * too large, some circles may be missed.
-     * @param param1 First method-specific parameter. In case of #HOUGH_GRADIENT , it is the higher
-     * threshold of the two passed to the Canny edge detector (the lower one is twice smaller).
-     * @param param2 Second method-specific parameter. In case of #HOUGH_GRADIENT , it is the
+     * @param param1 First method-specific parameter. In case of #HOUGH_GRADIENT and #HOUGH_GRADIENT_ALT,
+     * it is the higher threshold of the two passed to the Canny edge detector (the lower one is twice smaller).
+     * Note that #HOUGH_GRADIENT_ALT uses #Scharr algorithm to compute image derivatives, so the threshold value
+     * shough normally be higher, such as 300 or normally exposed and contrasty images.
+     * @param param2 Second method-specific parameter. In case of #HOUGH_GRADIENT, it is the
      * accumulator threshold for the circle centers at the detection stage. The smaller it is, the more
      * false circles may be detected. Circles, corresponding to the larger accumulator values, will be
-     * returned first.
+     * returned first. In the case of #HOUGH_GRADIENT_ALT algorithm, this is the circle "perfectness" measure.
+     * The closer it to 1, the better shaped circles algorithm selects. In most cases 0.9 should be fine.
+     * If you want get better detection of small circles, you may decrease it to 0.85, 0.8 or even less.
+     * But then also try to limit the search range [minRadius, maxRadius] to avoid many false circles.
      * @param minRadius Minimum circle radius.
-     * @param maxRadius Maximum circle radius. If &lt;= 0, uses the maximum image dimension. If &lt; 0, returns
-     * centers without finding the radius.
+     * @param maxRadius Maximum circle radius. If &lt;= 0, uses the maximum image dimension. If &lt; 0, #HOUGH_GRADIENT returns
+     * centers without finding the radius. #HOUGH_GRADIENT_ALT always computes circle radiuses.
      *
      * SEE: fitEllipse, minEnclosingCircle
      */
@@ -3251,27 +3472,36 @@ public class Imgproc {
      *
      * <b>Note:</b> Usually the function detects the centers of circles well. However, it may fail to find correct
      * radii. You can assist to the function by specifying the radius range ( minRadius and maxRadius ) if
-     * you know it. Or, you may set maxRadius to a negative number to return centers only without radius
-     * search, and find the correct radius using an additional procedure.
+     * you know it. Or, in the case of #HOUGH_GRADIENT method you may set maxRadius to a negative number
+     * to return centers only without radius search, and find the correct radius using an additional procedure.
+     *
+     * It also helps to smooth image a bit unless it's already soft. For example,
+     * GaussianBlur() with 7x7 kernel and 1.5x1.5 sigma or similar blurring may help.
      *
      * @param image 8-bit, single-channel, grayscale input image.
      * @param circles Output vector of found circles. Each vector is encoded as  3 or 4 element
      * floating-point vector \((x, y, radius)\) or \((x, y, radius, votes)\) .
-     * @param method Detection method, see #HoughModes. Currently, the only implemented method is #HOUGH_GRADIENT
+     * @param method Detection method, see #HoughModes. The available methods are #HOUGH_GRADIENT and #HOUGH_GRADIENT_ALT.
      * @param dp Inverse ratio of the accumulator resolution to the image resolution. For example, if
      * dp=1 , the accumulator has the same resolution as the input image. If dp=2 , the accumulator has
-     * half as big width and height.
+     * half as big width and height. For #HOUGH_GRADIENT_ALT the recommended value is dp=1.5,
+     * unless some small very circles need to be detected.
      * @param minDist Minimum distance between the centers of the detected circles. If the parameter is
      * too small, multiple neighbor circles may be falsely detected in addition to a true one. If it is
      * too large, some circles may be missed.
-     * @param param1 First method-specific parameter. In case of #HOUGH_GRADIENT , it is the higher
-     * threshold of the two passed to the Canny edge detector (the lower one is twice smaller).
-     * @param param2 Second method-specific parameter. In case of #HOUGH_GRADIENT , it is the
+     * @param param1 First method-specific parameter. In case of #HOUGH_GRADIENT and #HOUGH_GRADIENT_ALT,
+     * it is the higher threshold of the two passed to the Canny edge detector (the lower one is twice smaller).
+     * Note that #HOUGH_GRADIENT_ALT uses #Scharr algorithm to compute image derivatives, so the threshold value
+     * shough normally be higher, such as 300 or normally exposed and contrasty images.
+     * @param param2 Second method-specific parameter. In case of #HOUGH_GRADIENT, it is the
      * accumulator threshold for the circle centers at the detection stage. The smaller it is, the more
      * false circles may be detected. Circles, corresponding to the larger accumulator values, will be
-     * returned first.
+     * returned first. In the case of #HOUGH_GRADIENT_ALT algorithm, this is the circle "perfectness" measure.
+     * The closer it to 1, the better shaped circles algorithm selects. In most cases 0.9 should be fine.
+     * If you want get better detection of small circles, you may decrease it to 0.85, 0.8 or even less.
+     * But then also try to limit the search range [minRadius, maxRadius] to avoid many false circles.
      * @param minRadius Minimum circle radius.
-     * centers without finding the radius.
+     * centers without finding the radius. #HOUGH_GRADIENT_ALT always computes circle radiuses.
      *
      * SEE: fitEllipse, minEnclosingCircle
      */
@@ -3289,26 +3519,35 @@ public class Imgproc {
      *
      * <b>Note:</b> Usually the function detects the centers of circles well. However, it may fail to find correct
      * radii. You can assist to the function by specifying the radius range ( minRadius and maxRadius ) if
-     * you know it. Or, you may set maxRadius to a negative number to return centers only without radius
-     * search, and find the correct radius using an additional procedure.
+     * you know it. Or, in the case of #HOUGH_GRADIENT method you may set maxRadius to a negative number
+     * to return centers only without radius search, and find the correct radius using an additional procedure.
+     *
+     * It also helps to smooth image a bit unless it's already soft. For example,
+     * GaussianBlur() with 7x7 kernel and 1.5x1.5 sigma or similar blurring may help.
      *
      * @param image 8-bit, single-channel, grayscale input image.
      * @param circles Output vector of found circles. Each vector is encoded as  3 or 4 element
      * floating-point vector \((x, y, radius)\) or \((x, y, radius, votes)\) .
-     * @param method Detection method, see #HoughModes. Currently, the only implemented method is #HOUGH_GRADIENT
+     * @param method Detection method, see #HoughModes. The available methods are #HOUGH_GRADIENT and #HOUGH_GRADIENT_ALT.
      * @param dp Inverse ratio of the accumulator resolution to the image resolution. For example, if
      * dp=1 , the accumulator has the same resolution as the input image. If dp=2 , the accumulator has
-     * half as big width and height.
+     * half as big width and height. For #HOUGH_GRADIENT_ALT the recommended value is dp=1.5,
+     * unless some small very circles need to be detected.
      * @param minDist Minimum distance between the centers of the detected circles. If the parameter is
      * too small, multiple neighbor circles may be falsely detected in addition to a true one. If it is
      * too large, some circles may be missed.
-     * @param param1 First method-specific parameter. In case of #HOUGH_GRADIENT , it is the higher
-     * threshold of the two passed to the Canny edge detector (the lower one is twice smaller).
-     * @param param2 Second method-specific parameter. In case of #HOUGH_GRADIENT , it is the
+     * @param param1 First method-specific parameter. In case of #HOUGH_GRADIENT and #HOUGH_GRADIENT_ALT,
+     * it is the higher threshold of the two passed to the Canny edge detector (the lower one is twice smaller).
+     * Note that #HOUGH_GRADIENT_ALT uses #Scharr algorithm to compute image derivatives, so the threshold value
+     * shough normally be higher, such as 300 or normally exposed and contrasty images.
+     * @param param2 Second method-specific parameter. In case of #HOUGH_GRADIENT, it is the
      * accumulator threshold for the circle centers at the detection stage. The smaller it is, the more
      * false circles may be detected. Circles, corresponding to the larger accumulator values, will be
-     * returned first.
-     * centers without finding the radius.
+     * returned first. In the case of #HOUGH_GRADIENT_ALT algorithm, this is the circle "perfectness" measure.
+     * The closer it to 1, the better shaped circles algorithm selects. In most cases 0.9 should be fine.
+     * If you want get better detection of small circles, you may decrease it to 0.85, 0.8 or even less.
+     * But then also try to limit the search range [minRadius, maxRadius] to avoid many false circles.
+     * centers without finding the radius. #HOUGH_GRADIENT_ALT always computes circle radiuses.
      *
      * SEE: fitEllipse, minEnclosingCircle
      */
@@ -3326,25 +3565,34 @@ public class Imgproc {
      *
      * <b>Note:</b> Usually the function detects the centers of circles well. However, it may fail to find correct
      * radii. You can assist to the function by specifying the radius range ( minRadius and maxRadius ) if
-     * you know it. Or, you may set maxRadius to a negative number to return centers only without radius
-     * search, and find the correct radius using an additional procedure.
+     * you know it. Or, in the case of #HOUGH_GRADIENT method you may set maxRadius to a negative number
+     * to return centers only without radius search, and find the correct radius using an additional procedure.
+     *
+     * It also helps to smooth image a bit unless it's already soft. For example,
+     * GaussianBlur() with 7x7 kernel and 1.5x1.5 sigma or similar blurring may help.
      *
      * @param image 8-bit, single-channel, grayscale input image.
      * @param circles Output vector of found circles. Each vector is encoded as  3 or 4 element
      * floating-point vector \((x, y, radius)\) or \((x, y, radius, votes)\) .
-     * @param method Detection method, see #HoughModes. Currently, the only implemented method is #HOUGH_GRADIENT
+     * @param method Detection method, see #HoughModes. The available methods are #HOUGH_GRADIENT and #HOUGH_GRADIENT_ALT.
      * @param dp Inverse ratio of the accumulator resolution to the image resolution. For example, if
      * dp=1 , the accumulator has the same resolution as the input image. If dp=2 , the accumulator has
-     * half as big width and height.
+     * half as big width and height. For #HOUGH_GRADIENT_ALT the recommended value is dp=1.5,
+     * unless some small very circles need to be detected.
      * @param minDist Minimum distance between the centers of the detected circles. If the parameter is
      * too small, multiple neighbor circles may be falsely detected in addition to a true one. If it is
      * too large, some circles may be missed.
-     * @param param1 First method-specific parameter. In case of #HOUGH_GRADIENT , it is the higher
-     * threshold of the two passed to the Canny edge detector (the lower one is twice smaller).
+     * @param param1 First method-specific parameter. In case of #HOUGH_GRADIENT and #HOUGH_GRADIENT_ALT,
+     * it is the higher threshold of the two passed to the Canny edge detector (the lower one is twice smaller).
+     * Note that #HOUGH_GRADIENT_ALT uses #Scharr algorithm to compute image derivatives, so the threshold value
+     * shough normally be higher, such as 300 or normally exposed and contrasty images.
      * accumulator threshold for the circle centers at the detection stage. The smaller it is, the more
      * false circles may be detected. Circles, corresponding to the larger accumulator values, will be
-     * returned first.
-     * centers without finding the radius.
+     * returned first. In the case of #HOUGH_GRADIENT_ALT algorithm, this is the circle "perfectness" measure.
+     * The closer it to 1, the better shaped circles algorithm selects. In most cases 0.9 should be fine.
+     * If you want get better detection of small circles, you may decrease it to 0.85, 0.8 or even less.
+     * But then also try to limit the search range [minRadius, maxRadius] to avoid many false circles.
+     * centers without finding the radius. #HOUGH_GRADIENT_ALT always computes circle radiuses.
      *
      * SEE: fitEllipse, minEnclosingCircle
      */
@@ -3362,24 +3610,33 @@ public class Imgproc {
      *
      * <b>Note:</b> Usually the function detects the centers of circles well. However, it may fail to find correct
      * radii. You can assist to the function by specifying the radius range ( minRadius and maxRadius ) if
-     * you know it. Or, you may set maxRadius to a negative number to return centers only without radius
-     * search, and find the correct radius using an additional procedure.
+     * you know it. Or, in the case of #HOUGH_GRADIENT method you may set maxRadius to a negative number
+     * to return centers only without radius search, and find the correct radius using an additional procedure.
+     *
+     * It also helps to smooth image a bit unless it's already soft. For example,
+     * GaussianBlur() with 7x7 kernel and 1.5x1.5 sigma or similar blurring may help.
      *
      * @param image 8-bit, single-channel, grayscale input image.
      * @param circles Output vector of found circles. Each vector is encoded as  3 or 4 element
      * floating-point vector \((x, y, radius)\) or \((x, y, radius, votes)\) .
-     * @param method Detection method, see #HoughModes. Currently, the only implemented method is #HOUGH_GRADIENT
+     * @param method Detection method, see #HoughModes. The available methods are #HOUGH_GRADIENT and #HOUGH_GRADIENT_ALT.
      * @param dp Inverse ratio of the accumulator resolution to the image resolution. For example, if
      * dp=1 , the accumulator has the same resolution as the input image. If dp=2 , the accumulator has
-     * half as big width and height.
+     * half as big width and height. For #HOUGH_GRADIENT_ALT the recommended value is dp=1.5,
+     * unless some small very circles need to be detected.
      * @param minDist Minimum distance between the centers of the detected circles. If the parameter is
      * too small, multiple neighbor circles may be falsely detected in addition to a true one. If it is
      * too large, some circles may be missed.
-     * threshold of the two passed to the Canny edge detector (the lower one is twice smaller).
+     * it is the higher threshold of the two passed to the Canny edge detector (the lower one is twice smaller).
+     * Note that #HOUGH_GRADIENT_ALT uses #Scharr algorithm to compute image derivatives, so the threshold value
+     * shough normally be higher, such as 300 or normally exposed and contrasty images.
      * accumulator threshold for the circle centers at the detection stage. The smaller it is, the more
      * false circles may be detected. Circles, corresponding to the larger accumulator values, will be
-     * returned first.
-     * centers without finding the radius.
+     * returned first. In the case of #HOUGH_GRADIENT_ALT algorithm, this is the circle "perfectness" measure.
+     * The closer it to 1, the better shaped circles algorithm selects. In most cases 0.9 should be fine.
+     * If you want get better detection of small circles, you may decrease it to 0.85, 0.8 or even less.
+     * But then also try to limit the search range [minRadius, maxRadius] to avoid many false circles.
+     * centers without finding the radius. #HOUGH_GRADIENT_ALT always computes circle radiuses.
      *
      * SEE: fitEllipse, minEnclosingCircle
      */
@@ -3535,7 +3792,7 @@ public class Imgproc {
      * @param src input image; the number of channels can be arbitrary, but the depth should be one of
      * CV_8U, CV_16U, CV_16S, CV_32F or CV_64F.
      * @param dst output image of the same size and type as src.
-     * @param kernel structuring element used for dilation; if elemenat=Mat(), a 3 x 3 rectangular
+     * @param kernel structuring element used for dilation; if element=Mat(), a 3 x 3 rectangular
      * structuring element is used. Kernel can be created using #getStructuringElement
      * @param anchor position of the anchor within the element; default value (-1, -1) means that the
      * anchor is at the element center.
@@ -3561,7 +3818,7 @@ public class Imgproc {
      * @param src input image; the number of channels can be arbitrary, but the depth should be one of
      * CV_8U, CV_16U, CV_16S, CV_32F or CV_64F.
      * @param dst output image of the same size and type as src.
-     * @param kernel structuring element used for dilation; if elemenat=Mat(), a 3 x 3 rectangular
+     * @param kernel structuring element used for dilation; if element=Mat(), a 3 x 3 rectangular
      * structuring element is used. Kernel can be created using #getStructuringElement
      * @param anchor position of the anchor within the element; default value (-1, -1) means that the
      * anchor is at the element center.
@@ -3586,7 +3843,7 @@ public class Imgproc {
      * @param src input image; the number of channels can be arbitrary, but the depth should be one of
      * CV_8U, CV_16U, CV_16S, CV_32F or CV_64F.
      * @param dst output image of the same size and type as src.
-     * @param kernel structuring element used for dilation; if elemenat=Mat(), a 3 x 3 rectangular
+     * @param kernel structuring element used for dilation; if element=Mat(), a 3 x 3 rectangular
      * structuring element is used. Kernel can be created using #getStructuringElement
      * @param anchor position of the anchor within the element; default value (-1, -1) means that the
      * anchor is at the element center.
@@ -3610,7 +3867,7 @@ public class Imgproc {
      * @param src input image; the number of channels can be arbitrary, but the depth should be one of
      * CV_8U, CV_16U, CV_16S, CV_32F or CV_64F.
      * @param dst output image of the same size and type as src.
-     * @param kernel structuring element used for dilation; if elemenat=Mat(), a 3 x 3 rectangular
+     * @param kernel structuring element used for dilation; if element=Mat(), a 3 x 3 rectangular
      * structuring element is used. Kernel can be created using #getStructuringElement
      * @param anchor position of the anchor within the element; default value (-1, -1) means that the
      * anchor is at the element center.
@@ -3633,7 +3890,7 @@ public class Imgproc {
      * @param src input image; the number of channels can be arbitrary, but the depth should be one of
      * CV_8U, CV_16U, CV_16S, CV_32F or CV_64F.
      * @param dst output image of the same size and type as src.
-     * @param kernel structuring element used for dilation; if elemenat=Mat(), a 3 x 3 rectangular
+     * @param kernel structuring element used for dilation; if element=Mat(), a 3 x 3 rectangular
      * structuring element is used. Kernel can be created using #getStructuringElement
      * anchor is at the element center.
      * SEE:  erode, morphologyEx, getStructuringElement
@@ -3805,13 +4062,13 @@ public class Imgproc {
      *     resize(src, dst, Size(), 0.5, 0.5, interpolation);
      * </code>
      * To shrink an image, it will generally look best with #INTER_AREA interpolation, whereas to
-     * enlarge an image, it will generally look best with c#INTER_CUBIC (slow) or #INTER_LINEAR
+     * enlarge an image, it will generally look best with #INTER_CUBIC (slow) or #INTER_LINEAR
      * (faster but still looks OK).
      *
      * @param src input image.
      * @param dst output image; it has the size dsize (when it is non-zero) or the size computed from
      * src.size(), fx, and fy; the type of dst is the same as of src.
-     * @param dsize output image size; if it equals zero, it is computed as:
+     * @param dsize output image size; if it equals zero ({@code None} in Python), it is computed as:
      *  \(\texttt{dsize = Size(round(fx*src.cols), round(fy*src.rows))}\)
      *  Either dsize or both fx and fy must be non-zero.
      * @param fx scale factor along the horizontal axis; when it equals 0, it is computed as
@@ -3844,13 +4101,13 @@ public class Imgproc {
      *     resize(src, dst, Size(), 0.5, 0.5, interpolation);
      * </code>
      * To shrink an image, it will generally look best with #INTER_AREA interpolation, whereas to
-     * enlarge an image, it will generally look best with c#INTER_CUBIC (slow) or #INTER_LINEAR
+     * enlarge an image, it will generally look best with #INTER_CUBIC (slow) or #INTER_LINEAR
      * (faster but still looks OK).
      *
      * @param src input image.
      * @param dst output image; it has the size dsize (when it is non-zero) or the size computed from
      * src.size(), fx, and fy; the type of dst is the same as of src.
-     * @param dsize output image size; if it equals zero, it is computed as:
+     * @param dsize output image size; if it equals zero ({@code None} in Python), it is computed as:
      *  \(\texttt{dsize = Size(round(fx*src.cols), round(fy*src.rows))}\)
      *  Either dsize or both fx and fy must be non-zero.
      * @param fx scale factor along the horizontal axis; when it equals 0, it is computed as
@@ -3882,13 +4139,13 @@ public class Imgproc {
      *     resize(src, dst, Size(), 0.5, 0.5, interpolation);
      * </code>
      * To shrink an image, it will generally look best with #INTER_AREA interpolation, whereas to
-     * enlarge an image, it will generally look best with c#INTER_CUBIC (slow) or #INTER_LINEAR
+     * enlarge an image, it will generally look best with #INTER_CUBIC (slow) or #INTER_LINEAR
      * (faster but still looks OK).
      *
      * @param src input image.
      * @param dst output image; it has the size dsize (when it is non-zero) or the size computed from
      * src.size(), fx, and fy; the type of dst is the same as of src.
-     * @param dsize output image size; if it equals zero, it is computed as:
+     * @param dsize output image size; if it equals zero ({@code None} in Python), it is computed as:
      *  \(\texttt{dsize = Size(round(fx*src.cols), round(fy*src.rows))}\)
      *  Either dsize or both fx and fy must be non-zero.
      * @param fx scale factor along the horizontal axis; when it equals 0, it is computed as
@@ -3919,13 +4176,13 @@ public class Imgproc {
      *     resize(src, dst, Size(), 0.5, 0.5, interpolation);
      * </code>
      * To shrink an image, it will generally look best with #INTER_AREA interpolation, whereas to
-     * enlarge an image, it will generally look best with c#INTER_CUBIC (slow) or #INTER_LINEAR
+     * enlarge an image, it will generally look best with #INTER_CUBIC (slow) or #INTER_LINEAR
      * (faster but still looks OK).
      *
      * @param src input image.
      * @param dst output image; it has the size dsize (when it is non-zero) or the size computed from
      * src.size(), fx, and fy; the type of dst is the same as of src.
-     * @param dsize output image size; if it equals zero, it is computed as:
+     * @param dsize output image size; if it equals zero ({@code None} in Python), it is computed as:
      *  \(\texttt{dsize = Size(round(fx*src.cols), round(fy*src.rows))}\)
      *  Either dsize or both fx and fy must be non-zero.
      * \(\texttt{(double)dsize.width/src.cols}\)
@@ -4174,7 +4431,7 @@ public class Imgproc {
      * where values of pixels with non-integer coordinates are computed using one of available
      * interpolation methods. \(map_x\) and \(map_y\) can be encoded as separate floating-point maps
      * in \(map_1\) and \(map_2\) respectively, or interleaved floating-point maps of \((x,y)\) in
-     * \(map_1\), or fixed-point maps created by using convertMaps. The reason you might want to
+     * \(map_1\), or fixed-point maps created by using #convertMaps. The reason you might want to
      * convert from floating to fixed-point representations of a map is that they can yield much faster
      * (\~2x) remapping operations. In the converted case, \(map_1\) contains pairs (cvFloor(x),
      * cvFloor(y)) and \(map_2\) contains indices in a table of interpolation coefficients.
@@ -4184,7 +4441,7 @@ public class Imgproc {
      * @param src Source image.
      * @param dst Destination image. It has the same size as map1 and the same type as src .
      * @param map1 The first map of either (x,y) points or just x values having the type CV_16SC2 ,
-     * CV_32FC1, or CV_32FC2. See convertMaps for details on converting a floating point
+     * CV_32FC1, or CV_32FC2. See #convertMaps for details on converting a floating point
      * representation to fixed-point for speed.
      * @param map2 The second map of y values having the type CV_16UC1, CV_32FC1, or none (empty map
      * if map1 is (x,y) points), respectively.
@@ -4211,7 +4468,7 @@ public class Imgproc {
      * where values of pixels with non-integer coordinates are computed using one of available
      * interpolation methods. \(map_x\) and \(map_y\) can be encoded as separate floating-point maps
      * in \(map_1\) and \(map_2\) respectively, or interleaved floating-point maps of \((x,y)\) in
-     * \(map_1\), or fixed-point maps created by using convertMaps. The reason you might want to
+     * \(map_1\), or fixed-point maps created by using #convertMaps. The reason you might want to
      * convert from floating to fixed-point representations of a map is that they can yield much faster
      * (\~2x) remapping operations. In the converted case, \(map_1\) contains pairs (cvFloor(x),
      * cvFloor(y)) and \(map_2\) contains indices in a table of interpolation coefficients.
@@ -4221,7 +4478,7 @@ public class Imgproc {
      * @param src Source image.
      * @param dst Destination image. It has the same size as map1 and the same type as src .
      * @param map1 The first map of either (x,y) points or just x values having the type CV_16SC2 ,
-     * CV_32FC1, or CV_32FC2. See convertMaps for details on converting a floating point
+     * CV_32FC1, or CV_32FC2. See #convertMaps for details on converting a floating point
      * representation to fixed-point for speed.
      * @param map2 The second map of y values having the type CV_16UC1, CV_32FC1, or none (empty map
      * if map1 is (x,y) points), respectively.
@@ -4247,7 +4504,7 @@ public class Imgproc {
      * where values of pixels with non-integer coordinates are computed using one of available
      * interpolation methods. \(map_x\) and \(map_y\) can be encoded as separate floating-point maps
      * in \(map_1\) and \(map_2\) respectively, or interleaved floating-point maps of \((x,y)\) in
-     * \(map_1\), or fixed-point maps created by using convertMaps. The reason you might want to
+     * \(map_1\), or fixed-point maps created by using #convertMaps. The reason you might want to
      * convert from floating to fixed-point representations of a map is that they can yield much faster
      * (\~2x) remapping operations. In the converted case, \(map_1\) contains pairs (cvFloor(x),
      * cvFloor(y)) and \(map_2\) contains indices in a table of interpolation coefficients.
@@ -4257,7 +4514,7 @@ public class Imgproc {
      * @param src Source image.
      * @param dst Destination image. It has the same size as map1 and the same type as src .
      * @param map1 The first map of either (x,y) points or just x values having the type CV_16SC2 ,
-     * CV_32FC1, or CV_32FC2. See convertMaps for details on converting a floating point
+     * CV_32FC1, or CV_32FC2. See #convertMaps for details on converting a floating point
      * representation to fixed-point for speed.
      * @param map2 The second map of y values having the type CV_16UC1, CV_32FC1, or none (empty map
      * if map1 is (x,y) points), respectively.
@@ -4287,7 +4544,7 @@ public class Imgproc {
      * <ul>
      *   <li>
      *  \(\texttt{(CV_32FC1, CV_32FC1)} \rightarrow \texttt{(CV_16SC2, CV_16UC1)}\). This is the
-     * most frequently used conversion operation, in which the original floating-point maps (see remap )
+     * most frequently used conversion operation, in which the original floating-point maps (see #remap)
      * are converted to a more compact and much faster fixed-point representation. The first output array
      * contains the rounded coordinates and the second array (created only when nninterpolation=false )
      * contains indices in the interpolation tables.
@@ -4334,7 +4591,7 @@ public class Imgproc {
      * <ul>
      *   <li>
      *  \(\texttt{(CV_32FC1, CV_32FC1)} \rightarrow \texttt{(CV_16SC2, CV_16UC1)}\). This is the
-     * most frequently used conversion operation, in which the original floating-point maps (see remap )
+     * most frequently used conversion operation, in which the original floating-point maps (see #remap)
      * are converted to a more compact and much faster fixed-point representation. The first output array
      * contains the rounded coordinates and the second array (created only when nninterpolation=false )
      * contains indices in the interpolation tables.
@@ -4423,8 +4680,30 @@ public class Imgproc {
 
 
     //
-    // C++:  Mat cv::getPerspectiveTransform(Mat src, Mat dst)
+    // C++:  Mat cv::getPerspectiveTransform(Mat src, Mat dst, int solveMethod = DECOMP_LU)
     //
+
+    /**
+     * Calculates a perspective transform from four pairs of the corresponding points.
+     *
+     * The function calculates the \(3 \times 3\) matrix of a perspective transform so that:
+     *
+     * \(\begin{bmatrix} t_i x'_i \\ t_i y'_i \\ t_i \end{bmatrix} = \texttt{map_matrix} \cdot \begin{bmatrix} x_i \\ y_i \\ 1 \end{bmatrix}\)
+     *
+     * where
+     *
+     * \(dst(i)=(x'_i,y'_i), src(i)=(x_i, y_i), i=0,1,2,3\)
+     *
+     * @param src Coordinates of quadrangle vertices in the source image.
+     * @param dst Coordinates of the corresponding quadrangle vertices in the destination image.
+     * @param solveMethod method passed to cv::solve (#DecompTypes)
+     *
+     * SEE:  findHomography, warpPerspective, perspectiveTransform
+     * @return automatically generated
+     */
+    public static Mat getPerspectiveTransform(Mat src, Mat dst, int solveMethod) {
+        return new Mat(getPerspectiveTransform_0(src.nativeObj, dst.nativeObj, solveMethod));
+    }
 
     /**
      * Calculates a perspective transform from four pairs of the corresponding points.
@@ -4444,7 +4723,7 @@ public class Imgproc {
      * @return automatically generated
      */
     public static Mat getPerspectiveTransform(Mat src, Mat dst) {
-        return new Mat(getPerspectiveTransform_0(src.nativeObj, dst.nativeObj));
+        return new Mat(getPerspectiveTransform_1(src.nativeObj, dst.nativeObj));
     }
 
 
@@ -4748,36 +5027,6 @@ public class Imgproc {
 
 
     //
-    // C++:  void cv::integral(Mat src, Mat& sum, int sdepth = -1)
-    //
-
-    public static void integral(Mat src, Mat sum, int sdepth) {
-        integral_0(src.nativeObj, sum.nativeObj, sdepth);
-    }
-
-    public static void integral(Mat src, Mat sum) {
-        integral_1(src.nativeObj, sum.nativeObj);
-    }
-
-
-    //
-    // C++:  void cv::integral(Mat src, Mat& sum, Mat& sqsum, int sdepth = -1, int sqdepth = -1)
-    //
-
-    public static void integral2(Mat src, Mat sum, Mat sqsum, int sdepth, int sqdepth) {
-        integral2_0(src.nativeObj, sum.nativeObj, sqsum.nativeObj, sdepth, sqdepth);
-    }
-
-    public static void integral2(Mat src, Mat sum, Mat sqsum, int sdepth) {
-        integral2_1(src.nativeObj, sum.nativeObj, sqsum.nativeObj, sdepth);
-    }
-
-    public static void integral2(Mat src, Mat sum, Mat sqsum) {
-        integral2_2(src.nativeObj, sum.nativeObj, sqsum.nativeObj);
-    }
-
-
-    //
     // C++:  void cv::integral(Mat src, Mat& sum, Mat& sqsum, Mat& tilted, int sdepth = -1, int sqdepth = -1)
     //
 
@@ -4801,7 +5050,7 @@ public class Imgproc {
      * example. In case of multi-channel images, sums for each channel are accumulated independently.
      *
      * As a practical example, the next figure shows the calculation of the integral of a straight
-     * rectangle Rect(3,3,3,2) and of a tilted rectangle Rect(5,1,2,3) . The selected pixels in the
+     * rectangle Rect(4,4,3,2) and of a tilted rectangle Rect(5,1,2,3) . The selected pixels in the
      * original image are shown, as well as the relative pixels in the integral images sum and tilted .
      *
      * ![integral calculation example](pics/integral.png)
@@ -4840,7 +5089,7 @@ public class Imgproc {
      * example. In case of multi-channel images, sums for each channel are accumulated independently.
      *
      * As a practical example, the next figure shows the calculation of the integral of a straight
-     * rectangle Rect(3,3,3,2) and of a tilted rectangle Rect(5,1,2,3) . The selected pixels in the
+     * rectangle Rect(4,4,3,2) and of a tilted rectangle Rect(5,1,2,3) . The selected pixels in the
      * original image are shown, as well as the relative pixels in the integral images sum and tilted .
      *
      * ![integral calculation example](pics/integral.png)
@@ -4878,7 +5127,7 @@ public class Imgproc {
      * example. In case of multi-channel images, sums for each channel are accumulated independently.
      *
      * As a practical example, the next figure shows the calculation of the integral of a straight
-     * rectangle Rect(3,3,3,2) and of a tilted rectangle Rect(5,1,2,3) . The selected pixels in the
+     * rectangle Rect(4,4,3,2) and of a tilted rectangle Rect(5,1,2,3) . The selected pixels in the
      * original image are shown, as well as the relative pixels in the integral images sum and tilted .
      *
      * ![integral calculation example](pics/integral.png)
@@ -4893,6 +5142,36 @@ public class Imgproc {
      */
     public static void integral3(Mat src, Mat sum, Mat sqsum, Mat tilted) {
         integral3_2(src.nativeObj, sum.nativeObj, sqsum.nativeObj, tilted.nativeObj);
+    }
+
+
+    //
+    // C++:  void cv::integral(Mat src, Mat& sum, int sdepth = -1)
+    //
+
+    public static void integral(Mat src, Mat sum, int sdepth) {
+        integral_0(src.nativeObj, sum.nativeObj, sdepth);
+    }
+
+    public static void integral(Mat src, Mat sum) {
+        integral_1(src.nativeObj, sum.nativeObj);
+    }
+
+
+    //
+    // C++:  void cv::integral(Mat src, Mat& sum, Mat& sqsum, int sdepth = -1, int sqdepth = -1)
+    //
+
+    public static void integral2(Mat src, Mat sum, Mat sqsum, int sdepth, int sqdepth) {
+        integral2_0(src.nativeObj, sum.nativeObj, sqsum.nativeObj, sdepth, sqdepth);
+    }
+
+    public static void integral2(Mat src, Mat sum, Mat sqsum, int sdepth) {
+        integral2_1(src.nativeObj, sum.nativeObj, sqsum.nativeObj, sdepth);
+    }
+
+    public static void integral2(Mat src, Mat sum, Mat sqsum) {
+        integral2_2(src.nativeObj, sum.nativeObj, sqsum.nativeObj);
     }
 
 
@@ -5536,413 +5815,25 @@ public class Imgproc {
 
 
     //
-    // C++:  void cv::undistort(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, Mat newCameraMatrix = Mat())
-    //
-
-    /**
-     * Transforms an image to compensate for lens distortion.
-     *
-     * The function transforms an image to compensate radial and tangential lens distortion.
-     *
-     * The function is simply a combination of #initUndistortRectifyMap (with unity R ) and #remap
-     * (with bilinear interpolation). See the former function for details of the transformation being
-     * performed.
-     *
-     * Those pixels in the destination image, for which there is no correspondent pixels in the source
-     * image, are filled with zeros (black color).
-     *
-     * A particular subset of the source image that will be visible in the corrected image can be regulated
-     * by newCameraMatrix. You can use #getOptimalNewCameraMatrix to compute the appropriate
-     * newCameraMatrix depending on your requirements.
-     *
-     * The camera matrix and the distortion parameters can be determined using #calibrateCamera. If
-     * the resolution of images is different from the resolution used at the calibration stage, \(f_x,
-     * f_y, c_x\) and \(c_y\) need to be scaled accordingly, while the distortion coefficients remain
-     * the same.
-     *
-     * @param src Input (distorted) image.
-     * @param dst Output (corrected) image that has the same size and type as src .
-     * @param cameraMatrix Input camera matrix \(A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
-     * @param distCoeffs Input vector of distortion coefficients
-     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
-     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
-     * @param newCameraMatrix Camera matrix of the distorted image. By default, it is the same as
-     * cameraMatrix but you may additionally scale and shift the result by using a different matrix.
-     */
-    public static void undistort(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs, Mat newCameraMatrix) {
-        undistort_0(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj, newCameraMatrix.nativeObj);
-    }
-
-    /**
-     * Transforms an image to compensate for lens distortion.
-     *
-     * The function transforms an image to compensate radial and tangential lens distortion.
-     *
-     * The function is simply a combination of #initUndistortRectifyMap (with unity R ) and #remap
-     * (with bilinear interpolation). See the former function for details of the transformation being
-     * performed.
-     *
-     * Those pixels in the destination image, for which there is no correspondent pixels in the source
-     * image, are filled with zeros (black color).
-     *
-     * A particular subset of the source image that will be visible in the corrected image can be regulated
-     * by newCameraMatrix. You can use #getOptimalNewCameraMatrix to compute the appropriate
-     * newCameraMatrix depending on your requirements.
-     *
-     * The camera matrix and the distortion parameters can be determined using #calibrateCamera. If
-     * the resolution of images is different from the resolution used at the calibration stage, \(f_x,
-     * f_y, c_x\) and \(c_y\) need to be scaled accordingly, while the distortion coefficients remain
-     * the same.
-     *
-     * @param src Input (distorted) image.
-     * @param dst Output (corrected) image that has the same size and type as src .
-     * @param cameraMatrix Input camera matrix \(A = \vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
-     * @param distCoeffs Input vector of distortion coefficients
-     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
-     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
-     * cameraMatrix but you may additionally scale and shift the result by using a different matrix.
-     */
-    public static void undistort(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs) {
-        undistort_1(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj);
-    }
-
-
-    //
-    // C++:  void cv::initUndistortRectifyMap(Mat cameraMatrix, Mat distCoeffs, Mat R, Mat newCameraMatrix, Size size, int m1type, Mat& map1, Mat& map2)
-    //
-
-    /**
-     * Computes the undistortion and rectification transformation map.
-     *
-     * The function computes the joint undistortion and rectification transformation and represents the
-     * result in the form of maps for remap. The undistorted image looks like original, as if it is
-     * captured with a camera using the camera matrix =newCameraMatrix and zero distortion. In case of a
-     * monocular camera, newCameraMatrix is usually equal to cameraMatrix, or it can be computed by
-     * #getOptimalNewCameraMatrix for a better control over scaling. In case of a stereo camera,
-     * newCameraMatrix is normally set to P1 or P2 computed by #stereoRectify .
-     *
-     * Also, this new camera is oriented differently in the coordinate space, according to R. That, for
-     * example, helps to align two heads of a stereo camera so that the epipolar lines on both images
-     * become horizontal and have the same y- coordinate (in case of a horizontally aligned stereo camera).
-     *
-     * The function actually builds the maps for the inverse mapping algorithm that is used by remap. That
-     * is, for each pixel \((u, v)\) in the destination (corrected and rectified) image, the function
-     * computes the corresponding coordinates in the source image (that is, in the original image from
-     * camera). The following process is applied:
-     * \(
-     * \begin{array}{l}
-     * x  \leftarrow (u - {c'}_x)/{f'}_x  \\
-     * y  \leftarrow (v - {c'}_y)/{f'}_y  \\
-     * {[X\,Y\,W]} ^T  \leftarrow R^{-1}*[x \, y \, 1]^T  \\
-     * x'  \leftarrow X/W  \\
-     * y'  \leftarrow Y/W  \\
-     * r^2  \leftarrow x'^2 + y'^2 \\
-     * x''  \leftarrow x' \frac{1 + k_1 r^2 + k_2 r^4 + k_3 r^6}{1 + k_4 r^2 + k_5 r^4 + k_6 r^6}
-     * + 2p_1 x' y' + p_2(r^2 + 2 x'^2)  + s_1 r^2 + s_2 r^4\\
-     * y''  \leftarrow y' \frac{1 + k_1 r^2 + k_2 r^4 + k_3 r^6}{1 + k_4 r^2 + k_5 r^4 + k_6 r^6}
-     * + p_1 (r^2 + 2 y'^2) + 2 p_2 x' y' + s_3 r^2 + s_4 r^4 \\
-     * s\vecthree{x'''}{y'''}{1} =
-     * \vecthreethree{R_{33}(\tau_x, \tau_y)}{0}{-R_{13}((\tau_x, \tau_y)}
-     * {0}{R_{33}(\tau_x, \tau_y)}{-R_{23}(\tau_x, \tau_y)}
-     * {0}{0}{1} R(\tau_x, \tau_y) \vecthree{x''}{y''}{1}\\
-     * map_x(u,v)  \leftarrow x''' f_x + c_x  \\
-     * map_y(u,v)  \leftarrow y''' f_y + c_y
-     * \end{array}
-     * \)
-     * where \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
-     * are the distortion coefficients.
-     *
-     * In case of a stereo camera, this function is called twice: once for each camera head, after
-     * stereoRectify, which in its turn is called after #stereoCalibrate. But if the stereo camera
-     * was not calibrated, it is still possible to compute the rectification transformations directly from
-     * the fundamental matrix using #stereoRectifyUncalibrated. For each camera, the function computes
-     * homography H as the rectification transformation in a pixel domain, not a rotation matrix R in 3D
-     * space. R can be computed from H as
-     * \(\texttt{R} = \texttt{cameraMatrix} ^{-1} \cdot \texttt{H} \cdot \texttt{cameraMatrix}\)
-     * where cameraMatrix can be chosen arbitrarily.
-     *
-     * @param cameraMatrix Input camera matrix \(A=\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
-     * @param distCoeffs Input vector of distortion coefficients
-     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
-     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
-     * @param R Optional rectification transformation in the object space (3x3 matrix). R1 or R2 ,
-     * computed by #stereoRectify can be passed here. If the matrix is empty, the identity transformation
-     * is assumed. In cvInitUndistortMap R assumed to be an identity matrix.
-     * @param newCameraMatrix New camera matrix \(A'=\vecthreethree{f_x'}{0}{c_x'}{0}{f_y'}{c_y'}{0}{0}{1}\).
-     * @param size Undistorted image size.
-     * @param m1type Type of the first output map that can be CV_32FC1, CV_32FC2 or CV_16SC2, see #convertMaps
-     * @param map1 The first output map.
-     * @param map2 The second output map.
-     */
-    public static void initUndistortRectifyMap(Mat cameraMatrix, Mat distCoeffs, Mat R, Mat newCameraMatrix, Size size, int m1type, Mat map1, Mat map2) {
-        initUndistortRectifyMap_0(cameraMatrix.nativeObj, distCoeffs.nativeObj, R.nativeObj, newCameraMatrix.nativeObj, size.width, size.height, m1type, map1.nativeObj, map2.nativeObj);
-    }
-
-
-    //
-    // C++:  float cv::initWideAngleProjMap(Mat cameraMatrix, Mat distCoeffs, Size imageSize, int destImageWidth, int m1type, Mat& map1, Mat& map2, int projType = PROJ_SPHERICAL_EQRECT, double alpha = 0)
-    //
-
-    public static float initWideAngleProjMap(Mat cameraMatrix, Mat distCoeffs, Size imageSize, int destImageWidth, int m1type, Mat map1, Mat map2, int projType, double alpha) {
-        return initWideAngleProjMap_0(cameraMatrix.nativeObj, distCoeffs.nativeObj, imageSize.width, imageSize.height, destImageWidth, m1type, map1.nativeObj, map2.nativeObj, projType, alpha);
-    }
-
-    public static float initWideAngleProjMap(Mat cameraMatrix, Mat distCoeffs, Size imageSize, int destImageWidth, int m1type, Mat map1, Mat map2, int projType) {
-        return initWideAngleProjMap_1(cameraMatrix.nativeObj, distCoeffs.nativeObj, imageSize.width, imageSize.height, destImageWidth, m1type, map1.nativeObj, map2.nativeObj, projType);
-    }
-
-    public static float initWideAngleProjMap(Mat cameraMatrix, Mat distCoeffs, Size imageSize, int destImageWidth, int m1type, Mat map1, Mat map2) {
-        return initWideAngleProjMap_2(cameraMatrix.nativeObj, distCoeffs.nativeObj, imageSize.width, imageSize.height, destImageWidth, m1type, map1.nativeObj, map2.nativeObj);
-    }
-
-
-    //
-    // C++:  Mat cv::getDefaultNewCameraMatrix(Mat cameraMatrix, Size imgsize = Size(), bool centerPrincipalPoint = false)
-    //
-
-    /**
-     * Returns the default new camera matrix.
-     *
-     * The function returns the camera matrix that is either an exact copy of the input cameraMatrix (when
-     * centerPrinicipalPoint=false ), or the modified one (when centerPrincipalPoint=true).
-     *
-     * In the latter case, the new camera matrix will be:
-     *
-     * \(\begin{bmatrix} f_x &amp;&amp; 0 &amp;&amp; ( \texttt{imgSize.width} -1)*0.5  \\ 0 &amp;&amp; f_y &amp;&amp; ( \texttt{imgSize.height} -1)*0.5  \\ 0 &amp;&amp; 0 &amp;&amp; 1 \end{bmatrix} ,\)
-     *
-     * where \(f_x\) and \(f_y\) are \((0,0)\) and \((1,1)\) elements of cameraMatrix, respectively.
-     *
-     * By default, the undistortion functions in OpenCV (see #initUndistortRectifyMap, #undistort) do not
-     * move the principal point. However, when you work with stereo, it is important to move the principal
-     * points in both views to the same y-coordinate (which is required by most of stereo correspondence
-     * algorithms), and may be to the same x-coordinate too. So, you can form the new camera matrix for
-     * each view where the principal points are located at the center.
-     *
-     * @param cameraMatrix Input camera matrix.
-     * @param imgsize Camera view image size in pixels.
-     * @param centerPrincipalPoint Location of the principal point in the new camera matrix. The
-     * parameter indicates whether this location should be at the image center or not.
-     * @return automatically generated
-     */
-    public static Mat getDefaultNewCameraMatrix(Mat cameraMatrix, Size imgsize, boolean centerPrincipalPoint) {
-        return new Mat(getDefaultNewCameraMatrix_0(cameraMatrix.nativeObj, imgsize.width, imgsize.height, centerPrincipalPoint));
-    }
-
-    /**
-     * Returns the default new camera matrix.
-     *
-     * The function returns the camera matrix that is either an exact copy of the input cameraMatrix (when
-     * centerPrinicipalPoint=false ), or the modified one (when centerPrincipalPoint=true).
-     *
-     * In the latter case, the new camera matrix will be:
-     *
-     * \(\begin{bmatrix} f_x &amp;&amp; 0 &amp;&amp; ( \texttt{imgSize.width} -1)*0.5  \\ 0 &amp;&amp; f_y &amp;&amp; ( \texttt{imgSize.height} -1)*0.5  \\ 0 &amp;&amp; 0 &amp;&amp; 1 \end{bmatrix} ,\)
-     *
-     * where \(f_x\) and \(f_y\) are \((0,0)\) and \((1,1)\) elements of cameraMatrix, respectively.
-     *
-     * By default, the undistortion functions in OpenCV (see #initUndistortRectifyMap, #undistort) do not
-     * move the principal point. However, when you work with stereo, it is important to move the principal
-     * points in both views to the same y-coordinate (which is required by most of stereo correspondence
-     * algorithms), and may be to the same x-coordinate too. So, you can form the new camera matrix for
-     * each view where the principal points are located at the center.
-     *
-     * @param cameraMatrix Input camera matrix.
-     * @param imgsize Camera view image size in pixels.
-     * parameter indicates whether this location should be at the image center or not.
-     * @return automatically generated
-     */
-    public static Mat getDefaultNewCameraMatrix(Mat cameraMatrix, Size imgsize) {
-        return new Mat(getDefaultNewCameraMatrix_1(cameraMatrix.nativeObj, imgsize.width, imgsize.height));
-    }
-
-    /**
-     * Returns the default new camera matrix.
-     *
-     * The function returns the camera matrix that is either an exact copy of the input cameraMatrix (when
-     * centerPrinicipalPoint=false ), or the modified one (when centerPrincipalPoint=true).
-     *
-     * In the latter case, the new camera matrix will be:
-     *
-     * \(\begin{bmatrix} f_x &amp;&amp; 0 &amp;&amp; ( \texttt{imgSize.width} -1)*0.5  \\ 0 &amp;&amp; f_y &amp;&amp; ( \texttt{imgSize.height} -1)*0.5  \\ 0 &amp;&amp; 0 &amp;&amp; 1 \end{bmatrix} ,\)
-     *
-     * where \(f_x\) and \(f_y\) are \((0,0)\) and \((1,1)\) elements of cameraMatrix, respectively.
-     *
-     * By default, the undistortion functions in OpenCV (see #initUndistortRectifyMap, #undistort) do not
-     * move the principal point. However, when you work with stereo, it is important to move the principal
-     * points in both views to the same y-coordinate (which is required by most of stereo correspondence
-     * algorithms), and may be to the same x-coordinate too. So, you can form the new camera matrix for
-     * each view where the principal points are located at the center.
-     *
-     * @param cameraMatrix Input camera matrix.
-     * parameter indicates whether this location should be at the image center or not.
-     * @return automatically generated
-     */
-    public static Mat getDefaultNewCameraMatrix(Mat cameraMatrix) {
-        return new Mat(getDefaultNewCameraMatrix_2(cameraMatrix.nativeObj));
-    }
-
-
-    //
-    // C++:  void cv::undistortPoints(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, Mat R = Mat(), Mat P = Mat())
-    //
-
-    /**
-     * Computes the ideal point coordinates from the observed point coordinates.
-     *
-     * The function is similar to #undistort and #initUndistortRectifyMap but it operates on a
-     * sparse set of points instead of a raster image. Also the function performs a reverse transformation
-     * to projectPoints. In case of a 3D object, it does not reconstruct its 3D coordinates, but for a
-     * planar object, it does, up to a translation vector, if the proper R is specified.
-     *
-     * For each observed point coordinate \((u, v)\) the function computes:
-     * \(
-     * \begin{array}{l}
-     * x^{"}  \leftarrow (u - c_x)/f_x  \\
-     * y^{"}  \leftarrow (v - c_y)/f_y  \\
-     * (x',y') = undistort(x^{"},y^{"}, \texttt{distCoeffs}) \\
-     * {[X\,Y\,W]} ^T  \leftarrow R*[x' \, y' \, 1]^T  \\
-     * x  \leftarrow X/W  \\
-     * y  \leftarrow Y/W  \\
-     * \text{only performed if P is specified:} \\
-     * u'  \leftarrow x {f'}_x + {c'}_x  \\
-     * v'  \leftarrow y {f'}_y + {c'}_y
-     * \end{array}
-     * \)
-     *
-     * where *undistort* is an approximate iterative algorithm that estimates the normalized original
-     * point coordinates out of the normalized distorted point coordinates ("normalized" means that the
-     * coordinates do not depend on the camera matrix).
-     *
-     * The function can be used for both a stereo camera head or a monocular camera (when R is empty).
-     * @param src Observed point coordinates, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel (CV_32FC2 or CV_64FC2) (or
-     * vector&lt;Point2f&gt; ).
-     * @param dst Output ideal point coordinates (1xN/Nx1 2-channel or vector&lt;Point2f&gt; ) after undistortion and reverse perspective
-     * transformation. If matrix P is identity or omitted, dst will contain normalized point coordinates.
-     * @param cameraMatrix Camera matrix \(\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
-     * @param distCoeffs Input vector of distortion coefficients
-     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
-     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
-     * @param R Rectification transformation in the object space (3x3 matrix). R1 or R2 computed by
-     * #stereoRectify can be passed here. If the matrix is empty, the identity transformation is used.
-     * @param P New camera matrix (3x3) or new projection matrix (3x4) \(\begin{bmatrix} {f'}_x &amp; 0 &amp; {c'}_x &amp; t_x \\ 0 &amp; {f'}_y &amp; {c'}_y &amp; t_y \\ 0 &amp; 0 &amp; 1 &amp; t_z \end{bmatrix}\). P1 or P2 computed by
-     * #stereoRectify can be passed here. If the matrix is empty, the identity new camera matrix is used.
-     */
-    public static void undistortPoints(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs, Mat R, Mat P) {
-        undistortPoints_0(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj, R.nativeObj, P.nativeObj);
-    }
-
-    /**
-     * Computes the ideal point coordinates from the observed point coordinates.
-     *
-     * The function is similar to #undistort and #initUndistortRectifyMap but it operates on a
-     * sparse set of points instead of a raster image. Also the function performs a reverse transformation
-     * to projectPoints. In case of a 3D object, it does not reconstruct its 3D coordinates, but for a
-     * planar object, it does, up to a translation vector, if the proper R is specified.
-     *
-     * For each observed point coordinate \((u, v)\) the function computes:
-     * \(
-     * \begin{array}{l}
-     * x^{"}  \leftarrow (u - c_x)/f_x  \\
-     * y^{"}  \leftarrow (v - c_y)/f_y  \\
-     * (x',y') = undistort(x^{"},y^{"}, \texttt{distCoeffs}) \\
-     * {[X\,Y\,W]} ^T  \leftarrow R*[x' \, y' \, 1]^T  \\
-     * x  \leftarrow X/W  \\
-     * y  \leftarrow Y/W  \\
-     * \text{only performed if P is specified:} \\
-     * u'  \leftarrow x {f'}_x + {c'}_x  \\
-     * v'  \leftarrow y {f'}_y + {c'}_y
-     * \end{array}
-     * \)
-     *
-     * where *undistort* is an approximate iterative algorithm that estimates the normalized original
-     * point coordinates out of the normalized distorted point coordinates ("normalized" means that the
-     * coordinates do not depend on the camera matrix).
-     *
-     * The function can be used for both a stereo camera head or a monocular camera (when R is empty).
-     * @param src Observed point coordinates, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel (CV_32FC2 or CV_64FC2) (or
-     * vector&lt;Point2f&gt; ).
-     * @param dst Output ideal point coordinates (1xN/Nx1 2-channel or vector&lt;Point2f&gt; ) after undistortion and reverse perspective
-     * transformation. If matrix P is identity or omitted, dst will contain normalized point coordinates.
-     * @param cameraMatrix Camera matrix \(\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
-     * @param distCoeffs Input vector of distortion coefficients
-     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
-     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
-     * @param R Rectification transformation in the object space (3x3 matrix). R1 or R2 computed by
-     * #stereoRectify can be passed here. If the matrix is empty, the identity transformation is used.
-     * #stereoRectify can be passed here. If the matrix is empty, the identity new camera matrix is used.
-     */
-    public static void undistortPoints(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs, Mat R) {
-        undistortPoints_1(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj, R.nativeObj);
-    }
-
-    /**
-     * Computes the ideal point coordinates from the observed point coordinates.
-     *
-     * The function is similar to #undistort and #initUndistortRectifyMap but it operates on a
-     * sparse set of points instead of a raster image. Also the function performs a reverse transformation
-     * to projectPoints. In case of a 3D object, it does not reconstruct its 3D coordinates, but for a
-     * planar object, it does, up to a translation vector, if the proper R is specified.
-     *
-     * For each observed point coordinate \((u, v)\) the function computes:
-     * \(
-     * \begin{array}{l}
-     * x^{"}  \leftarrow (u - c_x)/f_x  \\
-     * y^{"}  \leftarrow (v - c_y)/f_y  \\
-     * (x',y') = undistort(x^{"},y^{"}, \texttt{distCoeffs}) \\
-     * {[X\,Y\,W]} ^T  \leftarrow R*[x' \, y' \, 1]^T  \\
-     * x  \leftarrow X/W  \\
-     * y  \leftarrow Y/W  \\
-     * \text{only performed if P is specified:} \\
-     * u'  \leftarrow x {f'}_x + {c'}_x  \\
-     * v'  \leftarrow y {f'}_y + {c'}_y
-     * \end{array}
-     * \)
-     *
-     * where *undistort* is an approximate iterative algorithm that estimates the normalized original
-     * point coordinates out of the normalized distorted point coordinates ("normalized" means that the
-     * coordinates do not depend on the camera matrix).
-     *
-     * The function can be used for both a stereo camera head or a monocular camera (when R is empty).
-     * @param src Observed point coordinates, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel (CV_32FC2 or CV_64FC2) (or
-     * vector&lt;Point2f&gt; ).
-     * @param dst Output ideal point coordinates (1xN/Nx1 2-channel or vector&lt;Point2f&gt; ) after undistortion and reverse perspective
-     * transformation. If matrix P is identity or omitted, dst will contain normalized point coordinates.
-     * @param cameraMatrix Camera matrix \(\vecthreethree{f_x}{0}{c_x}{0}{f_y}{c_y}{0}{0}{1}\) .
-     * @param distCoeffs Input vector of distortion coefficients
-     * \((k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\)
-     * of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
-     * #stereoRectify can be passed here. If the matrix is empty, the identity transformation is used.
-     * #stereoRectify can be passed here. If the matrix is empty, the identity new camera matrix is used.
-     */
-    public static void undistortPoints(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs) {
-        undistortPoints_2(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj);
-    }
-
-
-    //
-    // C++:  void cv::undistortPoints(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, Mat R, Mat P, TermCriteria criteria)
-    //
-
-    /**
-     *
-     *     <b>Note:</b> Default version of #undistortPoints does 5 iterations to compute undistorted points.
-     * @param src automatically generated
-     * @param dst automatically generated
-     * @param cameraMatrix automatically generated
-     * @param distCoeffs automatically generated
-     * @param R automatically generated
-     * @param P automatically generated
-     * @param criteria automatically generated
-     */
-    public static void undistortPointsIter(Mat src, Mat dst, Mat cameraMatrix, Mat distCoeffs, Mat R, Mat P, TermCriteria criteria) {
-        undistortPointsIter_0(src.nativeObj, dst.nativeObj, cameraMatrix.nativeObj, distCoeffs.nativeObj, R.nativeObj, P.nativeObj, criteria.type, criteria.maxCount, criteria.epsilon);
-    }
-
-
-    //
     // C++:  void cv::calcHist(vector_Mat images, vector_int channels, Mat mask, Mat& hist, vector_int histSize, vector_float ranges, bool accumulate = false)
     //
 
+    /**
+     *
+     *
+     * this variant supports only uniform histograms.
+     *
+     * ranges argument is either empty vector or a flattened vector of histSize.size()*2 elements
+     * (histSize.size() element pairs). The first and second elements of each pair specify the lower and
+     * upper boundaries.
+     * @param images automatically generated
+     * @param channels automatically generated
+     * @param mask automatically generated
+     * @param hist automatically generated
+     * @param histSize automatically generated
+     * @param ranges automatically generated
+     * @param accumulate automatically generated
+     */
     public static void calcHist(List<Mat> images, MatOfInt channels, Mat mask, Mat hist, MatOfInt histSize, MatOfFloat ranges, boolean accumulate) {
         Mat images_mat = Converters.vector_Mat_to_Mat(images);
         Mat channels_mat = channels;
@@ -5951,6 +5842,21 @@ public class Imgproc {
         calcHist_0(images_mat.nativeObj, channels_mat.nativeObj, mask.nativeObj, hist.nativeObj, histSize_mat.nativeObj, ranges_mat.nativeObj, accumulate);
     }
 
+    /**
+     *
+     *
+     * this variant supports only uniform histograms.
+     *
+     * ranges argument is either empty vector or a flattened vector of histSize.size()*2 elements
+     * (histSize.size() element pairs). The first and second elements of each pair specify the lower and
+     * upper boundaries.
+     * @param images automatically generated
+     * @param channels automatically generated
+     * @param mask automatically generated
+     * @param hist automatically generated
+     * @param histSize automatically generated
+     * @param ranges automatically generated
+     */
     public static void calcHist(List<Mat> images, MatOfInt channels, Mat mask, Mat hist, MatOfInt histSize, MatOfFloat ranges) {
         Mat images_mat = Converters.vector_Mat_to_Mat(images);
         Mat channels_mat = channels;
@@ -6218,8 +6124,6 @@ public class Imgproc {
      * size as image .
      *
      * SEE: findContours
-     *
-     *  imgproc_misc
      */
     public static void watershed(Mat image, Mat markers) {
         watershed_0(image.nativeObj, markers.nativeObj);
@@ -6652,10 +6556,11 @@ public class Imgproc {
      * function unless the #FLOODFILL_MASK_ONLY flag is set in the second variant of the function. See
      * the details below.
      * @param mask Operation mask that should be a single-channel 8-bit image, 2 pixels wider and 2 pixels
-     * taller than image. Since this is both an input and output parameter, you must take responsibility
-     * of initializing it. Flood-filling cannot go across non-zero pixels in the input mask. For example,
+     * taller than image. If an empty Mat is passed it will be created automatically. Since this is both an
+     * input and output parameter, you must take responsibility of initializing it.
+     * Flood-filling cannot go across non-zero pixels in the input mask. For example,
      * an edge detector output can be used as a mask to stop filling at edges. On output, pixels in the
-     * mask corresponding to filled pixels in the image are set to 1 or to the a value specified in flags
+     * mask corresponding to filled pixels in the image are set to 1 or to the specified value in flags
      * as described below. Additionally, the function fills the border of the mask with ones to simplify
      * internal processing. It is therefore possible to use the same mask in multiple calls to the function
      * to make sure the filled areas do not overlap.
@@ -6754,10 +6659,11 @@ public class Imgproc {
      * function unless the #FLOODFILL_MASK_ONLY flag is set in the second variant of the function. See
      * the details below.
      * @param mask Operation mask that should be a single-channel 8-bit image, 2 pixels wider and 2 pixels
-     * taller than image. Since this is both an input and output parameter, you must take responsibility
-     * of initializing it. Flood-filling cannot go across non-zero pixels in the input mask. For example,
+     * taller than image. If an empty Mat is passed it will be created automatically. Since this is both an
+     * input and output parameter, you must take responsibility of initializing it.
+     * Flood-filling cannot go across non-zero pixels in the input mask. For example,
      * an edge detector output can be used as a mask to stop filling at edges. On output, pixels in the
-     * mask corresponding to filled pixels in the image are set to 1 or to the a value specified in flags
+     * mask corresponding to filled pixels in the image are set to 1 or to the specified value in flags
      * as described below. Additionally, the function fills the border of the mask with ones to simplify
      * internal processing. It is therefore possible to use the same mask in multiple calls to the function
      * to make sure the filled areas do not overlap.
@@ -6855,10 +6761,11 @@ public class Imgproc {
      * function unless the #FLOODFILL_MASK_ONLY flag is set in the second variant of the function. See
      * the details below.
      * @param mask Operation mask that should be a single-channel 8-bit image, 2 pixels wider and 2 pixels
-     * taller than image. Since this is both an input and output parameter, you must take responsibility
-     * of initializing it. Flood-filling cannot go across non-zero pixels in the input mask. For example,
+     * taller than image. If an empty Mat is passed it will be created automatically. Since this is both an
+     * input and output parameter, you must take responsibility of initializing it.
+     * Flood-filling cannot go across non-zero pixels in the input mask. For example,
      * an edge detector output can be used as a mask to stop filling at edges. On output, pixels in the
-     * mask corresponding to filled pixels in the image are set to 1 or to the a value specified in flags
+     * mask corresponding to filled pixels in the image are set to 1 or to the specified value in flags
      * as described below. Additionally, the function fills the border of the mask with ones to simplify
      * internal processing. It is therefore possible to use the same mask in multiple calls to the function
      * to make sure the filled areas do not overlap.
@@ -6955,10 +6862,11 @@ public class Imgproc {
      * function unless the #FLOODFILL_MASK_ONLY flag is set in the second variant of the function. See
      * the details below.
      * @param mask Operation mask that should be a single-channel 8-bit image, 2 pixels wider and 2 pixels
-     * taller than image. Since this is both an input and output parameter, you must take responsibility
-     * of initializing it. Flood-filling cannot go across non-zero pixels in the input mask. For example,
+     * taller than image. If an empty Mat is passed it will be created automatically. Since this is both an
+     * input and output parameter, you must take responsibility of initializing it.
+     * Flood-filling cannot go across non-zero pixels in the input mask. For example,
      * an edge detector output can be used as a mask to stop filling at edges. On output, pixels in the
-     * mask corresponding to filled pixels in the image are set to 1 or to the a value specified in flags
+     * mask corresponding to filled pixels in the image are set to 1 or to the specified value in flags
      * as described below. Additionally, the function fills the border of the mask with ones to simplify
      * internal processing. It is therefore possible to use the same mask in multiple calls to the function
      * to make sure the filled areas do not overlap.
@@ -7054,10 +6962,11 @@ public class Imgproc {
      * function unless the #FLOODFILL_MASK_ONLY flag is set in the second variant of the function. See
      * the details below.
      * @param mask Operation mask that should be a single-channel 8-bit image, 2 pixels wider and 2 pixels
-     * taller than image. Since this is both an input and output parameter, you must take responsibility
-     * of initializing it. Flood-filling cannot go across non-zero pixels in the input mask. For example,
+     * taller than image. If an empty Mat is passed it will be created automatically. Since this is both an
+     * input and output parameter, you must take responsibility of initializing it.
+     * Flood-filling cannot go across non-zero pixels in the input mask. For example,
      * an edge detector output can be used as a mask to stop filling at edges. On output, pixels in the
-     * mask corresponding to filled pixels in the image are set to 1 or to the a value specified in flags
+     * mask corresponding to filled pixels in the image are set to 1 or to the specified value in flags
      * as described below. Additionally, the function fills the border of the mask with ones to simplify
      * internal processing. It is therefore possible to use the same mask in multiple calls to the function
      * to make sure the filled areas do not overlap.
@@ -7089,6 +6998,16 @@ public class Imgproc {
     // C++:  void cv::blendLinear(Mat src1, Mat src2, Mat weights1, Mat weights2, Mat& dst)
     //
 
+    /**
+     *
+     *
+     * variant without {@code mask} parameter
+     * @param src1 automatically generated
+     * @param src2 automatically generated
+     * @param weights1 automatically generated
+     * @param weights2 automatically generated
+     * @param dst automatically generated
+     */
     public static void blendLinear(Mat src1, Mat src2, Mat weights1, Mat weights2, Mat dst) {
         blendLinear_0(src1.nativeObj, src2.nativeObj, weights1.nativeObj, weights2.nativeObj, dst.nativeObj);
     }
@@ -7421,9 +7340,10 @@ public class Imgproc {
      * Compares a template against overlapped image regions.
      *
      * The function slides through image , compares the overlapped patches of size \(w \times h\) against
-     * templ using the specified method and stores the comparison results in result . Here are the formulae
-     * for the available comparison methods ( \(I\) denotes image, \(T\) template, \(R\) result ). The summation
-     * is done over template and/or the image patch: \(x' = 0...w-1, y' = 0...h-1\)
+     * templ using the specified method and stores the comparison results in result . #TemplateMatchModes
+     * describes the formulae for the available comparison methods ( \(I\) denotes image, \(T\)
+     * template, \(R\) result, \(M\) the optional mask ). The summation is done over template and/or
+     * the image patch: \(x' = 0...w-1, y' = 0...h-1\)
      *
      * After the function finishes the comparison, the best matches can be found as global minimums (when
      * #TM_SQDIFF was used) or maximums (when #TM_CCORR or #TM_CCOEFF was used) using the
@@ -7438,8 +7358,12 @@ public class Imgproc {
      * @param result Map of comparison results. It must be single-channel 32-bit floating-point. If image
      * is \(W \times H\) and templ is \(w \times h\) , then result is \((W-w+1) \times (H-h+1)\) .
      * @param method Parameter specifying the comparison method, see #TemplateMatchModes
-     * @param mask Mask of searched template. It must have the same datatype and size with templ. It is
-     * not set by default. Currently, only the #TM_SQDIFF and #TM_CCORR_NORMED methods are supported.
+     * @param mask Optional mask. It must have the same size as templ. It must either have the same number
+     *             of channels as template or only one channel, which is then used for all template and
+     *             image channels. If the data type is #CV_8U, the mask is interpreted as a binary mask,
+     *             meaning only elements where mask is nonzero are used and are kept unchanged independent
+     *             of the actual mask value (weight equals 1). For data tpye #CV_32F, the mask values are
+     *             used as weights. The exact formulas are documented in #TemplateMatchModes.
      */
     public static void matchTemplate(Mat image, Mat templ, Mat result, int method, Mat mask) {
         matchTemplate_0(image.nativeObj, templ.nativeObj, result.nativeObj, method, mask.nativeObj);
@@ -7449,9 +7373,10 @@ public class Imgproc {
      * Compares a template against overlapped image regions.
      *
      * The function slides through image , compares the overlapped patches of size \(w \times h\) against
-     * templ using the specified method and stores the comparison results in result . Here are the formulae
-     * for the available comparison methods ( \(I\) denotes image, \(T\) template, \(R\) result ). The summation
-     * is done over template and/or the image patch: \(x' = 0...w-1, y' = 0...h-1\)
+     * templ using the specified method and stores the comparison results in result . #TemplateMatchModes
+     * describes the formulae for the available comparison methods ( \(I\) denotes image, \(T\)
+     * template, \(R\) result, \(M\) the optional mask ). The summation is done over template and/or
+     * the image patch: \(x' = 0...w-1, y' = 0...h-1\)
      *
      * After the function finishes the comparison, the best matches can be found as global minimums (when
      * #TM_SQDIFF was used) or maximums (when #TM_CCORR or #TM_CCOEFF was used) using the
@@ -7466,7 +7391,11 @@ public class Imgproc {
      * @param result Map of comparison results. It must be single-channel 32-bit floating-point. If image
      * is \(W \times H\) and templ is \(w \times h\) , then result is \((W-w+1) \times (H-h+1)\) .
      * @param method Parameter specifying the comparison method, see #TemplateMatchModes
-     * not set by default. Currently, only the #TM_SQDIFF and #TM_CCORR_NORMED methods are supported.
+     *             of channels as template or only one channel, which is then used for all template and
+     *             image channels. If the data type is #CV_8U, the mask is interpreted as a binary mask,
+     *             meaning only elements where mask is nonzero are used and are kept unchanged independent
+     *             of the actual mask value (weight equals 1). For data tpye #CV_32F, the mask values are
+     *             used as weights. The exact formulas are documented in #TemplateMatchModes.
      */
     public static void matchTemplate(Mat image, Mat templ, Mat result, int method) {
         matchTemplate_1(image.nativeObj, templ.nativeObj, result.nativeObj, method);
@@ -7484,9 +7413,10 @@ public class Imgproc {
      * represents the background label. ltype specifies the output label image type, an important
      * consideration based on the total number of labels or alternatively the total number of pixels in
      * the source image. ccltype specifies the connected components labeling algorithm to use, currently
-     * Grana (BBDT) and Wu's (SAUF) CITE: Wu2009 algorithms are supported, see the #ConnectedComponentsAlgorithmsTypes
-     * for details. Note that SAUF algorithm forces a row major ordering of labels while BBDT does not.
-     * This function uses parallel version of both Grana and Wu's algorithms if at least one allowed
+     * Bolelli (Spaghetti) CITE: Bolelli2019, Grana (BBDT) CITE: Grana2010 and Wu's (SAUF) CITE: Wu2009 algorithms
+     * are supported, see the #ConnectedComponentsAlgorithmsTypes for details. Note that SAUF algorithm forces
+     * a row major ordering of labels while Spaghetti and BBDT do not.
+     * This function uses parallel version of the algorithms if at least one allowed
      * parallel framework is enabled and if the rows of the image are at least twice the number returned by #getNumberOfCPUs.
      *
      * @param image the 8-bit single-channel image to be labeled
@@ -7553,9 +7483,10 @@ public class Imgproc {
      * represents the background label. ltype specifies the output label image type, an important
      * consideration based on the total number of labels or alternatively the total number of pixels in
      * the source image. ccltype specifies the connected components labeling algorithm to use, currently
-     * Grana's (BBDT) and Wu's (SAUF) CITE: Wu2009 algorithms are supported, see the #ConnectedComponentsAlgorithmsTypes
-     * for details. Note that SAUF algorithm forces a row major ordering of labels while BBDT does not.
-     * This function uses parallel version of both Grana and Wu's algorithms (statistics included) if at least one allowed
+     * Bolelli (Spaghetti) CITE: Bolelli2019, Grana (BBDT) CITE: Grana2010 and Wu's (SAUF) CITE: Wu2009 algorithms
+     * are supported, see the #ConnectedComponentsAlgorithmsTypes for details. Note that SAUF algorithm forces
+     * a row major ordering of labels while Spaghetti and BBDT do not.
+     * This function uses parallel version of the algorithms (statistics included) if at least one allowed
      * parallel framework is enabled and if the rows of the image are at least twice the number returned by #getNumberOfCPUs.
      *
      * @param image the 8-bit single-channel image to be labeled
@@ -7629,7 +7560,7 @@ public class Imgproc {
 
 
     //
-    // C++:  void cv::findContours(Mat& image, vector_vector_Point& contours, Mat& hierarchy, int mode, int method, Point offset = Point())
+    // C++:  void cv::findContours(Mat image, vector_vector_Point& contours, Mat& hierarchy, int mode, int method, Point offset = Point())
     //
 
     /**
@@ -7652,6 +7583,7 @@ public class Imgproc {
      * in contours of the next and previous contours at the same hierarchical level, the first child
      * contour and the parent contour, respectively. If for the contour i there are no next, previous,
      * parent, or nested contours, the corresponding elements of hierarchy[i] will be negative.
+     * <b>Note:</b> In Python, hierarchy is nested inside a top level array. Use hierarchy[0][i] to access hierarchical elements of i-th contour.
      * @param mode Contour retrieval mode, see #RetrievalModes
      * @param method Contour approximation method, see #ContourApproximationModes
      * @param offset Optional offset by which every contour point is shifted. This is useful if the
@@ -7685,6 +7617,7 @@ public class Imgproc {
      * in contours of the next and previous contours at the same hierarchical level, the first child
      * contour and the parent contour, respectively. If for the contour i there are no next, previous,
      * parent, or nested contours, the corresponding elements of hierarchy[i] will be negative.
+     * <b>Note:</b> In Python, hierarchy is nested inside a top level array. Use hierarchy[0][i] to access hierarchical elements of i-th contour.
      * @param mode Contour retrieval mode, see #RetrievalModes
      * @param method Contour approximation method, see #ContourApproximationModes
      * contours are extracted from the image ROI and then they should be analyzed in the whole image
@@ -8481,7 +8414,7 @@ public class Imgproc {
     //
 
     /**
-     * Draws a arrow segment pointing from the first point to the second one.
+     * Draws an arrow segment pointing from the first point to the second one.
      *
      * The function cv::arrowedLine draws an arrow between pt1 and pt2 points in the image. See also #line.
      *
@@ -8499,7 +8432,7 @@ public class Imgproc {
     }
 
     /**
-     * Draws a arrow segment pointing from the first point to the second one.
+     * Draws an arrow segment pointing from the first point to the second one.
      *
      * The function cv::arrowedLine draws an arrow between pt1 and pt2 points in the image. See also #line.
      *
@@ -8516,7 +8449,7 @@ public class Imgproc {
     }
 
     /**
-     * Draws a arrow segment pointing from the first point to the second one.
+     * Draws an arrow segment pointing from the first point to the second one.
      *
      * The function cv::arrowedLine draws an arrow between pt1 and pt2 points in the image. See also #line.
      *
@@ -8532,7 +8465,7 @@ public class Imgproc {
     }
 
     /**
-     * Draws a arrow segment pointing from the first point to the second one.
+     * Draws an arrow segment pointing from the first point to the second one.
      *
      * The function cv::arrowedLine draws an arrow between pt1 and pt2 points in the image. See also #line.
      *
@@ -8547,7 +8480,7 @@ public class Imgproc {
     }
 
     /**
-     * Draws a arrow segment pointing from the first point to the second one.
+     * Draws an arrow segment pointing from the first point to the second one.
      *
      * The function cv::arrowedLine draws an arrow between pt1 and pt2 points in the image. See also #line.
      *
@@ -8633,6 +8566,69 @@ public class Imgproc {
      */
     public static void rectangle(Mat img, Point pt1, Point pt2, Scalar color) {
         rectangle_3(img.nativeObj, pt1.x, pt1.y, pt2.x, pt2.y, color.val[0], color.val[1], color.val[2], color.val[3]);
+    }
+
+
+    //
+    // C++:  void cv::rectangle(Mat& img, Rect rec, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0)
+    //
+
+    /**
+     *
+     *
+     * use {@code rec} parameter as alternative specification of the drawn rectangle: `r.tl() and
+     * r.br()-Point(1,1)` are opposite corners
+     * @param img automatically generated
+     * @param rec automatically generated
+     * @param color automatically generated
+     * @param thickness automatically generated
+     * @param lineType automatically generated
+     * @param shift automatically generated
+     */
+    public static void rectangle(Mat img, Rect rec, Scalar color, int thickness, int lineType, int shift) {
+        rectangle_4(img.nativeObj, rec.x, rec.y, rec.width, rec.height, color.val[0], color.val[1], color.val[2], color.val[3], thickness, lineType, shift);
+    }
+
+    /**
+     *
+     *
+     * use {@code rec} parameter as alternative specification of the drawn rectangle: `r.tl() and
+     * r.br()-Point(1,1)` are opposite corners
+     * @param img automatically generated
+     * @param rec automatically generated
+     * @param color automatically generated
+     * @param thickness automatically generated
+     * @param lineType automatically generated
+     */
+    public static void rectangle(Mat img, Rect rec, Scalar color, int thickness, int lineType) {
+        rectangle_5(img.nativeObj, rec.x, rec.y, rec.width, rec.height, color.val[0], color.val[1], color.val[2], color.val[3], thickness, lineType);
+    }
+
+    /**
+     *
+     *
+     * use {@code rec} parameter as alternative specification of the drawn rectangle: `r.tl() and
+     * r.br()-Point(1,1)` are opposite corners
+     * @param img automatically generated
+     * @param rec automatically generated
+     * @param color automatically generated
+     * @param thickness automatically generated
+     */
+    public static void rectangle(Mat img, Rect rec, Scalar color, int thickness) {
+        rectangle_6(img.nativeObj, rec.x, rec.y, rec.width, rec.height, color.val[0], color.val[1], color.val[2], color.val[3], thickness);
+    }
+
+    /**
+     *
+     *
+     * use {@code rec} parameter as alternative specification of the drawn rectangle: `r.tl() and
+     * r.br()-Point(1,1)` are opposite corners
+     * @param img automatically generated
+     * @param rec automatically generated
+     * @param color automatically generated
+     */
+    public static void rectangle(Mat img, Rect rec, Scalar color) {
+        rectangle_7(img.nativeObj, rec.x, rec.y, rec.width, rec.height, color.val[0], color.val[1], color.val[2], color.val[3]);
     }
 
 
@@ -9196,7 +9192,7 @@ public class Imgproc {
      * @param offset Optional contour shift parameter. Shift all the drawn contours by the specified
      * \(\texttt{offset}=(dx,dy)\) .
      * <b>Note:</b> When thickness=#FILLED, the function is designed to handle connected components with holes correctly
-     * even when no hierarchy date is provided. This is done by analyzing all the outlines together
+     * even when no hierarchy data is provided. This is done by analyzing all the outlines together
      * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
      * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
      * of contours, or iterate over the collection using contourIdx parameter.
@@ -9230,7 +9226,7 @@ public class Imgproc {
      * parameter is only taken into account when there is hierarchy available.
      * \(\texttt{offset}=(dx,dy)\) .
      * <b>Note:</b> When thickness=#FILLED, the function is designed to handle connected components with holes correctly
-     * even when no hierarchy date is provided. This is done by analyzing all the outlines together
+     * even when no hierarchy data is provided. This is done by analyzing all the outlines together
      * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
      * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
      * of contours, or iterate over the collection using contourIdx parameter.
@@ -9263,7 +9259,7 @@ public class Imgproc {
      * parameter is only taken into account when there is hierarchy available.
      * \(\texttt{offset}=(dx,dy)\) .
      * <b>Note:</b> When thickness=#FILLED, the function is designed to handle connected components with holes correctly
-     * even when no hierarchy date is provided. This is done by analyzing all the outlines together
+     * even when no hierarchy data is provided. This is done by analyzing all the outlines together
      * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
      * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
      * of contours, or iterate over the collection using contourIdx parameter.
@@ -9295,7 +9291,7 @@ public class Imgproc {
      * parameter is only taken into account when there is hierarchy available.
      * \(\texttt{offset}=(dx,dy)\) .
      * <b>Note:</b> When thickness=#FILLED, the function is designed to handle connected components with holes correctly
-     * even when no hierarchy date is provided. This is done by analyzing all the outlines together
+     * even when no hierarchy data is provided. This is done by analyzing all the outlines together
      * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
      * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
      * of contours, or iterate over the collection using contourIdx parameter.
@@ -9326,7 +9322,7 @@ public class Imgproc {
      * parameter is only taken into account when there is hierarchy available.
      * \(\texttt{offset}=(dx,dy)\) .
      * <b>Note:</b> When thickness=#FILLED, the function is designed to handle connected components with holes correctly
-     * even when no hierarchy date is provided. This is done by analyzing all the outlines together
+     * even when no hierarchy data is provided. This is done by analyzing all the outlines together
      * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
      * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
      * of contours, or iterate over the collection using contourIdx parameter.
@@ -9356,7 +9352,7 @@ public class Imgproc {
      * parameter is only taken into account when there is hierarchy available.
      * \(\texttt{offset}=(dx,dy)\) .
      * <b>Note:</b> When thickness=#FILLED, the function is designed to handle connected components with holes correctly
-     * even when no hierarchy date is provided. This is done by analyzing all the outlines together
+     * even when no hierarchy data is provided. This is done by analyzing all the outlines together
      * using even-odd rule. This may give incorrect results if you have a joint collection of separately retrieved
      * contours. In order to solve this problem, you need to call #drawContours separately for each sub-group
      * of contours, or iterate over the collection using contourIdx parameter.
@@ -9533,12 +9529,107 @@ public class Imgproc {
     }
 
 
+    //
+    // C++:  void cv::HoughLinesWithAccumulator(Mat image, Mat& lines, double rho, double theta, int threshold, double srn = 0, double stn = 0, double min_theta = 0, double max_theta = CV_PI)
+    //
+
+    /**
+     * Finds lines in a binary image using the standard Hough transform and get accumulator.
+     *
+     * <b>Note:</b> This function is for bindings use only. Use original function in C++ code
+     *
+     * SEE: HoughLines
+     * @param image automatically generated
+     * @param lines automatically generated
+     * @param rho automatically generated
+     * @param theta automatically generated
+     * @param threshold automatically generated
+     * @param srn automatically generated
+     * @param stn automatically generated
+     * @param min_theta automatically generated
+     * @param max_theta automatically generated
+     */
+    public static void HoughLinesWithAccumulator(Mat image, Mat lines, double rho, double theta, int threshold, double srn, double stn, double min_theta, double max_theta) {
+        HoughLinesWithAccumulator_0(image.nativeObj, lines.nativeObj, rho, theta, threshold, srn, stn, min_theta, max_theta);
+    }
+
+    /**
+     * Finds lines in a binary image using the standard Hough transform and get accumulator.
+     *
+     * <b>Note:</b> This function is for bindings use only. Use original function in C++ code
+     *
+     * SEE: HoughLines
+     * @param image automatically generated
+     * @param lines automatically generated
+     * @param rho automatically generated
+     * @param theta automatically generated
+     * @param threshold automatically generated
+     * @param srn automatically generated
+     * @param stn automatically generated
+     * @param min_theta automatically generated
+     */
+    public static void HoughLinesWithAccumulator(Mat image, Mat lines, double rho, double theta, int threshold, double srn, double stn, double min_theta) {
+        HoughLinesWithAccumulator_1(image.nativeObj, lines.nativeObj, rho, theta, threshold, srn, stn, min_theta);
+    }
+
+    /**
+     * Finds lines in a binary image using the standard Hough transform and get accumulator.
+     *
+     * <b>Note:</b> This function is for bindings use only. Use original function in C++ code
+     *
+     * SEE: HoughLines
+     * @param image automatically generated
+     * @param lines automatically generated
+     * @param rho automatically generated
+     * @param theta automatically generated
+     * @param threshold automatically generated
+     * @param srn automatically generated
+     * @param stn automatically generated
+     */
+    public static void HoughLinesWithAccumulator(Mat image, Mat lines, double rho, double theta, int threshold, double srn, double stn) {
+        HoughLinesWithAccumulator_2(image.nativeObj, lines.nativeObj, rho, theta, threshold, srn, stn);
+    }
+
+    /**
+     * Finds lines in a binary image using the standard Hough transform and get accumulator.
+     *
+     * <b>Note:</b> This function is for bindings use only. Use original function in C++ code
+     *
+     * SEE: HoughLines
+     * @param image automatically generated
+     * @param lines automatically generated
+     * @param rho automatically generated
+     * @param theta automatically generated
+     * @param threshold automatically generated
+     * @param srn automatically generated
+     */
+    public static void HoughLinesWithAccumulator(Mat image, Mat lines, double rho, double theta, int threshold, double srn) {
+        HoughLinesWithAccumulator_3(image.nativeObj, lines.nativeObj, rho, theta, threshold, srn);
+    }
+
+    /**
+     * Finds lines in a binary image using the standard Hough transform and get accumulator.
+     *
+     * <b>Note:</b> This function is for bindings use only. Use original function in C++ code
+     *
+     * SEE: HoughLines
+     * @param image automatically generated
+     * @param lines automatically generated
+     * @param rho automatically generated
+     * @param theta automatically generated
+     * @param threshold automatically generated
+     */
+    public static void HoughLinesWithAccumulator(Mat image, Mat lines, double rho, double theta, int threshold) {
+        HoughLinesWithAccumulator_4(image.nativeObj, lines.nativeObj, rho, theta, threshold);
+    }
+
+
 
 // C++: Size getTextSize(const String& text, int fontFace, double fontScale, int thickness, int* baseLine);
 //javadoc:getTextSize(text, fontFace, fontScale, thickness, baseLine)
 public static Size getTextSize(String text, int fontFace, double fontScale, int thickness, int[] baseLine) {
     if(baseLine != null && baseLine.length != 1)
-        throw new java.lang.IllegalArgumentException("'baseLine' must be 'int[1]' or 'null'.");
+        throw new IllegalArgumentException("'baseLine' must be 'int[1]' or 'null'.");
     Size retVal = new Size(n_getTextSize(text, fontFace, fontScale, thickness, baseLine));
     return retVal;
 }
@@ -9603,6 +9694,9 @@ public static Size getTextSize(String text, int fontFace, double fontScale, int 
     private static native void blur_0(long src_nativeObj, long dst_nativeObj, double ksize_width, double ksize_height, double anchor_x, double anchor_y, int borderType);
     private static native void blur_1(long src_nativeObj, long dst_nativeObj, double ksize_width, double ksize_height, double anchor_x, double anchor_y);
     private static native void blur_2(long src_nativeObj, long dst_nativeObj, double ksize_width, double ksize_height);
+
+    // C++:  void cv::stackBlur(Mat src, Mat& dst, Size ksize)
+    private static native void stackBlur_0(long src_nativeObj, long dst_nativeObj, double ksize_width, double ksize_height);
 
     // C++:  void cv::filter2D(Mat src, Mat& dst, int ddepth, Mat kernel, Point anchor = Point(-1,-1), double delta = 0, int borderType = BORDER_DEFAULT)
     private static native void filter2D_0(long src_nativeObj, long dst_nativeObj, int ddepth, long kernel_nativeObj, double anchor_x, double anchor_y, double delta, int borderType);
@@ -9682,6 +9776,13 @@ public static Size getTextSize(String text, int fontFace, double fontScale, int 
     private static native void goodFeaturesToTrack_6(long image_nativeObj, long corners_mat_nativeObj, int maxCorners, double qualityLevel, double minDistance, long mask_nativeObj, int blockSize, int gradientSize, boolean useHarrisDetector);
     private static native void goodFeaturesToTrack_7(long image_nativeObj, long corners_mat_nativeObj, int maxCorners, double qualityLevel, double minDistance, long mask_nativeObj, int blockSize, int gradientSize);
 
+    // C++:  void cv::goodFeaturesToTrack(Mat image, Mat& corners, int maxCorners, double qualityLevel, double minDistance, Mat mask, Mat& cornersQuality, int blockSize = 3, int gradientSize = 3, bool useHarrisDetector = false, double k = 0.04)
+    private static native void goodFeaturesToTrackWithQuality_0(long image_nativeObj, long corners_nativeObj, int maxCorners, double qualityLevel, double minDistance, long mask_nativeObj, long cornersQuality_nativeObj, int blockSize, int gradientSize, boolean useHarrisDetector, double k);
+    private static native void goodFeaturesToTrackWithQuality_1(long image_nativeObj, long corners_nativeObj, int maxCorners, double qualityLevel, double minDistance, long mask_nativeObj, long cornersQuality_nativeObj, int blockSize, int gradientSize, boolean useHarrisDetector);
+    private static native void goodFeaturesToTrackWithQuality_2(long image_nativeObj, long corners_nativeObj, int maxCorners, double qualityLevel, double minDistance, long mask_nativeObj, long cornersQuality_nativeObj, int blockSize, int gradientSize);
+    private static native void goodFeaturesToTrackWithQuality_3(long image_nativeObj, long corners_nativeObj, int maxCorners, double qualityLevel, double minDistance, long mask_nativeObj, long cornersQuality_nativeObj, int blockSize);
+    private static native void goodFeaturesToTrackWithQuality_4(long image_nativeObj, long corners_nativeObj, int maxCorners, double qualityLevel, double minDistance, long mask_nativeObj, long cornersQuality_nativeObj);
+
     // C++:  void cv::HoughLines(Mat image, Mat& lines, double rho, double theta, int threshold, double srn = 0, double stn = 0, double min_theta = 0, double max_theta = CV_PI)
     private static native void HoughLines_0(long image_nativeObj, long lines_nativeObj, double rho, double theta, int threshold, double srn, double stn, double min_theta, double max_theta);
     private static native void HoughLines_1(long image_nativeObj, long lines_nativeObj, double rho, double theta, int threshold, double srn, double stn, double min_theta);
@@ -9758,8 +9859,9 @@ public static Size getTextSize(String text, int fontFace, double fontScale, int 
     // C++:  void cv::invertAffineTransform(Mat M, Mat& iM)
     private static native void invertAffineTransform_0(long M_nativeObj, long iM_nativeObj);
 
-    // C++:  Mat cv::getPerspectiveTransform(Mat src, Mat dst)
-    private static native long getPerspectiveTransform_0(long src_nativeObj, long dst_nativeObj);
+    // C++:  Mat cv::getPerspectiveTransform(Mat src, Mat dst, int solveMethod = DECOMP_LU)
+    private static native long getPerspectiveTransform_0(long src_nativeObj, long dst_nativeObj, int solveMethod);
+    private static native long getPerspectiveTransform_1(long src_nativeObj, long dst_nativeObj);
 
     // C++:  Mat cv::getAffineTransform(vector_Point2f src, vector_Point2f dst)
     private static native long getAffineTransform_0(long src_mat_nativeObj, long dst_mat_nativeObj);
@@ -9777,6 +9879,11 @@ public static Size getTextSize(String text, int fontFace, double fontScale, int 
     // C++:  void cv::warpPolar(Mat src, Mat& dst, Size dsize, Point2f center, double maxRadius, int flags)
     private static native void warpPolar_0(long src_nativeObj, long dst_nativeObj, double dsize_width, double dsize_height, double center_x, double center_y, double maxRadius, int flags);
 
+    // C++:  void cv::integral(Mat src, Mat& sum, Mat& sqsum, Mat& tilted, int sdepth = -1, int sqdepth = -1)
+    private static native void integral3_0(long src_nativeObj, long sum_nativeObj, long sqsum_nativeObj, long tilted_nativeObj, int sdepth, int sqdepth);
+    private static native void integral3_1(long src_nativeObj, long sum_nativeObj, long sqsum_nativeObj, long tilted_nativeObj, int sdepth);
+    private static native void integral3_2(long src_nativeObj, long sum_nativeObj, long sqsum_nativeObj, long tilted_nativeObj);
+
     // C++:  void cv::integral(Mat src, Mat& sum, int sdepth = -1)
     private static native void integral_0(long src_nativeObj, long sum_nativeObj, int sdepth);
     private static native void integral_1(long src_nativeObj, long sum_nativeObj);
@@ -9785,11 +9892,6 @@ public static Size getTextSize(String text, int fontFace, double fontScale, int 
     private static native void integral2_0(long src_nativeObj, long sum_nativeObj, long sqsum_nativeObj, int sdepth, int sqdepth);
     private static native void integral2_1(long src_nativeObj, long sum_nativeObj, long sqsum_nativeObj, int sdepth);
     private static native void integral2_2(long src_nativeObj, long sum_nativeObj, long sqsum_nativeObj);
-
-    // C++:  void cv::integral(Mat src, Mat& sum, Mat& sqsum, Mat& tilted, int sdepth = -1, int sqdepth = -1)
-    private static native void integral3_0(long src_nativeObj, long sum_nativeObj, long sqsum_nativeObj, long tilted_nativeObj, int sdepth, int sqdepth);
-    private static native void integral3_1(long src_nativeObj, long sum_nativeObj, long sqsum_nativeObj, long tilted_nativeObj, int sdepth);
-    private static native void integral3_2(long src_nativeObj, long sum_nativeObj, long sqsum_nativeObj, long tilted_nativeObj);
 
     // C++:  void cv::accumulate(Mat src, Mat& dst, Mat mask = Mat())
     private static native void accumulate_0(long src_nativeObj, long dst_nativeObj, long mask_nativeObj);
@@ -9834,31 +9936,6 @@ public static Size getTextSize(String text, int fontFace, double fontScale, int 
     private static native void pyrUp_0(long src_nativeObj, long dst_nativeObj, double dstsize_width, double dstsize_height, int borderType);
     private static native void pyrUp_1(long src_nativeObj, long dst_nativeObj, double dstsize_width, double dstsize_height);
     private static native void pyrUp_2(long src_nativeObj, long dst_nativeObj);
-
-    // C++:  void cv::undistort(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, Mat newCameraMatrix = Mat())
-    private static native void undistort_0(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long newCameraMatrix_nativeObj);
-    private static native void undistort_1(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj);
-
-    // C++:  void cv::initUndistortRectifyMap(Mat cameraMatrix, Mat distCoeffs, Mat R, Mat newCameraMatrix, Size size, int m1type, Mat& map1, Mat& map2)
-    private static native void initUndistortRectifyMap_0(long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long R_nativeObj, long newCameraMatrix_nativeObj, double size_width, double size_height, int m1type, long map1_nativeObj, long map2_nativeObj);
-
-    // C++:  float cv::initWideAngleProjMap(Mat cameraMatrix, Mat distCoeffs, Size imageSize, int destImageWidth, int m1type, Mat& map1, Mat& map2, int projType = PROJ_SPHERICAL_EQRECT, double alpha = 0)
-    private static native float initWideAngleProjMap_0(long cameraMatrix_nativeObj, long distCoeffs_nativeObj, double imageSize_width, double imageSize_height, int destImageWidth, int m1type, long map1_nativeObj, long map2_nativeObj, int projType, double alpha);
-    private static native float initWideAngleProjMap_1(long cameraMatrix_nativeObj, long distCoeffs_nativeObj, double imageSize_width, double imageSize_height, int destImageWidth, int m1type, long map1_nativeObj, long map2_nativeObj, int projType);
-    private static native float initWideAngleProjMap_2(long cameraMatrix_nativeObj, long distCoeffs_nativeObj, double imageSize_width, double imageSize_height, int destImageWidth, int m1type, long map1_nativeObj, long map2_nativeObj);
-
-    // C++:  Mat cv::getDefaultNewCameraMatrix(Mat cameraMatrix, Size imgsize = Size(), bool centerPrincipalPoint = false)
-    private static native long getDefaultNewCameraMatrix_0(long cameraMatrix_nativeObj, double imgsize_width, double imgsize_height, boolean centerPrincipalPoint);
-    private static native long getDefaultNewCameraMatrix_1(long cameraMatrix_nativeObj, double imgsize_width, double imgsize_height);
-    private static native long getDefaultNewCameraMatrix_2(long cameraMatrix_nativeObj);
-
-    // C++:  void cv::undistortPoints(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, Mat R = Mat(), Mat P = Mat())
-    private static native void undistortPoints_0(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long R_nativeObj, long P_nativeObj);
-    private static native void undistortPoints_1(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long R_nativeObj);
-    private static native void undistortPoints_2(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj);
-
-    // C++:  void cv::undistortPoints(Mat src, Mat& dst, Mat cameraMatrix, Mat distCoeffs, Mat R, Mat P, TermCriteria criteria)
-    private static native void undistortPointsIter_0(long src_nativeObj, long dst_nativeObj, long cameraMatrix_nativeObj, long distCoeffs_nativeObj, long R_nativeObj, long P_nativeObj, int criteria_type, int criteria_maxCount, double criteria_epsilon);
 
     // C++:  void cv::calcHist(vector_Mat images, vector_int channels, Mat mask, Mat& hist, vector_int histSize, vector_float ranges, bool accumulate = false)
     private static native void calcHist_0(long images_mat_nativeObj, long channels_mat_nativeObj, long mask_nativeObj, long hist_nativeObj, long histSize_mat_nativeObj, long ranges_mat_nativeObj, boolean accumulate);
@@ -9951,7 +10028,7 @@ public static Size getTextSize(String text, int fontFace, double fontScale, int 
     private static native int connectedComponentsWithStats_1(long image_nativeObj, long labels_nativeObj, long stats_nativeObj, long centroids_nativeObj, int connectivity);
     private static native int connectedComponentsWithStats_2(long image_nativeObj, long labels_nativeObj, long stats_nativeObj, long centroids_nativeObj);
 
-    // C++:  void cv::findContours(Mat& image, vector_vector_Point& contours, Mat& hierarchy, int mode, int method, Point offset = Point())
+    // C++:  void cv::findContours(Mat image, vector_vector_Point& contours, Mat& hierarchy, int mode, int method, Point offset = Point())
     private static native void findContours_0(long image_nativeObj, long contours_mat_nativeObj, long hierarchy_nativeObj, int mode, int method, double offset_x, double offset_y);
     private static native void findContours_1(long image_nativeObj, long contours_mat_nativeObj, long hierarchy_nativeObj, int mode, int method);
 
@@ -10046,6 +10123,12 @@ public static Size getTextSize(String text, int fontFace, double fontScale, int 
     private static native void rectangle_2(long img_nativeObj, double pt1_x, double pt1_y, double pt2_x, double pt2_y, double color_val0, double color_val1, double color_val2, double color_val3, int thickness);
     private static native void rectangle_3(long img_nativeObj, double pt1_x, double pt1_y, double pt2_x, double pt2_y, double color_val0, double color_val1, double color_val2, double color_val3);
 
+    // C++:  void cv::rectangle(Mat& img, Rect rec, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0)
+    private static native void rectangle_4(long img_nativeObj, int rec_x, int rec_y, int rec_width, int rec_height, double color_val0, double color_val1, double color_val2, double color_val3, int thickness, int lineType, int shift);
+    private static native void rectangle_5(long img_nativeObj, int rec_x, int rec_y, int rec_width, int rec_height, double color_val0, double color_val1, double color_val2, double color_val3, int thickness, int lineType);
+    private static native void rectangle_6(long img_nativeObj, int rec_x, int rec_y, int rec_width, int rec_height, double color_val0, double color_val1, double color_val2, double color_val3, int thickness);
+    private static native void rectangle_7(long img_nativeObj, int rec_x, int rec_y, int rec_width, int rec_height, double color_val0, double color_val1, double color_val2, double color_val3);
+
     // C++:  void cv::circle(Mat& img, Point center, int radius, Scalar color, int thickness = 1, int lineType = LINE_8, int shift = 0)
     private static native void circle_0(long img_nativeObj, double center_x, double center_y, int radius, double color_val0, double color_val1, double color_val2, double color_val3, int thickness, int lineType, int shift);
     private static native void circle_1(long img_nativeObj, double center_x, double center_y, int radius, double color_val0, double color_val1, double color_val2, double color_val3, int thickness, int lineType);
@@ -10110,6 +10193,13 @@ public static Size getTextSize(String text, int fontFace, double fontScale, int 
     // C++:  double cv::getFontScaleFromHeight(int fontFace, int pixelHeight, int thickness = 1)
     private static native double getFontScaleFromHeight_0(int fontFace, int pixelHeight, int thickness);
     private static native double getFontScaleFromHeight_1(int fontFace, int pixelHeight);
+
+    // C++:  void cv::HoughLinesWithAccumulator(Mat image, Mat& lines, double rho, double theta, int threshold, double srn = 0, double stn = 0, double min_theta = 0, double max_theta = CV_PI)
+    private static native void HoughLinesWithAccumulator_0(long image_nativeObj, long lines_nativeObj, double rho, double theta, int threshold, double srn, double stn, double min_theta, double max_theta);
+    private static native void HoughLinesWithAccumulator_1(long image_nativeObj, long lines_nativeObj, double rho, double theta, int threshold, double srn, double stn, double min_theta);
+    private static native void HoughLinesWithAccumulator_2(long image_nativeObj, long lines_nativeObj, double rho, double theta, int threshold, double srn, double stn);
+    private static native void HoughLinesWithAccumulator_3(long image_nativeObj, long lines_nativeObj, double rho, double theta, int threshold, double srn);
+    private static native void HoughLinesWithAccumulator_4(long image_nativeObj, long lines_nativeObj, double rho, double theta, int threshold);
 private static native double[] n_getTextSize(String text, int fontFace, double fontScale, int thickness, int[] baseLine);
 
 }

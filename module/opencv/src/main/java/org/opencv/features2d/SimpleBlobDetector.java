@@ -3,8 +3,14 @@
 //
 package org.opencv.features2d;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.features2d.Feature2D;
 import org.opencv.features2d.SimpleBlobDetector;
+import org.opencv.features2d.SimpleBlobDetector_Params;
+import org.opencv.utils.Converters;
 
 // C++: class SimpleBlobDetector
 /**
@@ -62,8 +68,30 @@ public class SimpleBlobDetector extends Feature2D {
     // C++: static Ptr_SimpleBlobDetector cv::SimpleBlobDetector::create(SimpleBlobDetector_Params parameters = SimpleBlobDetector::Params())
     //
 
+    public static SimpleBlobDetector create(SimpleBlobDetector_Params parameters) {
+        return SimpleBlobDetector.__fromPtr__(create_0(parameters.nativeObj));
+    }
+
     public static SimpleBlobDetector create() {
-        return SimpleBlobDetector.__fromPtr__(create_0());
+        return SimpleBlobDetector.__fromPtr__(create_1());
+    }
+
+
+    //
+    // C++:  void cv::SimpleBlobDetector::setParams(SimpleBlobDetector_Params params)
+    //
+
+    public void setParams(SimpleBlobDetector_Params params) {
+        setParams_0(nativeObj, params.nativeObj);
+    }
+
+
+    //
+    // C++:  SimpleBlobDetector_Params cv::SimpleBlobDetector::getParams()
+    //
+
+    public SimpleBlobDetector_Params getParams() {
+        return new SimpleBlobDetector_Params(getParams_0(nativeObj));
     }
 
 
@@ -76,6 +104,18 @@ public class SimpleBlobDetector extends Feature2D {
     }
 
 
+    //
+    // C++:  vector_vector_Point cv::SimpleBlobDetector::getBlobContours()
+    //
+
+    public List<MatOfPoint> getBlobContours() {
+        List<MatOfPoint> retVal = new ArrayList<MatOfPoint>();
+        Mat retValMat = new Mat(getBlobContours_0(nativeObj));
+        Converters.Mat_to_vector_vector_Point(retValMat, retVal);
+        return retVal;
+    }
+
+
     @Override
     protected void finalize() throws Throwable {
         delete(nativeObj);
@@ -84,10 +124,20 @@ public class SimpleBlobDetector extends Feature2D {
 
 
     // C++: static Ptr_SimpleBlobDetector cv::SimpleBlobDetector::create(SimpleBlobDetector_Params parameters = SimpleBlobDetector::Params())
-    private static native long create_0();
+    private static native long create_0(long parameters_nativeObj);
+    private static native long create_1();
+
+    // C++:  void cv::SimpleBlobDetector::setParams(SimpleBlobDetector_Params params)
+    private static native void setParams_0(long nativeObj, long params_nativeObj);
+
+    // C++:  SimpleBlobDetector_Params cv::SimpleBlobDetector::getParams()
+    private static native long getParams_0(long nativeObj);
 
     // C++:  String cv::SimpleBlobDetector::getDefaultName()
     private static native String getDefaultName_0(long nativeObj);
+
+    // C++:  vector_vector_Point cv::SimpleBlobDetector::getBlobContours()
+    private static native long getBlobContours_0(long nativeObj);
 
     // native support for java finalize()
     private static native void delete(long nativeObj);

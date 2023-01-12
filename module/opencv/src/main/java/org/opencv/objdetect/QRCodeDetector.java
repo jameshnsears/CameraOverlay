@@ -9,13 +9,7 @@ import org.opencv.core.Mat;
 import org.opencv.utils.Converters;
 
 // C++: class QRCodeDetector
-/**
- * Groups the object candidate rectangles.
- *     rectList  Input/output vector of rectangles. Output vector includes retained and grouped rectangles. (The Python list is not modified in place.)
- *     weights Input/output vector of weights of rectangles. Output vector includes weights of retained and grouped rectangles. (The Python list is not modified in place.)
- *     groupThreshold Minimum possible number of rectangles minus 1. The threshold is used in a group of rectangles to retain it.
- *     eps Relative difference between sides of the rectangles to merge them into a group.
- */
+
 public class QRCodeDetector {
 
     protected final long nativeObj;
@@ -64,6 +58,21 @@ public class QRCodeDetector {
 
 
     //
+    // C++:  void cv::QRCodeDetector::setUseAlignmentMarkers(bool useAlignmentMarkers)
+    //
+
+    /**
+     * use markers to improve the position of the corners of the QR code
+     *
+     * alignmentMarkers using by default
+     * @param useAlignmentMarkers automatically generated
+     */
+    public void setUseAlignmentMarkers(boolean useAlignmentMarkers) {
+        setUseAlignmentMarkers_0(nativeObj, useAlignmentMarkers);
+    }
+
+
+    //
     // C++:  bool cv::QRCodeDetector::detect(Mat img, Mat& points)
     //
 
@@ -79,7 +88,7 @@ public class QRCodeDetector {
 
 
     //
-    // C++:  String cv::QRCodeDetector::decode(Mat img, Mat points, Mat& straight_qrcode = Mat())
+    // C++:  string cv::QRCodeDetector::decode(Mat img, Mat points, Mat& straight_qrcode = Mat())
     //
 
     /**
@@ -139,7 +148,7 @@ public class QRCodeDetector {
 
 
     //
-    // C++:  String cv::QRCodeDetector::detectAndDecode(Mat img, Mat& points = Mat(), Mat& straight_qrcode = Mat())
+    // C++:  string cv::QRCodeDetector::detectAndDecode(Mat img, Mat& points = Mat(), Mat& straight_qrcode = Mat())
     //
 
     /**
@@ -177,7 +186,7 @@ public class QRCodeDetector {
 
 
     //
-    // C++:  String cv::QRCodeDetector::detectAndDecodeCurved(Mat img, Mat& points = Mat(), Mat& straight_qrcode = Mat())
+    // C++:  string cv::QRCodeDetector::detectAndDecodeCurved(Mat img, Mat& points = Mat(), Mat& straight_qrcode = Mat())
     //
 
     /**
@@ -230,7 +239,7 @@ public class QRCodeDetector {
 
 
     //
-    // C++:  bool cv::QRCodeDetector::decodeMulti(Mat img, Mat points, vector_String& decoded_info, vector_Mat& straight_qrcode = vector_Mat())
+    // C++:  bool cv::QRCodeDetector::decodeMulti(Mat img, Mat points, vector_string& decoded_info, vector_Mat& straight_qrcode = vector_Mat())
     //
 
     /**
@@ -262,7 +271,7 @@ public class QRCodeDetector {
 
 
     //
-    // C++:  bool cv::QRCodeDetector::detectAndDecodeMulti(Mat img, vector_String& decoded_info, Mat& points = Mat(), vector_Mat& straight_qrcode = vector_Mat())
+    // C++:  bool cv::QRCodeDetector::detectAndDecodeMulti(Mat img, vector_string& decoded_info, Mat& points = Mat(), vector_Mat& straight_qrcode = vector_Mat())
     //
 
     /**
@@ -319,10 +328,13 @@ public class QRCodeDetector {
     // C++:  void cv::QRCodeDetector::setEpsY(double epsY)
     private static native void setEpsY_0(long nativeObj, double epsY);
 
+    // C++:  void cv::QRCodeDetector::setUseAlignmentMarkers(bool useAlignmentMarkers)
+    private static native void setUseAlignmentMarkers_0(long nativeObj, boolean useAlignmentMarkers);
+
     // C++:  bool cv::QRCodeDetector::detect(Mat img, Mat& points)
     private static native boolean detect_0(long nativeObj, long img_nativeObj, long points_nativeObj);
 
-    // C++:  String cv::QRCodeDetector::decode(Mat img, Mat points, Mat& straight_qrcode = Mat())
+    // C++:  string cv::QRCodeDetector::decode(Mat img, Mat points, Mat& straight_qrcode = Mat())
     private static native String decode_0(long nativeObj, long img_nativeObj, long points_nativeObj, long straight_qrcode_nativeObj);
     private static native String decode_1(long nativeObj, long img_nativeObj, long points_nativeObj);
 
@@ -330,12 +342,12 @@ public class QRCodeDetector {
     private static native String decodeCurved_0(long nativeObj, long img_nativeObj, long points_nativeObj, long straight_qrcode_nativeObj);
     private static native String decodeCurved_1(long nativeObj, long img_nativeObj, long points_nativeObj);
 
-    // C++:  String cv::QRCodeDetector::detectAndDecode(Mat img, Mat& points = Mat(), Mat& straight_qrcode = Mat())
+    // C++:  string cv::QRCodeDetector::detectAndDecode(Mat img, Mat& points = Mat(), Mat& straight_qrcode = Mat())
     private static native String detectAndDecode_0(long nativeObj, long img_nativeObj, long points_nativeObj, long straight_qrcode_nativeObj);
     private static native String detectAndDecode_1(long nativeObj, long img_nativeObj, long points_nativeObj);
     private static native String detectAndDecode_2(long nativeObj, long img_nativeObj);
 
-    // C++:  String cv::QRCodeDetector::detectAndDecodeCurved(Mat img, Mat& points = Mat(), Mat& straight_qrcode = Mat())
+    // C++:  string cv::QRCodeDetector::detectAndDecodeCurved(Mat img, Mat& points = Mat(), Mat& straight_qrcode = Mat())
     private static native String detectAndDecodeCurved_0(long nativeObj, long img_nativeObj, long points_nativeObj, long straight_qrcode_nativeObj);
     private static native String detectAndDecodeCurved_1(long nativeObj, long img_nativeObj, long points_nativeObj);
     private static native String detectAndDecodeCurved_2(long nativeObj, long img_nativeObj);
@@ -343,11 +355,11 @@ public class QRCodeDetector {
     // C++:  bool cv::QRCodeDetector::detectMulti(Mat img, Mat& points)
     private static native boolean detectMulti_0(long nativeObj, long img_nativeObj, long points_nativeObj);
 
-    // C++:  bool cv::QRCodeDetector::decodeMulti(Mat img, Mat points, vector_String& decoded_info, vector_Mat& straight_qrcode = vector_Mat())
+    // C++:  bool cv::QRCodeDetector::decodeMulti(Mat img, Mat points, vector_string& decoded_info, vector_Mat& straight_qrcode = vector_Mat())
     private static native boolean decodeMulti_0(long nativeObj, long img_nativeObj, long points_nativeObj, List<String> decoded_info, long straight_qrcode_mat_nativeObj);
     private static native boolean decodeMulti_1(long nativeObj, long img_nativeObj, long points_nativeObj, List<String> decoded_info);
 
-    // C++:  bool cv::QRCodeDetector::detectAndDecodeMulti(Mat img, vector_String& decoded_info, Mat& points = Mat(), vector_Mat& straight_qrcode = vector_Mat())
+    // C++:  bool cv::QRCodeDetector::detectAndDecodeMulti(Mat img, vector_string& decoded_info, Mat& points = Mat(), vector_Mat& straight_qrcode = vector_Mat())
     private static native boolean detectAndDecodeMulti_0(long nativeObj, long img_nativeObj, List<String> decoded_info, long points_nativeObj, long straight_qrcode_mat_nativeObj);
     private static native boolean detectAndDecodeMulti_1(long nativeObj, long img_nativeObj, List<String> decoded_info, long points_nativeObj);
     private static native boolean detectAndDecodeMulti_2(long nativeObj, long img_nativeObj, List<String> decoded_info);

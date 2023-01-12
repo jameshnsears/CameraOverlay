@@ -251,6 +251,73 @@ public class BRISK extends Feature2D {
     }
 
 
+    //
+    // C++:  void cv::BRISK::setThreshold(int threshold)
+    //
+
+    /**
+     * Set detection threshold.
+     *     @param threshold AGAST detection threshold score.
+     */
+    public void setThreshold(int threshold) {
+        setThreshold_0(nativeObj, threshold);
+    }
+
+
+    //
+    // C++:  int cv::BRISK::getThreshold()
+    //
+
+    public int getThreshold() {
+        return getThreshold_0(nativeObj);
+    }
+
+
+    //
+    // C++:  void cv::BRISK::setOctaves(int octaves)
+    //
+
+    /**
+     * Set detection octaves.
+     *     @param octaves detection octaves. Use 0 to do single scale.
+     */
+    public void setOctaves(int octaves) {
+        setOctaves_0(nativeObj, octaves);
+    }
+
+
+    //
+    // C++:  int cv::BRISK::getOctaves()
+    //
+
+    public int getOctaves() {
+        return getOctaves_0(nativeObj);
+    }
+
+
+    //
+    // C++:  void cv::BRISK::setPatternScale(float patternScale)
+    //
+
+    /**
+     * Set detection patternScale.
+     *     @param patternScale apply this scale to the pattern used for sampling the neighbourhood of a
+     *     keypoint.
+     */
+    public void setPatternScale(float patternScale) {
+        setPatternScale_0(nativeObj, patternScale);
+    }
+
+
+    //
+    // C++:  float cv::BRISK::getPatternScale()
+    //
+
+    public float getPatternScale() {
+        return getPatternScale_0(nativeObj);
+    }
+
+
     @Override
     protected void finalize() throws Throwable {
         delete(nativeObj);
@@ -278,6 +345,24 @@ public class BRISK extends Feature2D {
 
     // C++:  String cv::BRISK::getDefaultName()
     private static native String getDefaultName_0(long nativeObj);
+
+    // C++:  void cv::BRISK::setThreshold(int threshold)
+    private static native void setThreshold_0(long nativeObj, int threshold);
+
+    // C++:  int cv::BRISK::getThreshold()
+    private static native int getThreshold_0(long nativeObj);
+
+    // C++:  void cv::BRISK::setOctaves(int octaves)
+    private static native void setOctaves_0(long nativeObj, int octaves);
+
+    // C++:  int cv::BRISK::getOctaves()
+    private static native int getOctaves_0(long nativeObj);
+
+    // C++:  void cv::BRISK::setPatternScale(float patternScale)
+    private static native void setPatternScale_0(long nativeObj, float patternScale);
+
+    // C++:  float cv::BRISK::getPatternScale()
+    private static native float getPatternScale_0(long nativeObj);
 
     // native support for java finalize()
     private static native void delete(long nativeObj);

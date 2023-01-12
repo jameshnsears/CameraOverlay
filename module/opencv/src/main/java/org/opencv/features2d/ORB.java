@@ -22,15 +22,14 @@ public class ORB extends Feature2D {
     // internal usage only
     public static ORB __fromPtr__(long addr) { return new ORB(addr); }
 
-    // C++: enum <unnamed>
+    // C++: enum ScoreType (cv.ORB.ScoreType)
     public static final int
-            kBytes = 32,
             HARRIS_SCORE = 0,
             FAST_SCORE = 1;
 
 
     //
-    // C++: static Ptr_ORB cv::ORB::create(int nfeatures = 500, float scaleFactor = 1.2f, int nlevels = 8, int edgeThreshold = 31, int firstLevel = 0, int WTA_K = 2, int scoreType = ORB::HARRIS_SCORE, int patchSize = 31, int fastThreshold = 20)
+    // C++: static Ptr_ORB cv::ORB::create(int nfeatures = 500, float scaleFactor = 1.2f, int nlevels = 8, int edgeThreshold = 31, int firstLevel = 0, int WTA_K = 2, ORB_ScoreType scoreType = ORB::HARRIS_SCORE, int patchSize = 31, int fastThreshold = 20)
     //
 
     /**
@@ -468,7 +467,7 @@ public class ORB extends Feature2D {
 
 
     //
-    // C++:  void cv::ORB::setScoreType(int scoreType)
+    // C++:  void cv::ORB::setScoreType(ORB_ScoreType scoreType)
     //
 
     public void setScoreType(int scoreType) {
@@ -477,7 +476,7 @@ public class ORB extends Feature2D {
 
 
     //
-    // C++:  int cv::ORB::getScoreType()
+    // C++:  ORB_ScoreType cv::ORB::getScoreType()
     //
 
     public int getScoreType() {
@@ -537,7 +536,7 @@ public class ORB extends Feature2D {
 
 
 
-    // C++: static Ptr_ORB cv::ORB::create(int nfeatures = 500, float scaleFactor = 1.2f, int nlevels = 8, int edgeThreshold = 31, int firstLevel = 0, int WTA_K = 2, int scoreType = ORB::HARRIS_SCORE, int patchSize = 31, int fastThreshold = 20)
+    // C++: static Ptr_ORB cv::ORB::create(int nfeatures = 500, float scaleFactor = 1.2f, int nlevels = 8, int edgeThreshold = 31, int firstLevel = 0, int WTA_K = 2, ORB_ScoreType scoreType = ORB::HARRIS_SCORE, int patchSize = 31, int fastThreshold = 20)
     private static native long create_0(int nfeatures, float scaleFactor, int nlevels, int edgeThreshold, int firstLevel, int WTA_K, int scoreType, int patchSize, int fastThreshold);
     private static native long create_1(int nfeatures, float scaleFactor, int nlevels, int edgeThreshold, int firstLevel, int WTA_K, int scoreType, int patchSize);
     private static native long create_2(int nfeatures, float scaleFactor, int nlevels, int edgeThreshold, int firstLevel, int WTA_K, int scoreType);
@@ -585,10 +584,10 @@ public class ORB extends Feature2D {
     // C++:  int cv::ORB::getWTA_K()
     private static native int getWTA_K_0(long nativeObj);
 
-    // C++:  void cv::ORB::setScoreType(int scoreType)
+    // C++:  void cv::ORB::setScoreType(ORB_ScoreType scoreType)
     private static native void setScoreType_0(long nativeObj, int scoreType);
 
-    // C++:  int cv::ORB::getScoreType()
+    // C++:  ORB_ScoreType cv::ORB::getScoreType()
     private static native int getScoreType_0(long nativeObj);
 
     // C++:  void cv::ORB::setPatchSize(int patchSize)

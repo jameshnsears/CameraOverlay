@@ -19,16 +19,20 @@ public class AgastFeatureDetector extends Feature2D {
 
     // C++: enum <unnamed>
     public static final int
-            AGAST_5_8 = 0,
-            AGAST_7_12d = 1,
-            AGAST_7_12s = 2,
-            OAST_9_16 = 3,
             THRESHOLD = 10000,
             NONMAX_SUPPRESSION = 10001;
 
 
+    // C++: enum DetectorType (cv.AgastFeatureDetector.DetectorType)
+    public static final int
+            AGAST_5_8 = 0,
+            AGAST_7_12d = 1,
+            AGAST_7_12s = 2,
+            OAST_9_16 = 3;
+
+
     //
-    // C++: static Ptr_AgastFeatureDetector cv::AgastFeatureDetector::create(int threshold = 10, bool nonmaxSuppression = true, int type = AgastFeatureDetector::OAST_9_16)
+    // C++: static Ptr_AgastFeatureDetector cv::AgastFeatureDetector::create(int threshold = 10, bool nonmaxSuppression = true, AgastFeatureDetector_DetectorType type = AgastFeatureDetector::OAST_9_16)
     //
 
     public static AgastFeatureDetector create(int threshold, boolean nonmaxSuppression, int type) {
@@ -85,7 +89,7 @@ public class AgastFeatureDetector extends Feature2D {
 
 
     //
-    // C++:  void cv::AgastFeatureDetector::setType(int type)
+    // C++:  void cv::AgastFeatureDetector::setType(AgastFeatureDetector_DetectorType type)
     //
 
     public void setType(int type) {
@@ -94,7 +98,7 @@ public class AgastFeatureDetector extends Feature2D {
 
 
     //
-    // C++:  int cv::AgastFeatureDetector::getType()
+    // C++:  AgastFeatureDetector_DetectorType cv::AgastFeatureDetector::getType()
     //
 
     public int getType() {
@@ -118,7 +122,7 @@ public class AgastFeatureDetector extends Feature2D {
 
 
 
-    // C++: static Ptr_AgastFeatureDetector cv::AgastFeatureDetector::create(int threshold = 10, bool nonmaxSuppression = true, int type = AgastFeatureDetector::OAST_9_16)
+    // C++: static Ptr_AgastFeatureDetector cv::AgastFeatureDetector::create(int threshold = 10, bool nonmaxSuppression = true, AgastFeatureDetector_DetectorType type = AgastFeatureDetector::OAST_9_16)
     private static native long create_0(int threshold, boolean nonmaxSuppression, int type);
     private static native long create_1(int threshold, boolean nonmaxSuppression);
     private static native long create_2(int threshold);
@@ -136,10 +140,10 @@ public class AgastFeatureDetector extends Feature2D {
     // C++:  bool cv::AgastFeatureDetector::getNonmaxSuppression()
     private static native boolean getNonmaxSuppression_0(long nativeObj);
 
-    // C++:  void cv::AgastFeatureDetector::setType(int type)
+    // C++:  void cv::AgastFeatureDetector::setType(AgastFeatureDetector_DetectorType type)
     private static native void setType_0(long nativeObj, int type);
 
-    // C++:  int cv::AgastFeatureDetector::getType()
+    // C++:  AgastFeatureDetector_DetectorType cv::AgastFeatureDetector::getType()
     private static native int getType_0(long nativeObj);
 
     // C++:  String cv::AgastFeatureDetector::getDefaultName()

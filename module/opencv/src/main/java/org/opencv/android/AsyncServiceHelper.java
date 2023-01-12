@@ -211,7 +211,7 @@ class AsyncServiceHelper
                                             mUserAppCallback.onManagerConnected(LoaderCallbackInterface.MARKET_ERROR);
                                         }
                                     } catch (RemoteException e) {
-                                        e.printStackTrace();
+                                        e.printStackTrace();;
                                         Log.d(TAG, "Init finished with status " + LoaderCallbackInterface.INIT_FAILED);
                                         Log.d(TAG, "Unbind from service");
                                         mAppContext.unbindService(mServiceConnection);
@@ -287,6 +287,7 @@ class AsyncServiceHelper
 
                             mUserAppCallback.onPackageInstall(InstallCallbackInterface.INSTALLATION_PROGRESS, WaitQuery);
                         }
+                        return;
                     }
                     else
                     {
@@ -343,7 +344,7 @@ class AsyncServiceHelper
         Log.d(TAG, "Trying to load library " + AbsPath);
         try
         {
-            loadLibrary(AbsPath);
+            System.load(AbsPath);
             Log.d(TAG, "OpenCV libs init was ok!");
         }
         catch(UnsatisfiedLinkError e)
@@ -375,7 +376,7 @@ class AsyncServiceHelper
             else
             {
                 // If the dependencies list is not defined or empty.
-                String AbsLibraryPath = Path + File.separator + "libopencv_java3.so";
+                String AbsLibraryPath = Path + File.separator + "libopencv_java4.so";
                 result = loadLibrary(AbsLibraryPath);
             }
 

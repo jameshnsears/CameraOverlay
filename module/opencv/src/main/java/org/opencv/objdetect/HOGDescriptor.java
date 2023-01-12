@@ -43,8 +43,18 @@ public class HOGDescriptor {
 
     // C++: enum <unnamed>
     public static final int
-            L2Hys = 0,
             DEFAULT_NLEVELS = 64;
+
+
+    // C++: enum DescriptorStorageFormat (cv.HOGDescriptor.DescriptorStorageFormat)
+    public static final int
+            DESCR_FORMAT_COL_BY_COL = 0,
+            DESCR_FORMAT_ROW_BY_ROW = 1;
+
+
+    // C++: enum HistogramNormType (cv.HOGDescriptor.HistogramNormType)
+    public static final int
+            L2Hys = 0;
 
 
     //
@@ -52,9 +62,9 @@ public class HOGDescriptor {
     //
 
     /**
-     * Creates the HOG descriptor and detector with default params.
+     * Creates the HOG descriptor and detector with default parameters.
      *
-     *     aqual to HOGDescriptor(Size(64,128), Size(16,16), Size(8,8), Size(8,8), 9, 1 )
+     *     aqual to HOGDescriptor(Size(64,128), Size(16,16), Size(8,8), Size(8,8), 9 )
      */
     public HOGDescriptor() {
         nativeObj = HOGDescriptor_0();
@@ -62,7 +72,7 @@ public class HOGDescriptor {
 
 
     //
-    // C++:   cv::HOGDescriptor::HOGDescriptor(Size _winSize, Size _blockSize, Size _blockStride, Size _cellSize, int _nbins, int _derivAperture = 1, double _winSigma = -1, int _histogramNormType = HOGDescriptor::L2Hys, double _L2HysThreshold = 0.2, bool _gammaCorrection = false, int _nlevels = HOGDescriptor::DEFAULT_NLEVELS, bool _signedGradient = false)
+    // C++:   cv::HOGDescriptor::HOGDescriptor(Size _winSize, Size _blockSize, Size _blockStride, Size _cellSize, int _nbins, int _derivAperture = 1, double _winSigma = -1, HOGDescriptor_HistogramNormType _histogramNormType = HOGDescriptor::L2Hys, double _L2HysThreshold = 0.2, bool _gammaCorrection = false, int _nlevels = HOGDescriptor::DEFAULT_NLEVELS, bool _signedGradient = false)
     //
 
     /**
@@ -196,7 +206,9 @@ public class HOGDescriptor {
 
     /**
      *
-     *     @param filename the file name containing  HOGDescriptor properties and coefficients of the trained classifier
+     *
+     *     Creates the HOG descriptor and detector and loads HOGDescriptor parameters and coefficients for the linear SVM classifier from a file.
+     *     @param filename The file name containing HOGDescriptor properties and coefficients for the linear SVM classifier.
      */
     public HOGDescriptor(String filename) {
         nativeObj = HOGDescriptor_9(filename);
@@ -243,15 +255,15 @@ public class HOGDescriptor {
 
 
     //
-    // C++:  void cv::HOGDescriptor::setSVMDetector(Mat _svmdetector)
+    // C++:  void cv::HOGDescriptor::setSVMDetector(Mat svmdetector)
     //
 
     /**
      * Sets coefficients for the linear SVM classifier.
-     *     @param _svmdetector coefficients for the linear SVM classifier.
+     *     @param svmdetector coefficients for the linear SVM classifier.
      */
-    public void setSVMDetector(Mat _svmdetector) {
-        setSVMDetector_0(nativeObj, _svmdetector.nativeObj);
+    public void setSVMDetector(Mat svmdetector) {
+        setSVMDetector_0(nativeObj, svmdetector.nativeObj);
     }
 
 
@@ -260,7 +272,7 @@ public class HOGDescriptor {
     //
 
     /**
-     * loads coefficients for the linear SVM classifier from a file
+     * loads HOGDescriptor parameters and coefficients for the linear SVM classifier from a file
      *     @param filename Name of the file to read.
      *     @param objname The optional name of the node to read (if empty, the first top-level node will be used).
      * @return automatically generated
@@ -270,7 +282,7 @@ public class HOGDescriptor {
     }
 
     /**
-     * loads coefficients for the linear SVM classifier from a file
+     * loads HOGDescriptor parameters and coefficients for the linear SVM classifier from a file
      *     @param filename Name of the file to read.
      * @return automatically generated
      */
@@ -284,7 +296,7 @@ public class HOGDescriptor {
     //
 
     /**
-     * saves coefficients for the linear SVM classifier to a file
+     * saves HOGDescriptor parameters and coefficients for the linear SVM classifier to a file
      *     @param filename File name
      *     @param objname Object name
      */
@@ -293,7 +305,7 @@ public class HOGDescriptor {
     }
 
     /**
-     * saves coefficients for the linear SVM classifier to a file
+     * saves HOGDescriptor parameters and coefficients for the linear SVM classifier to a file
      *     @param filename File name
      */
     public void save(String filename) {
@@ -440,7 +452,7 @@ public class HOGDescriptor {
 
 
     //
-    // C++:  void cv::HOGDescriptor::detectMultiScale(Mat img, vector_Rect& foundLocations, vector_double& foundWeights, double hitThreshold = 0, Size winStride = Size(), Size padding = Size(), double scale = 1.05, double finalThreshold = 2.0, bool useMeanshiftGrouping = false)
+    // C++:  void cv::HOGDescriptor::detectMultiScale(Mat img, vector_Rect& foundLocations, vector_double& foundWeights, double hitThreshold = 0, Size winStride = Size(), Size padding = Size(), double scale = 1.05, double groupThreshold = 2.0, bool useMeanshiftGrouping = false)
     //
 
     /**
@@ -455,13 +467,14 @@ public class HOGDescriptor {
      *     @param winStride Window stride. It must be a multiple of block stride.
      *     @param padding Padding
      *     @param scale Coefficient of the detection window increase.
-     *     @param finalThreshold Final threshold
+     *     @param groupThreshold Coefficient to regulate the similarity threshold. When detected, some objects can be covered
+     *     by many rectangles. 0 means not to perform grouping.
      *     @param useMeanshiftGrouping indicates grouping algorithm
      */
-    public void detectMultiScale(Mat img, MatOfRect foundLocations, MatOfDouble foundWeights, double hitThreshold, Size winStride, Size padding, double scale, double finalThreshold, boolean useMeanshiftGrouping) {
+    public void detectMultiScale(Mat img, MatOfRect foundLocations, MatOfDouble foundWeights, double hitThreshold, Size winStride, Size padding, double scale, double groupThreshold, boolean useMeanshiftGrouping) {
         Mat foundLocations_mat = foundLocations;
         Mat foundWeights_mat = foundWeights;
-        detectMultiScale_0(nativeObj, img.nativeObj, foundLocations_mat.nativeObj, foundWeights_mat.nativeObj, hitThreshold, winStride.width, winStride.height, padding.width, padding.height, scale, finalThreshold, useMeanshiftGrouping);
+        detectMultiScale_0(nativeObj, img.nativeObj, foundLocations_mat.nativeObj, foundWeights_mat.nativeObj, hitThreshold, winStride.width, winStride.height, padding.width, padding.height, scale, groupThreshold, useMeanshiftGrouping);
     }
 
     /**
@@ -476,12 +489,13 @@ public class HOGDescriptor {
      *     @param winStride Window stride. It must be a multiple of block stride.
      *     @param padding Padding
      *     @param scale Coefficient of the detection window increase.
-     *     @param finalThreshold Final threshold
+     *     @param groupThreshold Coefficient to regulate the similarity threshold. When detected, some objects can be covered
+     *     by many rectangles. 0 means not to perform grouping.
      */
-    public void detectMultiScale(Mat img, MatOfRect foundLocations, MatOfDouble foundWeights, double hitThreshold, Size winStride, Size padding, double scale, double finalThreshold) {
+    public void detectMultiScale(Mat img, MatOfRect foundLocations, MatOfDouble foundWeights, double hitThreshold, Size winStride, Size padding, double scale, double groupThreshold) {
         Mat foundLocations_mat = foundLocations;
         Mat foundWeights_mat = foundWeights;
-        detectMultiScale_1(nativeObj, img.nativeObj, foundLocations_mat.nativeObj, foundWeights_mat.nativeObj, hitThreshold, winStride.width, winStride.height, padding.width, padding.height, scale, finalThreshold);
+        detectMultiScale_1(nativeObj, img.nativeObj, foundLocations_mat.nativeObj, foundWeights_mat.nativeObj, hitThreshold, winStride.width, winStride.height, padding.width, padding.height, scale, groupThreshold);
     }
 
     /**
@@ -496,6 +510,7 @@ public class HOGDescriptor {
      *     @param winStride Window stride. It must be a multiple of block stride.
      *     @param padding Padding
      *     @param scale Coefficient of the detection window increase.
+     *     by many rectangles. 0 means not to perform grouping.
      */
     public void detectMultiScale(Mat img, MatOfRect foundLocations, MatOfDouble foundWeights, double hitThreshold, Size winStride, Size padding, double scale) {
         Mat foundLocations_mat = foundLocations;
@@ -514,6 +529,7 @@ public class HOGDescriptor {
      *     But if the free coefficient is omitted (which is allowed), you can specify it manually here.
      *     @param winStride Window stride. It must be a multiple of block stride.
      *     @param padding Padding
+     *     by many rectangles. 0 means not to perform grouping.
      */
     public void detectMultiScale(Mat img, MatOfRect foundLocations, MatOfDouble foundWeights, double hitThreshold, Size winStride, Size padding) {
         Mat foundLocations_mat = foundLocations;
@@ -531,6 +547,7 @@ public class HOGDescriptor {
      *     Usually it is 0 and should be specified in the detector coefficients (as the last free coefficient).
      *     But if the free coefficient is omitted (which is allowed), you can specify it manually here.
      *     @param winStride Window stride. It must be a multiple of block stride.
+     *     by many rectangles. 0 means not to perform grouping.
      */
     public void detectMultiScale(Mat img, MatOfRect foundLocations, MatOfDouble foundWeights, double hitThreshold, Size winStride) {
         Mat foundLocations_mat = foundLocations;
@@ -547,6 +564,7 @@ public class HOGDescriptor {
      *     @param hitThreshold Threshold for the distance between features and SVM classifying plane.
      *     Usually it is 0 and should be specified in the detector coefficients (as the last free coefficient).
      *     But if the free coefficient is omitted (which is allowed), you can specify it manually here.
+     *     by many rectangles. 0 means not to perform grouping.
      */
     public void detectMultiScale(Mat img, MatOfRect foundLocations, MatOfDouble foundWeights, double hitThreshold) {
         Mat foundLocations_mat = foundLocations;
@@ -562,6 +580,7 @@ public class HOGDescriptor {
      *     @param foundWeights Vector that will contain confidence values for each detected object.
      *     Usually it is 0 and should be specified in the detector coefficients (as the last free coefficient).
      *     But if the free coefficient is omitted (which is allowed), you can specify it manually here.
+     *     by many rectangles. 0 means not to perform grouping.
      */
     public void detectMultiScale(Mat img, MatOfRect foundLocations, MatOfDouble foundWeights) {
         Mat foundLocations_mat = foundLocations;
@@ -698,7 +717,7 @@ public class HOGDescriptor {
 
 
     //
-    // C++: int HOGDescriptor::histogramNormType
+    // C++: HOGDescriptor_HistogramNormType HOGDescriptor::histogramNormType
     //
 
     public int get_histogramNormType() {
@@ -761,7 +780,7 @@ public class HOGDescriptor {
     // C++:   cv::HOGDescriptor::HOGDescriptor()
     private static native long HOGDescriptor_0();
 
-    // C++:   cv::HOGDescriptor::HOGDescriptor(Size _winSize, Size _blockSize, Size _blockStride, Size _cellSize, int _nbins, int _derivAperture = 1, double _winSigma = -1, int _histogramNormType = HOGDescriptor::L2Hys, double _L2HysThreshold = 0.2, bool _gammaCorrection = false, int _nlevels = HOGDescriptor::DEFAULT_NLEVELS, bool _signedGradient = false)
+    // C++:   cv::HOGDescriptor::HOGDescriptor(Size _winSize, Size _blockSize, Size _blockStride, Size _cellSize, int _nbins, int _derivAperture = 1, double _winSigma = -1, HOGDescriptor_HistogramNormType _histogramNormType = HOGDescriptor::L2Hys, double _L2HysThreshold = 0.2, bool _gammaCorrection = false, int _nlevels = HOGDescriptor::DEFAULT_NLEVELS, bool _signedGradient = false)
     private static native long HOGDescriptor_1(double _winSize_width, double _winSize_height, double _blockSize_width, double _blockSize_height, double _blockStride_width, double _blockStride_height, double _cellSize_width, double _cellSize_height, int _nbins, int _derivAperture, double _winSigma, int _histogramNormType, double _L2HysThreshold, boolean _gammaCorrection, int _nlevels, boolean _signedGradient);
     private static native long HOGDescriptor_2(double _winSize_width, double _winSize_height, double _blockSize_width, double _blockSize_height, double _blockStride_width, double _blockStride_height, double _cellSize_width, double _cellSize_height, int _nbins, int _derivAperture, double _winSigma, int _histogramNormType, double _L2HysThreshold, boolean _gammaCorrection, int _nlevels);
     private static native long HOGDescriptor_3(double _winSize_width, double _winSize_height, double _blockSize_width, double _blockSize_height, double _blockStride_width, double _blockStride_height, double _cellSize_width, double _cellSize_height, int _nbins, int _derivAperture, double _winSigma, int _histogramNormType, double _L2HysThreshold, boolean _gammaCorrection);
@@ -783,8 +802,8 @@ public class HOGDescriptor {
     // C++:  double cv::HOGDescriptor::getWinSigma()
     private static native double getWinSigma_0(long nativeObj);
 
-    // C++:  void cv::HOGDescriptor::setSVMDetector(Mat _svmdetector)
-    private static native void setSVMDetector_0(long nativeObj, long _svmdetector_nativeObj);
+    // C++:  void cv::HOGDescriptor::setSVMDetector(Mat svmdetector)
+    private static native void setSVMDetector_0(long nativeObj, long svmdetector_nativeObj);
 
     // C++:  bool cv::HOGDescriptor::load(String filename, String objname = String())
     private static native boolean load_0(long nativeObj, String filename, String objname);
@@ -807,9 +826,9 @@ public class HOGDescriptor {
     private static native void detect_3(long nativeObj, long img_nativeObj, long foundLocations_mat_nativeObj, long weights_mat_nativeObj, double hitThreshold);
     private static native void detect_4(long nativeObj, long img_nativeObj, long foundLocations_mat_nativeObj, long weights_mat_nativeObj);
 
-    // C++:  void cv::HOGDescriptor::detectMultiScale(Mat img, vector_Rect& foundLocations, vector_double& foundWeights, double hitThreshold = 0, Size winStride = Size(), Size padding = Size(), double scale = 1.05, double finalThreshold = 2.0, bool useMeanshiftGrouping = false)
-    private static native void detectMultiScale_0(long nativeObj, long img_nativeObj, long foundLocations_mat_nativeObj, long foundWeights_mat_nativeObj, double hitThreshold, double winStride_width, double winStride_height, double padding_width, double padding_height, double scale, double finalThreshold, boolean useMeanshiftGrouping);
-    private static native void detectMultiScale_1(long nativeObj, long img_nativeObj, long foundLocations_mat_nativeObj, long foundWeights_mat_nativeObj, double hitThreshold, double winStride_width, double winStride_height, double padding_width, double padding_height, double scale, double finalThreshold);
+    // C++:  void cv::HOGDescriptor::detectMultiScale(Mat img, vector_Rect& foundLocations, vector_double& foundWeights, double hitThreshold = 0, Size winStride = Size(), Size padding = Size(), double scale = 1.05, double groupThreshold = 2.0, bool useMeanshiftGrouping = false)
+    private static native void detectMultiScale_0(long nativeObj, long img_nativeObj, long foundLocations_mat_nativeObj, long foundWeights_mat_nativeObj, double hitThreshold, double winStride_width, double winStride_height, double padding_width, double padding_height, double scale, double groupThreshold, boolean useMeanshiftGrouping);
+    private static native void detectMultiScale_1(long nativeObj, long img_nativeObj, long foundLocations_mat_nativeObj, long foundWeights_mat_nativeObj, double hitThreshold, double winStride_width, double winStride_height, double padding_width, double padding_height, double scale, double groupThreshold);
     private static native void detectMultiScale_2(long nativeObj, long img_nativeObj, long foundLocations_mat_nativeObj, long foundWeights_mat_nativeObj, double hitThreshold, double winStride_width, double winStride_height, double padding_width, double padding_height, double scale);
     private static native void detectMultiScale_3(long nativeObj, long img_nativeObj, long foundLocations_mat_nativeObj, long foundWeights_mat_nativeObj, double hitThreshold, double winStride_width, double winStride_height, double padding_width, double padding_height);
     private static native void detectMultiScale_4(long nativeObj, long img_nativeObj, long foundLocations_mat_nativeObj, long foundWeights_mat_nativeObj, double hitThreshold, double winStride_width, double winStride_height);
@@ -848,7 +867,7 @@ public class HOGDescriptor {
     // C++: double HOGDescriptor::winSigma
     private static native double get_winSigma_0(long nativeObj);
 
-    // C++: int HOGDescriptor::histogramNormType
+    // C++: HOGDescriptor_HistogramNormType HOGDescriptor::histogramNormType
     private static native int get_histogramNormType_0(long nativeObj);
 
     // C++: double HOGDescriptor::L2HysThreshold

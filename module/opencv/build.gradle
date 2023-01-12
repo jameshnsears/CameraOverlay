@@ -2,14 +2,13 @@ plugins {
     id 'com.android.library'
 }
 
-def openCVersionName = "3.4.15"
+def openCVersionName = "opencv-4.7.0-android-sdk"
 
-println "OpenCV: " +openCVersionName + " " + project.buildscript.sourceFile
+println "OpenCV: " +openCVersionName
 
 android {
-    namespace "org.opencv"
-
-    compileSdk 33
+    namespace 'org.opencv'
+    compileSdk 32
 
     defaultConfig {
         minSdk 24
@@ -44,13 +43,19 @@ android {
     }
 
     sourceSets {
+        main {
+            aidl.srcDirs = ['src/main/aidl']
+        }
+
         fdroid {
             java.srcDirs = ['src/main/java']
         }
+
         googleplay {
             java.srcDirs = ['src/main/java']
         }
     }
+
     lint {
         abortOnError false
     }

@@ -16,7 +16,6 @@ import org.opencv.core.TermCriteria;
 import org.opencv.utils.Converters;
 import org.opencv.video.BackgroundSubtractorKNN;
 import org.opencv.video.BackgroundSubtractorMOG2;
-import org.opencv.video.DualTVL1OpticalFlow;
 
 // C++: class Video
 
@@ -36,6 +35,129 @@ public class Video {
             MOTION_EUCLIDEAN = 1,
             MOTION_AFFINE = 2,
             MOTION_HOMOGRAPHY = 3;
+
+
+    // C++: enum MODE (cv.detail.TrackerSamplerCSC.MODE)
+    public static final int
+            TrackerSamplerCSC_MODE_INIT_POS = 1,
+            TrackerSamplerCSC_MODE_INIT_NEG = 2,
+            TrackerSamplerCSC_MODE_TRACK_POS = 3,
+            TrackerSamplerCSC_MODE_TRACK_NEG = 4,
+            TrackerSamplerCSC_MODE_DETECT = 5;
+
+
+    //
+    // C++:  Ptr_BackgroundSubtractorMOG2 cv::createBackgroundSubtractorMOG2(int history = 500, double varThreshold = 16, bool detectShadows = true)
+    //
+
+    /**
+     * Creates MOG2 Background Subtractor
+     *
+     * @param history Length of the history.
+     * @param varThreshold Threshold on the squared Mahalanobis distance between the pixel and the model
+     * to decide whether a pixel is well described by the background model. This parameter does not
+     * affect the background update.
+     * @param detectShadows If true, the algorithm will detect shadows and mark them. It decreases the
+     * speed a bit, so if you do not need this feature, set the parameter to false.
+     * @return automatically generated
+     */
+    public static BackgroundSubtractorMOG2 createBackgroundSubtractorMOG2(int history, double varThreshold, boolean detectShadows) {
+        return BackgroundSubtractorMOG2.__fromPtr__(createBackgroundSubtractorMOG2_0(history, varThreshold, detectShadows));
+    }
+
+    /**
+     * Creates MOG2 Background Subtractor
+     *
+     * @param history Length of the history.
+     * @param varThreshold Threshold on the squared Mahalanobis distance between the pixel and the model
+     * to decide whether a pixel is well described by the background model. This parameter does not
+     * affect the background update.
+     * speed a bit, so if you do not need this feature, set the parameter to false.
+     * @return automatically generated
+     */
+    public static BackgroundSubtractorMOG2 createBackgroundSubtractorMOG2(int history, double varThreshold) {
+        return BackgroundSubtractorMOG2.__fromPtr__(createBackgroundSubtractorMOG2_1(history, varThreshold));
+    }
+
+    /**
+     * Creates MOG2 Background Subtractor
+     *
+     * @param history Length of the history.
+     * to decide whether a pixel is well described by the background model. This parameter does not
+     * affect the background update.
+     * speed a bit, so if you do not need this feature, set the parameter to false.
+     * @return automatically generated
+     */
+    public static BackgroundSubtractorMOG2 createBackgroundSubtractorMOG2(int history) {
+        return BackgroundSubtractorMOG2.__fromPtr__(createBackgroundSubtractorMOG2_2(history));
+    }
+
+    /**
+     * Creates MOG2 Background Subtractor
+     *
+     * to decide whether a pixel is well described by the background model. This parameter does not
+     * affect the background update.
+     * speed a bit, so if you do not need this feature, set the parameter to false.
+     * @return automatically generated
+     */
+    public static BackgroundSubtractorMOG2 createBackgroundSubtractorMOG2() {
+        return BackgroundSubtractorMOG2.__fromPtr__(createBackgroundSubtractorMOG2_3());
+    }
+
+
+    //
+    // C++:  Ptr_BackgroundSubtractorKNN cv::createBackgroundSubtractorKNN(int history = 500, double dist2Threshold = 400.0, bool detectShadows = true)
+    //
+
+    /**
+     * Creates KNN Background Subtractor
+     *
+     * @param history Length of the history.
+     * @param dist2Threshold Threshold on the squared distance between the pixel and the sample to decide
+     * whether a pixel is close to that sample. This parameter does not affect the background update.
+     * @param detectShadows If true, the algorithm will detect shadows and mark them. It decreases the
+     * speed a bit, so if you do not need this feature, set the parameter to false.
+     * @return automatically generated
+     */
+    public static BackgroundSubtractorKNN createBackgroundSubtractorKNN(int history, double dist2Threshold, boolean detectShadows) {
+        return BackgroundSubtractorKNN.__fromPtr__(createBackgroundSubtractorKNN_0(history, dist2Threshold, detectShadows));
+    }
+
+    /**
+     * Creates KNN Background Subtractor
+     *
+     * @param history Length of the history.
+     * @param dist2Threshold Threshold on the squared distance between the pixel and the sample to decide
+     * whether a pixel is close to that sample. This parameter does not affect the background update.
+     * speed a bit, so if you do not need this feature, set the parameter to false.
+     * @return automatically generated
+     */
+    public static BackgroundSubtractorKNN createBackgroundSubtractorKNN(int history, double dist2Threshold) {
+        return BackgroundSubtractorKNN.__fromPtr__(createBackgroundSubtractorKNN_1(history, dist2Threshold));
+    }
+
+    /**
+     * Creates KNN Background Subtractor
+     *
+     * @param history Length of the history.
+     * whether a pixel is close to that sample. This parameter does not affect the background update.
+     * speed a bit, so if you do not need this feature, set the parameter to false.
+     * @return automatically generated
+     */
+    public static BackgroundSubtractorKNN createBackgroundSubtractorKNN(int history) {
+        return BackgroundSubtractorKNN.__fromPtr__(createBackgroundSubtractorKNN_2(history));
+    }
+
+    /**
+     * Creates KNN Background Subtractor
+     *
+     * whether a pixel is close to that sample. This parameter does not affect the background update.
+     * speed a bit, so if you do not need this feature, set the parameter to false.
+     * @return automatically generated
+     */
+    public static BackgroundSubtractorKNN createBackgroundSubtractorKNN() {
+        return BackgroundSubtractorKNN.__fromPtr__(createBackgroundSubtractorKNN_3());
+    }
 
 
     //
@@ -692,53 +814,6 @@ public class Video {
 
 
     //
-    // C++:  Mat cv::estimateRigidTransform(Mat src, Mat dst, bool fullAffine)
-    //
-
-    /**
-     * Computes an optimal affine transformation between two 2D point sets.
-     *
-     * @param src First input 2D point set stored in std::vector or Mat, or an image stored in Mat.
-     * @param dst Second input 2D point set of the same size and the same type as A, or another image.
-     * @param fullAffine If true, the function finds an optimal affine transformation with no additional
-     * restrictions (6 degrees of freedom). Otherwise, the class of transformations to choose from is
-     * limited to combinations of translation, rotation, and uniform scaling (4 degrees of freedom).
-     *
-     * The function finds an optimal affine transform *[A|b]* (a 2 x 3 floating-point matrix) that
-     * approximates best the affine transformation between:
-     *
-     * Two point sets
-     * Two raster images. In this case, the function first finds some features in the src image and
-     *     finds the corresponding features in dst image. After that, the problem is reduced to the first
-     *     case.
-     * In case of point sets, the problem is formulated as follows: you need to find a 2x2 matrix *A* and
-     * 2x1 vector *b* so that:
-     *
-     * \([A^*|b^*] = arg  \min _{[A|b]}  \sum _i  \| \texttt{dst}[i] - A { \texttt{src}[i]}^T - b  \| ^2\)
-     * where src[i] and dst[i] are the i-th points in src and dst, respectively
-     * \([A|b]\) can be either arbitrary (when fullAffine=true ) or have a form of
-     * \(\begin{bmatrix} a_{11} &amp; a_{12} &amp; b_1  \\ -a_{12} &amp; a_{11} &amp; b_2  \end{bmatrix}\)
-     * when fullAffine=false.
-     *
-     * SEE:
-     * estimateAffine2D, estimateAffinePartial2D, getAffineTransform, getPerspectiveTransform, findHomography
-     * @return automatically generated
-     */
-    public static Mat estimateRigidTransform(Mat src, Mat dst, boolean fullAffine) {
-        return new Mat(estimateRigidTransform_0(src.nativeObj, dst.nativeObj, fullAffine));
-    }
-
-
-    //
-    // C++:  Mat cv::estimateRigidTransform(Mat src, Mat dst, bool fullAffine, int ransacMaxIters, double ransacGoodRatio, int ransacSize0)
-    //
-
-    public static Mat estimateRigidTransform(Mat src, Mat dst, boolean fullAffine, int ransacMaxIters, double ransacGoodRatio, int ransacSize0) {
-        return new Mat(estimateRigidTransform_1(src.nativeObj, dst.nativeObj, fullAffine, ransacMaxIters, ransacGoodRatio, ransacSize0));
-    }
-
-
-    //
     // C++:  double cv::computeECC(Mat templateImage, Mat inputImage, Mat inputMask = Mat())
     //
 
@@ -847,133 +922,78 @@ public class Video {
 
 
     //
-    // C++:  Ptr_DualTVL1OpticalFlow cv::createOptFlow_DualTVL1()
+    // C++:  double cv::findTransformECC(Mat templateImage, Mat inputImage, Mat& warpMatrix, int motionType = MOTION_AFFINE, TermCriteria criteria = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 50, 0.001), Mat inputMask = Mat())
     //
 
-    /**
-     * Creates instance of cv::DenseOpticalFlow
-     * @return automatically generated
-     */
-    public static DualTVL1OpticalFlow createOptFlow_DualTVL1() {
-        return DualTVL1OpticalFlow.__fromPtr__(createOptFlow_DualTVL1_0());
+    public static double findTransformECC(Mat templateImage, Mat inputImage, Mat warpMatrix, int motionType, TermCriteria criteria, Mat inputMask) {
+        return findTransformECC_1(templateImage.nativeObj, inputImage.nativeObj, warpMatrix.nativeObj, motionType, criteria.type, criteria.maxCount, criteria.epsilon, inputMask.nativeObj);
+    }
+
+    public static double findTransformECC(Mat templateImage, Mat inputImage, Mat warpMatrix, int motionType, TermCriteria criteria) {
+        return findTransformECC_2(templateImage.nativeObj, inputImage.nativeObj, warpMatrix.nativeObj, motionType, criteria.type, criteria.maxCount, criteria.epsilon);
+    }
+
+    public static double findTransformECC(Mat templateImage, Mat inputImage, Mat warpMatrix, int motionType) {
+        return findTransformECC_3(templateImage.nativeObj, inputImage.nativeObj, warpMatrix.nativeObj, motionType);
+    }
+
+    public static double findTransformECC(Mat templateImage, Mat inputImage, Mat warpMatrix) {
+        return findTransformECC_4(templateImage.nativeObj, inputImage.nativeObj, warpMatrix.nativeObj);
     }
 
 
     //
+    // C++:  Mat cv::readOpticalFlow(String path)
+    //
+
+    /**
+     * Read a .flo file
+     *
+     *  @param path Path to the file to be loaded
+     *
+     *  The function readOpticalFlow loads a flow field from a file and returns it as a single matrix.
+     *  Resulting Mat has a type CV_32FC2 - floating-point, 2-channel. First channel corresponds to the
+     *  flow in the horizontal direction (u), second - vertical (v).
+     * @return automatically generated
+     */
+    public static Mat readOpticalFlow(String path) {
+        return new Mat(readOpticalFlow_0(path));
+    }
+
+
+    //
+    // C++:  bool cv::writeOpticalFlow(String path, Mat flow)
+    //
+
+    /**
+     * Write a .flo to disk
+     *
+     *  @param path Path to the file to be written
+     *  @param flow Flow field to be stored
+     *
+     *  The function stores a flow field in a file, returns true on success, false otherwise.
+     *  The flow field must be a 2-channel, floating-point matrix (CV_32FC2). First channel corresponds
+     *  to the flow in the horizontal direction (u), second - vertical (v).
+     * @return automatically generated
+     */
+    public static boolean writeOpticalFlow(String path, Mat flow) {
+        return writeOpticalFlow_0(path, flow.nativeObj);
+    }
+
+
+
+
     // C++:  Ptr_BackgroundSubtractorMOG2 cv::createBackgroundSubtractorMOG2(int history = 500, double varThreshold = 16, bool detectShadows = true)
-    //
+    private static native long createBackgroundSubtractorMOG2_0(int history, double varThreshold, boolean detectShadows);
+    private static native long createBackgroundSubtractorMOG2_1(int history, double varThreshold);
+    private static native long createBackgroundSubtractorMOG2_2(int history);
+    private static native long createBackgroundSubtractorMOG2_3();
 
-    /**
-     * Creates MOG2 Background Subtractor
-     *
-     * @param history Length of the history.
-     * @param varThreshold Threshold on the squared Mahalanobis distance between the pixel and the model
-     * to decide whether a pixel is well described by the background model. This parameter does not
-     * affect the background update.
-     * @param detectShadows If true, the algorithm will detect shadows and mark them. It decreases the
-     * speed a bit, so if you do not need this feature, set the parameter to false.
-     * @return automatically generated
-     */
-    public static BackgroundSubtractorMOG2 createBackgroundSubtractorMOG2(int history, double varThreshold, boolean detectShadows) {
-        return BackgroundSubtractorMOG2.__fromPtr__(createBackgroundSubtractorMOG2_0(history, varThreshold, detectShadows));
-    }
-
-    /**
-     * Creates MOG2 Background Subtractor
-     *
-     * @param history Length of the history.
-     * @param varThreshold Threshold on the squared Mahalanobis distance between the pixel and the model
-     * to decide whether a pixel is well described by the background model. This parameter does not
-     * affect the background update.
-     * speed a bit, so if you do not need this feature, set the parameter to false.
-     * @return automatically generated
-     */
-    public static BackgroundSubtractorMOG2 createBackgroundSubtractorMOG2(int history, double varThreshold) {
-        return BackgroundSubtractorMOG2.__fromPtr__(createBackgroundSubtractorMOG2_1(history, varThreshold));
-    }
-
-    /**
-     * Creates MOG2 Background Subtractor
-     *
-     * @param history Length of the history.
-     * to decide whether a pixel is well described by the background model. This parameter does not
-     * affect the background update.
-     * speed a bit, so if you do not need this feature, set the parameter to false.
-     * @return automatically generated
-     */
-    public static BackgroundSubtractorMOG2 createBackgroundSubtractorMOG2(int history) {
-        return BackgroundSubtractorMOG2.__fromPtr__(createBackgroundSubtractorMOG2_2(history));
-    }
-
-    /**
-     * Creates MOG2 Background Subtractor
-     *
-     * to decide whether a pixel is well described by the background model. This parameter does not
-     * affect the background update.
-     * speed a bit, so if you do not need this feature, set the parameter to false.
-     * @return automatically generated
-     */
-    public static BackgroundSubtractorMOG2 createBackgroundSubtractorMOG2() {
-        return BackgroundSubtractorMOG2.__fromPtr__(createBackgroundSubtractorMOG2_3());
-    }
-
-
-    //
     // C++:  Ptr_BackgroundSubtractorKNN cv::createBackgroundSubtractorKNN(int history = 500, double dist2Threshold = 400.0, bool detectShadows = true)
-    //
-
-    /**
-     * Creates KNN Background Subtractor
-     *
-     * @param history Length of the history.
-     * @param dist2Threshold Threshold on the squared distance between the pixel and the sample to decide
-     * whether a pixel is close to that sample. This parameter does not affect the background update.
-     * @param detectShadows If true, the algorithm will detect shadows and mark them. It decreases the
-     * speed a bit, so if you do not need this feature, set the parameter to false.
-     * @return automatically generated
-     */
-    public static BackgroundSubtractorKNN createBackgroundSubtractorKNN(int history, double dist2Threshold, boolean detectShadows) {
-        return BackgroundSubtractorKNN.__fromPtr__(createBackgroundSubtractorKNN_0(history, dist2Threshold, detectShadows));
-    }
-
-    /**
-     * Creates KNN Background Subtractor
-     *
-     * @param history Length of the history.
-     * @param dist2Threshold Threshold on the squared distance between the pixel and the sample to decide
-     * whether a pixel is close to that sample. This parameter does not affect the background update.
-     * speed a bit, so if you do not need this feature, set the parameter to false.
-     * @return automatically generated
-     */
-    public static BackgroundSubtractorKNN createBackgroundSubtractorKNN(int history, double dist2Threshold) {
-        return BackgroundSubtractorKNN.__fromPtr__(createBackgroundSubtractorKNN_1(history, dist2Threshold));
-    }
-
-    /**
-     * Creates KNN Background Subtractor
-     *
-     * @param history Length of the history.
-     * whether a pixel is close to that sample. This parameter does not affect the background update.
-     * speed a bit, so if you do not need this feature, set the parameter to false.
-     * @return automatically generated
-     */
-    public static BackgroundSubtractorKNN createBackgroundSubtractorKNN(int history) {
-        return BackgroundSubtractorKNN.__fromPtr__(createBackgroundSubtractorKNN_2(history));
-    }
-
-    /**
-     * Creates KNN Background Subtractor
-     *
-     * whether a pixel is close to that sample. This parameter does not affect the background update.
-     * speed a bit, so if you do not need this feature, set the parameter to false.
-     * @return automatically generated
-     */
-    public static BackgroundSubtractorKNN createBackgroundSubtractorKNN() {
-        return BackgroundSubtractorKNN.__fromPtr__(createBackgroundSubtractorKNN_3());
-    }
-
-
-
+    private static native long createBackgroundSubtractorKNN_0(int history, double dist2Threshold, boolean detectShadows);
+    private static native long createBackgroundSubtractorKNN_1(int history, double dist2Threshold);
+    private static native long createBackgroundSubtractorKNN_2(int history);
+    private static native long createBackgroundSubtractorKNN_3();
 
     // C++:  RotatedRect cv::CamShift(Mat probImage, Rect& window, TermCriteria criteria)
     private static native double[] CamShift_0(long probImage_nativeObj, int window_x, int window_y, int window_width, int window_height, double[] window_out, int criteria_type, int criteria_maxCount, double criteria_epsilon);
@@ -999,12 +1019,6 @@ public class Video {
     // C++:  void cv::calcOpticalFlowFarneback(Mat prev, Mat next, Mat& flow, double pyr_scale, int levels, int winsize, int iterations, int poly_n, double poly_sigma, int flags)
     private static native void calcOpticalFlowFarneback_0(long prev_nativeObj, long next_nativeObj, long flow_nativeObj, double pyr_scale, int levels, int winsize, int iterations, int poly_n, double poly_sigma, int flags);
 
-    // C++:  Mat cv::estimateRigidTransform(Mat src, Mat dst, bool fullAffine)
-    private static native long estimateRigidTransform_0(long src_nativeObj, long dst_nativeObj, boolean fullAffine);
-
-    // C++:  Mat cv::estimateRigidTransform(Mat src, Mat dst, bool fullAffine, int ransacMaxIters, double ransacGoodRatio, int ransacSize0)
-    private static native long estimateRigidTransform_1(long src_nativeObj, long dst_nativeObj, boolean fullAffine, int ransacMaxIters, double ransacGoodRatio, int ransacSize0);
-
     // C++:  double cv::computeECC(Mat templateImage, Mat inputImage, Mat inputMask = Mat())
     private static native double computeECC_0(long templateImage_nativeObj, long inputImage_nativeObj, long inputMask_nativeObj);
     private static native double computeECC_1(long templateImage_nativeObj, long inputImage_nativeObj);
@@ -1012,19 +1026,16 @@ public class Video {
     // C++:  double cv::findTransformECC(Mat templateImage, Mat inputImage, Mat& warpMatrix, int motionType, TermCriteria criteria, Mat inputMask, int gaussFiltSize)
     private static native double findTransformECC_0(long templateImage_nativeObj, long inputImage_nativeObj, long warpMatrix_nativeObj, int motionType, int criteria_type, int criteria_maxCount, double criteria_epsilon, long inputMask_nativeObj, int gaussFiltSize);
 
-    // C++:  Ptr_DualTVL1OpticalFlow cv::createOptFlow_DualTVL1()
-    private static native long createOptFlow_DualTVL1_0();
+    // C++:  double cv::findTransformECC(Mat templateImage, Mat inputImage, Mat& warpMatrix, int motionType = MOTION_AFFINE, TermCriteria criteria = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 50, 0.001), Mat inputMask = Mat())
+    private static native double findTransformECC_1(long templateImage_nativeObj, long inputImage_nativeObj, long warpMatrix_nativeObj, int motionType, int criteria_type, int criteria_maxCount, double criteria_epsilon, long inputMask_nativeObj);
+    private static native double findTransformECC_2(long templateImage_nativeObj, long inputImage_nativeObj, long warpMatrix_nativeObj, int motionType, int criteria_type, int criteria_maxCount, double criteria_epsilon);
+    private static native double findTransformECC_3(long templateImage_nativeObj, long inputImage_nativeObj, long warpMatrix_nativeObj, int motionType);
+    private static native double findTransformECC_4(long templateImage_nativeObj, long inputImage_nativeObj, long warpMatrix_nativeObj);
 
-    // C++:  Ptr_BackgroundSubtractorMOG2 cv::createBackgroundSubtractorMOG2(int history = 500, double varThreshold = 16, bool detectShadows = true)
-    private static native long createBackgroundSubtractorMOG2_0(int history, double varThreshold, boolean detectShadows);
-    private static native long createBackgroundSubtractorMOG2_1(int history, double varThreshold);
-    private static native long createBackgroundSubtractorMOG2_2(int history);
-    private static native long createBackgroundSubtractorMOG2_3();
+    // C++:  Mat cv::readOpticalFlow(String path)
+    private static native long readOpticalFlow_0(String path);
 
-    // C++:  Ptr_BackgroundSubtractorKNN cv::createBackgroundSubtractorKNN(int history = 500, double dist2Threshold = 400.0, bool detectShadows = true)
-    private static native long createBackgroundSubtractorKNN_0(int history, double dist2Threshold, boolean detectShadows);
-    private static native long createBackgroundSubtractorKNN_1(int history, double dist2Threshold);
-    private static native long createBackgroundSubtractorKNN_2(int history);
-    private static native long createBackgroundSubtractorKNN_3();
+    // C++:  bool cv::writeOpticalFlow(String path, Mat flow)
+    private static native boolean writeOpticalFlow_0(String path, long flow_nativeObj);
 
 }

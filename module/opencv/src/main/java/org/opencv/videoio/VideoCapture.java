@@ -3,7 +3,11 @@
 //
 package org.opencv.videoio;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfInt;
+import org.opencv.utils.Converters;
 
 // C++: class VideoCapture
 /**
@@ -61,28 +65,12 @@ public class VideoCapture {
 
 
     //
-    // C++:   cv::VideoCapture::VideoCapture(String filename)
+    // C++:   cv::VideoCapture::VideoCapture(String filename, int apiPreference = CAP_ANY)
     //
 
     /**
      *
-     *      Open video file or image file sequence or a capturing device or a IP video stream for video capturing
-     *
-     *     Same as VideoCapture(const String&amp; filename, int apiPreference) but using default Capture API backends
-     * @param filename automatically generated
-     */
-    public VideoCapture(String filename) {
-        nativeObj = VideoCapture_1(filename);
-    }
-
-
-    //
-    // C++:   cv::VideoCapture::VideoCapture(String filename, int apiPreference)
-    //
-
-    /**
-     *
-     *      Open video file or a capturing device or a IP video stream for video capturing with API Preference
+     *      Opens a video file or a capturing device or an IP video stream for video capturing with API Preference
      *
      *     @param filename it can be:
      * <ul>
@@ -107,31 +95,61 @@ public class VideoCapture {
      *     SEE: cv::VideoCaptureAPIs
      */
     public VideoCapture(String filename, int apiPreference) {
-        nativeObj = VideoCapture_2(filename, apiPreference);
+        nativeObj = VideoCapture_1(filename, apiPreference);
+    }
+
+    /**
+     *
+     *      Opens a video file or a capturing device or an IP video stream for video capturing with API Preference
+     *
+     *     @param filename it can be:
+     * <ul>
+     *   <li>
+     *      name of video file (eg. {@code video.avi})
+     *   </li>
+     *   <li>
+     *      or image sequence (eg. {@code img_%02d.jpg}, which will read samples like {@code img_00.jpg, img_01.jpg, img_02.jpg, ...})
+     *   </li>
+     *   <li>
+     *      or URL of video stream (eg. {@code protocol://host:port/script_name?script_params|auth})
+     *   </li>
+     *   <li>
+     *      or GStreamer pipeline string in gst-launch tool format in case if GStreamer is used as backend
+     *       Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
+     *       documentation of source stream to know the right URL.
+     *     implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.
+     *   </li>
+     * </ul>
+     *
+     *     SEE: cv::VideoCaptureAPIs
+     */
+    public VideoCapture(String filename) {
+        nativeObj = VideoCapture_2(filename);
     }
 
 
     //
-    // C++:   cv::VideoCapture::VideoCapture(int index)
+    // C++:   cv::VideoCapture::VideoCapture(String filename, int apiPreference, vector_int params)
     //
 
     /**
      *
-     *      Open a camera for video capturing
+     *     Opens a video file or a capturing device or an IP video stream for video capturing with API Preference and parameters
      *
-     *     @param index camera_id + domain_offset (CAP_*) id of the video capturing device to open. To open default camera using default backend just pass 0.
-     *     Use a {@code domain_offset} to enforce a specific reader implementation if multiple are available like cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.
-     *     e.g. to open Camera 1 using the MS Media Foundation API use {@code index = 1 + cv::CAP_MSMF}
-     *
-     *     SEE: cv::VideoCaptureAPIs
+     *     The {@code params} parameter allows to specify extra parameters encoded as pairs {@code (paramId_1, paramValue_1, paramId_2, paramValue_2, ...)}.
+     *     See cv::VideoCaptureProperties
+     * @param filename automatically generated
+     * @param apiPreference automatically generated
+     * @param params automatically generated
      */
-    public VideoCapture(int index) {
-        nativeObj = VideoCapture_3(index);
+    public VideoCapture(String filename, int apiPreference, MatOfInt params) {
+        Mat params_mat = params;
+        nativeObj = VideoCapture_3(filename, apiPreference, params_mat.nativeObj);
     }
 
 
     //
-    // C++:   cv::VideoCapture::VideoCapture(int index, int apiPreference)
+    // C++:   cv::VideoCapture::VideoCapture(int index, int apiPreference = CAP_ANY)
     //
 
     /**
@@ -141,7 +159,7 @@ public class VideoCapture {
      *     @param index id of the video capturing device to open. To open default camera using default backend just pass 0.
      *     (to backward compatibility usage of camera_id + domain_offset (CAP_*) is valid when apiPreference is CAP_ANY)
      *     @param apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
-     *     implementation if multiple are available: e.g. cv::CAP_DSHOW or cv::CAP_MSMF or cv::CAP_V4L2.
+     *     implementation if multiple are available: e.g. cv::CAP_DSHOW or cv::CAP_MSMF or cv::CAP_V4L.
      *
      *     SEE: cv::VideoCaptureAPIs
      */
@@ -149,64 +167,160 @@ public class VideoCapture {
         nativeObj = VideoCapture_4(index, apiPreference);
     }
 
+    /**
+     *
+     *      Opens a camera for video capturing
+     *
+     *     @param index id of the video capturing device to open. To open default camera using default backend just pass 0.
+     *     (to backward compatibility usage of camera_id + domain_offset (CAP_*) is valid when apiPreference is CAP_ANY)
+     *     implementation if multiple are available: e.g. cv::CAP_DSHOW or cv::CAP_MSMF or cv::CAP_V4L.
+     *
+     *     SEE: cv::VideoCaptureAPIs
+     */
+    public VideoCapture(int index) {
+        nativeObj = VideoCapture_5(index);
+    }
+
 
     //
-    // C++:  bool cv::VideoCapture::open(String filename)
+    // C++:   cv::VideoCapture::VideoCapture(int index, int apiPreference, vector_int params)
     //
 
     /**
-     *  Open video file or a capturing device or a IP video stream for video capturing
+     *
+     *     Opens a camera for video capturing with API Preference and parameters
+     *
+     *     The {@code params} parameter allows to specify extra parameters encoded as pairs {@code (paramId_1, paramValue_1, paramId_2, paramValue_2, ...)}.
+     *     See cv::VideoCaptureProperties
+     * @param index automatically generated
+     * @param apiPreference automatically generated
+     * @param params automatically generated
+     */
+    public VideoCapture(int index, int apiPreference, MatOfInt params) {
+        Mat params_mat = params;
+        nativeObj = VideoCapture_6(index, apiPreference, params_mat.nativeObj);
+    }
+
+
+    //
+    // C++:  bool cv::VideoCapture::open(String filename, int apiPreference = CAP_ANY)
+    //
+
+    /**
+     *  Opens a video file or a capturing device or an IP video stream for video capturing.
      *
      *     
      *
-     *     Parameters are same as the constructor VideoCapture(const String&amp; filename)
+     *     Parameters are same as the constructor VideoCapture(const String&amp; filename, int apiPreference = CAP_ANY)
+     *     @return {@code true} if the file has been successfully opened
+     *
+     *     The method first calls VideoCapture::release to close the already opened file or camera.
+     * @param filename automatically generated
+     * @param apiPreference automatically generated
+     */
+    public boolean open(String filename, int apiPreference) {
+        return open_0(nativeObj, filename, apiPreference);
+    }
+
+    /**
+     *  Opens a video file or a capturing device or an IP video stream for video capturing.
+     *
+     *     
+     *
+     *     Parameters are same as the constructor VideoCapture(const String&amp; filename, int apiPreference = CAP_ANY)
      *     @return {@code true} if the file has been successfully opened
      *
      *     The method first calls VideoCapture::release to close the already opened file or camera.
      * @param filename automatically generated
      */
     public boolean open(String filename) {
-        return open_0(nativeObj, filename);
+        return open_1(nativeObj, filename);
     }
 
 
     //
-    // C++:  bool cv::VideoCapture::open(int index)
+    // C++:  bool cv::VideoCapture::open(String filename, int apiPreference, vector_int params)
     //
 
     /**
-     *  Open a camera for video capturing
+     *  Opens a video file or a capturing device or an IP video stream for video capturing with API Preference and parameters
      *
      *     
      *
-     *     Parameters are same as the constructor VideoCapture(int index)
+     *     The {@code params} parameter allows to specify extra parameters encoded as pairs {@code (paramId_1, paramValue_1, paramId_2, paramValue_2, ...)}.
+     *     See cv::VideoCaptureProperties
+     *
+     *     @return {@code true} if the file has been successfully opened
+     *
+     *     The method first calls VideoCapture::release to close the already opened file or camera.
+     * @param filename automatically generated
+     * @param apiPreference automatically generated
+     * @param params automatically generated
+     */
+    public boolean open(String filename, int apiPreference, MatOfInt params) {
+        Mat params_mat = params;
+        return open_2(nativeObj, filename, apiPreference, params_mat.nativeObj);
+    }
+
+
+    //
+    // C++:  bool cv::VideoCapture::open(int index, int apiPreference = CAP_ANY)
+    //
+
+    /**
+     *  Opens a camera for video capturing
+     *
+     *     
+     *
+     *     Parameters are same as the constructor VideoCapture(int index, int apiPreference = CAP_ANY)
+     *     @return {@code true} if the camera has been successfully opened.
+     *
+     *     The method first calls VideoCapture::release to close the already opened file or camera.
+     * @param index automatically generated
+     * @param apiPreference automatically generated
+     */
+    public boolean open(int index, int apiPreference) {
+        return open_3(nativeObj, index, apiPreference);
+    }
+
+    /**
+     *  Opens a camera for video capturing
+     *
+     *     
+     *
+     *     Parameters are same as the constructor VideoCapture(int index, int apiPreference = CAP_ANY)
      *     @return {@code true} if the camera has been successfully opened.
      *
      *     The method first calls VideoCapture::release to close the already opened file or camera.
      * @param index automatically generated
      */
     public boolean open(int index) {
-        return open_1(nativeObj, index);
+        return open_4(nativeObj, index);
     }
 
 
     //
-    // C++:  bool cv::VideoCapture::open(int cameraNum, int apiPreference)
+    // C++:  bool cv::VideoCapture::open(int index, int apiPreference, vector_int params)
     //
 
     /**
-     *  Open a camera for video capturing
+     *  Opens a camera for video capturing with API Preference and parameters
      *
      *     
      *
-     *     Parameters are similar as the constructor VideoCapture(int index),except it takes an additional argument apiPreference.
-     *     Definitely, is same as open(int index) where {@code index=cameraNum + apiPreference}
+     *     The {@code params} parameter allows to specify extra parameters encoded as pairs {@code (paramId_1, paramValue_1, paramId_2, paramValue_2, ...)}.
+     *     See cv::VideoCaptureProperties
+     *
      *     @return {@code true} if the camera has been successfully opened.
-     * @param cameraNum automatically generated
+     *
+     *     The method first calls VideoCapture::release to close the already opened file or camera.
+     * @param index automatically generated
      * @param apiPreference automatically generated
+     * @param params automatically generated
      */
-    public boolean open(int cameraNum, int apiPreference) {
-        return open_2(nativeObj, cameraNum, apiPreference);
+    public boolean open(int index, int apiPreference, MatOfInt params) {
+        Mat params_mat = params;
+        return open_5(nativeObj, index, apiPreference, params_mat.nativeObj);
     }
 
 
@@ -388,27 +502,6 @@ public class VideoCapture {
 
 
     //
-    // C++:  bool cv::VideoCapture::open(String filename, int apiPreference)
-    //
-
-    /**
-     * Open video file or a capturing device or a IP video stream for video capturing with API Preference
-     *
-     *     
-     *
-     *     Parameters are same as the constructor VideoCapture(const String&amp; filename, int apiPreference)
-     *     @return {@code true} if the file has been successfully opened
-     *
-     *     The method first calls VideoCapture::release to close the already opened file or camera.
-     * @param filename automatically generated
-     * @param apiPreference automatically generated
-     */
-    public boolean open(String filename, int apiPreference) {
-        return open_3(nativeObj, filename, apiPreference);
-    }
-
-
-    //
     // C++:  String cv::VideoCapture::getBackendName()
     //
 
@@ -423,6 +516,37 @@ public class VideoCapture {
     }
 
 
+    //
+    // C++:  void cv::VideoCapture::setExceptionMode(bool enable)
+    //
+
+    /**
+     * Switches exceptions mode
+     *
+     * methods raise exceptions if not successful instead of returning an error code
+     * @param enable automatically generated
+     */
+    public void setExceptionMode(boolean enable) {
+        setExceptionMode_0(nativeObj, enable);
+    }
+
+
+    //
+    // C++:  bool cv::VideoCapture::getExceptionMode()
+    //
+
+    public boolean getExceptionMode() {
+        return getExceptionMode_0(nativeObj);
+    }
+
+
+    //
+    // C++: static bool cv::VideoCapture::waitAny(vector_VideoCapture streams, vector_int& readyIndex, int64 timeoutNs = 0)
+    //
+
+    // Unknown type 'vector_VideoCapture' (I), skipping the function
+
+
     @Override
     protected void finalize() throws Throwable {
         delete(nativeObj);
@@ -433,26 +557,33 @@ public class VideoCapture {
     // C++:   cv::VideoCapture::VideoCapture()
     private static native long VideoCapture_0();
 
-    // C++:   cv::VideoCapture::VideoCapture(String filename)
-    private static native long VideoCapture_1(String filename);
+    // C++:   cv::VideoCapture::VideoCapture(String filename, int apiPreference = CAP_ANY)
+    private static native long VideoCapture_1(String filename, int apiPreference);
+    private static native long VideoCapture_2(String filename);
 
-    // C++:   cv::VideoCapture::VideoCapture(String filename, int apiPreference)
-    private static native long VideoCapture_2(String filename, int apiPreference);
+    // C++:   cv::VideoCapture::VideoCapture(String filename, int apiPreference, vector_int params)
+    private static native long VideoCapture_3(String filename, int apiPreference, long params_mat_nativeObj);
 
-    // C++:   cv::VideoCapture::VideoCapture(int index)
-    private static native long VideoCapture_3(int index);
-
-    // C++:   cv::VideoCapture::VideoCapture(int index, int apiPreference)
+    // C++:   cv::VideoCapture::VideoCapture(int index, int apiPreference = CAP_ANY)
     private static native long VideoCapture_4(int index, int apiPreference);
+    private static native long VideoCapture_5(int index);
 
-    // C++:  bool cv::VideoCapture::open(String filename)
-    private static native boolean open_0(long nativeObj, String filename);
+    // C++:   cv::VideoCapture::VideoCapture(int index, int apiPreference, vector_int params)
+    private static native long VideoCapture_6(int index, int apiPreference, long params_mat_nativeObj);
 
-    // C++:  bool cv::VideoCapture::open(int index)
-    private static native boolean open_1(long nativeObj, int index);
+    // C++:  bool cv::VideoCapture::open(String filename, int apiPreference = CAP_ANY)
+    private static native boolean open_0(long nativeObj, String filename, int apiPreference);
+    private static native boolean open_1(long nativeObj, String filename);
 
-    // C++:  bool cv::VideoCapture::open(int cameraNum, int apiPreference)
-    private static native boolean open_2(long nativeObj, int cameraNum, int apiPreference);
+    // C++:  bool cv::VideoCapture::open(String filename, int apiPreference, vector_int params)
+    private static native boolean open_2(long nativeObj, String filename, int apiPreference, long params_mat_nativeObj);
+
+    // C++:  bool cv::VideoCapture::open(int index, int apiPreference = CAP_ANY)
+    private static native boolean open_3(long nativeObj, int index, int apiPreference);
+    private static native boolean open_4(long nativeObj, int index);
+
+    // C++:  bool cv::VideoCapture::open(int index, int apiPreference, vector_int params)
+    private static native boolean open_5(long nativeObj, int index, int apiPreference, long params_mat_nativeObj);
 
     // C++:  bool cv::VideoCapture::isOpened()
     private static native boolean isOpened_0(long nativeObj);
@@ -476,11 +607,14 @@ public class VideoCapture {
     // C++:  double cv::VideoCapture::get(int propId)
     private static native double get_0(long nativeObj, int propId);
 
-    // C++:  bool cv::VideoCapture::open(String filename, int apiPreference)
-    private static native boolean open_3(long nativeObj, String filename, int apiPreference);
-
     // C++:  String cv::VideoCapture::getBackendName()
     private static native String getBackendName_0(long nativeObj);
+
+    // C++:  void cv::VideoCapture::setExceptionMode(bool enable)
+    private static native void setExceptionMode_0(long nativeObj, boolean enable);
+
+    // C++:  bool cv::VideoCapture::getExceptionMode()
+    private static native boolean getExceptionMode_0(long nativeObj);
 
     // native support for java finalize()
     private static native void delete(long nativeObj);
