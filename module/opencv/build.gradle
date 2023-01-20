@@ -4,11 +4,11 @@ plugins {
 
 def openCVersionName = "opencv-4.7.0-android-sdk"
 
-println "OpenCV: " +openCVersionName
+println "OpenCV: " + openCVersionName
 
 android {
     namespace 'org.opencv'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         minSdk 24
@@ -62,6 +62,6 @@ android {
 }
 
 dependencies {
-implementation 'androidx.core:core-ktx:+'
+    implementation 'androidx.core:core-ktx:1.9.0'
 }
 
