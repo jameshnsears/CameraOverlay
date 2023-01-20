@@ -1,7 +1,7 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
-import com.github.jameshnsears.cameraoverlay.view.EmulatorCompatibilityUtility
+import com.github.jameshnsears.cameraoverlay.util.EmulatorCompatibilityHelper
 import java.util.Arrays
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
@@ -12,7 +12,7 @@ import org.junit.Test
 class MediaStoreTest : PhotoResourcesUtility() {
     @Test
     fun confirmExif() {
-        if (!EmulatorCompatibilityUtility.canTestButRunInEmulator()) {
+        if (!EmulatorCompatibilityHelper.canTestButRunInEmulator()) {
             fail()
         }
 

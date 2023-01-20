@@ -6,7 +6,7 @@ import android.media.MediaScannerConnection
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.test.platform.app.InstrumentationRegistry
-import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
+import com.github.jameshnsears.cameraoverlay.utils.MethodLineLoggingTree
 import org.junit.Before
 import timber.log.Timber
 

@@ -1,12 +1,12 @@
-package com.github.jameshnsears.cameraoverlay.view
+package com.github.jameshnsears.cameraoverlay.view.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
+import com.github.jameshnsears.cameraoverlay.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import timber.log.Timber
 
-class MainActivityTest : ComponentActivity() {
+class MainScreenTest : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

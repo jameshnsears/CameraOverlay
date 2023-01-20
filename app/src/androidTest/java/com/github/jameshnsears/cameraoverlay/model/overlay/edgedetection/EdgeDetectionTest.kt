@@ -1,5 +1,7 @@
-package com.github.jameshnsears.cameraoverlay.model.edgedetection
+package com.github.jameshnsears.cameraoverlay.model.overlay.edgedetection
 
+import com.github.jameshnsears.cameraoverlay.model.edgedetection.Canny
+import com.github.jameshnsears.cameraoverlay.model.edgedetection.EdgeDetectionUtils
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 

@@ -7,6 +7,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Camera Overlay"
 include ':app'
-include ':module:common'
 include ':module:permissions'
 include ':module:opencv'

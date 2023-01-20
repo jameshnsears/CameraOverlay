@@ -8,7 +8,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
-import com.github.jameshnsears.cameraoverlay.view.MainActivityTest
+import com.github.jameshnsears.cameraoverlay.view.main.MainScreenTest
 import org.junit.Rule
 
 open class PermissionButtonTest {
@@ -22,7 +22,7 @@ open class PermissionButtonTest {
     }
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<MainActivityTest>()
+    val composeTestRule = createAndroidComposeRule<MainScreenTest>()
 
     fun denyPermissionDialog(buttonText: String) {
         composeTestRule.onNodeWithText(buttonText).performClick()

@@ -227,7 +227,6 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
-    implementation project(path: ':module:common')
     implementation project(path: ':module:permissions')
     implementation project(path: ':module:opencv')
 

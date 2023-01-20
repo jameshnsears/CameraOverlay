@@ -39,7 +39,7 @@ import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.permission.PermissionArea
-import com.github.jameshnsears.cameraoverlay.view.common.Navigation
+import com.github.jameshnsears.cameraoverlay.view.common.CommonNavigation
 import com.github.jameshnsears.cameraoverlay.view.main.about.AboutDialog
 import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonLocation
 import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionButtonOverlay
@@ -174,7 +174,7 @@ fun Permissions(
                 )
 
                 IconButton(
-                    onClick = { navController.navigate(Navigation.SCREEN_PERMISSIONS) },
+                    onClick = { navController.navigate(CommonNavigation.SCREEN_PERMISSIONS) },
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.HelpOutline,
@@ -216,7 +216,7 @@ fun SelectPhoto(
         horizontalAlignment = Alignment.End
     ) {
         OutlinedButton(
-            onClick = { navController.navigate(Navigation.SCREEN_SELECT_PHOTO) },
+            onClick = { navController.navigate(CommonNavigation.SCREEN_SELECT_PHOTO) },
             modifier = Modifier
                 .size(width = 160.dp, height = 45.dp),
             shape = RoundedCornerShape(16.dp),

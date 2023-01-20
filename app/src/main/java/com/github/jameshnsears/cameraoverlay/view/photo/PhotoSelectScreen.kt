@@ -28,7 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollection
-import com.github.jameshnsears.cameraoverlay.view.common.Navigation
+import com.github.jameshnsears.cameraoverlay.view.common.CommonNavigation
 import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogCollection
 import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogFilter
 import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogSort
@@ -59,7 +59,7 @@ fun PhotoSelectScreen(navController: NavController) {
                 TopAppBar(
                     title = { },
                     navigationIcon = {
-                        IconButton(onClick = { navController.navigate(Navigation.SCREEN_MAIN) }) {
+                        IconButton(onClick = { navController.navigate(CommonNavigation.SCREEN_MAIN) }) {
                             Icon(
                                 imageVector = Icons.Outlined.ArrowBack,
                                 contentDescription = null

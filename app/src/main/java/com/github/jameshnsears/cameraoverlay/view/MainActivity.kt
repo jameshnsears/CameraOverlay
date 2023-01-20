@@ -9,8 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
-import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
-import com.github.jameshnsears.cameraoverlay.view.common.Navigation
+import com.github.jameshnsears.cameraoverlay.utils.MethodLineLoggingTree
+import com.github.jameshnsears.cameraoverlay.view.common.CommonNavigation
 import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
 import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionScreen
 import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
@@ -26,17 +26,17 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            NavHost(navController, startDestination = Navigation.SCREEN_MAIN) {
-                composable(Navigation.SCREEN_MAIN) {
+            NavHost(navController, startDestination = CommonNavigation.SCREEN_MAIN) {
+                composable(CommonNavigation.SCREEN_MAIN) {
                     MainScreen(
                         navController,
                         viewModelPermission = ViewModelPermission(applicationContext)
                     )
                 }
-                composable(Navigation.SCREEN_PERMISSIONS) {
+                composable(CommonNavigation.SCREEN_PERMISSIONS) {
                     PermissionScreen(navController)
                 }
-                composable(Navigation.SCREEN_SELECT_PHOTO) {
+                composable(CommonNavigation.SCREEN_SELECT_PHOTO) {
                     PhotoSelectScreen(navController)
                 }
                 // https://code.luasoftware.com/tutorials/android/jetpack-compose-navigation-pass-arguments/

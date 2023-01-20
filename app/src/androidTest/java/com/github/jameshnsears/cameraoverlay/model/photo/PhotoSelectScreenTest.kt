@@ -6,7 +6,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.R
-import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
+import com.github.jameshnsears.cameraoverlay.utils.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
 import io.mockk.mockk

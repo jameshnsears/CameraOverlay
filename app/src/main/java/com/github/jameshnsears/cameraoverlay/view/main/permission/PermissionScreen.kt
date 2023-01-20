@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
-import com.github.jameshnsears.cameraoverlay.view.common.Navigation
+import com.github.jameshnsears.cameraoverlay.view.common.CommonNavigation
 import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +45,7 @@ fun PermissionScreen(navController: NavController) {
                 CommonTopAppBar(
                     stringResource(R.string.permissions),
                     navController,
-                    Navigation.SCREEN_MAIN
+                    CommonNavigation.SCREEN_MAIN
                 )
             },
         ) { padding ->
