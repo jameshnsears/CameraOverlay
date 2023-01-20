@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.photo
+package com.github.jameshnsears.cameraoverlay.view.photo.dialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

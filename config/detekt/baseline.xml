@@ -3,13 +3,8 @@
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
     <ID>LongMethod:PhotoCard.kt$@Composable fun PhotoCard(navController: NavController, photoCardData: PhotoCardData)</ID>
-    <ID>MagicNumber:Canny.kt$Canny$100.0</ID>
-    <ID>MagicNumber:Canny.kt$Canny$4</ID>
-    <ID>MagicNumber:Canny.kt$Canny$80.0</ID>
-    <ID>MagicNumber:EdgeDetectionUtils.kt$EdgeDetectionUtils$3.0</ID>
-    <ID>MagicNumber:OverlayWindow.kt$OverlayWindow$5</ID>
-    <ID>MagicNumber:PhotoSelectScreen.kt$20</ID>
-    <ID>MaxLineLength:PhotoDialogCollection.kt$// android.content.ActivityNotFoundException: No Activity found to handle Intent { act=android.intent.action.OPEN_DOCUMENT_TREE cat=[android.intent.category.OPENABLE] (has extras) }</ID>
+    <ID>LongMethod:PhotoSelectScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun PhotoSelectScreen(navController: NavController)</ID>
+    <ID>MaxLineLength:CollectionDialog.kt$// android.content.ActivityNotFoundException: No Activity found to handle Intent { act=android.intent.action.OPEN_DOCUMENT_TREE cat=[android.intent.category.OPENABLE] (has extras) }</ID>
     <ID>MayBeConst:OverlayService.kt$OverlayService.Companion$val OVERLAY_WINDOW_HEIGHT_ADJUSTMENT = .80</ID>
     <ID>MayBeConst:OverlayService.kt$OverlayService.Companion$val OVERLAY_WINDOW_WIDTH_ADJUSTMENT = .75</ID>
     <ID>UnusedPrivateMember:PhotoCard.kt$navController: NavController</ID>

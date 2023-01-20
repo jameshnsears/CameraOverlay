@@ -12,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -236,9 +235,9 @@ fun enableButtonSelectPhoto(viewModelPermission: ViewModelPermission): Boolean {
     }
 
     return !(
-            !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
-                    !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
-            )
+        !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
+            !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
+        )
 }
 
 @Preview(name = "Light Theme")

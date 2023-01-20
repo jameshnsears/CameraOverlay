@@ -84,9 +84,11 @@ fun AboutDialogRow(context: Context) {
         ) {
             Column(Modifier.align(Alignment.CenterVertically)) {
                 SelectionContainer {
-                    Text(BuildConfig.VERSION_NAME,
+                    Text(
+                        BuildConfig.VERSION_NAME,
                         modifier = Modifier
-                            .padding(bottom = 4.dp),)
+                            .padding(bottom = 4.dp),
+                    )
                 }
                 SelectionContainer {
                     Text(BuildConfig.GIT_HASH)

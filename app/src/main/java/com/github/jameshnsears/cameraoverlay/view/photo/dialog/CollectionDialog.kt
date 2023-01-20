@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.photo
+package com.github.jameshnsears.cameraoverlay.view.photo.dialog
 
 import android.app.Activity
 import android.content.Intent
