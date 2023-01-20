@@ -29,6 +29,9 @@ import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollection
 import com.github.jameshnsears.cameraoverlay.view.common.Navigation
+import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogCollection
+import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogFilter
+import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogSort
 import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
