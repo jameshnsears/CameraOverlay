@@ -5,7 +5,7 @@ import org.junit.Test
 
 class EdgeDetectionTest {
     init {
-        System.loadLibrary("opencv_java3")
+        System.loadLibrary("opencv_java4")
     }
 
     @Test
