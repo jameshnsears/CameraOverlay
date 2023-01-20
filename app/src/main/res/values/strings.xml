@@ -14,28 +14,28 @@
 
     <string name="permissions_screen_files_and_media">Access photos</string>
     <!-- 24: ...to access photos, media, and files on your device  -->
-    <string name="permissions_screen_mandatory">\u2022 Mandatory</string>
-    <string name="permissions_screen_choose_photo">\u2022 Needed to allow browsing and selection of a photo to be used as the overlay</string>
+    <string name="permissions_screen_mandatory">\u2022 Required</string>
+    <string name="permissions_screen_choose_photo">\u2022 Allow browsing and selection of the photo to be used as the overlay</string>
 
-    <string name="permissions_screen_overlay">Create an overlay</string>
+    <string name="permissions_screen_overlay">Create overlay</string>
     <!-- 24: Permit drawing over other apps -->
-    <string name="permissions_screen_overlay_display_photo">\u2022 Needed to allow the app to display the selected photo as an overlay</string>
+    <string name="permissions_screen_overlay_display_photo">\u2022 Allow the app to display the selected photo as an overlay</string>
 
     <string name="permissions_screen_location">Location</string>
     <!-- 24: ...to access this devices location -->
     <string name="permissions_screen_optional">\u2022 Optional</string>
-    <string name="permissions_screen_show_distance">\u2022 Used to show distance between your present location and that of your photos (if contain GPS info)</string>
+    <string name="permissions_screen_show_distance">\u2022 Show distance between your present location and that of your photos (if they contain GPS info)</string>
 
-    <string name="error_missing_mandatory_permission">Please allow mandatory permissions</string>
+    <string name="error_missing_mandatory_permission">Please allow required permissions</string>
 
     <string name="select_photo">Select Photo</string>
-    <string name="select_photo_filter">Filter</string>
+    <string name="select_photo_filter">Filter…</string>
     <string name="select_photo_dialog_filter_jpeg">JPEG - can contain GPS info</string>
     <string name="select_photo_dialog_filter_png">PNG</string>
     <string name="select_photo_dialog_filter_webp">TIFF</string>
-    <string name="select_photo_collections">Collection</string>
+    <string name="select_photo_collections">Photo Collection…</string>
     <string name="select_photo_dialog_collections_media_store">All</string>
-    <string name="select_photo_dialog_collections_access_framework">Selection</string>
+    <string name="select_photo_dialog_collections_access_framework">Selection…</string>
     <string name="select_photo_dialog_collections_file">File</string>
     <string name="select_photo_dialog_collections_folder">Folder</string>
     <string name="select_photo_sort">Sort</string>
