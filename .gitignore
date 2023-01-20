@@ -40,3 +40,4 @@ local.properties
 /package.json
 /package-lock.json
 /vendor/
+/.idea/render.experimental.xml
