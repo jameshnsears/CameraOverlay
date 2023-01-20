@@ -72,5 +72,11 @@ base64 -w 0 <filename>
   /bitrise/src/app/src/googleplay/google-services.json
   /bitrise/src/app/src/debug/google-services.json
   /bitrise/src/app/src/googleplayDebug/google-services.json
-  /bitrise/src/app/google-services.json```
+  /bitrise/src/app/google-services.json
+  ```
 
+-- 
+
+## 9. GitHub CLI
+
+* https://github.com/cli/cli/blob/trunk/docs/install_linux.md
