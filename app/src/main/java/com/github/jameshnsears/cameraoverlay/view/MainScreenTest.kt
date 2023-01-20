@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.view.main
+package com.github.jameshnsears.cameraoverlay.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

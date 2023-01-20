@@ -148,9 +148,6 @@ android {
     }
 
     testOptions {
-        // will make tests run very slowly on the emulator/device + affects coverage #
-        // execution 'ANDROIDX_TEST_ORCHESTRATOR'
-
         animationsDisabled true
         unitTests {
             includeAndroidResources = true

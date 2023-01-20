@@ -8,7 +8,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
-import com.github.jameshnsears.cameraoverlay.view.main.MainScreenTest
+import com.github.jameshnsears.cameraoverlay.view.MainScreenTest
 import org.junit.Rule
 
 open class PermissionButtonTest {

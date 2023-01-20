@@ -5,7 +5,8 @@ import android.os.Build
 class EmulatorCompatibilityHelper {
     companion object {
         fun canTestButRunInEmulator(): Boolean {
-            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+            // tests tied to Permission / MediaStore functionality of Android 13
+            return Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU
         }
     }
 }

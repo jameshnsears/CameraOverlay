@@ -32,7 +32,6 @@ android {
     testOptions {
         animationsDisabled true
 
-        // no manifest permissions granted automatically if not using orchestrator
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 

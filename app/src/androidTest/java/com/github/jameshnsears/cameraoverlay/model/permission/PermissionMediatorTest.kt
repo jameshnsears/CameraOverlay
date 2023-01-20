@@ -18,7 +18,6 @@ class PermissionMediatorTest {
         assertFalse(permissionMediator.permissionAllowed(PermissionArea.STORAGE))
         assertFalse(permissionMediator.permissionAllowed(PermissionArea.LOCATION))
 
-        // when using 'ANDROIDX_TEST_ORCHESTRATOR' this permission is granted be default!
-        assertTrue(permissionMediator.permissionAllowed(PermissionArea.OVERLAY))
+        assertFalse(permissionMediator.permissionAllowed(PermissionArea.OVERLAY))
     }
 }
