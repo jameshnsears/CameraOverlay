@@ -1,15 +1,21 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
+import com.github.jameshnsears.cameraoverlay.view.EmulatorCompatibilityUtility
 import java.util.*
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
 import junit.framework.TestCase.assertTrue
+import junit.framework.TestCase.fail
 import org.junit.Test
 
 class MediaStoreTest : PhotoResourcesUtility() {
     @Test
     fun confirmExif() {
+        if (!EmulatorCompatibilityUtility.canTestButRunInEmulator()) {
+            fail()
+        }
+
         if (MediaStoreMediator.picturesInMediaStore(context).size != 3) {
             copyImageResourcesToExternalStorage()
         }
