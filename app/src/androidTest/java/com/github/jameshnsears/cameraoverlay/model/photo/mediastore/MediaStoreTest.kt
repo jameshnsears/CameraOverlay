@@ -2,12 +2,12 @@ package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 
 import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
+import java.util.Arrays
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
 import junit.framework.TestCase.assertTrue
 import junit.framework.TestCase.fail
 import org.junit.Test
-import java.util.Arrays
 
 class MediaStoreTest : PhotoResourcesUtility() {
     @Test
