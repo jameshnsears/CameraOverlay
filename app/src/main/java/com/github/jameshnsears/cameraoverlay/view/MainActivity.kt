@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.BuildConfig
 import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
-import com.github.jameshnsears.cameraoverlay.utils.MethodLineLoggingTree
+import com.github.jameshnsears.cameraoverlay.common.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.view.common.CommonNavigation
 import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
 import com.github.jameshnsears.cameraoverlay.view.main.permission.PermissionScreen

@@ -5,7 +5,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.IBinder
 import com.github.jameshnsears.cameraoverlay.BuildConfig
-import com.github.jameshnsears.cameraoverlay.utils.MethodLineLoggingTree
+import com.github.jameshnsears.cameraoverlay.common.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.OverlayWindow
 import timber.log.Timber
 

@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.utils
+package com.github.jameshnsears.cameraoverlay.common
 
 import timber.log.Timber
 

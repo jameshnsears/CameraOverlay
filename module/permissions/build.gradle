@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
     id "io.gitlab.arturbosch.detekt" version "1.21.0"
     id "org.jlleitschuh.gradle.ktlint" version "11.0.0"
 }
@@ -8,31 +8,20 @@ plugins {
 apply from: '../../detekt.gradle'
 apply from: '../../ktlint.gradle'
 
-
 android {
-    namespace "com.github.jameshnsears.cameraoverlay.permissions"
-
+    namespace 'com.github.jameshnsears.cameraoverlay.permissions'
     compileSdk 33
 
     defaultConfig {
+        minSdk 24
         targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-
-        // The following argument makes the Android Test Orchestrator run its
-        // "pm clear" command after each test invocation. This command ensures
-        // that the app's state is completely cleared between tests.
-
-        // 'true' means no jacoco coverage + no permissions granted, except for SYSTEM_ALERT_WINDOW
-        testInstrumentationRunnerArguments clearPackageData: 'true'
-        minSdk 24
     }
 
     testOptions {
         animationsDisabled true
-
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     packagingOptions {
@@ -76,7 +65,6 @@ android {
         kotlinCompilerExtensionVersion "1.3.2"
     }
 
-
     flavorDimensions 'Version'
     productFlavors {
         'googleplay' {
@@ -95,14 +83,6 @@ android {
         googleplay {
             java.srcDirs = ['src/main/java']
         }
-    }
-    lint {
-        abortOnError false
-        baseline file("$rootDir/config/lint/baseline.xml")
-        checkAllWarnings true
-        htmlReport true
-        warningsAsErrors true
-        xmlReport true
     }
 }
 
@@ -142,6 +122,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation project(path: ':module:common')
 }
 
 def gitHubAction() {

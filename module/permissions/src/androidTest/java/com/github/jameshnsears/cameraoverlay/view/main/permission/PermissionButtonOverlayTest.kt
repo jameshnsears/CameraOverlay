@@ -5,6 +5,8 @@ import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.model.permission.PermissionArea
 import com.github.jameshnsears.cameraoverlay.model.permission.PermissionMediatorImpl
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
@@ -13,12 +15,15 @@ import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermi
 import io.mockk.every
 import io.mockk.spyk
 import io.mockk.unmockkAll
+import junit.framework.TestCase
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(AndroidJUnit4::class)
 class PermissionButtonOverlayTest : PermissionButtonTest() {
     private lateinit var buttonTextOverlay: String
 
@@ -31,6 +36,10 @@ class PermissionButtonOverlayTest : PermissionButtonTest() {
     @Test
     // be default running in IDE grants this permission!
     fun allow() {
+        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
+            TestCase.fail()
+        }
+
         if (BuildConfig.GITHUB_ACTION) {
             return
         }
@@ -48,6 +57,10 @@ class PermissionButtonOverlayTest : PermissionButtonTest() {
 
     @Test
     fun deny() {
+        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
+            TestCase.fail()
+        }
+
         if (BuildConfig.GITHUB_ACTION) {
             return
         }
