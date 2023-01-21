@@ -9,3 +9,4 @@ rootProject.name = "Camera Overlay"
 include ':app'
 include ':module:permissions'
 include ':module:opencv'
+include ':common'
