@@ -23,7 +23,7 @@ open class PhotoResourcesUtility {
     var images = arrayOf(
         "eiffel_tower",
         "reichstag",
-        "tower_bridge"
+        "tower_bridge",
     )
 
     protected fun copyImageResourcesToExternalStorage() {
@@ -44,7 +44,7 @@ open class PhotoResourcesUtility {
 
         val uri = context.contentResolver.insert(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            contentValues
+            contentValues,
         )
 
         if (uri != null) {
@@ -60,7 +60,7 @@ open class PhotoResourcesUtility {
                 context,
                 arrayOf(uri.path),
                 arrayOf("image/jpeg"),
-                null
+                null,
             )
         }
     }

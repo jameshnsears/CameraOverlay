@@ -38,7 +38,6 @@ import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
 @Composable
 fun PhotoSelectScreen(navController: NavController) {
     AppTheme {
-
         val filterDialogState = remember { mutableStateOf(false) }
         if (filterDialogState.value) {
             PhotoDialogFilter(filterDialogState)
@@ -62,7 +61,7 @@ fun PhotoSelectScreen(navController: NavController) {
                         IconButton(onClick = { navController.navigate(CommonNavigation.SCREEN_MAIN) }) {
                             Icon(
                                 imageVector = Icons.Outlined.ArrowBack,
-                                contentDescription = null
+                                contentDescription = null,
                             )
                         }
                     },
@@ -70,9 +69,9 @@ fun PhotoSelectScreen(navController: NavController) {
                         TopBarActions(
                             filterDialogState,
                             collectionDialogState,
-                            sortDialogState
+                            sortDialogState,
                         )
-                    }
+                    },
                 )
             },
         ) { padding ->
@@ -81,7 +80,7 @@ fun PhotoSelectScreen(navController: NavController) {
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
                     .padding(padding)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()),
             ) {
                 for (photoId in 1..20) {
                     PhotoCard(
@@ -92,8 +91,8 @@ fun PhotoSelectScreen(navController: NavController) {
                             "https://example.com/image.jpg",
                             "when taken $photoId",
                             "distance $photoId",
-                            photoId = photoId
-                        )
+                            photoId = photoId,
+                        ),
                     )
                 }
             }
@@ -105,7 +104,7 @@ fun PhotoSelectScreen(navController: NavController) {
 fun TopBarActions(
     filterDialogState: MutableState<Boolean>,
     collectionDialogState: MutableState<Boolean>,
-    sortDialogState: MutableState<Boolean>
+    sortDialogState: MutableState<Boolean>,
 ) {
     IconButton(onClick = { collectionDialogState.value = true }) {
         Icon(

@@ -54,7 +54,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
     Card(
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 4.dp,
         ),
         modifier = Modifier
             .height(128.dp)
@@ -72,11 +72,11 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                 } else {
                     context.showToast(missingMandatoryPermissionMessage)
                 }
-            }
+            },
     ) {
         Column(
             Modifier
-                .padding(4.dp)
+                .padding(4.dp),
         ) {
             Row {
                 Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
@@ -154,7 +154,7 @@ fun CardPhotoPreview() {
             "https://example.com/image.jpg",
             "when taken 0",
             "distance 0",
-            photoId = 0
+            photoId = 0,
         ),
         PhotoCardData(
             PhotoCollection.MediaStore,
@@ -162,7 +162,7 @@ fun CardPhotoPreview() {
             "https://example.com/image.jpg",
             "when taken 1",
             "distance 1",
-            photoId = 1
+            photoId = 1,
         ),
     )
 

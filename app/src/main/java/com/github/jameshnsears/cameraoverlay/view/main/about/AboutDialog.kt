@@ -46,7 +46,7 @@ fun AboutDialog(openDialog: MutableState<Boolean>) {
             Text(
                 text = stringResource(R.string.about_dialog),
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
+                fontSize = 24.sp,
             )
         },
         shape = RoundedCornerShape(16.dp),
@@ -70,17 +70,17 @@ fun AboutDialogRow(context: Context) {
                         context,
                         Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse("https://jameshnsears.github.io/CameraOverlay/")
+                            Uri.parse("https://jameshnsears.github.io/CameraOverlay/"),
                         ),
-                        null
+                        null,
                     )
-                }
+                },
             )
         }
 
         Row(
             Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(Modifier.align(Alignment.CenterVertically)) {
                 SelectionContainer {
@@ -97,7 +97,7 @@ fun AboutDialogRow(context: Context) {
             Column {
                 IconButton(
                     onClick = { linkToGitHub(context) },
-                    modifier = Modifier.width(80.dp)
+                    modifier = Modifier.width(80.dp),
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_github_logo),
@@ -113,7 +113,7 @@ fun linkToGitHub(context: Context) {
     startActivity(
         context,
         Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/jameshnsears/cameraoverlay")),
-        null
+        null,
     )
 }
 

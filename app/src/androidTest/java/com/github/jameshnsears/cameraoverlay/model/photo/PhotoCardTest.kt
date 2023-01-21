@@ -109,8 +109,9 @@ class PhotoCardTest : PhotoResourcesUtility() {
             .build()
 
         client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful)
+            if (!response.isSuccessful) {
                 fail("Unexpected code $response")
+            }
 
             assertEquals("330753", response.header(CONTENT_LENGTH, "-1"))
         }

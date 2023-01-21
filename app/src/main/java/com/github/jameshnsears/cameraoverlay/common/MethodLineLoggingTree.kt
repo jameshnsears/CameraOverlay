@@ -8,7 +8,7 @@ class MethodLineLoggingTree : Timber.DebugTree() {
             "CameraOverlay: %s.%s, %s",
             super.createStackElementTag(element),
             element.methodName,
-            element.lineNumber
+            element.lineNumber,
         )
     }
 }

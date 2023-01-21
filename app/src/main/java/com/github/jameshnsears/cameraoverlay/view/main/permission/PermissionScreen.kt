@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
-import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.common.CommonNavigation
+import com.github.jameshnsears.cameraoverlay.view.common.CommonTopAppBar
 import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +45,7 @@ fun PermissionScreen(navController: NavController) {
                 CommonTopAppBar(
                     stringResource(R.string.permissions),
                     navController,
-                    CommonNavigation.SCREEN_MAIN
+                    CommonNavigation.SCREEN_MAIN,
                 )
             },
         ) { padding ->
@@ -54,7 +54,7 @@ fun PermissionScreen(navController: NavController) {
                     .padding(start = 8.dp, end = 8.dp)
                     .fillMaxWidth()
                     .padding(padding)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()),
             ) {
                 FilesAndMedia()
                 DisplayOverOtherApps()
@@ -72,27 +72,27 @@ fun FilesAndMedia() {
             .padding(8.dp)
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        )
+            defaultElevation = 4.dp,
+        ),
     ) {
         Column(
             Modifier
-                .padding(16.dp)
+                .padding(16.dp),
         ) {
             Row {
                 Column {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Folder,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
                             stringResource(R.string.permissions_screen_files_and_media),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
+                            fontSize = 24.sp,
                         )
                     }
                     Text(
@@ -100,12 +100,12 @@ fun FilesAndMedia() {
                         modifier = Modifier
                             .padding(vertical = 6.dp),
                         fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Italic
+                        fontStyle = FontStyle.Italic,
                     )
                     Text(
                         stringResource(R.string.permissions_screen_choose_photo),
                         modifier = Modifier
-                            .padding(vertical = 6.dp)
+                            .padding(vertical = 6.dp),
                     )
                 }
             }
@@ -121,28 +121,27 @@ fun Location() {
             .padding(8.dp)
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        )
+            defaultElevation = 4.dp,
+        ),
     ) {
         Column(
             Modifier
-                .padding(16.dp)
+                .padding(16.dp),
         ) {
             Row {
                 Column {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-
                         Icon(
                             imageVector = Icons.Outlined.LocationOn,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
                             stringResource(R.string.permissions_screen_location),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
+                            fontSize = 24.sp,
                         )
                     }
                     Text(
@@ -150,12 +149,12 @@ fun Location() {
                         modifier = Modifier
                             .padding(vertical = 6.dp),
                         fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Italic
+                        fontStyle = FontStyle.Italic,
                     )
                     Text(
                         stringResource(R.string.permissions_screen_show_distance),
                         modifier = Modifier
-                            .padding(vertical = 6.dp)
+                            .padding(vertical = 6.dp),
                     )
                 }
             }
@@ -171,28 +170,27 @@ fun DisplayOverOtherApps() {
             .padding(8.dp)
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        )
+            defaultElevation = 4.dp,
+        ),
     ) {
         Column(
             Modifier
-                .padding(16.dp)
+                .padding(16.dp),
         ) {
             Row {
                 Column {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-
                         Icon(
                             imageVector = Icons.Outlined.Layers,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
                             stringResource(R.string.permissions_screen_overlay),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
+                            fontSize = 24.sp,
                         )
                     }
                     Text(
@@ -200,12 +198,12 @@ fun DisplayOverOtherApps() {
                         modifier = Modifier
                             .padding(vertical = 6.dp),
                         fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Italic
+                        fontStyle = FontStyle.Italic,
                     )
                     Text(
                         stringResource(R.string.permissions_screen_overlay_display_photo),
                         modifier = Modifier
-                            .padding(vertical = 6.dp)
+                            .padding(vertical = 6.dp),
                     )
                 }
             }

@@ -12,6 +12,7 @@ apply from: '../jacoco.gradle'
 apply from: '../ktlint.gradle'
 apply from: '../detekt.gradle'
 apply from: '../sonarcube.gradle'
+apply from: '../spotless.gradle'
 
 def localPropertiesFile = rootProject.file("local.properties")
 def localProperties = new Properties()

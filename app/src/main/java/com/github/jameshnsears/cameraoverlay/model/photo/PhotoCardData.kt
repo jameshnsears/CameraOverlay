@@ -6,5 +6,5 @@ data class PhotoCardData(
     val imageModel: Any?, // uri / url
     val whenTaken: String,
     val gps: String,
-    val photoId: Int
+    val photoId: Int,
 )

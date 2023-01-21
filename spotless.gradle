@@ -1,0 +1,11 @@
+spotless {
+
+
+    kotlin {
+        target fileTree('.') {
+            include '**/*.kt'
+            exclude '**/.gradle/**'
+        }
+        ktlint().userData(['max_line_length': '100', 'insert_final_newline': 'true'])
+    }
+}

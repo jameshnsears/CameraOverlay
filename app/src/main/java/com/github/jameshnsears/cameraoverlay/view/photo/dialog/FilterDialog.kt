@@ -37,7 +37,7 @@ fun PhotoDialogFilter(openDialog: MutableState<Boolean>) {
             Text(
                 text = stringResource(R.string.select_photo_filter),
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
+                fontSize = 24.sp,
             )
         },
         shape = RoundedCornerShape(16.dp),
@@ -45,20 +45,19 @@ fun PhotoDialogFilter(openDialog: MutableState<Boolean>) {
             FilterDialogRow()
         },
         confirmButton = {},
-        dismissButton = {}
+        dismissButton = {},
     )
 }
 
 @Composable
 fun FilterDialogRow() {
-
     val jpeg = stringResource(R.string.select_photo_dialog_filter_jpeg)
     var selected by remember { mutableStateOf(jpeg) }
 
     val checkboxGroupOptions = listOf(
         jpeg,
         stringResource(R.string.select_photo_dialog_filter_png),
-        stringResource(R.string.select_photo_dialog_filter_webp)
+        stringResource(R.string.select_photo_dialog_filter_webp),
     )
 
     Column {
@@ -72,7 +71,7 @@ fun FilterDialogRow() {
                     .fillMaxWidth()
                     .selectable(
                         selected = (text == selected),
-                        onClick = { onSelectedChange(text) }
+                        onClick = { onSelectedChange(text) },
                     ),
             ) {
                 Checkbox(

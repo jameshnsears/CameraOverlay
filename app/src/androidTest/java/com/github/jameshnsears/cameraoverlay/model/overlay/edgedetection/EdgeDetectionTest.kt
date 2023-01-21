@@ -30,6 +30,6 @@ class EdgeDetectionTest {
 
     private fun getImageAsBitmap(edgeDetectionUtils: EdgeDetectionUtils) =
         edgeDetectionUtils.convertOriginalImageToBitmap(
-            this.javaClass.classLoader.getResourceAsStream("reichstag.jpg")
+            this.javaClass.classLoader.getResourceAsStream("reichstag.jpg"),
         )
 }

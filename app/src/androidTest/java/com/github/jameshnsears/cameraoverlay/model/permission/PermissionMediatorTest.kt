@@ -2,10 +2,7 @@ package com.github.jameshnsears.cameraoverlay.model.permission
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
-import com.github.jameshnsears.cameraoverlay.model.permission.PermissionArea
-import com.github.jameshnsears.cameraoverlay.model.permission.PermissionMediatorImpl
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class PermissionMediatorTest {

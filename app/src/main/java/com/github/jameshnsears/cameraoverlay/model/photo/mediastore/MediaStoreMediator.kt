@@ -23,21 +23,21 @@ class MediaStoreMediator {
                 ),
                 null,
                 null,
-                "${MediaStore.Images.Media.DISPLAY_NAME} ASC"
+                "${MediaStore.Images.Media.DISPLAY_NAME} ASC",
             ) ?: throw MediaStoreMediatorException("Query could not be executed")
 
             cursor.use {
                 while (cursor.moveToNext()) {
                     val imageUri: Uri = ContentUris.withAppendedId(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        cursor.getInt(0).toLong()
+                        cursor.getInt(0).toLong(),
                     )
 
                     mediaStoreEntries.add(
                         MediaStoreData(
                             imageUri,
-                            cursor.getString(1)
-                        )
+                            cursor.getString(1),
+                        ),
                     )
                 }
             }

@@ -4,5 +4,5 @@ import android.net.Uri
 
 data class MediaStoreData(
     val uri: Uri,
-    val filename: String
+    val filename: String,
 )

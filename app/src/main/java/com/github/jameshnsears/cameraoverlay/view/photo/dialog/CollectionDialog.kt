@@ -55,7 +55,7 @@ fun PhotoDialogCollection(openDialog: MutableState<Boolean>) {
             Text(
                 text = stringResource(R.string.select_photo_collections),
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
+                fontSize = 24.sp,
             )
         },
         shape = RoundedCornerShape(16.dp),
@@ -63,7 +63,7 @@ fun PhotoDialogCollection(openDialog: MutableState<Boolean>) {
             PhotoDialogCollection()
         },
         confirmButton = {},
-        dismissButton = {}
+        dismissButton = {},
     )
 }
 
@@ -89,7 +89,7 @@ fun PhotoDialogCollection() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, top = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 ButtonStorageAccessFrameworkFile(radioStorageAccessFramework, selected)
 
@@ -103,15 +103,15 @@ fun PhotoDialogCollection() {
 private fun RowStorageAccessFramework(
     radioStorageAccessFramework: String,
     selected: String,
-    onSelectedChange: (String) -> Unit
+    onSelectedChange: (String) -> Unit,
 ) {
     Row(
         Modifier
             .fillMaxWidth()
             .selectable(
                 selected = (radioStorageAccessFramework == selected),
-                onClick = { onSelectedChange(radioStorageAccessFramework) }
-            )
+                onClick = { onSelectedChange(radioStorageAccessFramework) },
+            ),
     ) {
         RadioButton(
             selected = (radioStorageAccessFramework == selected),
@@ -131,15 +131,15 @@ private fun RowStorageAccessFramework(
 private fun RowMediaStore(
     radioMediaStore: String,
     selected: String,
-    onSelectedChange: (String) -> Unit
+    onSelectedChange: (String) -> Unit,
 ) {
     Row(
         Modifier
             .fillMaxWidth()
             .selectable(
                 selected = (radioMediaStore == selected),
-                onClick = { onSelectedChange(radioMediaStore) }
-            )
+                onClick = { onSelectedChange(radioMediaStore) },
+            ),
     ) {
         RadioButton(
             selected = (radioMediaStore == selected),
@@ -148,7 +148,7 @@ private fun RowMediaStore(
 //                selectedColor = MaterialTheme.colors.primary,
 //                unselectedColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
 //                disabledColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
-            )
+            ),
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Text(radioMediaStore, modifier = Modifier.align(Alignment.CenterVertically))
@@ -158,7 +158,7 @@ private fun RowMediaStore(
 @Composable
 fun ButtonStorageAccessFrameworkFile(
     radioStorageAccessFramework: String,
-    selected: String
+    selected: String,
 ) {
     val buttonState = remember { mutableStateOf(false) }
     val launcherAppInfoShowLocation = launcherAppInfoAccessLocation(buttonState)
@@ -166,7 +166,7 @@ fun ButtonStorageAccessFrameworkFile(
     if (buttonState.value) {
         launcherAppInfoShowLocation
             .launch(
-                getIntent(Intent.ACTION_OPEN_DOCUMENT)
+                getIntent(Intent.ACTION_OPEN_DOCUMENT),
             )
     }
 
@@ -175,12 +175,12 @@ fun ButtonStorageAccessFrameworkFile(
         modifier = Modifier
             .width(120.dp),
         shape = RoundedCornerShape(16.dp),
-        enabled = (radioStorageAccessFramework == selected)
+        enabled = (radioStorageAccessFramework == selected),
     ) {
         Icon(
             Icons.Outlined.Image,
             contentDescription = "",
-            modifier = Modifier.size(ButtonDefaults.IconSize)
+            modifier = Modifier.size(ButtonDefaults.IconSize),
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Text(stringResource(R.string.select_photo_dialog_collections_file))
@@ -190,7 +190,7 @@ fun ButtonStorageAccessFrameworkFile(
 @Composable
 fun ButtonStorageAccessFrameworkFolder(
     radioStorageAccessFramework: String,
-    selected: String
+    selected: String,
 ) {
     val buttonState = remember { mutableStateOf(false) }
     val launcherAppInfoShowLocation = launcherAppInfoAccessLocation(buttonState)
@@ -198,7 +198,7 @@ fun ButtonStorageAccessFrameworkFolder(
     if (buttonState.value) {
         launcherAppInfoShowLocation
             .launch(
-                getIntent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+                getIntent(Intent.ACTION_OPEN_DOCUMENT_TREE),
             )
     }
 
@@ -209,12 +209,12 @@ fun ButtonStorageAccessFrameworkFolder(
         modifier = Modifier
             .width(120.dp),
         shape = RoundedCornerShape(16.dp),
-        enabled = (radioStorageAccessFramework == selected)
+        enabled = (radioStorageAccessFramework == selected),
     ) {
         Icon(
             Icons.Outlined.Folder,
             contentDescription = "",
-            modifier = Modifier.size(ButtonDefaults.IconSize)
+            modifier = Modifier.size(ButtonDefaults.IconSize),
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Text(stringResource(R.string.select_photo_dialog_collections_folder))
@@ -231,7 +231,7 @@ private fun getIntent(intentAction: String): Intent {
             val authority = "com.android.externalstorage.documents"
             putExtra(
                 DocumentsContract.EXTRA_INITIAL_URI,
-                Uri.parse("content://$authority/document/primary:Pictures")
+                Uri.parse("content://$authority/document/primary:Pictures"),
             )
         }
 
@@ -247,7 +247,7 @@ fun launcherAppInfoAccessLocation(
     buttonState: MutableState<Boolean>,
 ): ManagedActivityResultLauncher<Intent, ActivityResult> {
     val launcherAppInfo = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
+        ActivityResultContracts.StartActivityForResult(),
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             Timber.d(it.data.toString())

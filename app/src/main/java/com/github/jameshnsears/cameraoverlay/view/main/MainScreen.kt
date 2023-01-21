@@ -53,7 +53,7 @@ import timber.log.Timber
 @Composable
 fun MainScreen(
     navController: NavController,
-    viewModelPermission: ViewModelPermission
+    viewModelPermission: ViewModelPermission,
 ) {
     AppTheme {
         Scaffold(
@@ -64,7 +64,7 @@ fun MainScreen(
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
                     .padding(padding)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()),
             ) {
                 Text(
                     stringResource(R.string.tag_line),
@@ -72,7 +72,7 @@ fun MainScreen(
                         .padding(top = 16.dp, bottom = 16.dp),
                     fontWeight = FontWeight.Bold,
                     fontStyle = FontStyle.Italic,
-                    fontSize = 20.sp
+                    fontSize = 18.sp,
                 )
 
                 Usage()
@@ -98,11 +98,11 @@ fun AppBar() {
             IconButton(
                 onClick = {
                     infoDialogState.value = true
-                }
+                },
             ) {
                 Icon(Icons.Outlined.Info, contentDescription = "")
             }
-        }
+        },
     )
 }
 
@@ -113,34 +113,34 @@ fun Usage() {
         modifier = Modifier
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        )
+            defaultElevation = 4.dp,
+        ),
     ) {
         Column(
             Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
         ) {
             Column(Modifier.padding(bottom = 4.dp)) {
                 Text(
                     stringResource(R.string.main_screen_usage),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
+                    fontSize = 24.sp,
                 )
             }
             Text(
                 stringResource(R.string.main_screen_usage_0),
                 modifier = Modifier
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 8.dp),
             )
             Text(
                 stringResource(R.string.main_screen_usage_1),
                 modifier = Modifier
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 8.dp),
             )
             Text(
                 stringResource(R.string.main_screen_usage_2),
                 modifier = Modifier
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 8.dp),
             )
         }
     }
@@ -149,7 +149,7 @@ fun Usage() {
 @Composable
 fun Permissions(
     navController: NavController,
-    viewModelPermission: ViewModelPermission
+    viewModelPermission: ViewModelPermission,
 ) {
     Card(
         shape = RoundedCornerShape(20.dp),
@@ -157,20 +157,20 @@ fun Permissions(
             .padding(vertical = 16.dp)
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        )
+            defaultElevation = 4.dp,
+        ),
     ) {
         Column(
             Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp),
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     stringResource(R.string.permissions),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
+                    fontSize = 24.sp,
                 )
 
                 IconButton(
@@ -192,7 +192,7 @@ fun Permissions(
 
 @Composable
 fun PermissionButtons(
-    viewModelPermission: ViewModelPermission
+    viewModelPermission: ViewModelPermission,
 ) {
     val lifeCycleState = LocalLifecycleOwner.current.lifecycle.observeAsSate()
     Timber.d("lifeCycleState=${lifeCycleState.value.name}")
@@ -207,23 +207,23 @@ fun PermissionButtons(
 @Composable
 fun SelectPhoto(
     navController: NavController,
-    viewModelPermission: ViewModelPermission
+    viewModelPermission: ViewModelPermission,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 8.dp, bottom = 4.dp),
-        horizontalAlignment = Alignment.End
+        horizontalAlignment = Alignment.End,
     ) {
         OutlinedButton(
             onClick = { navController.navigate(CommonNavigation.SCREEN_SELECT_PHOTO) },
             modifier = Modifier
                 .size(width = 160.dp, height = 45.dp),
             shape = RoundedCornerShape(16.dp),
-            enabled = enableButtonSelectPhoto(viewModelPermission)
+            enabled = enableButtonSelectPhoto(viewModelPermission),
         ) {
             Text(
-                text = stringResource(R.string.select_photo)
+                text = stringResource(R.string.select_photo),
             )
         }
     }
@@ -247,22 +247,22 @@ fun PreviewMainScreenPortrait() {
 
     MainScreen(
         rememberNavController(),
-        ViewModelPermission(context)
+        ViewModelPermission(context),
     )
 }
 
 @Preview(
     name = "Dark Theme, Landscape",
-    widthDp = 720, heightDp = 720,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    widthDp = 720,
+    heightDp = 720,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
-
 @Composable
 fun PreviewMainScreenLandscape() {
     val context = LocalContext.current
 
     MainScreen(
         rememberNavController(),
-        ViewModelPermission(context)
+        ViewModelPermission(context),
     )
 }

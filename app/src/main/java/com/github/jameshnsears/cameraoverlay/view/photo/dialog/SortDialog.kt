@@ -39,7 +39,7 @@ fun PhotoDialogSort(openDialog: MutableState<Boolean>) {
             Text(
                 text = stringResource(R.string.select_photo_sort),
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
+                fontSize = 24.sp,
             )
         },
         shape = RoundedCornerShape(16.dp),
@@ -47,7 +47,7 @@ fun PhotoDialogSort(openDialog: MutableState<Boolean>) {
             PhotoDialogSortRow()
         },
         confirmButton = {},
-        dismissButton = {}
+        dismissButton = {},
     )
 }
 
@@ -67,7 +67,7 @@ private fun WhenTakenRow() {
             .fillMaxWidth()
             .padding(top = 8.dp)
             .padding(bottom = 20.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Icon(
             imageVector = Icons.Outlined.Schedule,
@@ -77,11 +77,11 @@ private fun WhenTakenRow() {
         Text(
             stringResource(R.string.select_photo_dialog_sort_when_taken),
             modifier = Modifier
-                .align(Alignment.CenterVertically)
+                .align(Alignment.CenterVertically),
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.End,
         ) {
             Row {
                 Icon(
@@ -99,28 +99,28 @@ private fun DistanceRow() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 20.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Icon(
             imageVector = Icons.Outlined.Straighten,
-            contentDescription = null
+            contentDescription = null,
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Text(
             stringResource(R.string.select_photo_dialog_sort_distance),
             modifier = Modifier
-                .align(Alignment.CenterVertically)
+                .align(Alignment.CenterVertically),
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.End,
         ) {
             Row {
                 Icon(
                     imageVector = Icons.Outlined.South,
                     contentDescription = null,
                     modifier = Modifier
-                        .align(Alignment.CenterVertically)
+                        .align(Alignment.CenterVertically),
                 )
             }
         }

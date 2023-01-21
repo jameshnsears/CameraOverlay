@@ -20,9 +20,9 @@ fun CommonTopAppBar(title: String, navController: NavController, navRoute: Strin
             IconButton(onClick = { navController.navigate(navRoute) }) {
                 Icon(
                     imageVector = Icons.Outlined.ArrowBack,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
-        }
+        },
     )
 }
