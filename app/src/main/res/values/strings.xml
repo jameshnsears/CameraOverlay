@@ -8,25 +8,25 @@
     <string name="tag_line">Compare the past with the present!</string>
 
     <string name="main_screen_usage">Usage</string>
-    <string name="main_screen_usage_0">\u2022 Allow Permissions required by app</string>
-    <string name="main_screen_usage_1">\u2022 Select the photo to use as an overlay</string>
+    <string name="main_screen_usage_0">\u2022 Allow required permissions</string>
+    <string name="main_screen_usage_1">\u2022 Select photo to use as overlay</string>
     <string name="main_screen_usage_2">\u2022 Use Camera app to align viewfinder with overlay</string>
 
     <string name="permissions">Permissions</string>
 
-    <string name="permissions_screen_files_and_media">Access photo</string>
+    <string name="permissions_screen_files_and_media">Access photos</string>
     <!-- 24: ...to access photos, media, and files on your device  -->
     <string name="permissions_screen_mandatory">\u2022 Required</string>
-    <string name="permissions_screen_choose_photo">\u2022 Allow browsing and selection of the photo to be used as the overlay</string>
+    <string name="permissions_screen_choose_photo">\u2022 Allow browsing and selection of a photo</string>
 
     <string name="permissions_screen_overlay">Create overlay</string>
     <!-- 24: Permit drawing over other apps -->
-    <string name="permissions_screen_overlay_display_photo">\u2022 Allow the app to display the selected photo as an overlay</string>
+    <string name="permissions_screen_overlay_display_photo">\u2022 Allow selected photo to be displayed as overlay</string>
 
     <string name="permissions_screen_location">Location</string>
     <!-- 24: ...to access this devices location -->
     <string name="permissions_screen_optional">\u2022 Optional</string>
-    <string name="permissions_screen_show_distance">\u2022 Show distance between your present location and that of your photos (if they contain GPS info)</string>
+    <string name="permissions_screen_show_distance">\u2022 Show distance between present location and that of your photos (if they contain GPS info)</string>
 
     <string name="error_missing_mandatory_permission">Please allow required permissions</string>
 
