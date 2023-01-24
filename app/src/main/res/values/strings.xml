@@ -21,12 +21,12 @@
 
     <string name="permissions_screen_overlay">Create overlay</string>
     <!-- 24: Permit drawing over other apps -->
-    <string name="permissions_screen_overlay_display_photo">\u2022 Allow selected photo to be displayed as overlay</string>
+    <string name="permissions_screen_overlay_display_photo">\u2022 Allow photo to be displayed as overlay</string>
 
     <string name="permissions_screen_location">Location</string>
     <!-- 24: ...to access this devices location -->
     <string name="permissions_screen_optional">\u2022 Optional</string>
-    <string name="permissions_screen_show_distance">\u2022 Show distance between present location and that of your photos (if they contain GPS info)</string>
+    <string name="permissions_screen_show_distance">\u2022 Show distance between present location and that of photos containing GPS info</string>
 
     <string name="error_missing_mandatory_permission">Please allow required permissions</string>
 
