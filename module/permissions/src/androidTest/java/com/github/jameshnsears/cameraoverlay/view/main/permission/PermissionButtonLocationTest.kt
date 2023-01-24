@@ -10,7 +10,7 @@ import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import com.github.jameshnsears.cameraoverlay.permissions.R
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
-import junit.framework.TestCase
+import junit.framework.TestCase.fail
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,7 +31,7 @@ class PermissionButtonLocationTest : PermissionButtonTest() {
     @Test
     fun allow() {
         if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
-            TestCase.fail()
+            fail()
         }
 
         if (BuildConfig.GITHUB_ACTION) {
@@ -40,7 +40,15 @@ class PermissionButtonLocationTest : PermissionButtonTest() {
 
         composeTestRule.onNodeWithText(buttonTextLocation).performClick()
 
+        pressButton(text = "Permissions")
+
+        pressButton(text = buttonTextLocation)
+
         grantPermissionInDialogLocation()
+
+        pressBack()
+        pressBack()
+        pressBack()
 
         composeTestRule.onRoot(useUnmergedTree = true).printToLog("CameraOverlay") // logcat
 
@@ -52,7 +60,7 @@ class PermissionButtonLocationTest : PermissionButtonTest() {
     @Test
     fun deny() {
         if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
-            TestCase.fail()
+            fail()
         }
 
         if (BuildConfig.GITHUB_ACTION) {

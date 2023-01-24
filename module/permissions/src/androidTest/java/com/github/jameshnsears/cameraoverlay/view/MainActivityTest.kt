@@ -2,7 +2,7 @@ package com.github.jameshnsears.cameraoverlay.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import com.github.jameshnsears.cameraoverlay.model.utils.MethodLineLoggingTree
+import com.github.jameshnsears.cameraoverlay.common.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import timber.log.Timber
 

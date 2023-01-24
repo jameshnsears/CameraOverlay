@@ -43,6 +43,13 @@ open class PermissionButtonTest {
                 pressBack()
                 pressBack()
             }
+            29 -> {
+                pressButton(text = buttonTestAppInfo)
+                pressButton(text = "Deny")
+                pressBack()
+                pressBack()
+                pressBack()
+            }
             30 -> {
                 pressButton(text = buttonTestAppInfo)
                 pressButton(text = "Deny")

@@ -89,6 +89,7 @@ internal fun grantPermissionInDialogLocation(
     UiDevice.getInstance(instrumentation).findPermissionButton(
         when (Build.VERSION.SDK_INT) {
             25 -> "ALLOW"
+            29 -> "Allow only while using the app"
             30 -> "WHILE USING THE APP"
             31 -> "While using the app"
             else -> "Allow"
