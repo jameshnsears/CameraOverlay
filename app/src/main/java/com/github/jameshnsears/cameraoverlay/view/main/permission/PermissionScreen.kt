@@ -90,7 +90,7 @@ fun FilesAndMedia() {
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
-                            stringResource(R.string.permissions_screen_files_and_media),
+                            stringResource(R.string.permissions_files_and_media),
                             fontWeight = FontWeight.Bold,
                             fontSize = 24.sp,
                         )
@@ -139,7 +139,7 @@ fun Location() {
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
-                            stringResource(R.string.permissions_screen_location),
+                            stringResource(R.string.permissions_location),
                             fontWeight = FontWeight.Bold,
                             fontSize = 24.sp,
                         )
@@ -188,7 +188,7 @@ fun DisplayOverOtherApps() {
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
-                            stringResource(R.string.permissions_screen_overlay),
+                            stringResource(R.string.permissions_display_overlay),
                             fontWeight = FontWeight.Bold,
                             fontSize = 24.sp,
                         )

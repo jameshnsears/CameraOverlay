@@ -14,17 +14,11 @@
 
     <string name="permissions">Permissions</string>
 
-    <string name="permissions_screen_files_and_media">Access photos</string>
-    <!-- 24: ...to access photos, media, and files on your device  -->
     <string name="permissions_screen_mandatory">\u2022 Required</string>
-    <string name="permissions_screen_choose_photo">\u2022 Allow browsing and selection of a photo</string>
+    <string name="permissions_screen_choose_photo">\u2022 Allow selection of a photo</string>
 
-    <string name="permissions_screen_overlay">Create overlay</string>
-    <!-- 24: Permit drawing over other apps -->
     <string name="permissions_screen_overlay_display_photo">\u2022 Allow photo to be displayed as overlay</string>
 
-    <string name="permissions_screen_location">Location</string>
-    <!-- 24: ...to access this devices location -->
     <string name="permissions_screen_optional">\u2022 Optional</string>
     <string name="permissions_screen_show_distance">\u2022 Show distance between present location and that of photos containing GPS info</string>
 
