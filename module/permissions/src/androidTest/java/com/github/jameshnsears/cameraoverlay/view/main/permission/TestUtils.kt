@@ -103,6 +103,7 @@ internal fun grantPermissionInDialogStorage(
     UiDevice.getInstance(instrumentation).findPermissionButton(
         when (Build.VERSION.SDK_INT) {
             25 -> "ALLOW"
+            29 -> "ALLOW"
             30 -> "ALLOW"
             31 -> "Allow"
             else -> "Allow"
