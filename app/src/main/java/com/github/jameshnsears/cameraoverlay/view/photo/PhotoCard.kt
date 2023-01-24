@@ -59,7 +59,8 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
         modifier = Modifier
             .height(128.dp)
             .padding(8.dp)
-            .fillMaxWidth().clickable {
+            .fillMaxWidth()
+            .clickable {
                 // navController.navigate(navigationEndpoint)
 
                 if (context.canDrawOverlays) {

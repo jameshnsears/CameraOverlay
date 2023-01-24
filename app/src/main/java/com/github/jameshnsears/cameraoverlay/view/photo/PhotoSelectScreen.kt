@@ -58,7 +58,11 @@ fun PhotoSelectScreen(navController: NavController) {
                 TopAppBar(
                     title = { },
                     navigationIcon = {
-                        IconButton(onClick = { navController.navigate(CommonNavigation.SCREEN_MAIN) }) {
+                        IconButton(onClick = {
+                            navController.navigate(CommonNavigation.SCREEN_MAIN) {
+                                popUpTo(CommonNavigation.SCREEN_SELECT_PHOTO) { inclusive = true }
+                            }
+                        }) {
                             Icon(
                                 imageVector = Icons.Outlined.ArrowBack,
                                 contentDescription = null,

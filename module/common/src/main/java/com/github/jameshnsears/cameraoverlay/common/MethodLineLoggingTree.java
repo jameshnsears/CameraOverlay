@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.model.utils;
+package com.github.jameshnsears.cameraoverlay.common;
 
 import androidx.annotation.NonNull;
 
@@ -9,8 +9,7 @@ public final class MethodLineLoggingTree extends DebugTree {
     protected @NonNull
     String createStackElementTag(@NonNull final StackTraceElement element) {
         return String.format(
-                "CameraOverlay: %s.%s, %s",
-                super.createStackElementTag(element),
+                "%s, %s",
                 element.getMethodName(),
                 element.getLineNumber());
     }

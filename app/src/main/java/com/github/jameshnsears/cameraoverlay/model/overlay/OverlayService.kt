@@ -38,15 +38,15 @@ class OverlayService : Service() {
         ) {
             // Landscape
             return (
-                this.resources.displayMetrics.widthPixels
-                    * OVERLAY_WINDOW_WIDTH_ADJUSTMENT
-                ).toInt()
+                    this.resources.displayMetrics.widthPixels
+                            * OVERLAY_WINDOW_WIDTH_ADJUSTMENT
+                    ).toInt()
         } else {
             // Portrait
             return (
-                this.resources.displayMetrics.widthPixels
-                    * OVERLAY_WINDOW_HEIGHT_ADJUSTMENT
-                ).toInt()
+                    this.resources.displayMetrics.widthPixels
+                            * OVERLAY_WINDOW_HEIGHT_ADJUSTMENT
+                    ).toInt()
         }
     }
 
@@ -56,15 +56,15 @@ class OverlayService : Service() {
         ) {
             // Landscape
             return (
-                this.resources.displayMetrics.heightPixels
-                    * OVERLAY_WINDOW_HEIGHT_ADJUSTMENT
-                ).toInt()
+                    this.resources.displayMetrics.heightPixels
+                            * OVERLAY_WINDOW_HEIGHT_ADJUSTMENT
+                    ).toInt()
         } else {
             // Portrait
             return (
-                this.resources.displayMetrics.heightPixels
-                    * OVERLAY_WINDOW_WIDTH_ADJUSTMENT
-                ).toInt()
+                    this.resources.displayMetrics.heightPixels
+                            * OVERLAY_WINDOW_WIDTH_ADJUSTMENT
+                    ).toInt()
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -17,7 +18,14 @@ fun CommonTopAppBar(title: String, navController: NavController, navRoute: Strin
     TopAppBar(
         title = { Text(title, fontSize = 28.sp) },
         navigationIcon = {
-            IconButton(onClick = { navController.navigate(navRoute) }) {
+            Timber.d("navRoute=%s", navRoute)
+
+            IconButton(onClick = {
+                navController.navigate(navRoute) {
+                    popUpTo(CommonNavigation.SCREEN_MAIN)
+                    launchSingleTop = true
+                }
+            }) {
                 Icon(
                     imageVector = Icons.Outlined.ArrowBack,
                     contentDescription = null,
