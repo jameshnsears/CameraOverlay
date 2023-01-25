@@ -23,7 +23,6 @@ fun CommonTopAppBar(title: String, navController: NavController, navRoute: Strin
             IconButton(onClick = {
                 navController.navigate(navRoute) {
                     popUpTo(CommonNavigation.SCREEN_MAIN)
-                    launchSingleTop = true
                 }
             }) {
                 Icon(

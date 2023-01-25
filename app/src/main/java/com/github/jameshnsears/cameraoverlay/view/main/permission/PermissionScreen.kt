@@ -43,7 +43,7 @@ fun PermissionScreen(navController: NavController) {
         Scaffold(
             topBar = {
                 CommonTopAppBar(
-                    stringResource(R.string.permissions),
+                    "",
                     navController,
                     CommonNavigation.SCREEN_MAIN,
                 )

@@ -15,9 +15,9 @@
     <string name="permissions">Permissions</string>
 
     <string name="permissions_screen_mandatory">\u2022 Required</string>
-    <string name="permissions_screen_choose_photo">\u2022 Allow selection of a photo</string>
+    <string name="permissions_screen_choose_photo">\u2022 Select photo, to be used as overlay, from storage</string>
 
-    <string name="permissions_screen_overlay_display_photo">\u2022 Allow photo to be displayed as overlay</string>
+    <string name="permissions_screen_overlay_display_photo">\u2022 Display selected photo as overlay</string>
 
     <string name="permissions_screen_optional">\u2022 Optional</string>
     <string name="permissions_screen_show_distance">\u2022 Show distance between present location and that of photos containing GPS info</string>
