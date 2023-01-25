@@ -25,16 +25,16 @@
     <string name="error_missing_mandatory_permission">Please allow required permissions</string>
 
     <string name="select_photo">Select Photo</string>
-    <string name="select_photo_filter">Photo Filter…</string>
+    <string name="select_photo_filter">Filter…</string>
     <string name="select_photo_dialog_filter_jpeg">JPEG - can contain GPS info</string>
     <string name="select_photo_dialog_filter_png">PNG</string>
     <string name="select_photo_dialog_filter_webp">TIFF</string>
-    <string name="select_photo_collections">Photo Collection…</string>
+    <string name="select_photo_collections">Collection…</string>
     <string name="select_photo_dialog_collections_media_store">Show all</string>
     <string name="select_photo_dialog_collections_access_framework">Select specific…</string>
     <string name="select_photo_dialog_collections_file">File</string>
     <string name="select_photo_dialog_collections_folder">Folder</string>
-    <string name="select_photo_sort">Photo Sort…</string>
+    <string name="select_photo_sort">Sort…</string>
     <string name="select_photo_dialog_sort_when_taken">When taken</string>
     <string name="select_photo_dialog_sort_distance">Distance</string>
     <string name="select_photo_dialog_overlay">Overlay</string>

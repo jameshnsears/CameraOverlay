@@ -12,9 +12,12 @@ import com.github.jameshnsears.cameraoverlay.permissions.R
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import junit.framework.TestCase.fail
 import org.junit.Before
+import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.MethodSorters
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4::class)
 class PermissionButtonLocationTest : PermissionButtonTest() {
     private lateinit var buttonTextLocation: String

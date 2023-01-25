@@ -63,6 +63,11 @@ internal fun pressDrawOverOtherApps(
                 UiSelector().text("Permit drawing over other apps")
             ).click()
         }
+        29 -> {
+            UiDevice.getInstance(instrumentation).findObject(
+                UiSelector().text("Allow display over other apps")
+            ).click()
+        }
         in 30..31 -> {
             UiDevice.getInstance(instrumentation).findObject(
                 UiSelector().text("Camera Overlay")
@@ -75,7 +80,7 @@ internal fun pressDrawOverOtherApps(
     }
 
     when (sdkVersion) {
-        25 -> pressBack()
+        in 25..29 -> pressBack()
         in 30..31 -> {
             pressBack()
             pressBack()

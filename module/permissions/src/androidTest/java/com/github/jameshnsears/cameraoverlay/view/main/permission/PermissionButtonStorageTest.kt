@@ -12,9 +12,12 @@ import com.github.jameshnsears.cameraoverlay.permissions.R
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import junit.framework.TestCase
 import org.junit.Before
+import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.MethodSorters
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4::class)
 class PermissionButtonStorageTest : PermissionButtonTest() {
     private lateinit var buttonTextStorage: String
@@ -64,7 +67,7 @@ class PermissionButtonStorageTest : PermissionButtonTest() {
 
         denyPermissionAppInfo(
             buttonTextStorage,
-            context.resources.getString(R.string.permissions_files_and_media)
+            "Storage"
         )
     }
 }

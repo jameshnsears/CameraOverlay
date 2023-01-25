@@ -84,7 +84,6 @@ class PermissionButtonOverlayTest : PermissionButtonTest() {
 
         composeTestRule.onNodeWithText(buttonTextOverlay).performClick()
 
-        // disable the permission
         pressDrawOverOtherApps()
 
         waitForButtonToDisplay(buttonTextOverlay)
