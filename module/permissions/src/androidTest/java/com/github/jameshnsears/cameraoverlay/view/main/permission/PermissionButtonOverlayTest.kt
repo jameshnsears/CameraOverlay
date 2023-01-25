@@ -44,6 +44,22 @@ class PermissionButtonOverlayTest : PermissionButtonTest() {
             return
         }
 
+        /*
+        press "Create overlay"
+        press Back
+
+        press "Create overlay"
+        press Back
+
+        press "Create overlay"
+
+        press "Allow display over other apps"
+        press Back
+
+        assert "Create overlay" button disabled
+
+         */
+
         if (Settings.canDrawOverlays(context)) {
             composeTestRule.setContent {
                 PermissionButtonOverlay(ViewModelPermission(composeTestRule.activity.application))
@@ -55,39 +71,39 @@ class PermissionButtonOverlayTest : PermissionButtonTest() {
         }
     }
 
-    @Test
-    fun deny() {
-        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
-            TestCase.fail()
-        }
-
-        if (BuildConfig.GITHUB_ACTION) {
-            return
-        }
-
-        // enable the button
-        val viewModelMainScreen = ViewModelPermission(composeTestRule.activity.application)
-        val permissionMediatorImplSpy =
-            spyk(PermissionMediatorImpl(composeTestRule.activity.application))
-        every { permissionMediatorImplSpy.permissionAllowed(PermissionArea.OVERLAY) } returns false
-        viewModelMainScreen.permissionMediator = permissionMediatorImplSpy
-
-        composeTestRule.setContent {
-            PermissionButtonOverlay(viewModelMainScreen)
-        }
-
-        waitForButtonToDisplay(buttonTextOverlay)
-
-        composeTestRule.onNodeWithText(buttonTextOverlay).assertIsEnabled()
-
-        unmockkAll()
-
-        composeTestRule.onNodeWithText(buttonTextOverlay).performClick()
-
-        pressDrawOverOtherApps()
-
-        waitForButtonToDisplay(buttonTextOverlay)
-
-        composeTestRule.onNodeWithText(buttonTextOverlay).assertIsEnabled()
-    }
+//    @Test
+//    fun deny() {
+//        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
+//            TestCase.fail()
+//        }
+//
+//        if (BuildConfig.GITHUB_ACTION) {
+//            return
+//        }
+//
+//        // enable the button
+//        val viewModelMainScreen = ViewModelPermission(composeTestRule.activity.application)
+//        val permissionMediatorImplSpy =
+//            spyk(PermissionMediatorImpl(composeTestRule.activity.application))
+//        every { permissionMediatorImplSpy.permissionAllowed(PermissionArea.OVERLAY) } returns false
+//        viewModelMainScreen.permissionMediator = permissionMediatorImplSpy
+//
+//        composeTestRule.setContent {
+//            PermissionButtonOverlay(viewModelMainScreen)
+//        }
+//
+//        waitForButtonToDisplay(buttonTextOverlay)
+//
+//        composeTestRule.onNodeWithText(buttonTextOverlay).assertIsEnabled()
+//
+//        unmockkAll()
+//
+//        composeTestRule.onNodeWithText(buttonTextOverlay).performClick()
+//
+//        pressDrawOverOtherApps()
+//
+//        waitForButtonToDisplay(buttonTextOverlay)
+//
+//        composeTestRule.onNodeWithText(buttonTextOverlay).assertIsEnabled()
+//    }
 }

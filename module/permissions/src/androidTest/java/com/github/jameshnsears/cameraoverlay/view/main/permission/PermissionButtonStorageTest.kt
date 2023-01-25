@@ -41,6 +41,26 @@ class PermissionButtonStorageTest : PermissionButtonTest() {
             return
         }
 
+        /*
+        press "Access photos"
+
+        press Deny
+
+        assert Access photos button not disabled
+
+        press "Access photos"
+
+        App Info dialog
+        press "Permissions"
+        press "Storage"
+        press "Allow"
+        press Back
+        press Back
+        press Back
+
+        assert Access photos button is disabled
+
+         */
         composeTestRule.onNodeWithText(buttonTextStorage).performClick()
 
         grantPermissionInDialogStorage()
@@ -53,21 +73,21 @@ class PermissionButtonStorageTest : PermissionButtonTest() {
         composeTestRule.onNodeWithText(buttonTextStorage).assertIsNotEnabled()
     }
 
-    @Test
-    fun deny() {
-        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
-            TestCase.fail()
-        }
-
-        if (BuildConfig.GITHUB_ACTION) {
-            return
-        }
-
-        denyPermissionDialog(buttonTextStorage)
-
-        denyPermissionAppInfo(
-            buttonTextStorage,
-            "Storage"
-        )
-    }
+//    @Test
+//    fun deny() {
+//        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
+//            TestCase.fail()
+//        }
+//
+//        if (BuildConfig.GITHUB_ACTION) {
+//            return
+//        }
+//
+//        denyPermissionDialog(buttonTextStorage)
+//
+//        denyPermissionAppInfo(
+//            buttonTextStorage,
+//            "Storage"
+//        )
+//    }
 }

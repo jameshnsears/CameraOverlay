@@ -19,7 +19,28 @@
     <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
     <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
     <option name="DEBUGGER_TYPE" value="Java" />
+    <Auto>
+      <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+      <option name="SHOW_STATIC_VARS" value="true" />
+      <option name="WORKING_DIR" value="" />
+      <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+      <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+    </Auto>
+    <Hybrid>
+      <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+      <option name="SHOW_STATIC_VARS" value="true" />
+      <option name="WORKING_DIR" value="" />
+      <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+      <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+    </Hybrid>
     <Java />
+    <Native>
+      <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+      <option name="SHOW_STATIC_VARS" value="true" />
+      <option name="WORKING_DIR" value="" />
+      <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+      <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+    </Native>
     <Profilers>
       <option name="ADVANCED_PROFILING_ENABLED" value="false" />
       <option name="STARTUP_PROFILING_ENABLED" value="false" />
@@ -34,6 +55,7 @@
     <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
     <method v="2">
       <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      <option name="Gradle.BeforeRunTask" enabled="true" tasks="uninstallAll" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
     </method>
   </configuration>
 </component>

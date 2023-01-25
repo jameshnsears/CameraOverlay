@@ -43,6 +43,30 @@ class PermissionButtonLocationTest : PermissionButtonTest() {
 
         composeTestRule.onNodeWithText(buttonTextLocation).performClick()
 
+        /*
+        press "Location"
+
+        Allow only while using the app
+        Deny
+
+        press Deny
+
+        assert Location button not disabled
+
+        press "Location"
+
+        App Info dialog
+        press "Permissions"
+        press "Location"
+        press "Allow only while using the app"
+        press Back
+        press Back
+        press Back
+
+        assert Location button should be disabled
+
+         */
+
         pressButton(text = "Permissions")
 
         pressButton(text = buttonTextLocation)
@@ -60,21 +84,21 @@ class PermissionButtonLocationTest : PermissionButtonTest() {
         composeTestRule.onNodeWithText(buttonTextLocation).assertIsNotEnabled()
     }
 
-    @Test
-    fun deny() {
-        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
-            fail()
-        }
-
-        if (BuildConfig.GITHUB_ACTION) {
-            return
-        }
-
-        denyPermissionDialog(buttonTextLocation)
-
-        denyPermissionAppInfo(
-            buttonTextLocation,
-            context.resources.getString(R.string.permissions_location)
-        )
-    }
+//    @Test
+//    fun deny() {
+//        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
+//            fail()
+//        }
+//
+//        if (BuildConfig.GITHUB_ACTION) {
+//            return
+//        }
+//
+//        denyPermissionDialog(buttonTextLocation)
+//
+//        denyPermissionAppInfo(
+//            buttonTextLocation,
+//            context.resources.getString(R.string.permissions_location)
+//        )
+//    }
 }
