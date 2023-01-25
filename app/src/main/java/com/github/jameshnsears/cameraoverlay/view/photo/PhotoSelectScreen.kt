@@ -60,7 +60,7 @@ fun PhotoSelectScreen(navController: NavController) {
                     navigationIcon = {
                         IconButton(onClick = {
                             navController.navigate(CommonNavigation.SCREEN_MAIN) {
-                                popUpTo(CommonNavigation.SCREEN_SELECT_PHOTO) { inclusive = true }
+                                popUpTo(CommonNavigation.SCREEN_SELECT_PHOTO)
                             }
                         }) {
                             Icon(
