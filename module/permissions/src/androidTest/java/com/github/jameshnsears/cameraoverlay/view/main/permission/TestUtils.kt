@@ -27,14 +27,6 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject
 import androidx.test.uiautomator.UiSelector
 
-internal fun <T : ComponentActivity> simulateAppComingFromTheBackground(
-    composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<T>, T>
-) {
-    // Make Activity go through ON_START, and ON_RESUME
-    composeTestRule.activityRule.scenario.moveToState(Lifecycle.State.STARTED)
-    composeTestRule.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
-}
-
 internal fun grantDrawOverOtherApps(
     instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
 ) {
