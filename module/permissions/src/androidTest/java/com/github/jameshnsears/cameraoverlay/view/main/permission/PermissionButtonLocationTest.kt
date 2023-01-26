@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class PermissionButtonLocationTest : PermissionButtonHelper() {
-    private lateinit var buttonTextLocation: String
+    private var buttonTextLocation: String = context.resources.getString(R.string.permissions_location)
 
     @Test
     fun allow() {
@@ -30,8 +30,6 @@ class PermissionButtonLocationTest : PermissionButtonHelper() {
         composeTestRule.setContent {
             PermissionButtonLocation(ViewModelPermission(composeTestRule.activity.application))
         }
-
-        buttonTextLocation = context.resources.getString(R.string.permissions_location)
 
         composeTestRule.onNodeWithText(buttonTextLocation).performClick()
 

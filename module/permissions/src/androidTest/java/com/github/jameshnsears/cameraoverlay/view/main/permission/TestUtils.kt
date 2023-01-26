@@ -35,24 +35,7 @@ internal fun <T : ComponentActivity> simulateAppComingFromTheBackground(
     composeTestRule.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
 }
 
-internal fun grantPermissionProgrammatically(
-    permission: String,
-    instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
-) {
-    if (Build.VERSION.SDK_INT < 28) {
-        val fileDescriptor = instrumentation.uiAutomation.executeShellCommand(
-            "pm grant ${instrumentation.targetContext.packageName} $permission"
-        )
-        fileDescriptor.checkError()
-        fileDescriptor.close()
-    } else {
-        instrumentation.uiAutomation.grantRuntimePermission(
-            instrumentation.targetContext.packageName, permission
-        )
-    }
-}
-
-internal fun pressDrawOverOtherApps(
+internal fun grantDrawOverOtherApps(
     instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
 ) {
     val sdkVersion = Build.VERSION.SDK_INT
@@ -114,9 +97,6 @@ internal fun grantPermissionInDialogStorage(
     ).clickForPermission(instrumentation)
 }
 
-// 25, "ALLOW" / "DENY"
-// 31, "While using the app" / "Only this time" / "Don't allow"
-
 internal fun denyPermissionInDialog(
     instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
 ) {
@@ -128,34 +108,6 @@ internal fun denyPermissionInDialog(
             else -> "Deny"
         }
     ).clickForPermission(instrumentation)
-}
-
-internal fun doNotAskAgainPermissionInDialog(
-    instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
-) {
-    val uiDevice = UiDevice.getInstance(instrumentation)
-    when {
-        Build.VERSION.SDK_INT == 30 -> {
-            denyPermissionInDialog(instrumentation)
-        }
-        Build.VERSION.SDK_INT > 28 -> {
-            uiDevice
-                .findPermissionButton("Deny & don’t ask again")
-                .clickForPermission(instrumentation)
-        }
-        Build.VERSION.SDK_INT == 23 -> {
-            uiDevice.findObject(
-                UiSelector().text("Never ask again")
-            ).clickForPermission(instrumentation)
-            denyPermissionInDialog(instrumentation)
-        }
-        else -> {
-            uiDevice.findObject(
-                UiSelector().text("Don't ask again")
-            ).clickForPermission(instrumentation)
-            denyPermissionInDialog(instrumentation)
-        }
-    }
 }
 
 internal fun pressBack(

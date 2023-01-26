@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class PermissionButtonStorageTest : PermissionButtonHelper() {
-    private lateinit var buttonTextStorage: String
+    private var buttonTextStorage: String = context.resources.getString(R.string.permissions_files_and_media)
 
     @Test
     fun allow() {
@@ -30,8 +30,6 @@ class PermissionButtonStorageTest : PermissionButtonHelper() {
         composeTestRule.setContent {
             PermissionButtonStorage(ViewModelPermission(composeTestRule.activity.application))
         }
-
-        buttonTextStorage = context.resources.getString(R.string.permissions_files_and_media)
 
         composeTestRule.onNodeWithText(buttonTextStorage).performClick()
 
