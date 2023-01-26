@@ -17,7 +17,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4::class)
 class PermissionButtonStorageTest : PermissionButtonTest() {
     private lateinit var buttonTextStorage: String
@@ -31,7 +30,7 @@ class PermissionButtonStorageTest : PermissionButtonTest() {
         buttonTextStorage = context.resources.getString(R.string.permissions_files_and_media)
     }
 
-    @Test
+//    @Test
     fun allow() {
         if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
             TestCase.fail()

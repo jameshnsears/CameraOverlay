@@ -1,5 +1,6 @@
 package com.github.jameshnsears.cameraoverlay.view.main.permission
 
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
@@ -17,7 +18,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4::class)
 class PermissionButtonLocationTest : PermissionButtonTest() {
     private lateinit var buttonTextLocation: String
@@ -43,33 +43,15 @@ class PermissionButtonLocationTest : PermissionButtonTest() {
 
         composeTestRule.onNodeWithText(buttonTextLocation).performClick()
 
-        /*
-        press "Location"
+        denyPermissionInDialog()
 
-        Allow only while using the app
-        Deny
+        composeTestRule.onNodeWithText(buttonTextLocation).assertIsEnabled()
 
-        press Deny
-
-        assert Location button not disabled
-
-        press "Location"
-
-        App Info dialog
-        press "Permissions"
-        press "Location"
-        press "Allow only while using the app"
-        press Back
-        press Back
-        press Back
-
-        assert Location button should be disabled
-
-         */
+        composeTestRule.onNodeWithText(buttonTextLocation).performClick()
 
         pressButton(text = "Permissions")
 
-        pressButton(text = buttonTextLocation)
+        pressButton(text = "Location")
 
         grantPermissionInDialogLocation()
 
@@ -77,28 +59,6 @@ class PermissionButtonLocationTest : PermissionButtonTest() {
         pressBack()
         pressBack()
 
-        composeTestRule.onRoot(useUnmergedTree = true).printToLog("CameraOverlay") // logcat
-
-        waitForButtonToDisplay(buttonTextLocation)
-
         composeTestRule.onNodeWithText(buttonTextLocation).assertIsNotEnabled()
     }
-
-//    @Test
-//    fun deny() {
-//        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
-//            fail()
-//        }
-//
-//        if (BuildConfig.GITHUB_ACTION) {
-//            return
-//        }
-//
-//        denyPermissionDialog(buttonTextLocation)
-//
-//        denyPermissionAppInfo(
-//            buttonTextLocation,
-//            context.resources.getString(R.string.permissions_location)
-//        )
-//    }
 }
