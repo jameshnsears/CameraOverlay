@@ -15,7 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class PermissionButtonOverlay : PermissionButton() {
+class PermissionButtonOverlayTest : PermissionButtonHelper() {
     private lateinit var buttonTextOverlay: String
 
     @Before

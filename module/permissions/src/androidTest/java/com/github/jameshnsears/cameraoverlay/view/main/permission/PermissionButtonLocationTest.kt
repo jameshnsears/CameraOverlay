@@ -9,52 +9,48 @@ import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import com.github.jameshnsears.cameraoverlay.permissions.R
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
-import junit.framework.TestCase
-import org.junit.Before
+import junit.framework.TestCase.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class PermissionButtonStorage : PermissionButton() {
-    private lateinit var buttonTextStorage: String
-
-    @Before
-    fun before() {
-        composeTestRule.setContent {
-            PermissionButtonStorage(ViewModelPermission(composeTestRule.activity.application))
-        }
-
-        buttonTextStorage = context.resources.getString(R.string.permissions_files_and_media)
-    }
+class PermissionButtonLocationTest : PermissionButtonHelper() {
+    private lateinit var buttonTextLocation: String
 
     @Test
     fun allow() {
         if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
-            TestCase.fail()
+            fail()
         }
 
         if (BuildConfig.GITHUB_ACTION) {
             return
         }
 
-        composeTestRule.onNodeWithText(buttonTextStorage).performClick()
+        composeTestRule.setContent {
+            PermissionButtonLocation(ViewModelPermission(composeTestRule.activity.application))
+        }
+
+        buttonTextLocation = context.resources.getString(R.string.permissions_location)
+
+        composeTestRule.onNodeWithText(buttonTextLocation).performClick()
 
         denyPermissionInDialog()
 
-        composeTestRule.onNodeWithText(buttonTextStorage).assertIsEnabled()
+        composeTestRule.onNodeWithText(buttonTextLocation).assertIsEnabled()
 
-        composeTestRule.onNodeWithText(buttonTextStorage).performClick()
+        composeTestRule.onNodeWithText(buttonTextLocation).performClick()
 
         pressButton(text = "Permissions")
 
-        pressButton(text = "Storage")
+        pressButton(text = "Location")
 
-        grantPermissionInDialogStorage()
+        grantPermissionInDialogLocation()
 
         pressBack()
         pressBack()
         pressBack()
 
-        composeTestRule.onNodeWithText(buttonTextStorage).assertIsNotEnabled()
+        composeTestRule.onNodeWithText(buttonTextLocation).assertIsNotEnabled()
     }
 }

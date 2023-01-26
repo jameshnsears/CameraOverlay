@@ -10,22 +10,12 @@ import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import com.github.jameshnsears.cameraoverlay.permissions.R
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import junit.framework.TestCase.fail
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class PermissionButtonLocation : PermissionButton() {
-    private lateinit var buttonTextLocation: String
-
-    @Before
-    fun before() {
-        composeTestRule.setContent {
-            PermissionButtonLocation(ViewModelPermission(composeTestRule.activity.application))
-        }
-
-        buttonTextLocation = context.resources.getString(R.string.permissions_location)
-    }
+class PermissionButtonStorageTest : PermissionButtonHelper() {
+    private lateinit var buttonTextStorage: String
 
     @Test
     fun allow() {
@@ -37,24 +27,30 @@ class PermissionButtonLocation : PermissionButton() {
             return
         }
 
-        composeTestRule.onNodeWithText(buttonTextLocation).performClick()
+        composeTestRule.setContent {
+            PermissionButtonStorage(ViewModelPermission(composeTestRule.activity.application))
+        }
+
+        buttonTextStorage = context.resources.getString(R.string.permissions_files_and_media)
+
+        composeTestRule.onNodeWithText(buttonTextStorage).performClick()
 
         denyPermissionInDialog()
 
-        composeTestRule.onNodeWithText(buttonTextLocation).assertIsEnabled()
+        composeTestRule.onNodeWithText(buttonTextStorage).assertIsEnabled()
 
-        composeTestRule.onNodeWithText(buttonTextLocation).performClick()
+        composeTestRule.onNodeWithText(buttonTextStorage).performClick()
 
         pressButton(text = "Permissions")
 
-        pressButton(text = "Location")
+        pressButton(text = "Storage")
 
-        grantPermissionInDialogLocation()
+        grantPermissionInDialogStorage()
 
         pressBack()
         pressBack()
         pressBack()
 
-        composeTestRule.onNodeWithText(buttonTextLocation).assertIsNotEnabled()
+        composeTestRule.onNodeWithText(buttonTextStorage).assertIsNotEnabled()
     }
 }
