@@ -1,29 +1,21 @@
 package com.github.jameshnsears.cameraoverlay.view.main.permission
 
 import android.provider.Settings
-import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
-import com.github.jameshnsears.cameraoverlay.model.permission.PermissionArea
-import com.github.jameshnsears.cameraoverlay.model.permission.PermissionMediatorImpl
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import com.github.jameshnsears.cameraoverlay.permissions.R
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
-import io.mockk.every
-import io.mockk.spyk
-import io.mockk.unmockkAll
 import junit.framework.TestCase
+import junit.framework.TestCase.fail
 import org.junit.Before
-import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
 
 @RunWith(AndroidJUnit4::class)
-class PermissionButtonOverlayTest : PermissionButtonTest() {
+class PermissionButtonOverlay : PermissionButton() {
     private lateinit var buttonTextOverlay: String
 
     @Before
@@ -32,7 +24,7 @@ class PermissionButtonOverlayTest : PermissionButtonTest() {
             context.resources.getString(R.string.permissions_display_overlay)
     }
 
-//    @Test
+    @Test
     // be default running in IDE grants this permission!
     fun allow() {
         if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
@@ -42,6 +34,8 @@ class PermissionButtonOverlayTest : PermissionButtonTest() {
         if (BuildConfig.GITHUB_ACTION) {
             return
         }
+
+        fail("wip")
 
         /*
         press "Create overlay"

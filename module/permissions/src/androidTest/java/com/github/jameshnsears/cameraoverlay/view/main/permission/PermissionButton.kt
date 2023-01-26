@@ -7,17 +7,14 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.view.MainActivityTest
 import org.junit.Rule
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
-open class PermissionButtonTest {
+open class PermissionButton {
     protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    protected fun waitForButtonToDisplay(displayOverlayButtonText: String) {
+    protected open fun waitForButtonToDisplay(displayOverlayButtonText: String) {
         composeTestRule.waitUntil {
             composeTestRule.onAllNodesWithText(displayOverlayButtonText).fetchSemanticsNodes(false)
                 .isNotEmpty()
@@ -27,13 +24,13 @@ open class PermissionButtonTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivityTest>()
 
-    fun denyPermissionDialog(buttonText: String) {
+    protected open fun denyPermissionDialog(buttonText: String) {
         composeTestRule.onNodeWithText(buttonText).performClick()
         denyPermissionInDialog()
         composeTestRule.onNodeWithText(buttonText).assertIsEnabled()
     }
 
-    fun denyPermissionAppInfo(buttonText: String, buttonTestAppInfo: String) {
+    protected open fun denyPermissionAppInfo(buttonText: String, buttonTestAppInfo: String) {
         composeTestRule.onNodeWithText(buttonText).performClick()
 
         pressButton(text = "Permissions")
@@ -43,14 +40,7 @@ open class PermissionButtonTest {
                 pressBack()
                 pressBack()
             }
-            29 -> {
-                pressButton(text = buttonTestAppInfo)
-                pressButton(text = "Deny")
-                pressBack()
-                pressBack()
-                pressBack()
-            }
-            30 -> {
+            in 29 .. 30 -> {
                 pressButton(text = buttonTestAppInfo)
                 pressButton(text = "Deny")
                 pressBack()
