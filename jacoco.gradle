@@ -29,10 +29,13 @@ project.afterEvaluate {
                     '**/*Binding.*'
             ]
 
-            def classKotlin = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/${sourceName}UnitTest", excludes: excludes)
+            def classKotlin = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/${sourceName}", excludes: excludes)
+            def classesKotlinUnitTest = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/${sourceName}UnitTest", excludes: excludes)
+            def classesKotlinAndroidTest = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/${sourceName}AndroidTest", excludes: excludes)
+
             def classJava = fileTree(dir: "$project.buildDir/intermediates/javac/${sourceName}/classes", excludes: excludes)
 
-            def kotlinSrc = "$project.projectDir/src/main/kotlin"
+            def kotlinSrc = "$project.projectDir/src/main/java"
             def javaSrc = "$project.projectDir/src/main/java"
             def flavourSrc = "$project.projectDir/src/$productFlavorName/java"
 
@@ -40,7 +43,7 @@ project.afterEvaluate {
                 group = "coverage.combined"
                 description = "Generate Jacoco /test + combined (if avail.) /andoidTest coverage report from ${sourceName.capitalize()}"
 
-                classDirectories.setFrom(files([classKotlin, classJava]))
+                classDirectories.setFrom(files([classKotlin, classesKotlinUnitTest, classesKotlinAndroidTest, classJava]))
 
                 sourceDirectories.setFrom(files([javaSrc, kotlinSrc, flavourSrc]))
 
@@ -63,11 +66,9 @@ project.afterEvaluate {
                 group = "coverage.unittest"
                 description = "Generate Jacoco /test coverage report from ${sourceName.capitalize()}"
 
-                classDirectories.setFrom(files([classKotlin, classJava]))
+                classDirectories.setFrom(files([classKotlin, classesKotlinUnitTest, classJava]))
 
                 sourceDirectories.setFrom(files([javaSrc, kotlinSrc, flavourSrc]))
-
-                println "$sourceName"
 
                 executionData.from = fileTree(dir: "${project.buildDir}", includes: [
                         "outputs/unit_test_code_coverage/${sourceName}UnitTest/${testTaskName}.exec"
@@ -87,11 +88,9 @@ project.afterEvaluate {
                 group = "coverage.connected"
                 description = "Generate Jacoco /test coverage report from ${sourceName.capitalize()}"
 
-                classDirectories.setFrom(files([classKotlin, classJava]))
+                classDirectories.setFrom(files([classKotlin, classesKotlinAndroidTest, classJava]))
 
                 sourceDirectories.setFrom(files([javaSrc, kotlinSrc, flavourSrc]))
-
-                println "$sourceName"
 
                 executionData.from = fileTree(dir: "${project.buildDir}", includes: [
                         "outputs/code_coverage/$productFlavorName${buildTypeName.capitalize()}AndroidTest/connected/**/*.ec"
