@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
-import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import junit.framework.TestCase
 import org.junit.Assert.assertFalse
 import org.junit.Test
@@ -19,10 +18,6 @@ class PermissionMediatorTest {
         if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
             TestCase.fail()
         }
-
-//        if (BuildConfig.GITHUB_ACTION) {
-//            return
-//        }
 
         val permissionMediator = PermissionMediatorImpl(context)
 

@@ -6,7 +6,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
-import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import com.github.jameshnsears.cameraoverlay.permissions.R
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import junit.framework.TestCase.fail
@@ -22,10 +21,6 @@ class PermissionButtonLocationTest : PermissionButtonHelper() {
         if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
             fail()
         }
-
-//        if (BuildConfig.GITHUB_ACTION) {
-//            return
-//        }
 
         composeTestRule.setContent {
             PermissionButtonLocation(ViewModelPermission(composeTestRule.activity.application))
