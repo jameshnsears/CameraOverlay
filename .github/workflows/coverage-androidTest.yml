@@ -10,8 +10,8 @@ env:
   CACHE_VERSION: 1
 
 jobs:
-  app.fdroid:
-    name: app.fdroid
+  app-fdroid:
+    name: app-fdroid
     runs-on: macOS-latest
     timeout-minutes: 30
     strategy:
@@ -113,8 +113,8 @@ jobs:
           find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
           bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/FdroidDebug.xml -F app.androidTest.fdroid
 
-  app.googleplay:
-    name: app.googleplay
+  app-googleplay:
+    name: app-googleplay
     runs-on: macOS-latest
     timeout-minutes: 30
     strategy:
@@ -216,8 +216,8 @@ jobs:
           find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
           bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/GoogleplayDebug.xml -F app.androidTest.googleplay
 
-  permissions.fdroid:
-    name: permissions.fdroid
+  permissions-fdroid:
+    name: permissions-fdroid
     runs-on: macOS-latest
     timeout-minutes: 30
     strategy:
@@ -319,8 +319,8 @@ jobs:
           find . -name "*.exec"; find . -name "*.ec"; find app/module/permissions/build/reports/ -name "*.xml"
           bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/FdroidDebug.xml -F permissions.androidTest.fdroid
 
-  permissions.googleplay:
-    name: permissions.googleplay
+  permissions-googleplay:
+    name: permissions-googleplay
     runs-on: macOS-latest
     timeout-minutes: 30
     strategy:
