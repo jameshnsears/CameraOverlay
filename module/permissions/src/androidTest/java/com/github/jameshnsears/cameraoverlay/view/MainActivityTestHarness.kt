@@ -6,7 +6,7 @@ import com.github.jameshnsears.cameraoverlay.common.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import timber.log.Timber
 
-class MainActivity : ComponentActivity() {
+class MainActivityTestHarness : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

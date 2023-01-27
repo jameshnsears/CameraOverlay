@@ -9,9 +9,9 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:label="MainActivity">
+        android:label="MainActivityTestHarness">
         <activity
-            android:name="com.github.jameshnsears.cameraoverlay.view.MainActivity"
+            android:name="com.github.jameshnsears.cameraoverlay.view.MainActivityTestHarness"
             android:exported="true">
         </activity>
     </application>
