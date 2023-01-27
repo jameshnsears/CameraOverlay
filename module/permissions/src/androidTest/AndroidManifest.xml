@@ -9,9 +9,9 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:label="MainActivityTest">
+        android:label="MainActivity">
         <activity
-            android:name="com.github.jameshnsears.cameraoverlay.view.MainActivityTest"
+            android:name="com.github.jameshnsears.cameraoverlay.view.MainActivity"
             android:exported="true">
         </activity>
     </application>
