@@ -13,7 +13,7 @@ GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 CODECOV_UPLOADER_NAME=$(hostname)
 
 ./gradlew :module:permissions:uninstallAll :module:permissions:clean connectedFdroidDebugAndroidTestCoverage --stacktrace
-bash <(curl https://codecov.io/bash) -t "${CODECOVIO_TOKEN}" -C "${GIT_HEAD_HASH}" -b 0 -B "${GIT_BRANCH}" -n "${CODECOV_UPLOADER_NAME}" -f "app/build/reports/EspressoDebug.xml" -F androidTest.espresso.fdroid
+bash <(curl https://codecov.io/bash) -t "${CODECOVIO_TOKEN}" -C "${GIT_HEAD_HASH}" -b 0 -B "${GIT_BRANCH}" -n "${CODECOV_UPLOADER_NAME}" -f "app/module/permissions/build/reports/FdroidDebug.xml" -F permissions.androidTest.fdroid
 
 ./gradlew :module:permissions:uninstallAll :module:permissions:clean connectedGoogleplayDebugAndroidTestCoverage --stacktrace
-bash <(curl https://codecov.io/bash) -t "${CODECOVIO_TOKEN}" -C "${GIT_HEAD_HASH}" -b 0 -B "${GIT_BRANCH}" -n "${CODECOV_UPLOADER_NAME}" -f "app/build/reports/UiautomatorDebug.xml" -F androidTest.uiautomator.fdroid
+bash <(curl https://codecov.io/bash) -t "${CODECOVIO_TOKEN}" -C "${GIT_HEAD_HASH}" -b 0 -B "${GIT_BRANCH}" -n "${CODECOV_UPLOADER_NAME}" -f "app/module/permissions/build/reports/GoogleplayDebug.xml" -F permissions.androidTest.googleplay
