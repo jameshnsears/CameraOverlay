@@ -23,9 +23,9 @@ class PermissionButtonLocationTest : PermissionButtonHelper() {
             fail()
         }
 
-        if (BuildConfig.GITHUB_ACTION) {
-            return
-        }
+//        if (BuildConfig.GITHUB_ACTION) {
+//            return
+//        }
 
         composeTestRule.setContent {
             PermissionButtonLocation(ViewModelPermission(composeTestRule.activity.application))

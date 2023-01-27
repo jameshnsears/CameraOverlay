@@ -20,9 +20,9 @@ class PermissionMediatorTest {
             TestCase.fail()
         }
 
-        if (BuildConfig.GITHUB_ACTION) {
-            return
-        }
+//        if (BuildConfig.GITHUB_ACTION) {
+//            return
+//        }
 
         val permissionMediator = PermissionMediatorImpl(context)
 

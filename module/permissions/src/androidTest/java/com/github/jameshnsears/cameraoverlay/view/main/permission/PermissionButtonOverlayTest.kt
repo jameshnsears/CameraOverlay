@@ -22,9 +22,9 @@ class PermissionButtonOverlayTest : PermissionButtonHelper() {
             TestCase.fail()
         }
 
-        if (BuildConfig.GITHUB_ACTION) {
-            return
-        }
+//        if (BuildConfig.GITHUB_ACTION) {
+//            return
+//        }
 
         composeTestRule.setContent {
             PermissionButtonOverlay(ViewModelPermission(composeTestRule.activity.application))

@@ -23,9 +23,9 @@ class PermissionButtonStorageTest : PermissionButtonHelper() {
             fail()
         }
 
-        if (BuildConfig.GITHUB_ACTION) {
-            return
-        }
+//        if (BuildConfig.GITHUB_ACTION) {
+//            return
+//        }
 
         composeTestRule.setContent {
             PermissionButtonStorage(ViewModelPermission(composeTestRule.activity.application))
