@@ -11,7 +11,9 @@ project.afterEvaluate {
     if (!productFlavors) productFlavors.add('')
 
     productFlavors.each { productFlavorName ->
+
         buildTypes.each { buildTypeName ->
+
             def sourceName
             if (!productFlavorName) {
                 sourceName = "${buildTypeName}"

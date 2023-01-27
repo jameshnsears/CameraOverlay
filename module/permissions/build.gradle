@@ -5,6 +5,7 @@ plugins {
     id "org.jlleitschuh.gradle.ktlint" version "11.0.0"
 }
 
+apply from: '../../jacoco.gradle'
 apply from: '../../detekt.gradle'
 apply from: '../../ktlint.gradle'
 

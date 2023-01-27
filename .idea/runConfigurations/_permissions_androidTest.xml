@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name=":module:permissions.androidTest" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
+  <configuration default="false" name=":permissions.androidTest" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
     <module name="Camera_Overlay.module.permissions.androidTest" />
     <option name="TESTING_TYPE" value="0" />
     <option name="METHOD_NAME" value="" />
