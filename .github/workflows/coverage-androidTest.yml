@@ -1,4 +1,4 @@
-name: coverage-androidTest-permissions
+name: coverage-androidTest
 
 on:
   push:
@@ -15,8 +15,8 @@ env:
   CACHE_VERSION: 1
 
 jobs:
-  permissions-fdroid:
-    name: permissions-fdroid
+  app-fdroid:
+    name: app-fdroid
     runs-on: macOS-latest
     timeout-minutes: 30
     strategy:
@@ -94,20 +94,20 @@ jobs:
           script:  |
             adb logcat -c
             adb logcat > logcat.txt &
-            ./gradlew :module:permissions:uninstallAll :module:permissions:clean :module:permissions:connectedFdroidDebugAndroidTestCoverage --stacktrace
+            ./gradlew :app:connectedFdroidDebugAndroidTestCoverage --stacktrace
 
       - name: artifact logcat
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: permissions-fdroid-logcat-${{ matrix.api-level }}
+          name: app-fdroid-logcat-${{ matrix.api-level }}
           path: logcat.txt
 
       - name: artifact
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: permissions-fdroid-${{ matrix.api-level }}
+          name: app-fdroid-${{ matrix.api-level }}
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*
@@ -115,11 +115,11 @@ jobs:
       - name: publish
         run: |
           set -x
-          find . -name "*.exec"; find . -name "*.ec"; find app/module/permissions/build/reports/ -name "*.xml"
-          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/FdroidDebug.xml -F permissions.androidTest.fdroid
+          find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/FdroidDebug.xml -F app.androidTest.fdroid
 
-  permissions-googleplay:
-    name: permissions-googleplay
+  app-googleplay:
+    name: app-googleplay
     runs-on: macOS-latest
     timeout-minutes: 30
     strategy:
@@ -197,20 +197,20 @@ jobs:
           script:  |
             adb logcat -c
             adb logcat > logcat.txt &
-            ./gradlew :module:permissions:uninstallAll :module:permissions:clean :module:permissions:connectedGoogleplayDebugAndroidTestCoverage --stacktrace
+            ./gradlew :app:connectedGoogleplayDebugAndroidTestCoverage --stacktrace
 
       - name: artifact logcat
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: permissions-googleplay-logcat-${{ matrix.api-level }}
+          name: app-googleplay-logcat-${{ matrix.api-level }}
           path: logcat.txt
 
       - name: artifact
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: permissions-googleplay-${{ matrix.api-level }}
+          name: app-googleplay-${{ matrix.api-level }}
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*
@@ -218,5 +218,6 @@ jobs:
       - name: publish
         run: |
           set -x
-          find . -name "*.exec"; find . -name "*.ec"; find app/module/permissions/build/reports -name "*.xml"
-          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/GoogleplayDebug.xml -F permissions.androidTest.googleplay
+          find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/GoogleplayDebug.xml -F app.androidTest.googleplay
+

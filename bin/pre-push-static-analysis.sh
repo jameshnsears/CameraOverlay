@@ -2,8 +2,7 @@
 set -e
 
 ./gradlew -q \
-  checkstyle \
-  detekt \
-  ktlint \
-  lintFdroidDebug \
-  lintGoogleplayDebug
+  :app:detekt \
+  :app:ktlintCheck \
+  :app:lintFdroidDebug \
+  :app:lintGoogleplayDebug
