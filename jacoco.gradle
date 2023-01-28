@@ -30,8 +30,6 @@ project.afterEvaluate {
             ]
 
             def classKotlin = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/${sourceName}", excludes: excludes)
-            def classesKotlinUnitTest = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/${sourceName}UnitTest", excludes: excludes)
-            def classesKotlinAndroidTest = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/${sourceName}AndroidTest", excludes: excludes)
 
             def classJava = fileTree(dir: "$project.buildDir/intermediates/javac/${sourceName}/classes", excludes: excludes)
 
@@ -43,7 +41,7 @@ project.afterEvaluate {
                 group = "coverage.combined"
                 description = "Generate Jacoco /test + combined (if avail.) /andoidTest coverage report from ${sourceName.capitalize()}"
 
-                classDirectories.setFrom(files([classKotlin, classesKotlinUnitTest, classesKotlinAndroidTest, classJava]))
+                classDirectories.setFrom(files([classKotlin, classJava]))
 
                 sourceDirectories.setFrom(files([javaSrc, kotlinSrc, flavourSrc]))
 
@@ -66,7 +64,7 @@ project.afterEvaluate {
                 group = "coverage.unittest"
                 description = "Generate Jacoco /test coverage report from ${sourceName.capitalize()}"
 
-                classDirectories.setFrom(files([classKotlin, classesKotlinUnitTest, classJava]))
+                classDirectories.setFrom(files([classKotlin, classJava]))
 
                 sourceDirectories.setFrom(files([javaSrc, kotlinSrc, flavourSrc]))
 
@@ -88,7 +86,7 @@ project.afterEvaluate {
                 group = "coverage.connected"
                 description = "Generate Jacoco /test coverage report from ${sourceName.capitalize()}"
 
-                classDirectories.setFrom(files([classKotlin, classesKotlinAndroidTest, classJava]))
+                classDirectories.setFrom(files([classKotlin, classJava]))
 
                 sourceDirectories.setFrom(files([javaSrc, kotlinSrc, flavourSrc]))
 
