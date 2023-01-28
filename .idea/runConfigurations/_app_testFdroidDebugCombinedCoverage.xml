@@ -11,8 +11,7 @@
       <option name="taskNames">
         <list>
           <option value="uninstallAll" />
-          <option value=":app:clean" />
-          <option value=":app:testFdroidDebugCombinedCoverage" />
+          <option value="testFdroidDebugCombinedCoverage" />
         </list>
       </option>
       <option name="vmOptions" value="" />
