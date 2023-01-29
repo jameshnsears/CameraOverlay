@@ -10,6 +10,7 @@ import com.github.jameshnsears.cameraoverlay.common.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.permissions.BuildConfig
 import com.github.jameshnsears.cameraoverlay.view.photo.PhotoSelectScreen
 import io.mockk.mockk
+import org.junit.Assert.fail
 import org.junit.Rule
 import org.junit.Test
 import timber.log.Timber
@@ -58,6 +59,8 @@ class PhotoSelectScreenTest {
         // TODO also enable the app to receive an image via a "Share"
 
         // TODO have different images formats that the test can select
+
+        fail("todo")
     }
 
     fun mediaStore() {

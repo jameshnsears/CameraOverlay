@@ -9,6 +9,7 @@ import org.opencv.core.Mat
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 
+
 open class EdgeDetectionUtils {
     fun makeBitmapTransparent(bitmap: Bitmap): Bitmap {
         val width = bitmap.width

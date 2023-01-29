@@ -28,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollection
+import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageType
 import com.github.jameshnsears.cameraoverlay.view.common.CommonNavigation
 import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogCollection
 import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogFilter
@@ -91,7 +92,7 @@ fun PhotoSelectScreen(navController: NavController) {
                         navController,
                         PhotoCardData(
                             PhotoCollection.MediaStore,
-                            "type $photoId",
+                            PhotoImageType.JPEG,
                             "https://example.com/image.jpg",
                             "when taken $photoId",
                             "distance $photoId",

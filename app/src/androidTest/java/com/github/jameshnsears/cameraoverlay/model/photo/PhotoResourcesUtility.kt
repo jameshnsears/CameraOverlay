@@ -6,7 +6,10 @@ import android.media.MediaScannerConnection
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.test.platform.app.InstrumentationRegistry
+import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.common.MethodLineLoggingTree
+import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediator
+import junit.framework.TestCase
 import org.junit.Before
 import timber.log.Timber
 
@@ -14,10 +17,29 @@ open class PhotoResourcesUtility {
     protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Before
-    fun initLogging() {
+    fun setUp() {
+        confirmEnvironmentOK()
+        initLogging()
+        populateMediaStoreWithImages()
+    }
+
+    private fun confirmEnvironmentOK() {
+        if (!EmulatorCompatibilityHelper.canRunInEmulatorQ()) {
+            TestCase.fail()
+        }
+    }
+
+    private fun initLogging() {
         if (Timber.treeCount == 0) {
             Timber.plant(MethodLineLoggingTree())
         }
+    }
+
+    private fun populateMediaStoreWithImages() {
+        if (MediaStoreMediator.picturesInMediaStore(context).size != 3) {
+            copyImageResourcesToExternalStorage()
+        }
+        TestCase.assertEquals(3, MediaStoreMediator.picturesInMediaStore(context).size)
     }
 
     var images = arrayOf(
@@ -26,13 +48,15 @@ open class PhotoResourcesUtility {
         "tower_bridge",
     )
 
-    protected fun copyImageResourcesToExternalStorage() {
+    private fun copyImageResourcesToExternalStorage() {
         for (image in images) {
             copyImageToExternalStorage(image)
         }
     }
 
     private fun copyImageToExternalStorage(imageName: String) {
+        Timber.d("imageName=%s", imageName)
+
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, imageName)
 

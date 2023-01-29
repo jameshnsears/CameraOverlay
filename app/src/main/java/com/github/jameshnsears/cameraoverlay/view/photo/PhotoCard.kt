@@ -39,6 +39,7 @@ import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollection
+import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageType
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.canDrawOverlays
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.showToast
 
@@ -129,7 +130,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                                 .padding(bottom = 8.dp),
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        Text(photoCardData.gps)
+                        Text(photoCardData.gpsWhereTaken)
                     }
                     Row {
                         Icon(
@@ -137,7 +138,8 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                             contentDescription = null,
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        Text(photoCardData.type)
+//                        Text(photoCardData.type)
+                        Text("JPEG")
                     }
                 }
             }
@@ -151,7 +153,7 @@ fun CardPhotoPreview() {
     val photoCardDataList = listOf(
         PhotoCardData(
             PhotoCollection.MediaStore,
-            "JPEG",
+            PhotoImageType.JPEG,
             "https://example.com/image.jpg",
             "when taken 0",
             "distance 0",
@@ -159,7 +161,7 @@ fun CardPhotoPreview() {
         ),
         PhotoCardData(
             PhotoCollection.MediaStore,
-            "JPEG",
+            PhotoImageType.JPEG,
             "https://example.com/image.jpg",
             "when taken 1",
             "distance 1",

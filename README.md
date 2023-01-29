@@ -16,3 +16,12 @@
 
 * https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 * openjdk-11-jdk
+* 
+## IDE Plugins
+
+* Checkstyle-IDE - Jamie Shiell
+* SonarLint - SonarSource
+* MetricsReloaded - <https://plugins.jetbrains.com/plugin/93-metricsreloaded>
+* ADB Idea - <https://plugins.jetbrains.com/plugin/7380-adb-idea>
+* Qodana - JetBrains
+* Docker - JetBrains (requires restart)

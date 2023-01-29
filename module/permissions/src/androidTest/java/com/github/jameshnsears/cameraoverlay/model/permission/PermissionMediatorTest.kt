@@ -15,7 +15,7 @@ class PermissionMediatorTest {
 
     @Test
     fun defaultPermissions() {
-        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
+        if (!EmulatorCompatibilityHelper.canRunInEmulatorQ()) {
             TestCase.fail()
         }
 

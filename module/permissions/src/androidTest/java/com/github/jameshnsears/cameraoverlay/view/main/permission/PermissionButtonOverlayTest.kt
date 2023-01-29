@@ -17,7 +17,7 @@ class PermissionButtonOverlayTest : PermissionButtonHelper() {
 
     @Test
     fun allow() {
-        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
+        if (!EmulatorCompatibilityHelper.canRunInEmulatorQ()) {
             TestCase.fail()
         }
 

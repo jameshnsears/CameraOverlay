@@ -1,29 +1,17 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.mediastore
 
-import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
 import java.util.Arrays
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
-import junit.framework.TestCase.assertTrue
-import junit.framework.TestCase.fail
 import org.junit.Test
 
-class MediaStoreTest : PhotoResourcesUtility() {
+class MediaStoreMediatorTest : PhotoResourcesUtility() {
     @Test
     fun confirmExif() {
-        if (!EmulatorCompatibilityHelper.canTestButRunInEmulatorQ()) {
-            fail()
-        }
-
-        if (MediaStoreMediator.picturesInMediaStore(context).size != 3) {
-            copyImageResourcesToExternalStorage()
-        }
-
         val picturesInMediaStore = MediaStoreMediator.picturesInMediaStore(context)
-        assertTrue(picturesInMediaStore.isNotEmpty())
-
         val eiffelTower = picturesInMediaStore[0]
+
         val eiffelTowerExif = MediaStoreMediator.getExifFromUri(context, eiffelTower)
         assertEquals(1631639311000, eiffelTowerExif.dateTime)
         assertNull(eiffelTowerExif.latLong)

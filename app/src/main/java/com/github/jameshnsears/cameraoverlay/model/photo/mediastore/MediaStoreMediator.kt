@@ -47,7 +47,9 @@ class MediaStoreMediator {
 
         fun getExifFromUri(context: Context, mediaStore: MediaStoreData): ExifInterface {
             val inputStream = context.contentResolver.openInputStream(mediaStore.uri)
-            return ExifInterface(inputStream!!)
+            val exifInterface = ExifInterface(inputStream!!)
+            inputStream.close()
+            return exifInterface
         }
     }
 }
