@@ -35,7 +35,7 @@ class EdgeDetectionTest {
             .convertMatToBitmap(
                 getImageAsMat(edgeDetectionCanny, "EdgeDetection/reichstag-conny.png"))
 
-        saveBitmap(transparentCannyBitmap, "aaa.png")
+//        saveBitmap(transparentCannyBitmap, "reichstag-conny.png")
 
         assertTrue(transparentCannyBitmap.sameAs(expectedBitmap))
     }
@@ -45,13 +45,12 @@ class EdgeDetectionTest {
             this.javaClass.classLoader.getResourceAsStream(path),
         )
 
-
-    private fun saveBitmap(bitmapToSave: Bitmap, filename: String) {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), filename)
-        val outputStream = FileOutputStream(file)
-
-        bitmapToSave.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        outputStream.close()
-    }
+//    private fun saveBitmap(bitmapToSave: Bitmap, filename: String) {
+//        val context = InstrumentationRegistry.getInstrumentation().targetContext
+//        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), filename)
+//        val outputStream = FileOutputStream(file)
+//
+//        bitmapToSave.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+//        outputStream.close()
+//    }
 }
