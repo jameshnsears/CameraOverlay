@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class GreetingViewModel : ViewModel() {
+class ViewModelGreeting : ViewModel() {
     private val _n = mutableStateOf(0)
     val n: State<Int> = _n
 

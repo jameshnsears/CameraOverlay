@@ -4,11 +4,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.github.jameshnsears.cameraoverlay.viewmodel.GreetingViewModel
+import com.github.jameshnsears.cameraoverlay.viewmodel.ViewModelGreeting
 
 @Composable
 fun Greeting() {
-    val vm = GreetingViewModel()
+    val vm = ViewModelGreeting()
 
     val number = remember { vm.n }
 

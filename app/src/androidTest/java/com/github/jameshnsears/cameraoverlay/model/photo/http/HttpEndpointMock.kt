@@ -1,9 +1,8 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.http
 
-import com.google.common.net.HttpHeaders
-import junit.framework.TestCase
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -11,12 +10,11 @@ import okhttp3.mockwebserver.RecordedRequest
 import okio.Buffer
 import timber.log.Timber
 
-class HttpEndpointUtility {
+class HttpEndpointMock {
     private var mockWebServer = mockWebServer()
 
     fun start() {
         mockWebServer.start(8080)
-        assertResponseMockWebServer()
     }
 
     fun shutdown() {
@@ -51,19 +49,12 @@ class HttpEndpointUtility {
         return buffer
     }
 
-    private fun assertResponseMockWebServer() {
+    fun assertResponseMockWebServer(url: String): Response {
         // https://square.github.io/okhttp/recipes/
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("http://127.0.0.1:8080/resources/eiffel_tower")
+            .url(url)
             .build()
-
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) {
-                TestCase.fail("Unexpected code $response")
-            }
-
-            TestCase.assertEquals("330753", response.header(HttpHeaders.CONTENT_LENGTH, "-1"))
-        }
+        return client.newCall(request).execute()
     }
 }
