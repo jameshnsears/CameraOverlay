@@ -29,9 +29,7 @@ class EdgeDetectionTest: PhotoResourcesUtility() {
 
         val expectedBitmap = edgeDetectionCanny
             .convertMatToBitmap(
-                getImageAsMat(edgeDetectionCanny, "EdgeDetection/reichstag-conny.png"))
-
-//        saveBitmap(transparentCannyBitmap, "reichstag-conny.png")
+                getImageAsMat(edgeDetectionCanny, "EdgeDetection/reichstag-expected.png"))
 
         assertTrue(transparentCannyBitmap.sameAs(expectedBitmap))
     }
