@@ -1,17 +1,13 @@
 package com.github.jameshnsears.cameraoverlay.model.overlay.edgedetection
 
-import android.graphics.Bitmap
-import android.os.Environment
-import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.model.edgedetection.Canny
 import com.github.jameshnsears.cameraoverlay.model.edgedetection.EdgeDetectionUtils
-import java.io.File
-import java.io.FileOutputStream
+import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class EdgeDetectionTest {
+class EdgeDetectionTest: PhotoResourcesUtility() {
     init {
         System.loadLibrary("opencv_java4")
     }
@@ -44,13 +40,4 @@ class EdgeDetectionTest {
         edgeDetectionUtils.convertOriginalImageToBitmap(
             this.javaClass.classLoader.getResourceAsStream(path),
         )
-
-//    private fun saveBitmap(bitmapToSave: Bitmap, filename: String) {
-//        val context = InstrumentationRegistry.getInstrumentation().targetContext
-//        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), filename)
-//        val outputStream = FileOutputStream(file)
-//
-//        bitmapToSave.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-//        outputStream.close()
-//    }
 }

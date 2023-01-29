@@ -2,6 +2,7 @@ package com.github.jameshnsears.cameraoverlay.model.photo
 
 import android.content.ContentValues
 import android.content.Context
+import android.graphics.Bitmap
 import android.media.MediaScannerConnection
 import android.os.Environment
 import android.provider.MediaStore
@@ -9,6 +10,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.common.MethodLineLoggingTree
 import com.github.jameshnsears.cameraoverlay.model.photo.mediastore.MediaStoreMediator
+import java.io.File
+import java.io.FileOutputStream
 import junit.framework.TestCase
 import org.junit.Before
 import timber.log.Timber
@@ -87,5 +90,14 @@ open class PhotoResourcesUtility {
                 null,
             )
         }
+    }
+
+    protected fun saveBitmap(bitmapToSave: Bitmap, filename: String) {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), filename)
+        val outputStream = FileOutputStream(file)
+
+        bitmapToSave.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        outputStream.close()
     }
 }
