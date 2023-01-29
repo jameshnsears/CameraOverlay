@@ -14,12 +14,12 @@ import timber.log.Timber
 class HttpEndpointUtility {
     private var mockWebServer = mockWebServer()
 
-    public fun start() {
+    fun start() {
         mockWebServer.start(8080)
         assertResponseMockWebServer()
     }
 
-    public fun shutdown() {
+    fun shutdown() {
         mockWebServer.shutdown()
     }
 

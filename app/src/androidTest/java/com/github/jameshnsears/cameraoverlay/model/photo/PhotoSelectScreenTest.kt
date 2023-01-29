@@ -15,19 +15,13 @@ import org.junit.Rule
 import org.junit.Test
 import timber.log.Timber
 
-class PhotoSelectScreenTest {
-    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-
+class PhotoSelectScreenTest: PhotoResourcesUtility() {
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
     fun buttonFilter() {
-        if (BuildConfig.DEBUG && Timber.treeCount == 0) {
-            Timber.plant(MethodLineLoggingTree())
-        }
-
-        composeTestRule.setContent {
+         composeTestRule.setContent {
             PhotoSelectScreen(mockk())
         }
 

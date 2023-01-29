@@ -8,38 +8,18 @@ import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageType
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoResourcesUtility
 import com.github.jameshnsears.cameraoverlay.view.photo.PhotoCard
 import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
-import com.google.common.net.HttpHeaders.CONTENT_LENGTH
-import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.fail
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.mockwebserver.Dispatcher
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import okhttp3.mockwebserver.RecordedRequest
-import okio.Buffer
 import org.junit.Rule
 import org.junit.Test
-import timber.log.Timber
 
-class HttpTest : PhotoResourcesUtility() {
+class HttpEndpointTest : PhotoResourcesUtility() {
     @get:Rule
     val composeTestRule = createComposeRule()
-
-//    @Test
-//    fun mediaStore() {
-//        if (MediaStoreMediator.picturesInMediaStore(context).size != 3) {
-//            copyImageResourcesToExternalStorage()
-//        }
-//
-//        assertEquals(3, MediaStoreMediator.picturesInMediaStore(context).size)
-//    }
 
     @Test
     fun createPhotoCardViaHttp() {
         val httpEndpointUtility = HttpEndpointUtility()
         httpEndpointUtility.start()
-
 
         composeTestRule.setContent {
             AppTheme {
