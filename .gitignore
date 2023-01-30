@@ -41,3 +41,4 @@ local.properties
 /package-lock.json
 /vendor/
 /.idea/render.experimental.xml
+docs/uml/Camera Overlay.vpp.vbak
