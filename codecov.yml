@@ -1,0 +1,18 @@
+flags:
+  app.test.fdroid:
+    carryforward: false
+
+  app.test.googleplay:
+    carryforward: false
+
+  app.androidTest.fdroid:
+    carryforward: false
+
+  app.androidTest.googleplay:
+    carryforward: false
+
+  permissions.androidTest.fdroid:
+    carryforward: false
+
+  permissions.androidTest.googleplay:
+    carryforward: false

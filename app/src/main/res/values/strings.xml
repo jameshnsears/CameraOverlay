@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Camera Overlay</string>
+
+    <string name="about_dialog">About…</string>
+    <string name="about_dialog_privacy_policy">Privacy Policy</string>
+    <string name="about_dialog_ok">OK</string>
+
+    <string name="tag_line">Compare the past with the present!</string>
+
+    <string name="main_screen_usage">Usage</string>
+    <string name="main_screen_usage_0">\u2022 Allow required permissions</string>
+    <string name="main_screen_usage_1">\u2022 Select photo to use as overlay</string>
+    <string name="main_screen_usage_2">\u2022 Use Camera app to align viewfinder with overlay</string>
+
+    <string name="permissions">Permissions</string>
+
+    <string name="permissions_screen_mandatory">\u2022 Required</string>
+    <string name="permissions_screen_choose_photo">\u2022 Select photo, to be used as overlay, from storage</string>
+
+    <string name="permissions_screen_overlay_display_photo">\u2022 Display selected photo as overlay</string>
+
+    <string name="permissions_screen_optional">\u2022 Optional</string>
+    <string name="permissions_screen_show_distance">\u2022 Show distance between present location and of photo containing GPS info</string>
+
+    <string name="error_missing_mandatory_permission">Please allow required permissions</string>
+
+    <string name="select_photo">Select Photo</string>
+    <string name="select_photo_filter">Filter…</string>
+    <string name="select_photo_dialog_filter_jpeg">JPEG - can contain GPS info</string>
+    <string name="select_photo_dialog_filter_png">PNG</string>
+    <string name="select_photo_dialog_filter_webp">TIFF</string>
+    <string name="select_photo_collections">Collection…</string>
+    <string name="select_photo_dialog_collections_media_store">Show all images</string>
+    <string name="select_photo_dialog_collections_access_framework">Specific…</string>
+    <string name="select_photo_dialog_collections_file">File</string>
+    <string name="select_photo_dialog_collections_folder">Folder</string>
+    <string name="select_photo_sort">Sort…</string>
+    <string name="select_photo_dialog_sort_when_taken">When taken</string>
+    <string name="select_photo_dialog_sort_distance">Distance</string>
+    <string name="select_photo_dialog_overlay">Overlay</string>
+
+    <string name="select_photo_dialog_overlay_colour">Colour</string>
+    <string name="select_photo_dialog_overlay_colour_black">Black</string>
+    <string name="select_photo_dialog_overlay_colour_white">White</string>
+    <string name="select_photo_dialog_overlay_size">Size %</string>
+    <string name="select_photo_dialog_overlay_x">x</string>
+    <string name="select_photo_dialog_overlay_y">y</string>
+
+    <string name="overlay_window_close">Close</string>
+    <string name="overlay_window_selected_photo">Selected Photo</string>
+
+    <string name="todo">TODO</string>
+</resources>

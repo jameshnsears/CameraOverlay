@@ -1,0 +1,8 @@
+<resources>
+    <string name="permissions_files_and_media">Access photos</string>
+    <string name="permissions_location">Location</string>
+    <string name="permissions_display_overlay">Create overlay</string>
+
+    <string name="permissions_denial_mandatory">This permission is required</string>
+    <string name="permissions_denial_optional">This permission is optional</string>
+</resources>

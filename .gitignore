@@ -1,0 +1,44 @@
+/app/build/
+app/.classpath
+/app/googleplay/debug/
+/app/googleplay/release/
+/app/googleplay/release/app-googleplay-release.aab
+/app/google-services.json
+/app/keystore.jks
+/app/src/googleplay/google-services.json
+/app/src/google-services.json
+app/src/test/resources/digikam4.db
+app/src/test/resources/recognition.db
+app/src/test/resources/similarity.db
+app/src/test/resources/thumbnails-digikam.db
+/bin/envvars.sh
+/bin/tidy-up-github-actions.sh
+/build
+/captures
+.cxx
+/docs/.~lock.overlay-window.odp#
+docs/ui/.~lock.Camera Overlay.odp#
+docs/uml/Camera Overlay.vpp.bak_*
+docs/uml/.Camera Overlay.vpp.lck
+.DS_Store
+.externalNativeBuild
+.gradle
+/.idea/assetWizardSettings.xml
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/navEditor.xml
+/.idea/sonarlint
+/.idea/sonarlint/issuestore/*
+.idea/sonarlint/issuestore/index.pb
+/.idea/sonarlint-state.xml
+/.idea/workspace.xml
+*.iml
+/local.properties
+local.properties
+/node_modules/
+/package.json
+/package-lock.json
+/vendor/
+/.idea/render.experimental.xml
+docs/uml/Camera Overlay.vpp.vbak

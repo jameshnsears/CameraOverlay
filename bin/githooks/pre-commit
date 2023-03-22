@@ -1,0 +1,12 @@
+#!/bin/bash
+echo "pre-commit hook"
+
+if ! ./gradlew --daemon clean detekt &>/dev/null; then
+    echo >&2 "detekt failed: file://$(pwd)/app/build/reports/detekt/detekt.txt"
+    exit 1
+fi
+
+if ! ./gradlew --daemon clean ktlintCheck &>/dev/null; then
+    echo >&2 "Detekt failed! See report at file://$(pwd)/app/build/reports/ktlint/ktlintMainSourceSetCheck/ktlintMainSourceSetCheck.txt"
+    exit 1
+fi
