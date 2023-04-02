@@ -7,7 +7,6 @@ import android.provider.MediaStore
 import androidx.exifinterface.media.ExifInterface
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
-import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardUtility
 import com.github.jameshnsears.cameraoverlay.model.photo.repository.PhotoRepository
 import com.github.jameshnsears.cameraoverlay.model.photo.repository.PhotoRepositoryData
 
@@ -51,23 +50,31 @@ class MediaStoreRepository : PhotoRepository {
         context: Context,
         photosFromRepository: List<PhotoRepositoryData>
     ): List<PhotoCardData> {
-        val photoCardUtility = PhotoCardUtility()
         val photoCardData = mutableListOf<PhotoCardData>()
 
         for (photoFromRepository in photosFromRepository) {
-            val exifInterface = photoCardUtility.exifInterface(context, photoFromRepository)
-
             photoCardData.add(
                 PhotoCardData(
                     PhotoCollectionEnum.MediaStore,
                     photoFromRepository.mimeType,
                     photoFromRepository.uri,
-                    exifInterface.getAttribute(ExifInterface.TAG_DATETIME),
-                    exifInterface.latLong
+                    exifInterface(context, photoFromRepository)
+                        .getAttribute(ExifInterface.TAG_DATETIME),
+                    exifInterface(context, photoFromRepository).latLong
                 )
             )
         }
 
         return photoCardData
+    }
+
+    override fun exifInterface(
+        context: Context,
+        photoRepositoryData: PhotoRepositoryData
+    ): ExifInterface {
+        val inputStream = context.contentResolver.openInputStream(photoRepositoryData.uri)
+        val exifInterface = ExifInterface(inputStream!!)
+        inputStream.close()
+        return exifInterface
     }
 }

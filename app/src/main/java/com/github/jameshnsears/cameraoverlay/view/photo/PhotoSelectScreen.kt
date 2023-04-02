@@ -68,14 +68,15 @@ fun PhotoSelectScreen(navController: NavController) {
                                 contentDescription = null
                             )
                         }
-                    },
-                    actions = {
-                        TopBarActions(
-                            filterDialogState,
-                            collectionDialogState,
-                            sortDialogState
-                        )
                     }
+// comment out anything that is not MVP
+//                    actions = {
+//                        TopBarActions(
+//                            filterDialogState,
+//                            collectionDialogState,
+//                            sortDialogState
+//                        )
+//                    }
                 )
             }
         ) { padding ->

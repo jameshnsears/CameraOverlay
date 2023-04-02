@@ -56,6 +56,13 @@ jobs:
           set -x
           ./gradlew detekt
 
+      - name: artifact detekt
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: detekt
+          path: app/build/reports/detekt/detekt.txt
+
   ktlintCheck:
     name: ktlintCheck
     runs-on: macOS-latest
@@ -96,6 +103,18 @@ jobs:
         run: |
           set -x
           ./gradlew ktlintCheck
+
+      - name: artifact ktlintCheck
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ktlintCheck
+          path: |
+            app/build/reports/ktlint/ktlintAndroidTestSourceSetCheck/ktlintAndroidTestSourceSetCheck.txt
+            app/build/reports/ktlint/ktlintFdroidSourceSetCheck/ktlintFdroidSourceSetCheck.txt
+            app/build/reports/ktlint/ktlintGoogleplaySourceSetCheck/ktlintGoogleplaySourceSetCheck.txt
+            app/build/reports/ktlint/ktlintMainSourceSetCheck/ktlintMainSourceSetCheck.txt
+            app/build/reports/ktlint/ktlintTestSourceSetCheck/ktlintTestSourceSetCheck.txt
 
   lintGooglePlayDebug:
     name: lintGooglePlayDebug

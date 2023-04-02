@@ -21,19 +21,25 @@
 
     <string name="permissions_screen_optional">\u2022 Optional</string>
     <string name="permissions_screen_show_distance">\u2022 Show distance between present location and of photo containing GPS info</string>
+    <string name="permissions_screen_gps_battery">\u2022 Uses device GPS only - wil consume battery</string>
 
     <string name="error_missing_mandatory_permission">Please allow required permissions</string>
 
     <string name="select_photo">Select Photo</string>
+
     <string name="select_photo_filter">Filter…</string>
+    <string name="select_photo_dialog_filter_bmp">BMP</string>
+    <string name="select_photo_dialog_filter_gif">GIF</string>
     <string name="select_photo_dialog_filter_jpeg">JPEG - can contain GPS info</string>
     <string name="select_photo_dialog_filter_png">PNG</string>
-    <string name="select_photo_dialog_filter_webp">TIFF</string>
+    <string name="select_photo_dialog_filter_webp">WebP</string>
+
     <string name="select_photo_collections">Collection…</string>
     <string name="select_photo_dialog_collections_media_store">Show all images</string>
     <string name="select_photo_dialog_collections_access_framework">Specific…</string>
     <string name="select_photo_dialog_collections_file">File</string>
     <string name="select_photo_dialog_collections_folder">Folder</string>
+
     <string name="select_photo_sort">Sort…</string>
     <string name="select_photo_dialog_sort_when_taken">When taken</string>
     <string name="select_photo_dialog_sort_distance">Distance</string>
@@ -45,6 +51,8 @@
     <string name="select_photo_dialog_overlay_size">Size %</string>
     <string name="select_photo_dialog_overlay_x">x</string>
     <string name="select_photo_dialog_overlay_y">y</string>
+
+    <string name="select_photo_distance_not_available">N/A</string>
 
     <string name="overlay_window_close">Close</string>
     <string name="overlay_window_selected_photo">Selected Photo</string>

@@ -202,8 +202,6 @@ fun ButtonStorageAccessFrameworkFolder(
             )
     }
 
-    //     android.content.ActivityNotFoundException: No Activity found to handle Intent { act=android.intent.action.OPEN_DOCUMENT_TREE cat=[android.intent.category.OPENABLE] (has extras) }
-
     OutlinedButton(
         onClick = { buttonState.value = true },
         modifier = Modifier

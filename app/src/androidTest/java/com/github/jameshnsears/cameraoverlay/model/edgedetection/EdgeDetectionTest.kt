@@ -1,26 +1,13 @@
 package com.github.jameshnsears.cameraoverlay.model.edgedetection
 
-import com.github.jameshnsears.cameraoverlay.model.photo.repository.mediastore.MediaStoreRepository
-import com.github.jameshnsears.cameraoverlay.utility.MediaStoreUtility
-import com.github.jameshnsears.cameraoverlay.utility.TestUtility
+import com.github.jameshnsears.cameraoverlay.utility.CommonTestUtility
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Test
 
-class EdgeDetectionTest : TestUtility() {
+class EdgeDetectionTest : CommonTestUtility() {
     init {
         System.loadLibrary("opencv_java4")
-    }
-
-    @Before
-    fun useMediaStore() {
-        val repository = MediaStoreRepository()
-
-        if (repository.queryPhotoRepository(context).size != 3) {
-            val mediaStoreUtility = MediaStoreUtility()
-            mediaStoreUtility.setUpMediaStore(context)
-        }
     }
 
     @Test
@@ -42,6 +29,8 @@ class EdgeDetectionTest : TestUtility() {
             .convertMatToBitmap(
                 getImageAsMat(edgeDetectionCanny, "EdgeDetection/reichstag.png")
             )
+
+        // TODO modify threshold values
 
         assertTrue(transparentCannyBitmap.sameAs(expectedBitmap))
     }

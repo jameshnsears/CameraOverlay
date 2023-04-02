@@ -9,7 +9,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -55,6 +55,8 @@ fun FilterDialogRow() {
     var selected by remember { mutableStateOf(jpeg) }
 
     val checkboxGroupOptions = listOf(
+        stringResource(R.string.select_photo_dialog_filter_bmp),
+        stringResource(R.string.select_photo_dialog_filter_gif),
         jpeg,
         stringResource(R.string.select_photo_dialog_filter_png),
         stringResource(R.string.select_photo_dialog_filter_webp)
@@ -74,9 +76,9 @@ fun FilterDialogRow() {
                         onClick = { onSelectedChange(text) }
                     )
             ) {
-                Checkbox(
-                    checked = (text == selected),
-                    onCheckedChange = { onSelectedChange(text) }
+                RadioButton(
+                    selected = (text == selected),
+                    onClick = { onSelectedChange(text) }
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text(text, modifier = Modifier.align(Alignment.CenterVertically))

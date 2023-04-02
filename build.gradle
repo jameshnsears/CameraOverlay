@@ -46,3 +46,17 @@ task installGitHooks(type: Copy, group: "development") {
         println "${sourceFolder}/${file.relativeSourcePath} -> ${destFolder}/${file.path}"
     }
 }
+
+task emptyMediaStore(type: Exec) {
+    commandLine 'adb', 'shell', 'content delete --uri content://media/external/images/media --where "1"'
+}
+
+def gitHubAction() {
+    /*
+     when running in a GitHub Action...
+     ./gradlew --no-configuration-cache -PgitHubAction :app:connectedFdroidDebugAndroidTest
+     */
+    def value = project.getProperties().get("gitHubAction") != null ? "true": "false"
+    println 'gitHubAction=' + value
+    return value
+}

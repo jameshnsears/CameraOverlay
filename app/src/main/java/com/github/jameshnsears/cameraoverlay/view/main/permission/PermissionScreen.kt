@@ -156,6 +156,11 @@ fun Location() {
                         modifier = Modifier
                             .padding(vertical = 6.dp)
                     )
+                    Text(
+                        stringResource(R.string.permissions_screen_gps_battery),
+                        modifier = Modifier
+                            .padding(vertical = 6.dp)
+                    )
                 }
             }
         }

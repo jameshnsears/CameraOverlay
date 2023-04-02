@@ -17,4 +17,5 @@ ktlint {
         exclude("**/generated/**")
         include("**/kotlin/**")
     }
+    disabledRules = ["annotation"]
 }

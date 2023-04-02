@@ -15,8 +15,8 @@ env:
   CACHE_VERSION: 1
 
 jobs:
-  fdroid:
-    name: fdroid
+  app-test-fdroid:
+    name: app-test-fdroid
     runs-on: macOS-latest
     timeout-minutes: 30
     strategy:
@@ -93,16 +93,16 @@ jobs:
 
       - name: artifact logcat
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: fdroid-logcat-${{ matrix.api-level }}
+          name: app.test.fdroid-logcat-${{ matrix.api-level }}
           path: logcat.txt
 
       - name: artifact
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: fdroid-${{ matrix.api-level }}
+          name: app.test.fdroid-${{ matrix.api-level }}
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*
@@ -111,10 +111,10 @@ jobs:
         run: |
           set -x
           find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
-          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/FdroidDebug.xml -F test.fdroid
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/FdroidDebug.xml -F app.test.fdroid
 
-  googleplay:
-    name: googleplay
+  app-test-googleplay:
+    name: app-test-googleplay
     runs-on: macOS-latest
     timeout-minutes: 30
     strategy:
@@ -196,16 +196,16 @@ jobs:
 
       - name: artifact logcat
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: googleplay-logcat-${{ matrix.api-level }}
+          name: app.test.googleplay-logcat-${{ matrix.api-level }}
           path: logcat.txt
 
       - name: artifact
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: googleplay-${{ matrix.api-level }}
+          name: app.test.googleplay-${{ matrix.api-level }}
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*
@@ -214,4 +214,4 @@ jobs:
         run: |
           set -x
           find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
-          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/GoogleplayDebug.xml -F test.googleplay
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/GoogleplayDebug.xml -F app.test.googleplay

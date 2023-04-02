@@ -2,6 +2,7 @@ package com.github.jameshnsears.cameraoverlay.view.photo
 
 import android.app.Activity
 import android.content.Intent
+import android.location.Location
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,14 +25,19 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -41,6 +47,7 @@ import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.canDrawOverlays
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.showToast
+import com.github.jameshnsears.cameraoverlay.viewmodel.photo.card.PhotoCardViewModel
 
 @Composable
 fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
@@ -172,4 +179,22 @@ fun CardPhotoPreview() {
             PhotoCard(rememberNavController(), item)
         }
     }
+}
+
+@Composable
+fun MyScreen(
+    myViewModel: PhotoCardViewModel = viewModel()
+) {
+    val myState by myViewModel.locationState.collectAsState()
+    MyText(myState)
+}
+
+@Composable
+fun MyText(location: Location) {
+    Text(
+        location.toString(),
+        modifier = Modifier.semantics {
+            this.contentDescription = "Location Description"
+        }
+    )
 }
