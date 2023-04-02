@@ -14,6 +14,7 @@
 ## External dependencies
 * [gh](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
 * openjdk-11-jdk
+* openjdk-11-jdk-headless
 
 ---
 
