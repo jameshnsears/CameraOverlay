@@ -93,7 +93,7 @@ jobs:
           ram-size: 4096M
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script:  |
-            apt install openjdk-11-jdk-headless
+            apt-get install openjdk-11-jdk-headless
             adb logcat -c
             adb logcat > logcat.txt &
             ./gradlew :module:permissions:uninstallAll :module:permissions:connectedFdroidDebugAndroidTestCoverage -PgitHubAction --stacktrace
@@ -197,7 +197,7 @@ jobs:
           ram-size: 4096M
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script:  |
-            apt install openjdk-11-jdk-headless
+            apt-get install openjdk-11-jdk-headless
             adb logcat -c
             adb logcat > logcat.txt &
             ./gradlew :module:permissions:uninstallAll :module:permissions:connectedGoogleplayDebugAndroidTestCoverage -PgitHubAction --stacktrace
