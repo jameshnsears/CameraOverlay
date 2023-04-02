@@ -200,7 +200,7 @@ jobs:
             apt install openjdk-11-jdk-headless
             adb logcat -c
             adb logcat > logcat.txt &
-            ./gradlew :module:permissions:uninstallAll :module:permissions:connectedGoogleplayDebugCombinedCoverage -PgitHubAction --stacktrace
+            ./gradlew :module:permissions:uninstallAll :module:permissions:connectedGoogleplayDebugAndroidTestCoverage -PgitHubAction --stacktrace
 
       - name: artifact logcat
         if: always()
