@@ -6,6 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import junit.framework.TestCase
 import org.junit.Assert.assertFalse
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -13,12 +14,13 @@ import org.junit.runner.RunWith
 class PermissionMediatorTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    @Test
-    fun defaultPermissions() {
-        if (!EmulatorCompatibilityHelper.canRunInEmulatorQ()) {
-            TestCase.fail()
-        }
+    @Before
+    fun setUp() {
+        EmulatorCompatibilityHelper.canEmulatorSupportTest()
+    }
 
+    @Test
+    fun confirmDefaultPermissionsNotGranted() {
         val permissionMediator = PermissionMediatorImpl(context)
 
         assertFalse(permissionMediator.permissionAllowed(PermissionArea.STORAGE))

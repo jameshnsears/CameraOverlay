@@ -5,10 +5,8 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.permissions.R
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
-import junit.framework.TestCase.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -20,10 +18,6 @@ class PermissionButtonStorageTest : PermissionButtonHelper() {
 
     @Test
     fun allow() {
-        if (!EmulatorCompatibilityHelper.canRunInEmulatorQ()) {
-            fail()
-        }
-
         composeTestRule.setContent {
             PermissionButtonStorage(ViewModelPermission(composeTestRule.activity.application))
         }

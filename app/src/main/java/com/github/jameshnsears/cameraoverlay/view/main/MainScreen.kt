@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,7 +60,7 @@ fun MainScreen(
         ) { padding ->
             Column(
                 modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 5.dp)
                     .fillMaxWidth()
                     .padding(padding)
                     .verticalScroll(rememberScrollState())
@@ -69,9 +68,8 @@ fun MainScreen(
                 Text(
                     stringResource(R.string.tag_line),
                     modifier = Modifier
-                        .padding(top = 16.dp, bottom = 16.dp),
+                        .padding(start = 8.dp, bottom = 4.dp),
                     fontWeight = FontWeight.Bold,
-                    fontStyle = FontStyle.Italic,
                     fontSize = 18.sp
                 )
 
@@ -113,16 +111,17 @@ fun Usage() {
     Card(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
+            .padding(10.dp)
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 8.dp
         )
     ) {
         Column(
             Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                .padding(10.dp)
         ) {
-            Column(Modifier.padding(bottom = 4.dp)) {
+            Column() {
                 Text(
                     stringResource(R.string.main_screen_usage),
                     fontWeight = FontWeight.Bold,
@@ -132,17 +131,18 @@ fun Usage() {
             Text(
                 stringResource(R.string.main_screen_usage_0),
                 modifier = Modifier
-                    .padding(vertical = 8.dp)
-            )
+                    .padding(vertical = 6.dp),
+
+                )
             Text(
                 stringResource(R.string.main_screen_usage_1),
                 modifier = Modifier
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 6.dp),
             )
             Text(
                 stringResource(R.string.main_screen_usage_2),
                 modifier = Modifier
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 6.dp),
             )
         }
     }
@@ -156,15 +156,15 @@ fun Permissions(
     Card(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .padding(vertical = 16.dp)
+            .padding(10.dp)
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 8.dp
         )
     ) {
         Column(
             Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp)
+                .padding(10.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -202,9 +202,21 @@ fun PermissionButtons(
     Timber.d("lifeCycleState=${lifeCycleState.value.name}")
 
     Column {
-        PermissionButtonStorage(viewModelPermission)
-        PermissionButtonOverlay(viewModelPermission)
-        PermissionButtonLocation(viewModelPermission)
+        Row(
+            Modifier.padding(6.dp)
+        ) {
+            PermissionButtonStorage(viewModelPermission)
+        }
+        Row(
+            Modifier.padding(6.dp)
+        )  {
+            PermissionButtonOverlay(viewModelPermission)
+        }
+        Row(
+            Modifier.padding(6.dp)
+        )  {
+            PermissionButtonLocation(viewModelPermission)
+        }
     }
 }
 
@@ -216,13 +228,13 @@ fun SelectPhoto(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 8.dp, bottom = 4.dp),
+            .padding(bottom = 10.dp, top = 8.dp),
         horizontalAlignment = Alignment.End
     ) {
         OutlinedButton(
             onClick = { navController.navigate(CommonNavigation.SCREEN_SELECT_PHOTO) },
             modifier = Modifier
-                .size(width = 160.dp, height = 45.dp),
+                .size(width = 140.dp, height = 45.dp),
             shape = RoundedCornerShape(16.dp),
             enabled = enableButtonSelectPhoto(viewModelPermission)
         ) {
@@ -239,9 +251,9 @@ fun enableButtonSelectPhoto(viewModelPermission: ViewModelPermission): Boolean {
     }
 
     return !(
-        !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
-            !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
-        )
+            !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
+                    !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
+            )
 }
 
 @Preview(name = "Light Theme")

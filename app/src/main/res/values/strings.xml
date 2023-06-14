@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Camera Overlay</string>
 
-    <string name="about_dialog">About…</string>
+    <string name="about_dialog">About</string>
     <string name="about_dialog_privacy_policy">Privacy Policy</string>
     <string name="about_dialog_ok">OK</string>
 
@@ -10,22 +10,21 @@
     <string name="main_screen_usage">Usage</string>
     <string name="main_screen_usage_0">\u2022 Allow required permissions</string>
     <string name="main_screen_usage_1">\u2022 Select photo to use as overlay</string>
-    <string name="main_screen_usage_2">\u2022 Use Camera app to align viewfinder with overlay</string>
+    <string name="main_screen_usage_2">\u2022 Align Camera App viewfinder with overlay</string>
 
     <string name="permissions">Permissions</string>
 
     <string name="permissions_screen_mandatory">\u2022 Required</string>
-    <string name="permissions_screen_choose_photo">\u2022 Select photo, to be used as overlay, from storage</string>
+    <string name="permissions_screen_choose_photo">\u2022 Select photo to be used as overlay</string>
 
     <string name="permissions_screen_overlay_display_photo">\u2022 Display selected photo as overlay</string>
 
     <string name="permissions_screen_optional">\u2022 Optional</string>
-    <string name="permissions_screen_show_distance">\u2022 Show distance between present location and of photo containing GPS info</string>
-    <string name="permissions_screen_gps_battery">\u2022 Uses device GPS only - wil consume battery</string>
+    <string name="permissions_screen_show_distance">\u2022 Distance between present location and of photo containing GPS info</string>
 
     <string name="error_missing_mandatory_permission">Please allow required permissions</string>
 
-    <string name="select_photo">Select Photo</string>
+    <string name="select_photo">Select photo</string>
 
     <string name="select_photo_filter">Filter…</string>
     <string name="select_photo_dialog_filter_bmp">BMP</string>

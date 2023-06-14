@@ -42,3 +42,5 @@ local.properties
 /vendor/
 /.idea/render.experimental.xml
 docs/uml/Camera Overlay.vpp.vbak
+/app/google-services.json.development
+/app/google-services.json.production

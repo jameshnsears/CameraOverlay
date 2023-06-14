@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id "io.gitlab.arturbosch.detekt" version "1.21.0"
-    id "org.jlleitschuh.gradle.ktlint" version "11.3.1"
+    id "io.gitlab.arturbosch.detekt" version "1.23.0"
+    id "org.jlleitschuh.gradle.ktlint" version "11.4.0"
 }
 
 apply from: '../../jacoco.gradle'
@@ -11,11 +11,12 @@ apply from: '../../ktlint.gradle'
 
 android {
     namespace 'com.github.jameshnsears.cameraoverlay.permissions'
-    compileSdk 33
+
+    compileSdk 34
 
     defaultConfig {
         minSdk 24
-        targetSdk 33
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -46,7 +47,7 @@ android {
 
         debug {
             testCoverageEnabled true
-            buildConfigField("boolean", "GITHUB_ACTION", gitHubAction())
+//            buildConfigField("boolean", "GITHUB_ACTION", gitHubAction())
         }
     }
 
@@ -65,7 +66,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion "1.4.0"
+        kotlinCompilerExtensionVersion "1.4.7"
     }
 
     flavorDimensions 'Version'
@@ -76,6 +77,15 @@ android {
         'fdroid' {
             dimension 'Version'
             isDefault true
+        }
+    }
+
+    sourceSets {
+        fdroid {
+            java.srcDirs = ['src/main/java', 'src/fdroid/java']
+        }
+        googleplay {
+            java.srcDirs = ['src/main/java']
         }
     }
 }

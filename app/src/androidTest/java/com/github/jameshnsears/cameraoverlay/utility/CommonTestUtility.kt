@@ -19,8 +19,8 @@ open class CommonTestUtility {
     }
 
     fun confirmEnvironmentCompatible() {
-        if (!EmulatorCompatibilityHelper.canRunInEmulatorQ()) {
-            Assert.fail()
+        if (!EmulatorCompatibilityHelper.canEmulatorSupportTest()) {
+            Assert.fail("API 29 required")
         }
     }
 }

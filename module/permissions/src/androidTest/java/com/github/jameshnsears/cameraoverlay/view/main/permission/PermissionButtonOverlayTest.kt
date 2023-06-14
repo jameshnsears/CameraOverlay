@@ -4,10 +4,8 @@ import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.permissions.R
 import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
-import junit.framework.TestCase
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -19,10 +17,6 @@ class PermissionButtonOverlayTest : PermissionButtonHelper() {
 
     @Test
     fun allow() {
-        if (!EmulatorCompatibilityHelper.canRunInEmulatorQ()) {
-            TestCase.fail()
-        }
-
         composeTestRule.setContent {
             PermissionButtonOverlay(ViewModelPermission(composeTestRule.activity.application))
         }

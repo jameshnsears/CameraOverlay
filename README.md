@@ -9,6 +9,11 @@
 | - | - | - |
 | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9d9584674063453bb59aefce7ad815d6)](https://www.codacy.com/gh/jameshnsears/CameraOverlay/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jameshnsears/CameraOverlay&amp;utm_campaign=Badge_Grade) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jameshnsears_CameraOverlay&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jameshnsears_CameraOverlay) | [![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/21058)
 
+------
+
+## androidTest environment dependencies
+* androidTest requires API 29 emulator
+
 ---
 
 ## External dependencies

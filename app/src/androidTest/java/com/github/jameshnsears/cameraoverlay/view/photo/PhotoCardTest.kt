@@ -6,12 +6,18 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import com.github.jameshnsears.cameraoverlay.utility.ScreenshotTestUtility
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class PhotoSelectScreenTest : ScreenshotTestUtility() {
+class PhotoCardTest : ScreenshotTestUtility() {
     @get:Rule
     val composeTestRule = createComposeRule()
+
+    @Before
+    fun setUp() {
+        confirmEnvironmentCompatible()
+    }
 
     @Test
     fun myText() {

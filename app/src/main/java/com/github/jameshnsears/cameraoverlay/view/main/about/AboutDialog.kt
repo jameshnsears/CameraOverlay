@@ -60,7 +60,7 @@ fun AboutDialog(openDialog: MutableState<Boolean>) {
 
 @Composable
 fun AboutDialogRow(context: Context) {
-    Column {
+    Column{
         Row(Modifier.padding(bottom = 8.dp)) {
             ClickableText(
                 text = AnnotatedString(stringResource(R.string.about_dialog_privacy_policy)),
@@ -87,7 +87,7 @@ fun AboutDialogRow(context: Context) {
                     Text(
                         BuildConfig.VERSION_NAME,
                         modifier = Modifier
-                            .padding(bottom = 4.dp)
+                            .padding(vertical = 6.dp),
                     )
                 }
                 SelectionContainer {

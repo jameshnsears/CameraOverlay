@@ -11,7 +11,7 @@ class EdgeDetectionTest : CommonTestUtility() {
     }
 
     @Test
-    fun canny() {
+    fun confirmCannyWorking() {
         val edgeDetectionCanny = Canny()
         val originalImageAsMat = getImageAsMat(edgeDetectionCanny, "MediaStore/reichstag.jpg")
 

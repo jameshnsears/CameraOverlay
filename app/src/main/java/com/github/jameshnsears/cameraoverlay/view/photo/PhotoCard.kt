@@ -2,6 +2,7 @@ package com.github.jameshnsears.cameraoverlay.view.photo
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import android.location.Location
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -45,8 +46,10 @@ import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
+import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.canDrawOverlays
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.showToast
+import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
 import com.github.jameshnsears.cameraoverlay.viewmodel.photo.card.PhotoCardViewModel
 
 @Composable
@@ -61,7 +64,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
     Card(
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 8.dp
         ),
         modifier = Modifier
             .height(128.dp)
@@ -88,7 +91,6 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
         ) {
             Row {
                 Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
-                    // placeholder provides the @Preview image
                     AsyncImage(
                         model = R.drawable.ic_github_logo,
                         placeholder = painterResource(R.drawable.ic_github_logo),
@@ -153,9 +155,18 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
     }
 }
 
-@Preview
 @Composable
-fun CardPhotoPreview() {
+fun MyText(location: Location) {
+    Text(
+        location.toString(),
+        modifier = Modifier.semantics {
+            this.contentDescription = "Location Description"
+        }
+    )
+}
+
+@Composable
+fun PreviewPhotoCardData() {
     val photoCardDataLists = listOf(
         PhotoCardData(
             PhotoCollectionEnum.MediaStore,
@@ -181,20 +192,19 @@ fun CardPhotoPreview() {
     }
 }
 
+@Preview
 @Composable
-fun MyScreen(
-    myViewModel: PhotoCardViewModel = viewModel()
-) {
-    val myState by myViewModel.locationState.collectAsState()
-    MyText(myState)
+fun PreviewPhotoCardPortrait() {
+    PreviewPhotoCardData()
 }
 
+@Preview(
+    name = "Dark Theme, Landscape",
+    widthDp = 720,
+    heightDp = 720,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
-fun MyText(location: Location) {
-    Text(
-        location.toString(),
-        modifier = Modifier.semantics {
-            this.contentDescription = "Location Description"
-        }
-    )
+fun PreviewPhotoCardLandscape() {
+    PreviewPhotoCardData()
 }

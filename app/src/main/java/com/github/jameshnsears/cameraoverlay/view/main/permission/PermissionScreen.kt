@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,7 +50,7 @@ fun PermissionScreen(navController: NavController) {
         ) { padding ->
             Column(
                 modifier = Modifier
-                    .padding(start = 8.dp, end = 8.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 5.dp)
                     .fillMaxWidth()
                     .padding(padding)
                     .verticalScroll(rememberScrollState())
@@ -69,15 +68,15 @@ fun FilesAndMedia() {
     Card(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .padding(8.dp)
+            .padding(10.dp)
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 8.dp
         )
     ) {
         Column(
             Modifier
-                .padding(16.dp)
+                .padding(10.dp)
         ) {
             Row {
                 Column {
@@ -86,7 +85,8 @@ fun FilesAndMedia() {
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Folder,
-                            contentDescription = null
+                            contentDescription = null,
+                            Modifier.padding(end = 4.dp)
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
@@ -99,8 +99,7 @@ fun FilesAndMedia() {
                         stringResource(R.string.permissions_screen_mandatory),
                         modifier = Modifier
                             .padding(vertical = 6.dp),
-                        fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Italic
+                        fontWeight = FontWeight.Bold
                     )
                     Text(
                         stringResource(R.string.permissions_screen_choose_photo),
@@ -118,15 +117,15 @@ fun Location() {
     Card(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .padding(8.dp)
+            .padding(10.dp)
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 8.dp
         )
     ) {
         Column(
             Modifier
-                .padding(16.dp)
+                .padding(10.dp)
         ) {
             Row {
                 Column {
@@ -135,7 +134,8 @@ fun Location() {
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.LocationOn,
-                            contentDescription = null
+                            contentDescription = null,
+                            Modifier.padding(end = 3.dp)
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
@@ -148,16 +148,10 @@ fun Location() {
                         stringResource(R.string.permissions_screen_optional),
                         modifier = Modifier
                             .padding(vertical = 6.dp),
-                        fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Italic
+                        fontWeight = FontWeight.Bold
                     )
                     Text(
                         stringResource(R.string.permissions_screen_show_distance),
-                        modifier = Modifier
-                            .padding(vertical = 6.dp)
-                    )
-                    Text(
-                        stringResource(R.string.permissions_screen_gps_battery),
                         modifier = Modifier
                             .padding(vertical = 6.dp)
                     )
@@ -172,15 +166,15 @@ fun DisplayOverOtherApps() {
     Card(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .padding(8.dp)
+            .padding(10.dp)
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 8.dp
         )
     ) {
         Column(
             Modifier
-                .padding(16.dp)
+                .padding(10.dp)
         ) {
             Row {
                 Column {
@@ -189,7 +183,8 @@ fun DisplayOverOtherApps() {
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Layers,
-                            contentDescription = null
+                            contentDescription = null,
+                            Modifier.padding(end = 3.dp)
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
@@ -202,8 +197,7 @@ fun DisplayOverOtherApps() {
                         stringResource(R.string.permissions_screen_mandatory),
                         modifier = Modifier
                             .padding(vertical = 6.dp),
-                        fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Italic
+                        fontWeight = FontWeight.Bold
                     )
                     Text(
                         stringResource(R.string.permissions_screen_overlay_display_photo),

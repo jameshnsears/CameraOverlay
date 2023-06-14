@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.test.platform.app.InstrumentationRegistry
+import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.view.MainActivityTestHarness
+import org.junit.Before
 import org.junit.Rule
 
 open class PermissionButtonHelper {
@@ -19,4 +21,9 @@ open class PermissionButtonHelper {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivityTestHarness>()
+
+    @Before
+    fun setUp() {
+        EmulatorCompatibilityHelper.canEmulatorSupportTest()
+    }
 }

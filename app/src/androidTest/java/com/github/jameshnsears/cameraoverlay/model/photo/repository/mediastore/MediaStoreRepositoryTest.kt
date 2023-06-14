@@ -13,6 +13,7 @@ import org.junit.Test
 class MediaStoreRepositoryTest : CommonTestUtility() {
     @Before
     fun setUpMediaStore() {
+        confirmEnvironmentCompatible()
         MediaStoreTestUtility().setUpMediaStore(context)
     }
 
