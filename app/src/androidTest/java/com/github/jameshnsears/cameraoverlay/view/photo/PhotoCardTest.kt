@@ -41,6 +41,8 @@ class PhotoCardTest : ScreenshotTestUtility() {
             doubleArrayOf(1.0, 2.0)
         )
 
+        // TODO pass in a valid imageUri, so I see nice pic
+
         composeTestRule.setContent {
             PhotoCard(rememberNavController(),  photoCardData)
         }

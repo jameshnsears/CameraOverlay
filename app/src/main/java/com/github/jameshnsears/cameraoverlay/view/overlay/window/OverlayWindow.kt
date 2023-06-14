@@ -11,8 +11,8 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageButton
 import com.github.jameshnsears.cameraoverlay.R
-import kotlin.math.abs
 import timber.log.Timber
+import kotlin.math.abs
 
 class OverlayWindow constructor(private val context: Context) {
     private var windowManager: WindowManager? = null
