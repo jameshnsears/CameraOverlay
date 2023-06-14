@@ -90,7 +90,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                         contentDescription = "TODO",
                         modifier = Modifier
                             .clip(CircleShape)
-                            .size(100.dp),
+                            .size(150.dp),
                         contentScale = ContentScale.Crop
                     )
 
