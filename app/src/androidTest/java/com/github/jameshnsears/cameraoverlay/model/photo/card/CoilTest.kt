@@ -1,8 +1,6 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.card
 
-import android.Manifest
 import android.net.Uri
-import androidx.test.rule.GrantPermissionRule
 import coil.ImageLoader
 import coil.request.ImageRequest
 import com.github.jameshnsears.cameraoverlay.BuildConfig
@@ -16,7 +14,6 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 class CoilTest : CommonTestUtility() {

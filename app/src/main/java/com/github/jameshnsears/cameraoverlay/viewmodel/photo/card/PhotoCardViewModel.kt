@@ -68,4 +68,9 @@ class PhotoCardViewModel(private val locationManager: LocationManager) :
     fun calculateDistance(locationFrom: Location, locationTo: Location): Float {
         return locationFrom.distanceTo(locationTo)
     }
+
+    // TODO return some sort of enum
+    fun getImageType(): String {
+        return ""
+    }
 }

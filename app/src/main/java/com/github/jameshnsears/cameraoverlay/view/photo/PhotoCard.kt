@@ -3,7 +3,6 @@ package com.github.jameshnsears.cameraoverlay.view.photo
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
-import android.location.Location
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,8 +25,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -38,7 +35,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -46,11 +42,8 @@ import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
-import com.github.jameshnsears.cameraoverlay.view.main.MainScreen
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.canDrawOverlays
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.showToast
-import com.github.jameshnsears.cameraoverlay.viewmodel.permission.ViewModelPermission
-import com.github.jameshnsears.cameraoverlay.viewmodel.photo.card.PhotoCardViewModel
 
 @Composable
 fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
@@ -128,7 +121,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                                 .padding(bottom = 8.dp)
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        Text("whenTaken")
+                        photoCardData.dateTime?.let { Text(it) }
                     }
                     Row(Modifier.padding(top = 4.dp, bottom = 4.dp)) {
                         Icon(
@@ -138,7 +131,14 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                                 .padding(bottom = 8.dp)
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        Text("gpsWhereTaken")
+                        // TODO convert to distance from 'here'
+                        photoCardData.latLong?.let {
+                            Text(it.joinToString(),
+                                modifier = Modifier.semantics {
+                                    this.contentDescription = "GPS EXIF"
+                                }
+                            )
+                        }
                     }
                     Row {
                         Icon(
@@ -147,7 +147,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 //                        Text(photoCardData.type)
-                        Text("JPEG")
+                        photoCardData.imageType?.let { Text(it) }
                     }
                 }
             }
@@ -156,31 +156,21 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
 }
 
 @Composable
-fun MyText(location: Location) {
-    Text(
-        location.toString(),
-        modifier = Modifier.semantics {
-            this.contentDescription = "Location Description"
-        }
-    )
-}
-
-@Composable
 fun PreviewPhotoCardData() {
     val photoCardDataLists = listOf(
         PhotoCardData(
             PhotoCollectionEnum.MediaStore,
-            "JPEG",
+            "JPEG1",
             "https://example.com/image.jpg",
-            "1631639311000",
-            doubleArrayOf()
+            "1/1/1970",
+            doubleArrayOf(1.0, 2.0)
         ),
         PhotoCardData(
             PhotoCollectionEnum.MediaStore,
-            "JPEG",
+            "JPEG2",
             "https://example.com/image.jpg",
-            "1631639351000",
-            doubleArrayOf(51.5055, -0.075406)
+            "2/1/1970",
+            doubleArrayOf(3.0, 4.0)
         )
     )
 

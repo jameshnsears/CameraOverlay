@@ -5,6 +5,9 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.navigation.compose.rememberNavController
+import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
+import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.utility.ScreenshotTestUtility
 import org.junit.Before
 import org.junit.Rule
@@ -20,22 +23,35 @@ class PhotoCardTest : ScreenshotTestUtility() {
     }
 
     @Test
-    fun myText() {
+    fun photoCard() {
         val location = Location("")
         location.longitude = 52.5186
         location.latitude = 13.3763
 
+        // PhotoCardViewModel
+        // .getLocation
+        // .calculateDistance
+        // .getImageType
+
+        val photoCardData = PhotoCardData(
+            PhotoCollectionEnum.MediaStore,
+            "JPEG",
+            "file://a/b",
+            "1/1/1970",
+            doubleArrayOf(1.0, 2.0)
+        )
+
         composeTestRule.setContent {
-            MyText(location)
+            PhotoCard(rememberNavController(),  photoCardData)
         }
 
         composeTestRule
-            .onNodeWithContentDescription("Location Description")
+            .onNodeWithContentDescription("GPS EXIF")
             .assertExists()
 
         composeTestRule
             .onNodeWithText(
-                "Location[ 13.376300,52.518600 hAcc=??? t=?!? et=?!? vAcc=??? sAcc=??? bAcc=???]"
+                "1.0, 2.0"
             )
             .assertIsDisplayed()
     }
