@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
 class GreetingViewModel : ViewModel() {
+    // TODO a reference to a Model object with the business logic
+
     private val _n = mutableStateOf(0)
     val n: State<Int> = _n
 
