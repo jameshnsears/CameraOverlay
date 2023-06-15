@@ -1,7 +1,8 @@
 package com.github.jameshnsears.cameraoverlay.model.photo
 
-enum class PhotoImageTypeEnum(val imageType: String) {
+enum class PhotoImageTypeEnum(val string: String) {
     JPEG("JPEG"),
     PNG("PNG"),
-    TIFF("TIFF")
+    TIFF("TIFF"),
+    UNKNOWN("UNKNOWN")
 }

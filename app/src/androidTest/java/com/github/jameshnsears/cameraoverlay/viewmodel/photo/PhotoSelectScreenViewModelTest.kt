@@ -13,6 +13,7 @@ import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageTypeEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.repository.mediastore.MediaStoreRepository
 import com.github.jameshnsears.cameraoverlay.utility.CommonTestUtility
+import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.fail
 import kotlinx.coroutines.Dispatchers
@@ -48,14 +49,6 @@ in view
  */
 
 
-    val photoCardData = PhotoCardData(
-        PhotoCollectionEnum.MediaStore,
-        PhotoImageTypeEnum.JPEG,
-        "file://a/b",
-        "1/1/1970",
-        doubleArrayOf(1.0, 2.0)
-    )
-
     /*
     mediaStoreRepository.queryPhotoRepository
     List<PhotoCardData> = mediaStoreRepository.convertPhotoRepositoryDataIntoPhotoCardData
@@ -65,7 +58,7 @@ in view
     PhotoCardViewModel(LocationManager, MediaStoreRepository)
     .getLocation
     .calculateDistance
-    .getImageType
+    .getString
 
     --
 

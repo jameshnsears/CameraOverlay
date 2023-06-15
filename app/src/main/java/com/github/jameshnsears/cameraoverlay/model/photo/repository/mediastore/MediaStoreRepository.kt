@@ -6,9 +6,11 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.exifinterface.media.ExifInterface
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
+import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageTypeEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.repository.PhotoRepository
 import com.github.jameshnsears.cameraoverlay.model.photo.repository.PhotoRepositoryData
+import timber.log.Timber
 
 class MediaStoreRepository : PhotoRepository {
     override fun queryPhotoRepository(context: Context): List<PhotoRepositoryData> {
@@ -56,7 +58,16 @@ class MediaStoreRepository : PhotoRepository {
             photoCardData.add(
                 PhotoCardData(
                     PhotoCollectionEnum.MediaStore,
-                    photoFromRepository.mimeType,
+                    when (photoFromRepository.mimeType) {
+                        "jpg" -> PhotoImageTypeEnum.JPEG
+                        "jpeg" -> PhotoImageTypeEnum.JPEG
+                        "png" -> PhotoImageTypeEnum.PNG
+                        "tif" -> PhotoImageTypeEnum.TIFF
+                        else -> {
+                            Timber.e(photoFromRepository.mimeType)
+                            PhotoImageTypeEnum.UNKNOWN
+                        }
+                    },
                     photoFromRepository.uri,
                     exifInterface(context, photoFromRepository)
                         .getAttribute(ExifInterface.TAG_DATETIME),

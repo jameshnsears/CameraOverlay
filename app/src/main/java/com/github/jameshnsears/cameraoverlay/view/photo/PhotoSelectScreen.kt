@@ -26,8 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.jameshnsears.cameraoverlay.R
-import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
-import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
+import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardDataSample
 import com.github.jameshnsears.cameraoverlay.view.common.CommonNavigation
 import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogCollection
 import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogFilter
@@ -89,14 +88,7 @@ fun PhotoSelectScreen(navController: NavController) {
             ) {
                 for (photoId in 1..20) {
                     PhotoCard(
-                        navController,
-                        PhotoCardData(
-                            PhotoCollectionEnum.MediaStore,
-                            "JPEG",
-                            "https://example.com/image.jpg",
-                            "1631639311000",
-                            doubleArrayOf()
-                        )
+                        PhotoCardDataSample.photoCardDataSample01
                     )
                 }
             }

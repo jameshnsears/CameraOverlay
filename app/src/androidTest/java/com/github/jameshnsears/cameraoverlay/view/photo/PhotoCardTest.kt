@@ -4,9 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
-import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
-import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
-import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageTypeEnum
+import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardDataSample
 import com.github.jameshnsears.cameraoverlay.utility.ScreenshotTestUtility
 import junit.framework.TestCase.fail
 import org.junit.Before
@@ -24,18 +22,10 @@ class PhotoCardTest : ScreenshotTestUtility() {
 
     @Test
     fun photoCard() {
-        fail("pass in a valid imageUri, so I see nice pic' also use a complete whenTaken value")
-
-        val photoCardData = PhotoCardData(
-            PhotoCollectionEnum.MediaStore,
-            PhotoImageTypeEnum.JPEG,
-            "file://a/b",
-            "1/1/1970",
-            doubleArrayOf(52.5186, 13.3763)
-        )
+        fail("pass in a valid imageUri in PhotoCardDataSample.photoCardDataSample01, so I see nice pic' also use a complete whenTaken value")
 
         composeTestRule.setContent {
-            PhotoCard(photoCardData)
+            PhotoCard(PhotoCardDataSample.photoCardDataSample01)
         }
 
         composeTestRule
@@ -44,7 +34,7 @@ class PhotoCardTest : ScreenshotTestUtility() {
 
         composeTestRule
             .onNodeWithText(
-                photoCardData.whereTaken.contentToString()
+                PhotoCardDataSample.photoCardDataSample01.whereTaken.contentToString()
             )
             .assertIsDisplayed()
     }

@@ -41,6 +41,7 @@ import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageTypeEnum
+import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardDataSample
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.canDrawOverlays
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.showToast
 
@@ -141,8 +142,7 @@ fun PhotoCard(photoCardData: PhotoCardData) {
                             contentDescription = null
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//                        Text(photoCardData.type)
-                        photoCardData.imageType.let { Text(it.imageType) }
+                        Text(photoCardData.imageType.string)
                     }
                 }
             }
@@ -153,20 +153,8 @@ fun PhotoCard(photoCardData: PhotoCardData) {
 @Composable
 fun PreviewPhotoCardData() {
     val photoCardDataLists = listOf(
-        PhotoCardData(
-            PhotoCollectionEnum.MediaStore,
-            PhotoImageTypeEnum.JPEG,
-            "https://example.com/image.jpg",
-            "1/1/1970",
-            doubleArrayOf(1.0, 2.0)
-        ),
-        PhotoCardData(
-            PhotoCollectionEnum.MediaStore,
-            PhotoImageTypeEnum.TIFF,
-            "https://example.com/image.tiff",
-            "2/1/1970",
-            doubleArrayOf(3.0, 4.0)
-        )
+        PhotoCardDataSample.photoCardDataSample01,
+        PhotoCardDataSample.photoCardDataSample02
     )
 
     // https://developer.android.com/jetpack/compose/lists
