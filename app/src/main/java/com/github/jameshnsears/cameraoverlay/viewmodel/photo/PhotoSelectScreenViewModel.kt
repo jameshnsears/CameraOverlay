@@ -7,10 +7,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
-import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.repository.mediastore.MediaStoreRepository
-import com.github.jameshnsears.cameraoverlay.view.photo.PhotoCard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

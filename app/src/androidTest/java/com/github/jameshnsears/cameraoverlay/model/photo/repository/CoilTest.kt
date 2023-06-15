@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.model.photo.card
+package com.github.jameshnsears.cameraoverlay.model.photo.repository
 
 import android.net.Uri
 import coil.ImageLoader

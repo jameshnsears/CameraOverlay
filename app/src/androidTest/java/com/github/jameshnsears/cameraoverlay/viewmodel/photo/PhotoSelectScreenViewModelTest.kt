@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.viewmodel.photo.card
+package com.github.jameshnsears.cameraoverlay.viewmodel.photo
 
 import android.Manifest
 import android.content.Context
@@ -9,10 +9,10 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.core.app.ActivityCompat
 import androidx.test.rule.GrantPermissionRule
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
+import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageTypeEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.repository.mediastore.MediaStoreRepository
 import com.github.jameshnsears.cameraoverlay.utility.CommonTestUtility
-import com.github.jameshnsears.cameraoverlay.viewmodel.photo.PhotoSelectScreenViewModel
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.fail
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +25,13 @@ import org.junit.Test
 class PhotoSelectScreenViewModelTest : CommonTestUtility() {
 
     /*
+            val location = Location("")
+        location.longitude = 52.5186
+        location.latitude = 13.3763
+
+
+    ================
+
 given
 when
 then
@@ -43,7 +50,7 @@ in view
 
     val photoCardData = PhotoCardData(
         PhotoCollectionEnum.MediaStore,
-        "JPEG",
+        PhotoImageTypeEnum.JPEG,
         "file://a/b",
         "1/1/1970",
         doubleArrayOf(1.0, 2.0)

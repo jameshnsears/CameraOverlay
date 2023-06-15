@@ -1,4 +1,4 @@
-package com.github.jameshnsears.cameraoverlay.model.photo.card
+package com.github.jameshnsears.cameraoverlay.model.photo.repository
 
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse

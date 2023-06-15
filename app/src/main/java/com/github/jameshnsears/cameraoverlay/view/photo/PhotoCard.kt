@@ -35,20 +35,17 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
 import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
+import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageTypeEnum
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.canDrawOverlays
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.showToast
 
 @Composable
-fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
-//    val navigationEndpoint = Navigation.SCREEN_CONFIGURE_OVERLAY + "/${photoCardData.photoId}"
-
+fun PhotoCard(photoCardData: PhotoCardData) {
     val context = LocalContext.current
 
     val missingMandatoryPermissionMessage =
@@ -64,8 +61,6 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
             .padding(8.dp)
             .fillMaxWidth()
             .clickable {
-                // navController.navigate(navigationEndpoint)
-
                 if (context.canDrawOverlays) {
                     // stop any prior service
                     context.stopService(Intent(context, OverlayService::class.java))
@@ -121,7 +116,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                                 .padding(bottom = 8.dp)
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        photoCardData.dateTime?.let { Text(it) }
+                        photoCardData.whenTaken?.let { Text(it) }
                     }
                     Row(Modifier.padding(top = 4.dp, bottom = 4.dp)) {
                         Icon(
@@ -132,7 +127,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                         // TODO convert to distance from 'here'
-                        photoCardData.latLong?.let {
+                        photoCardData.whereTaken?.let {
                             Text(it.joinToString(),
                                 modifier = Modifier.semantics {
                                     this.contentDescription = "GPS EXIF"
@@ -147,7 +142,7 @@ fun PhotoCard(navController: NavController, photoCardData: PhotoCardData) {
                         )
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 //                        Text(photoCardData.type)
-                        photoCardData.imageType?.let { Text(it) }
+                        photoCardData.imageType.let { Text(it.imageType) }
                     }
                 }
             }
@@ -160,15 +155,15 @@ fun PreviewPhotoCardData() {
     val photoCardDataLists = listOf(
         PhotoCardData(
             PhotoCollectionEnum.MediaStore,
-            "JPEG1",
+            PhotoImageTypeEnum.JPEG,
             "https://example.com/image.jpg",
             "1/1/1970",
             doubleArrayOf(1.0, 2.0)
         ),
         PhotoCardData(
             PhotoCollectionEnum.MediaStore,
-            "JPEG2",
-            "https://example.com/image.jpg",
+            PhotoImageTypeEnum.TIFF,
+            "https://example.com/image.tiff",
             "2/1/1970",
             doubleArrayOf(3.0, 4.0)
         )
@@ -177,7 +172,7 @@ fun PreviewPhotoCardData() {
     // https://developer.android.com/jetpack/compose/lists
     LazyColumn {
         items(photoCardDataLists) { item ->
-            PhotoCard(rememberNavController(), item)
+            PhotoCard(item)
         }
     }
 }

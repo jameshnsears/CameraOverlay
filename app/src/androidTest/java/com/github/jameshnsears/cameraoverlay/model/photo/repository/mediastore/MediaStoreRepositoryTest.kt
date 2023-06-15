@@ -33,31 +33,31 @@ class MediaStoreRepositoryTest : CommonTestUtility() {
         assertNotNull(photoCardData[0].imageUri)
 
         assertEquals("image/jpeg", photoCardData[0].imageType)
-        assertEquals("2021:09:14 17:08:31", photoCardData[0].dateTime)
-        assertNull(photoCardData[0].latLong)
+        assertEquals("2021:09:14 17:08:31", photoCardData[0].whenTaken)
+        assertNull(photoCardData[0].whereTaken)
 
         assertEquals("image/x-ms-bmp", photoCardData[1].imageType)
-        assertNull(photoCardData[1].dateTime)
-        assertNull(photoCardData[1].latLong)
+        assertNull(photoCardData[1].whenTaken)
+        assertNull(photoCardData[1].whereTaken)
 
         assertEquals("image/gif", photoCardData[2].imageType)
-        assertNull(photoCardData[2].dateTime)
-        assertNull(photoCardData[2].latLong)
+        assertNull(photoCardData[2].whenTaken)
+        assertNull(photoCardData[2].whereTaken)
 
         assertEquals("image/jpeg", photoCardData[3].imageType)
-        assertEquals("2021:09:14 17:07:37", photoCardData[3].dateTime)
-        assertEquals("[52.5186, 13.3763]", Arrays.toString(photoCardData[3].latLong))
+        assertEquals("2021:09:14 17:07:37", photoCardData[3].whenTaken)
+        assertEquals("[52.5186, 13.3763]", Arrays.toString(photoCardData[3].whereTaken))
 
         assertEquals("image/png", photoCardData[4].imageType)
-        assertNull(photoCardData[4].dateTime)
-        assertNull(photoCardData[4].latLong)
+        assertNull(photoCardData[4].whenTaken)
+        assertNull(photoCardData[4].whereTaken)
 
         assertEquals("image/webp", photoCardData[5].imageType)
-        assertNull(photoCardData[5].dateTime)
-        assertNull(photoCardData[5].latLong)
+        assertNull(photoCardData[5].whenTaken)
+        assertNull(photoCardData[5].whereTaken)
 
         assertEquals("image/jpeg", photoCardData[6].imageType)
-        assertEquals("2021:09:14 17:09:11", photoCardData[6].dateTime)
-        assertEquals("[51.5055, -0.075406]", Arrays.toString(photoCardData[6].latLong))
+        assertEquals("2021:09:14 17:09:11", photoCardData[6].whenTaken)
+        assertEquals("[51.5055, -0.075406]", Arrays.toString(photoCardData[6].whereTaken))
     }
 }
