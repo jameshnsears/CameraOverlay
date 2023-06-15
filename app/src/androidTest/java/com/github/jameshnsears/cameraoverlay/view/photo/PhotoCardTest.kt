@@ -21,7 +21,7 @@ class PhotoCardTest : ScreenshotTestUtility() {
     }
 
     @Test
-    fun photoCard() {
+    fun displayStandardCard() {
         fail("pass in a valid imageUri in PhotoCardDataSample.photoCardDataSample01, so I see nice pic' also use a complete whenTaken value")
 
         composeTestRule.setContent {
@@ -37,5 +37,10 @@ class PhotoCardTest : ScreenshotTestUtility() {
                 PhotoCardDataSample.photoCardDataSample01.whereTaken.contentToString()
             )
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun displayCardWithMissingExif() {
+        fail("todo - update PhotoCardDataSample")
     }
 }
