@@ -23,7 +23,7 @@ class MediaStoreRepositoryTest : CommonTestUtility() {
         val photosRepositoryData = mediaStoreRepository.queryPhotoRepository(context)
         assertEquals(7, photosRepositoryData.size)
 
-        val photoCardData = mediaStoreRepository.convertRepositoryDataIntoCardData(
+        val photoCardData = mediaStoreRepository.convertPhotoRepositoryDataIntoPhotoCardData(
             context,
             photosRepositoryData
         )

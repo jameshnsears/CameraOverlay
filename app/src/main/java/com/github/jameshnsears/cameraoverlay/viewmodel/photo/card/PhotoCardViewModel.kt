@@ -7,6 +7,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,10 +17,18 @@ import timber.log.Timber
 
 class PhotoCardViewModel(private val locationManager: LocationManager) :
     ViewModel(), LocationListener {
-    val defaultLocation = Location("")
 
+    val defaultLocation = Location("")
     private val _locationState = MutableStateFlow(defaultLocation)
     val locationState = _locationState.asStateFlow()
+
+    ////////////
+
+    val photoCardData = mutableListOf(PhotoCardData())
+    private val _photoCardDataState = MutableStateFlow(defaultLocation)
+    val photoCardDataState = _photoCardDataState.asStateFlow()
+
+    ////////////
 
     override fun onLocationChanged(location: Location) {
         Timber.d("%s", location)

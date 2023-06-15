@@ -64,7 +64,7 @@ class CoilTest : CommonTestUtility() {
     fun getDrawableFromMediaStore() = runTest {
         val mediaStoreRepository = MediaStoreRepository()
         val photosRepositoryData = mediaStoreRepository.queryPhotoRepository(context)
-        val photoCardData = mediaStoreRepository.convertRepositoryDataIntoCardData(
+        val photoCardData = mediaStoreRepository.convertPhotoRepositoryDataIntoPhotoCardData(
             context,
             photosRepositoryData
         )

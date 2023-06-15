@@ -46,7 +46,7 @@ class MediaStoreRepository : PhotoRepository {
         return mediaStoreEntries
     }
 
-    override fun convertRepositoryDataIntoCardData(
+    override fun convertPhotoRepositoryDataIntoPhotoCardData(
         context: Context,
         photosFromRepository: List<PhotoRepositoryData>
     ): List<PhotoCardData> {
