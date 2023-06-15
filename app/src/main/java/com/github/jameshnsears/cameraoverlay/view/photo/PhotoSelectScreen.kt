@@ -86,7 +86,7 @@ fun PhotoSelectScreen(navController: NavController) {
                     .padding(padding)
                     .verticalScroll(rememberScrollState())
             ) {
-                for (photoId in 1..20) {
+                for (photoId in 1..10) {
                     PhotoCard(
                         PhotoCardDataSample.photoCardDataSample01
                     )
