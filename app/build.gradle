@@ -47,13 +47,13 @@ android {
     }
 
     defaultConfig {
-        minSdk 24
+        minSdk 26
         targetSdk 34
 
         applicationId "com.github.jameshnsears.cameraoverlay"
 
         // changelog version | min sdk | target sdk
-        versionCode 12433
+        versionCode 12633
         // semantic versioning
         versionName "1.0.0"
 

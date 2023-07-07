@@ -131,18 +131,18 @@ fun Usage() {
             Text(
                 stringResource(R.string.main_screen_usage_0),
                 modifier = Modifier
-                    .padding(vertical = 6.dp),
+                    .padding(vertical = 6.dp)
 
-                )
+            )
             Text(
                 stringResource(R.string.main_screen_usage_1),
                 modifier = Modifier
-                    .padding(vertical = 6.dp),
+                    .padding(vertical = 6.dp)
             )
             Text(
                 stringResource(R.string.main_screen_usage_2),
                 modifier = Modifier
-                    .padding(vertical = 6.dp),
+                    .padding(vertical = 6.dp)
             )
         }
     }
@@ -209,12 +209,12 @@ fun PermissionButtons(
         }
         Row(
             Modifier.padding(6.dp)
-        )  {
+        ) {
             PermissionButtonOverlay(viewModelPermission)
         }
         Row(
             Modifier.padding(6.dp)
-        )  {
+        ) {
             PermissionButtonLocation(viewModelPermission)
         }
     }
@@ -251,9 +251,9 @@ fun enableButtonSelectPhoto(viewModelPermission: ViewModelPermission): Boolean {
     }
 
     return !(
-            !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
-                    !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
-            )
+        !viewModelPermission.permissionButtonEnabled(PermissionArea.STORAGE) &&
+            !viewModelPermission.permissionButtonEnabled(PermissionArea.OVERLAY)
+        )
 }
 
 @Preview(name = "Light Theme")

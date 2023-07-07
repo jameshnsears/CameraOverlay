@@ -32,6 +32,7 @@ import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogCollec
 import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogFilter
 import com.github.jameshnsears.cameraoverlay.view.photo.dialog.PhotoDialogSort
 import com.github.jameshnsears.cameraoverlay.view.theme.AppTheme
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,6 +88,7 @@ fun PhotoSelectScreen(navController: NavController) {
                     .verticalScroll(rememberScrollState())
             ) {
                 for (photoId in 1..10) {
+                    Timber.d("photoId=$photoId")
                     PhotoCard(
                         PhotoCardDataSample.photoCardDataSample01
                     )

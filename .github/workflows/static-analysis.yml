@@ -102,7 +102,7 @@ jobs:
       - name: gradlew
         run: |
           set -x
-          ./gradlew ktlintCheck
+          ./gradlew ktlintCheck :app:testFdroidDebugUnitTest :module:common:testFdroidDebugUnitTest :module:permissions:testFdroidDebugUnitTest
 
       - name: artifact ktlintCheck
         if: always()

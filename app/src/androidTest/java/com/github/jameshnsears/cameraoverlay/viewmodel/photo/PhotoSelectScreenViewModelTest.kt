@@ -8,9 +8,6 @@ import android.location.LocationManager
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.core.app.ActivityCompat
 import androidx.test.rule.GrantPermissionRule
-import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
-import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageTypeEnum
-import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
 import com.github.jameshnsears.cameraoverlay.model.photo.repository.mediastore.MediaStoreRepository
 import com.github.jameshnsears.cameraoverlay.utility.CommonTestUtility
 import io.mockk.mockk
@@ -47,7 +44,6 @@ in view
 = TODO when ui filter clicked
 
  */
-
 
     /*
     mediaStoreRepository.queryPhotoRepository
@@ -145,8 +141,6 @@ architecture.
 
     val mediaStoreRepository = MediaStoreRepository()
     val photoSelectScreenViewModel = PhotoSelectScreenViewModel(mockk<LocationManager>())
-
-
 
     @get:Rule
     val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(

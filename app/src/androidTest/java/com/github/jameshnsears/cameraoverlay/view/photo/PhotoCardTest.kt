@@ -22,7 +22,9 @@ class PhotoCardTest : ScreenshotTestUtility() {
 
     @Test
     fun displayStandardCard() {
-        fail("pass in a valid imageUri in PhotoCardDataSample.photoCardDataSample01, so I see nice pic' also use a complete whenTaken value")
+        fail(
+            "pass in a valid imageUri in PhotoCardDataSample.photoCardDataSample01, so I see nice pic' also use a complete whenTaken value"
+        )
 
         composeTestRule.setContent {
             PhotoCard(PhotoCardDataSample.photoCardDataSample01)

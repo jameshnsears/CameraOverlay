@@ -38,9 +38,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.github.jameshnsears.cameraoverlay.R
 import com.github.jameshnsears.cameraoverlay.model.overlay.OverlayService
-import com.github.jameshnsears.cameraoverlay.model.photo.PhotoCollectionEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardData
-import com.github.jameshnsears.cameraoverlay.model.photo.PhotoImageTypeEnum
 import com.github.jameshnsears.cameraoverlay.model.photo.card.PhotoCardDataSample
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.canDrawOverlays
 import com.github.jameshnsears.cameraoverlay.view.overlay.window.showToast
@@ -78,73 +76,79 @@ fun PhotoCard(photoCardData: PhotoCardData) {
             Modifier
                 .padding(4.dp)
         ) {
+            PhotoCardRow(photoCardData)
+        }
+    }
+}
+
+@Composable
+fun PhotoCardRow(photoCardData: PhotoCardData) {
+    Row {
+        Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
+            AsyncImage(
+                model = R.drawable.ic_github_logo,
+                placeholder = painterResource(R.drawable.ic_github_logo),
+                contentDescription = "TODO",
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(150.dp),
+                contentScale = ContentScale.Crop
+            )
+
+            /*
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(image.uri)
+                    .parameters(image.parameters)
+                    .build(),
+                placeholder = ColorPainter(Color(image.color)),
+                error = ColorPainter(Color.Red),
+                onSuccess = { placeholder = it.result.memoryCacheKey },
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(size)
+                    .clickable { screenFlow.value = Screen.Detail(image, placeholder) }
+            )
+             */
+        }
+
+        Column(Modifier.padding(start = 16.dp, top = 2.dp)) {
             Row {
-                Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
-                    AsyncImage(
-                        model = R.drawable.ic_github_logo,
-                        placeholder = painterResource(R.drawable.ic_github_logo),
-                        contentDescription = "TODO",
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .size(150.dp),
-                        contentScale = ContentScale.Crop
-                    )
-
-                    /*
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(image.uri)
-                            .parameters(image.parameters)
-                            .build(),
-                        placeholder = ColorPainter(Color(image.color)),
-                        error = ColorPainter(Color.Red),
-                        onSuccess = { placeholder = it.result.memoryCacheKey },
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(size)
-                            .clickable { screenFlow.value = Screen.Detail(image, placeholder) }
-                    )
-                     */
-                }
-
-                Column(Modifier.padding(start = 16.dp, top = 2.dp)) {
-                    Row {
-                        Icon(
-                            imageVector = Icons.Outlined.Schedule,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(bottom = 8.dp)
-                        )
-                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        photoCardData.whenTaken?.let { Text(it) }
-                    }
-                    Row(Modifier.padding(top = 4.dp, bottom = 4.dp)) {
-                        Icon(
-                            imageVector = Icons.Outlined.Straighten,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(bottom = 8.dp)
-                        )
-                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        // TODO convert to distance from 'here'
-                        photoCardData.whereTaken?.let {
-                            Text(it.joinToString(),
-                                modifier = Modifier.semantics {
-                                    this.contentDescription = "GPS EXIF"
-                                }
-                            )
+                Icon(
+                    imageVector = Icons.Outlined.Schedule,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                photoCardData.whenTaken?.let { Text(it) }
+            }
+            Row(Modifier.padding(top = 4.dp, bottom = 4.dp)) {
+                Icon(
+                    imageVector = Icons.Outlined.Straighten,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                // TODO convert to distance from 'here'
+                photoCardData.whereTaken?.let {
+                    Text(
+                        it.joinToString(),
+                        modifier = Modifier.semantics {
+                            this.contentDescription = "GPS EXIF"
                         }
-                    }
-                    Row {
-                        Icon(
-                            imageVector = Icons.Outlined.Image,
-                            contentDescription = null
-                        )
-                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        Text(photoCardData.imageType.string)
-                    }
+                    )
                 }
+            }
+            Row {
+                Icon(
+                    imageVector = Icons.Outlined.Image,
+                    contentDescription = null
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text(photoCardData.imageType.string)
             }
         }
     }

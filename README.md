@@ -31,3 +31,9 @@
 * MetricsReloaded
 * SonarLint - SonarSource
 * Qodana - JetBrains
+
+---
+
+## Windows 11 Quirks
+* ...
+* 

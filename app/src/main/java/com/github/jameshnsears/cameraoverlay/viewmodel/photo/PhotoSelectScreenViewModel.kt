@@ -18,23 +18,21 @@ import timber.log.Timber
 class PhotoSelectScreenViewModel(private val locationManager: LocationManager) :
     ViewModel(), LocationListener {
 
-
-
     val defaultLocation = Location("")
     private val _locationState = MutableStateFlow(defaultLocation)
     val locationState = _locationState.asStateFlow()
 
-    ////////////
+    // //////////
 
     //  Model
-    val mediaStoreRepository = MediaStoreRepository()
+//    val mediaStoreRepository = MediaStoreRepository()
 
     // View
 //    val photoCardList: List<PhotoCard> = emptyList()
 //    private val _photoCards = MutableStateFlow<List<PhotoCard>>() = MutableStateFlow(emptyList())
 //    val photoCards = _photoCards.asStateFlow()
 
-    ////////////
+    // //////////
 
     override fun onLocationChanged(location: Location) {
         Timber.d("%s", location)
@@ -44,9 +42,9 @@ class PhotoSelectScreenViewModel(private val locationManager: LocationManager) :
         }
     }
 
-    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-        // Handle the status change
-    }
+//    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+//        // Handle the status change
+//    }
 
     override fun onProviderEnabled(provider: String) {
         // Handle the provider enablement
@@ -85,7 +83,7 @@ class PhotoSelectScreenViewModel(private val locationManager: LocationManager) :
     }
 
     // TODO return some sort of enum
-    fun getImageType(): String {
-        return ""
-    }
+//    fun getImageType(): String {
+//        return ""
+//    }
 }
