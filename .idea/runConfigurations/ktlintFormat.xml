@@ -11,9 +11,6 @@
       <option name="taskNames">
         <list>
           <option value="ktlintFormat" />
-          <option value=":app:testFdroidDebugUnitTest" />
-          <option value=":module:common:testFdroidDebugUnitTest" />
-          <option value=":module:permissions:testFdroidDebugUnitTest" />
         </list>
       </option>
       <option name="vmOptions" value="" />
