@@ -35,7 +35,7 @@ localProperties.load(new FileInputStream(localPropertiesFile))
 android {
     namespace "com.github.jameshnsears.cameraoverlay"
 
-    compileSdk 34
+    compileSdk 33
 
     signingConfigs {
         googleplay {

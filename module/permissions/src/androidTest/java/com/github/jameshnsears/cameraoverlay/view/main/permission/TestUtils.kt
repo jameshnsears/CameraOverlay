@@ -78,8 +78,7 @@ internal fun grantPermissionInDialogStorage(
 ) {
     UiDevice.getInstance(instrumentation).findPermissionButton(
         when (Build.VERSION.SDK_INT) {
-            25 -> "ALLOW"
-            30 -> "ALLOW"
+            29 -> "Allow"
             else -> "Allow"
         }
     ).clickForPermission(instrumentation)
@@ -90,8 +89,7 @@ internal fun denyPermissionInDialog(
 ) {
     UiDevice.getInstance(instrumentation).findPermissionButton(
         when (Build.VERSION.SDK_INT) {
-            25 -> "DENY"
-            30 -> "DENY"
+            29 -> "DENY"
             31 -> "Don’t allow" // https://en.wikipedia.org/wiki/Right_single_quotation_mark
             else -> "Deny"
         }

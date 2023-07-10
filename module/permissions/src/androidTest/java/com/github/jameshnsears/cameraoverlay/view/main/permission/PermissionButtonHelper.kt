@@ -6,6 +6,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.test.platform.app.InstrumentationRegistry
 import com.github.jameshnsears.cameraoverlay.common.EmulatorCompatibilityHelper
 import com.github.jameshnsears.cameraoverlay.view.MainActivityTestHarness
+import junit.framework.TestCase.fail
 import org.junit.Before
 import org.junit.Rule
 
@@ -24,6 +25,6 @@ open class PermissionButtonHelper {
 
     @Before
     fun setUp() {
-        EmulatorCompatibilityHelper.canEmulatorSupportTest()
+        if (!EmulatorCompatibilityHelper.canEmulatorSupportTest()) fail()
     }
 }
