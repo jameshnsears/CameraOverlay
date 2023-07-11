@@ -110,14 +110,14 @@ jobs:
         with:
           name: permissions.androidTest.fdroid-${{ matrix.api-level }}
           path: |
-            **/build/reports/*
-            **/build/outputs/*/connected/*
+            **/module/permissions/build/reports/*
+            **/module/permissions/build/outputs/*/connected/*
 
       - name: publish
         run: |
           set -x
-          find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
-          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/FdroidDebug.xml -F permissions.androidTest.fdroid
+          find . -name "*.exec"; find . -name "*.ec"; find app/module/permissions/build/reports/ -name "*.xml"
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/module/permissions/build/reports/FdroidDebug.xml -F permissions.androidTest.fdroid
 
   googleplay:
     name: googleplay
@@ -213,11 +213,11 @@ jobs:
         with:
           name: permissions.androidTest.googleplay-${{ matrix.api-level }}
           path: |
-            **/build/reports/*
-            **/build/outputs/*/connected/*
+            **/module/permissions/build/reports/*
+            **/module/permissions/build/outputs/*/connected/*
 
       - name: publish
         run: |
           set -x
-          find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
-          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/GoogleplayDebug.xml -F permissions.androidTest.googleplay
+          find . -name "*.exec"; find . -name "*.ec"; find app/module/permissions/build/reports/ -name "*.xml"
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/module/permissions/build/reports/GoogleplayDebug.xml -F permissions.androidTest.googleplay
