@@ -1,4 +1,4 @@
-name: coverage-androidTest
+name: coverage-androidTest-permissions
 
 on:
   push:
@@ -15,8 +15,8 @@ env:
   CACHE_VERSION: 1
 
 jobs:
-  app-androidTest-fdroid:
-    name: app-androidTest-fdroid
+  fdroid:
+    name: fdroid
     runs-on: macOS-latest
     timeout-minutes: 30
     strategy:
@@ -119,8 +119,8 @@ jobs:
           find . -name "*.exec"; find . -name "*.ec"; find app/build/reports/ -name "*.xml"
           bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/build/reports/FdroidDebug.xml -F permissions.androidTest.fdroid
 
-  app-androidTest-googleplay:
-    name: app-androidTest-googleplay
+  googleplay:
+    name: googleplay
     runs-on: macOS-latest
     timeout-minutes: 30
     strategy:
