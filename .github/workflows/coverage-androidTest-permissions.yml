@@ -116,8 +116,8 @@ jobs:
       - name: publish
         run: |
           set -x
-          find . -name "*.exec"; find . -name "*.ec"; find app/module/permissions/build/reports/ -name "*.xml"
-          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/module/permissions/build/reports/FdroidDebug.xml -F permissions.androidTest.fdroid
+          find . -name "*.exec"; find . -name "*.ec"; find module/permissions/build/reports/ -name "*.xml"
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f module/permissions/build/reports/FdroidDebug.xml -F permissions.androidTest.fdroid
 
   googleplay:
     name: googleplay
@@ -219,5 +219,5 @@ jobs:
       - name: publish
         run: |
           set -x
-          find . -name "*.exec"; find . -name "*.ec"; find app/module/permissions/build/reports/ -name "*.xml"
-          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f app/module/permissions/build/reports/GoogleplayDebug.xml -F permissions.androidTest.googleplay
+          find . -name "*.exec"; find . -name "*.ec"; find module/permissions/build/reports/ -name "*.xml"
+          bash <(curl https://codecov.io/bash) -t ${{ secrets.CODECOVIO_TOKEN }} -f module/permissions/build/reports/GoogleplayDebug.xml -F permissions.androidTest.googleplay
