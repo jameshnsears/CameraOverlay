@@ -51,6 +51,13 @@ task emptyMediaStore(type: Exec) {
     commandLine 'adb', 'shell', 'content delete --uri content://media/external/images/media --where "1"'
 }
 
+task revokePermissions(type: Exec) {
+    commandLine 'adb', 'shell', 'pm com.github.jameshnsears.cameraoverlay android.permission.READ_EXTERNAL_STORAGE'
+    commandLine 'adb', 'shell', 'pm com.github.jameshnsears.cameraoverlay android.permission.ACCESS_MEDIA_LOCATION'
+    commandLine 'adb', 'shell', 'pm com.github.jameshnsears.cameraoverlay android.permission.ACCESS_COARSE_LOCATION'
+    commandLine 'adb', 'shell', 'pm com.github.jameshnsears.cameraoverlay android.permission.ACCESS_FINE_LOCATION'
+}
+
 def gitHubAction() {
     /*
      when running in a GitHub Action...
