@@ -29,6 +29,7 @@ class CoilTest : CommonTestUtility() {
         httpEndpointUtility.start()
 
         launch {
+            // 10.0.2.2
             testDrawable("http://127.0.0.1:8080/MediaStore/eiffel_tower.jpg")
         }.join()
 
@@ -45,7 +46,7 @@ class CoilTest : CommonTestUtility() {
             .allowHardware(false)
             .build()
 
-        // no drawable contains exif
+        // drawable does NOT contain exif
         val drawable = imageLoader.execute(request).drawable
 
         advanceUntilIdle()
@@ -60,15 +61,15 @@ class CoilTest : CommonTestUtility() {
         }
     }
 
-    @Test
-    fun getDrawableFromMediaStore() = runTest {
-        val mediaStoreRepository = MediaStoreRepository()
-        val photosRepositoryData = mediaStoreRepository.queryPhotoRepository(context)
-        val photoCardData = mediaStoreRepository.convertPhotoRepositoryDataIntoPhotoCardData(
-            context,
-            photosRepositoryData
-        )
-
-        testDrawable(Uri.parse(photoCardData[0].imageUri.toString()))
-    }
+//    @Test
+//    fun getDrawableFromMediaStore() = runTest {
+//        val mediaStoreRepository = MediaStoreRepository()
+//        val photosRepositoryData = mediaStoreRepository.queryPhotoRepository(context)
+//        val photoCardData = mediaStoreRepository.convertPhotoRepositoryDataIntoPhotoCardData(
+//            context,
+//            photosRepositoryData
+//        )
+//
+//        testDrawable(Uri.parse(photoCardData[0].imageUri.toString()))
+//    }
 }

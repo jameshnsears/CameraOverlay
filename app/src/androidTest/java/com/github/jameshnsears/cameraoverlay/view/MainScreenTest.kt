@@ -22,55 +22,51 @@ class MainScreenTest : ScreenshotTestUtility() {
 
     @Test
     fun mainScreen() = runTest {
+        var actualScreenshotFilename = "mainScreen.bmp"
+
         launch(Dispatchers.IO) {
             composeTestRule.onNodeWithText(
                 context.resources.getString(R.string.select_photo)
+            ).performScrollTo()
+
+            testScreenshot(actualScreenshotFilename,
+                "View/$actualScreenshotFilename"
             )
-                .performScrollTo()
-
-            if (!BuildConfig.GITHUB_ACTION) {
-                takeScreenshot(composeTestRule)
-
-                try {
-                    assertTrue(
-                        getActualScreenshot()!!.sameAs(
-                            getExpectedScreenshot("View/e6330-mainScreen.bmp")
-                        )
-                    )
-                } catch (e: AssertionFailedError) {
-                    assertTrue(
-                        getActualScreenshot()!!.sameAs(
-                            getExpectedScreenshot("View/lenovo-mainScreen.bmp")
-                        )
-                    )
-                }
-            }
         }.join()
     }
 
     @Test
     fun permissionScreen() = runTest {
+        var actualScreenshotFilename = "permissionScreen.bmp"
+
         launch(Dispatchers.IO) {
             composeTestRule.onNodeWithContentDescription(
                 "?"
             ).performClick()
 
-            if (!BuildConfig.GITHUB_ACTION) {
-                takeScreenshot(composeTestRule)
-                try {
-                    assertTrue(
-                        getActualScreenshot()!!.sameAs(
-                            getExpectedScreenshot("View/e6330-permissionScreen.bmp")
-                        )
-                    )
-                } catch (e: AssertionFailedError) {
-                    assertTrue(
-                        getActualScreenshot()!!.sameAs(
-                            getExpectedScreenshot("View/lenovo-permissionScreen.bmp")
-                        )
-                    )
-                }
-            }
+            testScreenshot(actualScreenshotFilename,
+                "View/$actualScreenshotFilename"
+            )
         }.join()
+    }
+
+    private fun testScreenshot(
+        actualScreenshotFilename: String,
+        expectedScreenshot: String) {
+        if (!BuildConfig.GITHUB_ACTION) {
+            takeScreenshot(composeTestRule)
+
+            // just in case there is a problem, to aid manual comparison
+            saveScreenshotToInternalStorage(
+                "actual-$actualScreenshotFilename",
+                getActualScreenshot()!!
+            )
+
+            assertTrue(
+                getActualScreenshot()!!.sameAs(
+                    getExpectedScreenshot(expectedScreenshot)
+                )
+            )
+        }
     }
 }

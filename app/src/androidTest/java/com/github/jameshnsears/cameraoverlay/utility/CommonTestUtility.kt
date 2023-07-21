@@ -20,7 +20,7 @@ open class CommonTestUtility {
 
     fun confirmEnvironmentCompatible() {
         if (!EmulatorCompatibilityHelper.canEmulatorSupportTest()) {
-            Assert.fail("API 29 required")
+            Assert.fail(EmulatorCompatibilityHelper.EMULATOR_NOT_COMPATIBLE)
         }
     }
 }

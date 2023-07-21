@@ -35,5 +35,8 @@
 ---
 
 ## Windows 11 Quirks
-* ...
-* 
+
+### Enviromnental Variables
+* ANDROID_SDK=C:\Users\james\AppData\Local\Android\Sdk\platform-tools
+* JAVA_HOME=C:\Program Files\Android\Android Studio\jbr
+* PATH=...:%JAVA_HOME%:%ANDROID_SDK%

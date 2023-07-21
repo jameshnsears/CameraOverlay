@@ -16,7 +16,7 @@ class MediaStoreTestUtility {
         "eiffel_tower.jpg",
         "parthenon.bmp",
         "pizza.gif",
-        "reichstag.jpg",
+        "reichstag.jpeg",
         "rialto.png",
         "sofia.webp",
         "tower_bridge.jpg"
@@ -32,7 +32,7 @@ class MediaStoreTestUtility {
         }
     }
 
-    fun imagesInMediaStore(context: Context): List<String> {
+    private fun imagesInMediaStore(context: Context): List<String> {
         val images = mutableListOf<String>()
         val projection = arrayOf(MediaStore.Images.Media.DATA)
         val cursor = context.contentResolver.query(
@@ -53,7 +53,7 @@ class MediaStoreTestUtility {
     }
 
     private fun copyImageToExternalStorage(context: Context, fileName: String) {
-        Timber.d("$fileName")
+        Timber.d(fileName)
 
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
@@ -67,6 +67,9 @@ class MediaStoreTestUtility {
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/gif")
                 }
                 "jpg" -> {
+                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                }
+                "jpeg" -> {
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
                 }
                 "png" -> {
@@ -88,8 +91,11 @@ class MediaStoreTestUtility {
         if (uri != null) {
             val outputStream = context.contentResolver.openOutputStream(uri)
             if (outputStream != null) {
+                val fileName = "MediaStore/$fileName"
+                Timber.d(fileName)
+
                 val inputStream =
-                    this::class.java.classLoader!!.getResourceAsStream("MediaStore/$fileName")
+                    this::class.java.classLoader!!.getResourceAsStream(fileName)
                 outputStream.write(inputStream.readBytes())
                 outputStream.close()
             }

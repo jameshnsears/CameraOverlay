@@ -95,7 +95,7 @@ jobs:
           script:  |
             adb logcat -c
             adb logcat > logcat.txt &
-            ./gradlew :app:connectedFdroidDebugAndroidTestCoverage -PgitHubAction --stacktrace
+            ./gradlew emptyMediaStore :app:connectedFdroidDebugAndroidTestCoverage -PgitHubAction --stacktrace
 
       - name: artifact logcat
         if: always()
@@ -198,7 +198,7 @@ jobs:
           script:  |
             adb logcat -c
             adb logcat > logcat.txt &
-            ./gradlew :app:connectedGoogleplayDebugAndroidTestCoverage -PgitHubAction --stacktrace
+            ./gradlew emptyMediaStore :app:connectedGoogleplayDebugAndroidTestCoverage -PgitHubAction --stacktrace
 
       - name: artifact logcat
         if: always()

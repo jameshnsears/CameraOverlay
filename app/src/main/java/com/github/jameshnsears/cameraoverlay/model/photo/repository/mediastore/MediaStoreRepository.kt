@@ -59,10 +59,13 @@ class MediaStoreRepository : PhotoRepository {
                 PhotoCardData(
                     PhotoCollectionEnum.MediaStore,
                     when (photoFromRepository.mimeType) {
-                        "jpg" -> PhotoImageTypeEnum.JPEG
-                        "jpeg" -> PhotoImageTypeEnum.JPEG
-                        "png" -> PhotoImageTypeEnum.PNG
-                        "tif" -> PhotoImageTypeEnum.TIFF
+                        "image/bmp" -> PhotoImageTypeEnum.BMP
+                        "image/x-ms-bmp" -> PhotoImageTypeEnum.BMP  // in Windows 11 IDE
+                        "image/jpeg" -> PhotoImageTypeEnum.JPEG
+                        "image/gif" -> PhotoImageTypeEnum.GIF
+                        "image/png" -> PhotoImageTypeEnum.PNG
+                        "image/tif" -> PhotoImageTypeEnum.TIFF
+                        "image/webp" -> PhotoImageTypeEnum.WEBP
                         else -> {
                             Timber.e(photoFromRepository.mimeType)
                             PhotoImageTypeEnum.UNKNOWN

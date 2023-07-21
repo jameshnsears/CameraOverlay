@@ -13,7 +13,7 @@ class EdgeDetectionTest : CommonTestUtility() {
     @Test
     fun confirmCannyWorking() {
         val edgeDetectionCanny = Canny()
-        val originalImageAsMat = getImageAsMat(edgeDetectionCanny, "MediaStore/reichstag.jpg")
+        val originalImageAsMat = getImageAsMatFromResources(edgeDetectionCanny, "MediaStore/reichstag.jpeg")
 
         val blurredImage =
             edgeDetectionCanny.applyGaussianBlurFilterToReduceNoise(originalImageAsMat)
@@ -27,7 +27,7 @@ class EdgeDetectionTest : CommonTestUtility() {
 
         val expectedBitmap = edgeDetectionCanny
             .convertMatToBitmap(
-                getImageAsMat(edgeDetectionCanny, "EdgeDetection/reichstag.png")
+                getImageAsMatFromResources(edgeDetectionCanny, "EdgeDetection/reichstag.png")
             )
 
         // TODO modify threshold values
@@ -35,7 +35,7 @@ class EdgeDetectionTest : CommonTestUtility() {
         assertTrue(transparentCannyBitmap.sameAs(expectedBitmap))
     }
 
-    private fun getImageAsMat(edgeDetectionUtils: EdgeDetectionUtils, path: String) =
+    private fun getImageAsMatFromResources(edgeDetectionUtils: EdgeDetectionUtils, path: String) =
         edgeDetectionUtils.convertOriginalImageToBitmap(
             this.javaClass.classLoader!!.getResourceAsStream(path)
         )
