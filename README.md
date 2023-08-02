@@ -34,6 +34,12 @@
 
 ---
 
+## detekt config
+* config/detekt/detekt.yml
+* https://raw.githubusercontent.com/detekt/detekt/main/config/detekt/detekt.yml
+
+---
+
 ## Windows 11 Quirks
 
 ### Enviromnental Variables

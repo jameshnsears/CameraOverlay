@@ -13,7 +13,10 @@ class EdgeDetectionTest : CommonTestUtility() {
     @Test
     fun confirmCannyWorking() {
         val edgeDetectionCanny = Canny()
-        val originalImageAsMat = getImageAsMatFromResources(edgeDetectionCanny, "MediaStore/reichstag.jpeg")
+        val originalImageAsMat = getImageAsMatFromResources(
+            edgeDetectionCanny,
+            "MediaStore/reichstag.jpeg"
+        )
 
         val blurredImage =
             edgeDetectionCanny.applyGaussianBlurFilterToReduceNoise(originalImageAsMat)

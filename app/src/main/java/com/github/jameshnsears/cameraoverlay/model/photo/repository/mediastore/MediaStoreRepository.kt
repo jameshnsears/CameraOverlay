@@ -60,7 +60,7 @@ class MediaStoreRepository : PhotoRepository {
                     PhotoCollectionEnum.MediaStore,
                     when (photoFromRepository.mimeType) {
                         "image/bmp" -> PhotoImageTypeEnum.BMP
-                        "image/x-ms-bmp" -> PhotoImageTypeEnum.BMP  // in Windows 11 IDE
+                        "image/x-ms-bmp" -> PhotoImageTypeEnum.BMP // in Windows 11 IDE
                         "image/jpeg" -> PhotoImageTypeEnum.JPEG
                         "image/gif" -> PhotoImageTypeEnum.GIF
                         "image/png" -> PhotoImageTypeEnum.PNG

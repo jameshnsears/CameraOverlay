@@ -1,10 +1,8 @@
 package com.github.jameshnsears.cameraoverlay.model.photo.repository
 
-import android.net.Uri
 import coil.ImageLoader
 import coil.request.ImageRequest
 import com.github.jameshnsears.cameraoverlay.BuildConfig
-import com.github.jameshnsears.cameraoverlay.model.photo.repository.mediastore.MediaStoreRepository
 import com.github.jameshnsears.cameraoverlay.utility.CommonTestUtility
 import com.github.jameshnsears.cameraoverlay.utility.MediaStoreTestUtility
 import junit.framework.TestCase.assertTrue
