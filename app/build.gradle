@@ -229,7 +229,7 @@ dependencies {
     testImplementation 'com.google.truth:truth:1.1.5'
     testImplementation 'com.jakewharton.timber:timber:5.0.1'
     testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.7.2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.7.3'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
     testImplementation 'org.junit.vintage:junit-vintage-engine:5.9.3'
