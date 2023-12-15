@@ -58,7 +58,7 @@ jobs:
 
       - name: artifact detekt
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: detekt
           path: app/build/reports/detekt/detekt.txt
@@ -106,7 +106,7 @@ jobs:
 
       - name: artifact ktlintCheck
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ktlintCheck
           path: |
